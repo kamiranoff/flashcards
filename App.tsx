@@ -1,18 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import Navigation from './src/navigation';
 
-const App = () => {
-  return (
-    <View style={styles.container}>
-      <Text>FlashCards</Text>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const App = () => <Navigation />;
 
 export default App;
