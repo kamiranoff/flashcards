@@ -4,17 +4,28 @@ import * as R from 'ramda';
 import DeckItem from './DeckItem';
 import { useDecks } from '../index';
 import Button from '../../../common/Button';
+import { Screens } from '../../../navigation';
+import { useNavigation } from '@react-navigation/native';
 
 const DecksList: FC = () => {
   const { decks, decksIds, handleAddDeck, handleRemoveDeck } = useDecks();
+  const { navigate } = useNavigation();
 
-  const renderItem = ({ item }: { item: string }) => (
-    <DeckItem
-      item={item}
-      title={R.prop('title', decks[item])}
-      onPress={handleRemoveDeck(item)}
-    />
-  );
+  const renderItem = ({ item }: { item: string }) => {
+    const title = R.prop('title', decks[item]);
+
+    const handleNavigate = () =>
+      title ? navigate(Screens.DECK_DETAIL, { item: decks[item] }) : null;
+
+    return (
+      <DeckItem
+        item={item}
+        title={title}
+        onPress={handleRemoveDeck(item)}
+        onNavigate={handleNavigate}
+      />
+    );
+  };
 
   return (
     <>

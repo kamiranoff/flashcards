@@ -1,34 +1,65 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from '../screens/Home';
-import Settings from '../screens/Settings';
-import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Settings from '../screens/Settings';
 import Create from '../screens/Create';
+import DeckDetail from '../screens/DeckDetail';
+import { Deck } from 'modules/DecksList/redux/reducer';
+import Home from '../screens/Home';
 
 const Tab = createBottomTabNavigator();
 
+export enum Screens {
+  HOME = 'Home',
+  HOME_TABS = 'HomeTabs',
+  HOME_STACK = 'HomeStack',
+  DECK_DETAIL = 'DeckDetails',
+  CREATE = 'Create',
+  SETTINGS = 'Settings',
+  MAIN = 'Main',
+}
+
 type HomeStackParamList = {
-  Home: undefined;
-  Create: undefined;
+  [Screens.HOME]: undefined;
+  [Screens.HOME_STACK]: undefined;
+  [Screens.HOME_TABS]: undefined;
+  [Screens.MAIN]: undefined;
+  [Screens.CREATE]: undefined;
+  [Screens.DECK_DETAIL]: { item: Deck };
+  [Screens.SETTINGS]: undefined;
 };
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
+const MainStack = createStackNavigator<HomeStackParamList>();
+
 function HomeStack() {
   return (
+    <MainStack.Navigator initialRouteName={Screens.HOME}>
+      <MainStack.Screen name={Screens.HOME} component={Home} />
+      <MainStack.Screen name={Screens.DECK_DETAIL} component={DeckDetail} />
+    </MainStack.Navigator>
+  );
+}
+
+function HomeTabs() {
+  return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen name={Screens.HOME} component={HomeStack} />
+      <Tab.Screen name={Screens.SETTINGS} component={Settings} />
     </Tab.Navigator>
   );
 }
 
 const Navigation = () => (
   <NavigationContainer>
-    <Stack.Navigator mode="modal" initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeStack} />
-      <Stack.Screen name="Create" component={Create} />
+    <Stack.Navigator
+      mode="modal"
+      initialRouteName={Screens.HOME}
+      screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={Screens.HOME} component={HomeTabs} />
+      <Stack.Screen name={Screens.CREATE} component={Create} />
     </Stack.Navigator>
   </NavigationContainer>
 );
