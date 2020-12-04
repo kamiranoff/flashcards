@@ -5,30 +5,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Settings from '../screens/Settings';
 import Create from '../screens/Create';
 import DeckDetail from '../screens/DeckDetail';
-import { Deck } from 'modules/DecksList/redux/reducer';
 import Home from '../screens/Home';
+import { HomeStackParamList, Screens } from './interface';
 
 const Tab = createBottomTabNavigator();
-
-export enum Screens {
-  HOME = 'Home',
-  HOME_TABS = 'HomeTabs',
-  HOME_STACK = 'HomeStack',
-  DECK_DETAIL = 'DeckDetails',
-  CREATE = 'Create',
-  SETTINGS = 'Settings',
-  MAIN = 'Main',
-}
-
-type HomeStackParamList = {
-  [Screens.HOME]: undefined;
-  [Screens.HOME_STACK]: undefined;
-  [Screens.HOME_TABS]: undefined;
-  [Screens.MAIN]: undefined;
-  [Screens.CREATE]: undefined;
-  [Screens.DECK_DETAIL]: { item: Deck };
-  [Screens.SETTINGS]: undefined;
-};
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
