@@ -1,17 +1,16 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/core';
-import { View, Text, StyleSheet } from 'react-native';
-import Button from '../../common/Button';
+import { View, StyleSheet } from 'react-native';
+import { DecksList, useDecks } from 'modules/DecksList';
+import Button from 'common/Button';
 
 const Home = () => {
-  const navigation = useNavigation();
-  const handleNavigateToCreate = () => navigation.navigate('Create');
+  const { decks, decksIds, handleAddDeck, handleRemoveDeck } = useDecks();
 
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
+      <DecksList decks={decks} decksIds={decksIds} onPress={handleRemoveDeck} />
       <View style={styles.buttonContainer}>
-        <Button text="Plus" onPress={handleNavigateToCreate} />
+        <Button text="Plus" onPress={handleAddDeck} />
       </View>
     </View>
   );

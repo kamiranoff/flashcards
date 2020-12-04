@@ -16,15 +16,15 @@ interface Props {
 const Button: FC<Props> = ({ text, onPress }) => {
   const animation = useRef(new Animated.Value(0)).current;
 
-  const timing = (value: number, duration: number) => {
+  const setTiming = (value: number, duration: number) => {
     Animated.timing(animation, {
       useNativeDriver: false,
       toValue: value,
       duration,
     }).start();
   };
-  const handleOnPressIn = () => timing(1, 100);
-  const handleOnPressOut = () => timing(0, 50);
+  const handleOnPressIn = () => setTiming(1, 100);
+  const handleOnPressOut = () => setTiming(0, 50);
 
   const heightStyle = {
     marginTop: animation.interpolate({

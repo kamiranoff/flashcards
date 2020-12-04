@@ -5,11 +5,15 @@ import {
   Middleware,
 } from 'redux';
 import { createLogger } from 'redux-logger';
-import decks from './decs/reducer';
+import decks, { DecksState } from '../modules/DecksList/redux/reducer';
 
 const middleware: Middleware[] = [];
 
-const rootReducer = combineReducers({
+export interface RootState {
+  decks: DecksState;
+}
+
+const rootReducer = combineReducers<RootState>({
   decks,
 });
 
