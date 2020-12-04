@@ -5,17 +5,12 @@ import {
   Middleware,
 } from 'redux';
 import { createLogger } from 'redux-logger';
+import { persistStore, persistReducer } from 'redux-persist';
+import AsyncStorage from '@react-native-community/async-storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import decks, { DecksState } from '../modules/DecksList/redux/reducer';
 
 const middleware: Middleware[] = [];
-
-export interface RootState {
-  decks: DecksState;
-}
-
-const rootReducer = combineReducers<RootState>({
-  decks,
-});
 
 const logger = createLogger({
   collapsed: true,
@@ -27,6 +22,25 @@ if (process.env.NODE_ENV !== 'production') {
   middleware.push(logger);
 }
 
-const store = createStore(rootReducer, applyMiddleware(...middleware));
+export interface RootState {
+  decks: DecksState;
+}
 
-export default store;
+const rootReducer = combineReducers<RootState>({
+  decks,
+});
+
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  debug: true,
+  stateReconciler: autoMergeLevel2,
+  version: 0,
+};
+
+const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
+
+const store = createStore(persistedReducer, applyMiddleware(...middleware));
+const persistor = persistStore(store);
+
+export { store, persistor };
