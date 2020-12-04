@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useState } from 'react';
 import * as R from 'ramda';
-import { RootState } from '../../../config/store';
 import { deleteDeck } from '../redux/actions';
+import { selectDecks } from '../redux/seclectors';
 
 const useDecks = () => {
-  const { decks } = useSelector((state: RootState) => state);
+  const decks = useSelector(selectDecks);
   const dispatch = useDispatch();
   const [decksIds, setDecksIds] = useState(Object.keys(decks));
 
@@ -13,7 +13,7 @@ const useDecks = () => {
     if (decksIds.length > Object.keys(decks).length) {
       return;
     }
-    setDecksIds([...decksIds, `${decksIds.length + 1}`]);
+    setDecksIds([...decksIds, `${Date.now()}`]);
   }, [decksIds, decks]);
 
   const handleRemoveDeck = (item: string) => () => {

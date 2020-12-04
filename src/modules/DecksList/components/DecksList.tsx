@@ -1,31 +1,41 @@
 import React, { FC } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import * as R from 'ramda';
-import { DecksState } from '../redux/reducer';
 import DeckItem from './DeckItem';
+import { useDecks } from '../index';
+import Button from '../../../common/Button';
 
-interface Props {
-  decks: DecksState;
-  decksIds: string[];
-  onPress: (item: string) => () => void;
-}
+const DecksList: FC = () => {
+  const { decks, decksIds, handleAddDeck, handleRemoveDeck } = useDecks();
 
-const DecksList: FC<Props> = ({ decks, decksIds, onPress }) => {
   const renderItem = ({ item }: { item: string }) => (
     <DeckItem
       item={item}
       title={R.prop('title', decks[item])}
-      onPress={onPress(item)}
+      onPress={handleRemoveDeck(item)}
     />
   );
 
   return (
-    <FlatList
-      data={decksIds}
-      renderItem={renderItem}
-      keyExtractor={(item) => item}
-    />
+    <>
+      <FlatList
+        data={decksIds}
+        renderItem={renderItem}
+        keyExtractor={(item) => item}
+      />
+      <View style={styles.buttonContainer}>
+        <Button text="Plus" onPress={handleAddDeck} />
+      </View>
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+  },
+});
 
 export default DecksList;
