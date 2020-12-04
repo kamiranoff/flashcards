@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import * as R from 'ramda';
 import DeckItem from './DeckItem';
-import { useDecks } from '../index';
 import Button from '../../../common/Button';
-import { Screens } from '../../../navigation';
-import { useNavigation } from '@react-navigation/native';
+import useDecks from '../hooks/useDecks';
+import { Screens } from '../../../navigation/interface';
 
 const DecksList: FC = () => {
   const { decks, decksIds, handleAddDeck, handleRemoveDeck } = useDecks();
