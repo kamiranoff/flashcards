@@ -1,12 +1,5 @@
 import React, { FC, useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  Button,
-  GestureResponderEvent,
-  TouchableOpacity,
-} from 'react-native';
+import { View, StyleSheet, TextInput, Button, GestureResponderEvent, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { saveDeck } from '../redux/actions';
 
@@ -20,9 +13,7 @@ interface Props {
 const DeckItem: FC<Props> = ({ item, title, onPress, onNavigate }) => {
   const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState(title);
-
-  const handleSaveDeck = () =>
-    newTitle ? dispatch(saveDeck(item, newTitle)) : null;
+  const handleSaveDeck = () => (newTitle ? dispatch(saveDeck(item, newTitle)) : null);
 
   return (
     <TouchableOpacity onPress={onNavigate}>

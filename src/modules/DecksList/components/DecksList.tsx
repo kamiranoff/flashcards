@@ -13,27 +13,14 @@ const DecksList: FC = () => {
 
   const renderItem = ({ item }: { item: string }) => {
     const title = R.prop('title', decks[item]);
+    const handleNavigate = () => (title ? navigate(Screens.DECK_DETAIL, { id: item }) : null);
 
-    const handleNavigate = () =>
-      title ? navigate(Screens.DECK_DETAIL, { item: decks[item] }) : null;
-
-    return (
-      <DeckItem
-        item={item}
-        title={title}
-        onPress={handleRemoveDeck(item)}
-        onNavigate={handleNavigate}
-      />
-    );
+    return <DeckItem item={item} title={title} onPress={handleRemoveDeck(item)} onNavigate={handleNavigate} />;
   };
 
   return (
     <>
-      <FlatList
-        data={decksIds}
-        renderItem={renderItem}
-        keyExtractor={(item) => item}
-      />
+      <FlatList data={decksIds} renderItem={renderItem} keyExtractor={(item) => item} />
       <View style={styles.buttonContainer}>
         <Button text="Plus" onPress={handleAddDeck} />
       </View>

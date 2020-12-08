@@ -42,5 +42,6 @@ const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
 const store = createStore(persistedReducer, applyMiddleware(...middleware));
 const persistor = persistStore(store);
+// persistor.purge();
 
 export { store, persistor };

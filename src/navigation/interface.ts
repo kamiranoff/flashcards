@@ -1,21 +1,23 @@
-import { Deck } from '../modules/DecksList/redux/reducer';
+import { Card, Deck } from '../modules/DecksList/redux/reducer';
 
 export enum Screens {
   HOME = 'Home',
   HOME_TABS = 'HomeTabs',
-  HOME_STACK = 'HomeStack',
   DECK_DETAIL = 'DeckDetails',
-  CREATE = 'Create',
+  QUESTION_MODAL = 'QuestionModal',
+  ANSWER_MODAL = 'AnswerModal',
   SETTINGS = 'Settings',
   MAIN = 'Main',
+  PLAYGROUND = 'Playground',
 }
 
-export type HomeStackParamList = {
+export type RootStackParamList = {
   [Screens.HOME]: undefined;
-  [Screens.HOME_STACK]: undefined;
   [Screens.HOME_TABS]: undefined;
   [Screens.MAIN]: undefined;
-  [Screens.CREATE]: undefined;
-  [Screens.DECK_DETAIL]: { item: Deck };
+  [Screens.QUESTION_MODAL]: { title: Deck['title']; deckId: string; cardId?: Card['id'] };
+  [Screens.ANSWER_MODAL]: { title: Deck['title']; deckId: string; cardId: Card['id'] };
+  [Screens.DECK_DETAIL]: { id: string };
+  [Screens.PLAYGROUND]: { deckId: string; cardId: Card['id'] };
   [Screens.SETTINGS]: undefined;
 };
