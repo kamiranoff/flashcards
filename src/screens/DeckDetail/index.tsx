@@ -7,6 +7,7 @@ import { RootStackParamList, Screens } from '../../navigation/interface';
 import { selectDeckItem } from 'modules/DecksList/redux/seclectors';
 import Cards from './components/Cards';
 import { WINDOW_HEIGHT } from '../../styles/utils';
+import CustomText from '../../common/CustomText';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 
@@ -31,7 +32,7 @@ const DeckDetail: FC<Props> = ({ route: { params } }) => {
       <TouchableOpacity onPress={goBack} style={styles.btn}>
         <Text>Go back</Text>
       </TouchableOpacity>
-      <Text>{deckDetail.title}</Text>
+      <CustomText centered>{deckDetail.title}</CustomText>
       <SharedElement id="general.bg" style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT }] }]}>
         <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
           <Text>Your cards</Text>
