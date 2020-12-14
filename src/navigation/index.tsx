@@ -1,12 +1,14 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import { RootStackParamList, Screens } from './interface';
 import HomeTabs from './HomeTabs';
 import QuestionModal from '../screens/QuestionModal';
 import AnswerModal from '../screens/AnswerModal';
 
 const Stack = createStackNavigator<RootStackParamList>();
+// const Stack = createSharedElementStackNavigator<RootStackParamList>();
 
 const Navigation = () => (
   <NavigationContainer>

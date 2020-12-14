@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Text, FlatList, TouchableOpacity } from 'react-native';
+import { Text, FlatList, TouchableOpacity, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Card } from 'modules/DecksList/redux/reducer';
 import { Screens } from '../../../navigation/interface';
@@ -13,8 +13,11 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
   const { navigate } = useNavigation();
   const renderItem = ({ item }: { item: Card }) => (
     <TouchableOpacity onPress={() => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id })}>
-      <Text>Question: {item.question}</Text>
-      <Text>Answer: {item.answer}</Text>
+      <Animated.View
+      >
+        <Text>Question: {item.question}</Text>
+        <Text>Answer: {item.answer}</Text>
+      </Animated.View>
     </TouchableOpacity>
   );
 

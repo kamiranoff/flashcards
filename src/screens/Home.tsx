@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import { DecksList } from 'modules/DecksList';
 
 const Home = () => (
-  <View style={styles.container}>
+  <SafeAreaView style={styles.container}>
     <DecksList />
-  </View>
+  </SafeAreaView>
 );
 
 const styles = StyleSheet.create({

@@ -1,9 +1,4 @@
-import {
-  applyMiddleware,
-  combineReducers,
-  createStore,
-  Middleware,
-} from 'redux';
+import { applyMiddleware, combineReducers, createStore, Middleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
