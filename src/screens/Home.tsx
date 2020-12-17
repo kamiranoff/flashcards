@@ -1,17 +1,11 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
 import { DecksList } from 'modules/DecksList';
+import { Container } from '../common';
 
 const Home = () => (
-  <SafeAreaView style={styles.container}>
+  <Container>
     <DecksList />
-  </SafeAreaView>
+  </Container>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default Home;

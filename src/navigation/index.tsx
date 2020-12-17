@@ -7,6 +7,7 @@ import QuestionModal from '../screens/QuestionModal';
 import AnswerModal from '../screens/AnswerModal';
 import DeckDetail from '../screens/DeckDetail';
 import Playground from '../screens/Playground';
+import { Easing } from 'react-native';
 
 const Stack = createSharedElementStackNavigator<RootStackParamList>();
 
@@ -19,6 +20,16 @@ const Navigation = () => (
         component={DeckDetail}
         options={() => ({
           gestureEnabled: false,
+          transitionSpec: {
+            open: {
+              animation: 'timing',
+              config: { duration: 200, easing: Easing.inOut(Easing.ease) },
+            },
+            close: {
+              animation: 'timing',
+              config: { duration: 100, easing: Easing.inOut(Easing.ease) },
+            },
+          },
           cardStyleInterpolator: ({ current: { progress } }) => {
             return {
               cardStyle: {

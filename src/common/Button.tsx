@@ -1,12 +1,5 @@
 import React, { FC, useRef } from 'react';
-import {
-  Animated,
-  TouchableWithoutFeedback,
-  View,
-  Text,
-  StyleSheet,
-  GestureResponderEvent,
-} from 'react-native';
+import { Animated, TouchableWithoutFeedback, View, Text, StyleSheet, GestureResponderEvent } from 'react-native';
 
 interface Props {
   text: string;
@@ -45,10 +38,7 @@ const Button: FC<Props> = ({ text, onPress }) => {
   };
 
   return (
-    <TouchableWithoutFeedback
-      onPress={onPress}
-      onPressIn={handleOnPressIn}
-      onPressOut={handleOnPressOut}>
+    <TouchableWithoutFeedback onPress={onPress} onPressIn={handleOnPressIn} onPressOut={handleOnPressOut}>
       <View style={styles.button}>
         <Animated.View style={[styles.height, heightStyle]}>
           <Animated.View style={[styles.inner, inner]}>
