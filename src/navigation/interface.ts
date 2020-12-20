@@ -13,6 +13,7 @@ export enum Screens {
 
 export type RootStackParamList = {
   [Screens.HOME]: undefined;
+  ['Something']: undefined;
   [Screens.HOME_TABS]: undefined;
   [Screens.MAIN]: undefined;
   [Screens.QUESTION_MODAL]: { title: Deck['title']; deckId: string; cardId?: Card['id'] };
