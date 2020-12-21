@@ -1,19 +1,12 @@
 import React, { FC, useRef } from 'react';
-import {
-  Animated,
-  TouchableWithoutFeedback,
-  View,
-  Text,
-  StyleSheet,
-  GestureResponderEvent,
-} from 'react-native';
+import { Animated, TouchableWithoutFeedback, View, StyleSheet, GestureResponderEvent, Image } from 'react-native';
+import assets from '../assets';
 
 interface Props {
-  text: string;
   onPress: (e: GestureResponderEvent) => void;
 }
 
-const Button: FC<Props> = ({ text, onPress }) => {
+const Button: FC<Props> = ({ onPress }) => {
   const animation = useRef(new Animated.Value(0)).current;
 
   const setTiming = (value: number, duration: number) => {
@@ -45,14 +38,11 @@ const Button: FC<Props> = ({ text, onPress }) => {
   };
 
   return (
-    <TouchableWithoutFeedback
-      onPress={onPress}
-      onPressIn={handleOnPressIn}
-      onPressOut={handleOnPressOut}>
+    <TouchableWithoutFeedback onPress={onPress} onPressIn={handleOnPressIn} onPressOut={handleOnPressOut}>
       <View style={styles.button}>
         <Animated.View style={[styles.height, heightStyle]}>
           <Animated.View style={[styles.inner, inner]}>
-            <Text style={styles.white}>{text}</Text>
+            <Image source={assets.icons.plus} style={styles.icon} resizeMode="contain" />
           </Animated.View>
         </Animated.View>
       </View>
@@ -62,16 +52,16 @@ const Button: FC<Props> = ({ text, onPress }) => {
 
 const styles = StyleSheet.create({
   button: {
-    height: 80,
-    width: 80,
+    height: 70,
+    width: 70,
   },
   height: {
-    backgroundColor: 'rgba(44, 130, 201, .2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderRadius: 12,
   },
   inner: {
     height: '100%',
-    backgroundColor: 'rgba(44, 130, 201, 1)',
+    backgroundColor: 'rgba(0, 0, 0, 1)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -79,6 +69,10 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: 'bold',
     fontSize: 20,
+  },
+  icon: {
+    width: 40,
+    height: 40,
   },
 });
 

@@ -1,17 +1,11 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { DecksList } from 'modules/DecksList';
+import { Container } from '../common';
 
 const Home = () => (
-  <View style={styles.container}>
+  <Container>
     <DecksList />
-  </View>
+  </Container>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default Home;
