@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Text, FlatList, TouchableOpacity, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, FlatList, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Card } from 'modules/DecksList/redux/reducer';
 import { Screens } from '../../../navigation/interface';
@@ -11,7 +11,6 @@ export interface Props {
 
 const numberColumns = 2;
 const formatData = (cards: Card[], numColumns: number) => {
-  console.log('cards', cards);
   const data: any = [...cards];
   const numberOfFullRows = Math.floor(data.length / numColumns);
   let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
@@ -20,7 +19,6 @@ const formatData = (cards: Card[], numColumns: number) => {
     numberOfElementsLastRow += 1;
   }
 
-  console.log('data', data);
   return data;
 };
 
@@ -28,24 +26,20 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
   const { navigate } = useNavigation();
   const renderItem = ({ item }: { item: Card }) => {
     if (item.id === 'empty') {
-      return (
-        <View
-          style={[
-            styles.item,
-            {
-              height: Dimensions.get('window').width / numberColumns,
-            },
-            styles.itemInvisible,
-          ]}
-        />
-      );
+      return <View style={[styles.item, styles.itemInvisible]} />;
     }
     return (
       <View style={styles.item}>
         <TouchableOpacity onPress={() => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id })}>
-          <View>
-            <Text>Question: {item.question}</Text>
-            <Text>Answer: {item.answer}</Text>
+          <View style={styles.content}>
+            <View style={styles.inner}>
+              <Text style={styles.h3}>Question:</Text>
+              <Text style={styles.h1}>{item.question}</Text>
+            </View>
+            <View style={styles.inner}>
+              <Text style={styles.h3}>Answer:</Text>
+              <Text style={styles.h1}>{item.answer}</Text>
+            </View>
           </View>
         </TouchableOpacity>
       </View>
@@ -66,14 +60,37 @@ const styles = StyleSheet.create({
   item: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'red',
     flex: 1,
-    margin: 10,
-    height: 100,
+    padding: 5,
+    margin: 5,
+    height: 160,
     width: 200,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'space-around',
+    flexDirection: 'column',
+  },
+  inner: {
+    justifyContent: 'center',
   },
   itemInvisible: {
     backgroundColor: 'transparent',
+    height: 160,
+    width: 200,
+    borderWidth: 0,
+  },
+  h1: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  h3: {
+    fontSize: 14,
+    fontWeight: 'normal',
+    textDecorationLine: 'underline',
   },
 });
 

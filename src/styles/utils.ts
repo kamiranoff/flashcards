@@ -17,7 +17,7 @@ export const moderateScale = (size: number, factor = 0.5) => size + (scale(size)
 export const moderateVerticalScale = (size: number, factor = 0.5) => size + (verticalScale(size) - size) * factor;
 
 export const SPACING = 16;
-export const ITEM_HEIGHT = WINDOW_HEIGHT * 0.18;
+export const ITEM_HEIGHT = WINDOW_HEIGHT * 0.14;
 
 export const HIT_SLOP = {
   top: 10,

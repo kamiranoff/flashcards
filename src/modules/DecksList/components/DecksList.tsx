@@ -7,7 +7,7 @@ import DeckItem from './DeckItem';
 import Button from '../../../common/Button';
 import useDecks from '../hooks/useDecks';
 import { Screens } from '../../../navigation/interface';
-import { SPACING, WINDOW_HEIGHT } from '../../../styles/utils';
+import { moderateScale, SPACING, WINDOW_HEIGHT } from '../../../styles/utils';
 
 const colors = ['#fc9d9a', '#f9cdad', '#c8c8a9', '#83af9b', '#d6e1c7', '#94c7b6'];
 
@@ -31,7 +31,7 @@ const DecksList: FC = () => {
         keyExtractor={(item) => item}
       />
       <View style={styles.buttonContainer}>
-        <Button text="Plus" onPress={handleAddDeck} />
+        <Button onPress={handleAddDeck} />
       </View>
       <SharedElement id="general.bg" style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT }] }]}>
         <View style={[StyleSheet.absoluteFillObject, styles.dummy]} />
@@ -43,8 +43,8 @@ const DecksList: FC = () => {
 const styles = StyleSheet.create({
   buttonContainer: {
     position: 'absolute',
-    bottom: 10,
-    right: 10,
+    bottom: moderateScale(20),
+    right: moderateScale(16),
   },
   dummy: {
     backgroundColor: 'white',

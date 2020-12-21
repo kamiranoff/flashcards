@@ -37,8 +37,13 @@ const DeckDetail: FC<Props> = ({ route: { params } }) => {
       </SharedElement>
       <CustomText centered>{deckDetail.title}</CustomText>
       <View style={styles.content}>
-        <CustomText>You have: {deckDetail.cards.length} cards</CustomText>
-        <Button title="Play" onPress={() => null} />
+        <CustomText>Total: {deckDetail.cards.length} cards</CustomText>
+        <CustomText>Bad answer: {deckDetail.cards.length} cards</CustomText>
+        <CustomText>Good answer: {deckDetail.cards.length} cards</CustomText>
+        <CustomText>Excellent answer: {deckDetail.cards.length} cards</CustomText>
+        <View style={styles.center}>
+          <IconButton onPress={() => null} iconName="play" />
+        </View>
       </View>
       <SharedElement id="general.bg" style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT }] }]}>
         <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
@@ -82,6 +87,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     paddingTop: SPACING + 10,
     paddingHorizontal: SPACING,
+  },
+  center: {
+    marginTop: 10,
+    alignSelf: 'center',
   },
 });
 
