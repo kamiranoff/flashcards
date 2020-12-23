@@ -2,6 +2,7 @@ import { Dimensions, PixelRatio } from 'react-native';
 
 export const width = Dimensions.get('window').width;
 export const WINDOW_HEIGHT = Dimensions.get('window').height;
+export const WINDOW_WIDTH = Dimensions.get('window').width;
 const [shortDimension, longDimension] = width < WINDOW_HEIGHT ? [width, WINDOW_HEIGHT] : [WINDOW_HEIGHT, width];
 
 //Default guideline sizes are based on standard ~5" screen mobile device
