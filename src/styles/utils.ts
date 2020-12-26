@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio } from 'react-native';
+import { Dimensions, PixelRatio, Platform } from 'react-native';
 
 export const width = Dimensions.get('window').width;
 export const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -16,6 +16,7 @@ export const scale = (size: number) => (shortDimension / guidelineBaseWidth) * s
 export const verticalScale = (size: number) => (longDimension / guidelineBaseHeight) * size;
 export const moderateScale = (size: number, factor = 0.5) => size + (scale(size) - size) * factor;
 export const moderateVerticalScale = (size: number, factor = 0.5) => size + (verticalScale(size) - size) * factor;
+export const isIOS = Platform.OS === 'ios';
 
 export const SPACING = 16;
 export const ITEM_HEIGHT = WINDOW_HEIGHT * 0.14;

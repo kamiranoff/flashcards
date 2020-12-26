@@ -1,20 +1,20 @@
 import * as React from 'react';
-import { StatusBar, Text, View, StyleSheet, Dimensions, Animated, Platform } from 'react-native';
+import { Text, View, StyleSheet, Animated, Platform } from 'react-native';
+import { isIOS, WINDOW_WIDTH } from '../styles/utils';
+import { Card, Deck } from '../modules/DecksList/redux/reducer';
 
-const { width } = Dimensions.get('window');
+const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.85 : WINDOW_WIDTH * 0.74;
+const EMPTY_ITEM_SIZE = (WINDOW_WIDTH - ITEM_SIZE) / 2;
 
-const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.85 : width * 0.74;
-const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
-const Test = ({ deckDetail }) => {
-  const data = [{ id: 'empty-left' }, ...deckDetail.cards, { id: 'empty-right' }];
+const Carousel = ({ deckDetail }: { deckDetail: Deck }) => {
+  const data: (Card | { id: string })[] = [{ id: 'empty-left' }, ...deckDetail.cards, { id: 'empty-right' }];
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
       <Animated.FlatList
         showsHorizontalScrollIndicator={false}
-        data={data}
+        data={data as any}
         keyExtractor={(item) => item.id}
         horizontal
         bounces={false}
@@ -25,11 +25,10 @@ const Test = ({ deckDetail }) => {
         snapToAlignment="start"
         onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: false })}
         scrollEventThrottle={16}
-        renderItem={({ item, index }) => {
+        renderItem={({ item, index }: { item: Card; index: number }) => {
           if (item.id === 'empty-left' || item.id === 'empty-right') {
-            return <View style={{ width: EMPTY_ITEM_SIZE }} />;
+            return <View style={styles.emptyItem} />;
           }
-
           const inputRange = [(index - 2) * ITEM_SIZE, (index - 1) * ITEM_SIZE, index * ITEM_SIZE];
 
           const translateY = scrollX.interpolate({
@@ -40,18 +39,10 @@ const Test = ({ deckDetail }) => {
 
           return (
             <View style={{ width: ITEM_SIZE }}>
-              <Animated.View
-                style={{
-                  width: ITEM_SIZE,
-                  // height: ITEM_SIZE,
-                  marginHorizontal: 8,
-                  padding: 8,
-                  alignItems: 'center',
-                  transform: [{ translateY }],
-                  backgroundColor: 'white',
-                }}>
-                <View style={styles.posterImage}>
-                  <Text>HEllo</Text>
+              <Animated.View style={[styles.cardContainer, { transform: [{ translateY }] }]}>
+                <View style={styles.innerContainer}>
+                  <Text>{item.question}</Text>
+                  <Text>{item.answer}</Text>
                 </View>
               </Animated.View>
             </View>
@@ -63,11 +54,6 @@ const Test = ({ deckDetail }) => {
 };
 
 const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   container: {
     flex: 1,
   },
@@ -77,14 +63,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  posterImage: {
+  emptyItem: {
+    width: EMPTY_ITEM_SIZE,
+  },
+  cardContainer: {
+    width: ITEM_SIZE,
+    marginHorizontal: 8,
+    padding: 8,
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  innerContainer: {
     width: '100%',
     height: ITEM_SIZE * 1.6,
     borderRadius: 4,
-    backgroundColor: 'red',
+    backgroundColor: '#94c7b6',
     margin: 0,
     marginBottom: 10,
   },
 });
 
-export default Test;
+export default Carousel;
