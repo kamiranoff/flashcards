@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, View, StyleSheet, Animated, Platform } from 'react-native';
 import { isIOS, WINDOW_WIDTH } from '../styles/utils';
 import { Card, Deck } from '../modules/DecksList/redux/reducer';
+import FlippedCard from '../common/FlipCard';
 
 const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.85 : WINDOW_WIDTH * 0.74;
 const EMPTY_ITEM_SIZE = (WINDOW_WIDTH - ITEM_SIZE) / 2;
@@ -40,10 +41,7 @@ const Carousel = ({ deckDetail }: { deckDetail: Deck }) => {
           return (
             <View style={{ width: ITEM_SIZE }}>
               <Animated.View style={[styles.cardContainer, { transform: [{ translateY }] }]}>
-                <View style={styles.innerContainer}>
-                  <Text>{item.question}</Text>
-                  <Text>{item.answer}</Text>
-                </View>
+                <FlippedCard />
               </Animated.View>
             </View>
           );
