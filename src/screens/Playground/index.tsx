@@ -3,11 +3,11 @@ import { StyleSheet } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
-import { RootStackParamList, Screens } from '../navigation/interface';
-import { selectDeckItem } from '../modules/DecksList/redux/seclectors';
-import { Container } from '../common';
+import { RootStackParamList, Screens } from '../../navigation/interface';
+import { selectDeckItem } from '../../modules/DecksList/redux/seclectors';
+import { Container } from '../../common';
 import Carousel from './Carousel';
-import CustomText from '../common/CustomText';
+import CustomText from '../../common/CustomText';
 
 type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
 type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
@@ -17,12 +17,14 @@ export interface Props {
   navigation: PlaygroundScreenNavigationProp;
 }
 
-const Playground: FC<Props> = ({ route: { params }, navigation }) => {
+const Playground: FC<Props> = ({ route: { params } }) => {
   const deckDetail = useSelector(selectDeckItem(params.deckId));
   return (
     <Container>
-      <CustomText>{deckDetail.title}</CustomText>
-      <Carousel deckDetail={deckDetail} />
+      <CustomText size="h1" centered>
+        {deckDetail.title}
+      </CustomText>
+      <Carousel deckDetail={deckDetail} deckId={params.deckId} />
     </Container>
   );
 };

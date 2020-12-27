@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Animated, Platform } from 'react-native';
-import { isIOS, WINDOW_WIDTH } from '../styles/utils';
-import { Card, Deck } from '../modules/DecksList/redux/reducer';
-import FlippedCard from '../common/FlipCard';
+import { View, StyleSheet, Animated } from 'react-native';
+import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
+import { Card, Deck } from '../../modules/DecksList/redux/reducer';
+import CardItem from '../../common/Card';
 
 const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.85 : WINDOW_WIDTH * 0.74;
 const EMPTY_ITEM_SIZE = (WINDOW_WIDTH - ITEM_SIZE) / 2;
 
-const Carousel = ({ deckDetail }: { deckDetail: Deck }) => {
+const Carousel = ({ deckDetail, deckId }: { deckDetail: Deck; deckId: string }) => {
   const data: (Card | { id: string })[] = [{ id: 'empty-left' }, ...deckDetail.cards, { id: 'empty-right' }];
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
@@ -19,7 +19,7 @@ const Carousel = ({ deckDetail }: { deckDetail: Deck }) => {
         keyExtractor={(item) => item.id}
         horizontal
         bounces={false}
-        decelerationRate={Platform.OS === 'ios' ? 0 : 0.98}
+        decelerationRate={isIOS ? 0 : 0.98}
         renderToHardwareTextureAndroid
         contentContainerStyle={{ alignItems: 'center' }}
         snapToInterval={ITEM_SIZE}
@@ -41,7 +41,7 @@ const Carousel = ({ deckDetail }: { deckDetail: Deck }) => {
           return (
             <View style={{ width: ITEM_SIZE }}>
               <Animated.View style={[styles.cardContainer, { transform: [{ translateY }] }]}>
-                <FlippedCard />
+                <CardItem card={item} title={deckDetail.title} deckId={deckId} />
               </Animated.View>
             </View>
           );

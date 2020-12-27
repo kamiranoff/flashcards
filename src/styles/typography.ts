@@ -1,12 +1,12 @@
-import { scaleFont } from './utils';
+import { isIOS, scaleFont } from './utils';
 
 // FONT FAMILY
-export const FONT_FAMILY_REGULAR = 'OpenSans-Regular';
-export const FONT_FAMILY_BOLD = 'OpenSans-Bold';
+export const FONT_FAMILY_REGULAR = isIOS ? 'Avenir-Medium' : 'Roboto';
+export const FONT_FAMILY_BOLD = isIOS ? 'AvenirNext-Bold' : 'Roboto';
 
 // FONT WEIGHT
 export const FONT_WEIGHT_REGULAR = '400';
-export const FONT_WEIGHT_BOLD = '700';
+export const FONT_WEIGHT_BOLD = 'bold';
 
 // FONT SIZE
 export const FONT_SIZE_16 = scaleFont(16);
