@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
 import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
-import { Card, Deck } from '../../modules/DecksList/redux/reducer';
-import CardItem from '../../common/Card';
+import CardItem from './Card';
+import { Card, Deck } from '../../redux/reducer';
 
 const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.85 : WINDOW_WIDTH * 0.74;
 const EMPTY_ITEM_SIZE = (WINDOW_WIDTH - ITEM_SIZE) / 2;

@@ -1,10 +1,10 @@
 import React, { FC, useRef } from 'react';
 import { View, StyleSheet, Animated, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { isIOS, WINDOW_WIDTH } from '../styles/utils';
-import { Card } from '../modules/DecksList/redux/reducer';
-import CustomText from './CustomText';
-import { Screens } from '../navigation/interface';
+import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
+import { Card } from '../../redux/reducer';
+import { Screens } from '../../navigation/interface';
+import CustomText from '../../common/CustomText';
 
 const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.85 : WINDOW_WIDTH * 0.74;
 
@@ -57,7 +57,6 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
       </TouchableOpacity>
       <TouchableWithoutFeedback onPress={flipCard}>
         <View style={{ flex: 1 }}>
-
           <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }] }]}>
             <CustomText size="h1">{card.question}</CustomText>
           </Animated.View>

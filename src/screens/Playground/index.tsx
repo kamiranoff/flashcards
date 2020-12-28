@@ -4,10 +4,10 @@ import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import { RootStackParamList, Screens } from '../../navigation/interface';
-import { selectDeckItem } from '../../modules/DecksList/redux/seclectors';
 import { Container } from '../../common';
 import Carousel from './Carousel';
 import CustomText from '../../common/CustomText';
+import { selectDeckItem } from '../../redux/seclectors';
 
 type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
 type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
