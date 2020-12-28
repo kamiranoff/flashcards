@@ -1,4 +1,4 @@
-import { Card, Deck } from '../modules/DecksList/redux/reducer';
+import { Card, Deck } from '../redux/reducer';
 
 export enum Screens {
   HOME = 'Home',

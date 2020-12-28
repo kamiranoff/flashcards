@@ -1,7 +1,7 @@
 import React from 'react';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import { Screens } from './interface';
 import Home from '../screens/Home';
-import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import DeckDetail from '../screens/DeckDetail';
 import { Easing } from 'react-native';
 

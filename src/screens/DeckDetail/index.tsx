@@ -2,14 +2,14 @@ import React, { FC } from 'react';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useSelector } from 'react-redux';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { RootStackParamList, Screens } from '../../navigation/interface';
-import { selectDeckItem } from 'modules/DecksList/redux/seclectors';
 import Cards from './components/Cards';
 import { moderateScale, SPACING, WINDOW_HEIGHT } from '../../styles/utils';
 import CustomText from '../../common/CustomText';
 import IconButton from '../../common/IconButton';
 import { Container } from '../../common';
+import { selectDeckItem } from '../../redux/seclectors';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 
@@ -35,12 +35,12 @@ const DeckDetail: FC<Props> = ({ route: { params } }) => {
       <SharedElement id={`item.${params.id}`} style={[StyleSheet.absoluteFillObject]}>
         <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: params.color }]} />
       </SharedElement>
-      <CustomText centered>{deckDetail.title}</CustomText>
+      <CustomText size="h1" centered>{deckDetail.title}</CustomText>
       <View style={styles.content}>
-        <CustomText>Total: {deckDetail.cards.length} cards</CustomText>
-        <CustomText>Bad answer: {deckDetail.cards.length} cards</CustomText>
-        <CustomText>Good answer: {deckDetail.cards.length} cards</CustomText>
-        <CustomText>Excellent answer: {deckDetail.cards.length} cards</CustomText>
+        <CustomText size="h1">Total: {deckDetail.cards.length} cards</CustomText>
+        <CustomText size="h1">Bad answer: {deckDetail.cards.length} cards</CustomText>
+        <CustomText size="h1">Good answer: {deckDetail.cards.length} cards</CustomText>
+        <CustomText size="h1">Excellent answer: {deckDetail.cards.length} cards</CustomText>
         <View style={styles.center}>
           <IconButton onPress={() => null} iconName="play" />
         </View>

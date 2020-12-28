@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
 import { View, StyleSheet, TextInput, GestureResponderEvent, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { saveDeck } from '../redux/actions';
 import { ITEM_HEIGHT, moderateScale, SPACING } from '../../../styles/utils';
 import { SharedElement } from 'react-navigation-shared-element';
 import IconButton from '../../../common/IconButton';
+import { saveDeck } from '../../../redux/actions';
 
 const colors = ['#fc9d9a', '#f9cdad', '#c8c8a9', '#83af9b', '#d6e1c7', '#94c7b6'];
 

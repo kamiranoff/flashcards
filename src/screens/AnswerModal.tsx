@@ -4,10 +4,10 @@ import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStackParamList, Screens } from '../navigation/interface';
-import { saveAnswer } from '../modules/DecksList/redux/actions';
-import { Card } from '../modules/DecksList/redux/reducer';
-import { selectCard } from '../modules/DecksList/redux/seclectors';
 import { Form } from 'common';
+import { selectCard } from '../redux/seclectors';
+import { Card } from '../redux/reducer';
+import { saveAnswer } from '../redux/actions';
 
 type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;
 type AddAnswerScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ANSWER_MODAL>;
