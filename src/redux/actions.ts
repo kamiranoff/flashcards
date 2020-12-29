@@ -29,3 +29,9 @@ export const saveAnswer = (deckId: string, cardId: string, answer: string): Save
   cardId,
   answer,
 });
+
+export const deleteCard = (deckId: string, cardId: string) => ({
+  type: DecksActionTypes.deleteCard,
+  deckId,
+  cardId,
+});

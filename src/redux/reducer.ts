@@ -67,6 +67,13 @@ export default function decks(state = initialState, action: DecksActions): Decks
       return { ...state, [deckId]: { ...state[deckId], cards: updatedCards } };
     }
 
+    case DecksActionTypes.deleteCard: {
+      const { cardId, deckId } = action;
+      const selectedDeckCards = state[deckId].cards;
+      const updatedCards = R.reject(R.propEq('id', cardId), selectedDeckCards);
+      return { ...state, [deckId]: { ...state[deckId], cards: updatedCards } };
+    }
+
     default:
       return state;
   }

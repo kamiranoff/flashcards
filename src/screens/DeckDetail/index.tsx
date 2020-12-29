@@ -81,12 +81,14 @@ const styles = StyleSheet.create({
     marginHorizontal: SPACING,
   },
   dummy: {
+    flex: 1,
     backgroundColor: 'white',
     transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT - 20 }],
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     paddingTop: SPACING + 10,
     paddingHorizontal: SPACING,
+    paddingBottom: SPACING + 10,
   },
   center: {
     marginTop: 10,
