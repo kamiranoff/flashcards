@@ -22,12 +22,6 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   const [value, setValue] = useState(initialValue);
   const richText = useRef<RichEditor>(null);
 
-  // const handleEditorInitializedCallback = () => {
-  //   richText.current?.registerToolbar(function (items) {
-  //     console.log('Toolbar click, selected items (insert end callback):', items);
-  //   });
-  // };
-
   const handleKeyboard = () => {
     const editor = richText.current!;
     if (editor.isKeyboardOpen) {
