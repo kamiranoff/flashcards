@@ -36,7 +36,9 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
 
   return (
     <Container>
-      <CustomText centered size="h1">{title}</CustomText>
+      <CustomText centered size="h1">
+        {title}
+      </CustomText>
       <View style={styles.backIcon}>
         <IconButton onPress={handleCloseModal} iconName="close" />
       </View>
@@ -46,10 +48,6 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 50,
-  },
   backIcon: {
     left: 10,
     position: 'absolute',

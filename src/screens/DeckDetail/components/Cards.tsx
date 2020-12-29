@@ -20,11 +20,11 @@ const formatData = (cards: Card[], numColumns: number) => {
   const data: any = [...cards];
   const numberOfFullRows = Math.floor(data.length / numColumns);
   let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
+
   while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
     data.push({ key: `blank-${numberOfElementsLastRow}`, id: 'empty' });
     numberOfElementsLastRow += 1;
   }
-
   return data;
 };
 
