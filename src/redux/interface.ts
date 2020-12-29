@@ -4,6 +4,7 @@ export enum DecksActionTypes {
   saveDeck = 'SAVE_DECK',
   saveQuestion = 'SAVE_QUESTION',
   saveAnswer = 'SAVE_ANSWER',
+  deleteCard = 'DELETE_CARD',
 }
 
 export interface GetDecks {
@@ -36,4 +37,10 @@ export interface SaveAnswer {
   answer: string;
 }
 
-export type DecksActions = GetDecks | SaveDeck | DeleteDeck | SaveQuestion | SaveAnswer;
+export interface DeleteCard {
+  type: DecksActionTypes.deleteCard;
+  deckId: string;
+  cardId: string;
+}
+
+export type DecksActions = GetDecks | SaveDeck | DeleteDeck | SaveQuestion | SaveAnswer | DeleteCard;

@@ -1,9 +1,12 @@
 import React, { FC } from 'react';
-import { Text, FlatList, TouchableOpacity, View, StyleSheet, Alert } from 'react-native';
+import { Text, FlatList, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/interface';
 import { Card } from '../../../redux/reducer';
 import { WINDOW_HEIGHT } from '../../../styles/utils';
+import { useDispatch } from 'react-redux';
+import { NativeAlert } from '../../../common';
+import { deleteCard } from '../../../redux/actions';
 
 export interface Props {
   cards: Card[];
@@ -26,29 +29,21 @@ const formatData = (cards: Card[], numColumns: number) => {
 
 const Cards: FC<Props> = ({ cards, deckId }) => {
   const { navigate } = useNavigation();
-  const deleteCard = () => {
-    Alert.alert(
-      'Card',
-      'Are you sure you want to delete this card?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Do nothing'),
-          style: 'cancel',
-        },
-        { text: 'Yes', onPress: () => console.log('delete the card') },
-      ],
-      { cancelable: false },
-    );
-  };
+  const dispatch = useDispatch();
 
   const renderItem = ({ item }: { item: Card }) => {
+    const handleDeleteCard = () => {
+      NativeAlert('Are you sure you want to delete this card?', () => dispatch(deleteCard(deckId, item.id)));
+    };
+
     if (item.id === 'empty') {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
     return (
       <View style={styles.item}>
-        <TouchableOpacity onLongPress={deleteCard} onPress={() => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id })}>
+        <TouchableOpacity
+          onLongPress={handleDeleteCard}
+          onPress={() => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id })}>
           <View style={styles.content}>
             <View style={styles.inner}>
               <Text style={styles.h3}>Question:</Text>
