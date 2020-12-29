@@ -37,10 +37,10 @@ const DeckDetail: FC<Props> = ({ route: { params } }) => {
       </SharedElement>
       <CustomText size="h1" centered>{deckDetail.title}</CustomText>
       <View style={styles.content}>
-        <CustomText size="h1">Total: {deckDetail.cards.length} cards</CustomText>
-        <CustomText size="h1">Bad answer: {deckDetail.cards.length} cards</CustomText>
-        <CustomText size="h1">Good answer: {deckDetail.cards.length} cards</CustomText>
-        <CustomText size="h1">Excellent answer: {deckDetail.cards.length} cards</CustomText>
+        <CustomText size="h2">Total: {deckDetail.cards.length} cards</CustomText>
+        <CustomText size="h2">Bad answer: {deckDetail.cards.length} cards</CustomText>
+        <CustomText size="h2">Good answer: {deckDetail.cards.length} cards</CustomText>
+        <CustomText size="h2">Excellent answer: {deckDetail.cards.length} cards</CustomText>
         <View style={styles.center}>
           <IconButton onPress={() => null} iconName="play" />
         </View>
@@ -77,16 +77,16 @@ const styles = StyleSheet.create({
     height: TOP_HEADER_HEIGHT,
   },
   content: {
-    marginTop: moderateScale(50),
+    marginTop: moderateScale(40),
     marginHorizontal: SPACING,
   },
   dummy: {
     flex: 1,
     backgroundColor: 'white',
-    transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT - 20 }],
+    transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT - 24 }],
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
-    paddingTop: SPACING + 10,
+    paddingTop: SPACING,
     paddingHorizontal: SPACING,
     paddingBottom: SPACING + 10,
   },

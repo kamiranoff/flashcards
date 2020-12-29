@@ -5,6 +5,7 @@ import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
 import { Card } from '../../redux/reducer';
 import { Screens } from '../../navigation/interface';
 import CustomText from '../../common/CustomText';
+import { HtmlParser } from '../../common';
 
 const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.85 : WINDOW_WIDTH * 0.74;
 
@@ -58,10 +59,10 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
       <TouchableWithoutFeedback onPress={flipCard}>
         <View style={{ flex: 1 }}>
           <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }] }]}>
-            <CustomText size="h1">{card.question}</CustomText>
+            <HtmlParser text={card.question} />
           </Animated.View>
           <Animated.View style={[styles.card, styles.cardBack, { transform: [{ rotateY: backInterpolate }] }]}>
-            <CustomText size="h1">{card.answer}</CustomText>
+            <HtmlParser text={card.answer} />
           </Animated.View>
         </View>
       </TouchableWithoutFeedback>

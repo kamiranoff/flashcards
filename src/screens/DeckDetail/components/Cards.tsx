@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
-import { Text, FlatList, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { FlatList, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/interface';
 import { Card } from '../../../redux/reducer';
 import { WINDOW_HEIGHT } from '../../../styles/utils';
 import { useDispatch } from 'react-redux';
-import { NativeAlert } from '../../../common';
+import { HtmlParser, NativeAlert } from '../../../common';
 import { deleteCard } from '../../../redux/actions';
+import CustomText from '../../../common/CustomText';
 
 export interface Props {
   cards: Card[];
@@ -39,6 +40,7 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
     if (item.id === 'empty') {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
+
     return (
       <View style={styles.item}>
         <TouchableOpacity
@@ -46,12 +48,16 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
           onPress={() => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id })}>
           <View style={styles.content}>
             <View style={styles.inner}>
-              <Text style={styles.h3}>Question:</Text>
-              <Text style={styles.h1}>{item.question}</Text>
+              <CustomText size="h3" underlined>
+                Question:
+              </CustomText>
+              <HtmlParser isSliced text={`${item.question}...`} />
             </View>
             <View style={styles.inner}>
-              <Text style={styles.h3}>Answer:</Text>
-              <Text style={styles.h1}>{item.answer}</Text>
+              <CustomText size="h3" underlined>
+                Answer:
+              </CustomText>
+              <HtmlParser isSliced text={item.answer} />
             </View>
           </View>
         </TouchableOpacity>
@@ -76,17 +82,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    padding: 5,
+    padding: 10,
     margin: 5,
-    height: 160,
+    height: 210,
     width: 200,
     borderRadius: 12,
     borderWidth: 1,
-    backgroundColor: 'red',
     borderColor: 'black',
   },
   content: {
     flex: 1,
+    width: 180,
+    padding: 5,
     justifyContent: 'space-around',
     flexDirection: 'column',
   },
@@ -98,15 +105,6 @@ const styles = StyleSheet.create({
     height: 160,
     width: 200,
     borderWidth: 0,
-  },
-  h1: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  h3: {
-    fontSize: 14,
-    fontWeight: 'normal',
-    textDecorationLine: 'underline',
   },
 });
 

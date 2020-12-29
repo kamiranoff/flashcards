@@ -5,7 +5,7 @@ import { HIT_SLOP } from '../styles/utils';
 
 interface Props {
   onPress: (event: GestureResponderEvent) => void;
-  iconName: 'goBack' | 'add' | 'remove' | 'play' | 'edit' | 'plus';
+  iconName: 'goBack' | 'add' | 'remove' | 'play' | 'edit' | 'plus' | 'close';
 }
 
 const IconButton: FC<Props> = memo(({ onPress, iconName }) => (
