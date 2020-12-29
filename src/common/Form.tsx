@@ -10,23 +10,17 @@ interface Props {
   placeholder: string;
 }
 
+const contentStyle = {
+  backgroundColor: '#FFFFFF',
+  color: '#000',
+  placeholderColor: 'gray',
+  // cssText: '#editor {background-color: #f3f3f3}', // initial valid
+  contentCSSText: `font-size: 16px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`, // initial valid
+};
+
 const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   const [value, setValue] = useState(initialValue);
   const richText = useRef<RichEditor>(null);
-
-  const handleEditorInitializedCallback = () => {
-    richText.current?.registerToolbar(function (items) {
-      console.log('Toolbar click, selected items (insert end callback):', items);
-    });
-  };
-
-  const contentStyle = {
-    backgroundColor: '#FFFFFF',
-    color: '#000',
-    placeholderColor: 'gray',
-    // cssText: '#editor {background-color: #f3f3f3}', // initial valid
-    contentCSSText: `font-size: 16px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`, // initial valid
-  };
 
   const handleKeyboard = () => {
     const editor = richText.current!;
@@ -47,17 +41,16 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
       <View style={styles.saveButton}>
         <Button title="Save" onPress={() => onSubmit(value)} />
       </View>
-      <ScrollView keyboardDismissMode={'none'} style={{ marginTop: 30 }} alwaysBounceVertical={false} bounces={false}>
+      <ScrollView keyboardDismissMode={'none'} style={styles.scrollView} alwaysBounceVertical={false} bounces={false}>
         <RichEditor
           initialFocus
           pasteAsPlainText
           placeholder={placeholder}
           ref={richText}
-          containerStyle={{ marginHorizontal: 10 }}
+          containerStyle={styles.richEditorContainer}
           editorStyle={contentStyle}
           onChange={setValue}
           initialContentHTML={value}
-          editorInitializedCallback={handleEditorInitializedCallback}
         />
       </ScrollView>
       <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'}>
@@ -66,9 +59,9 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
         </TouchableOpacity>
         <RichToolbar
           getEditor={() => richText.current!}
-          iconTint='#282828'
+          iconTint="#282828"
           onPressAddImage={handlePressAddImage}
-          selectedIconTint='#2095F2'
+          selectedIconTint="#2095F2"
           actions={[
             actions.insertImage,
             actions.setBold,
@@ -97,10 +90,11 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
 };
 
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
+  scrollView: {
+    marginTop: 30,
+  },
+  richEditorContainer: {
+    marginHorizontal: 10,
   },
   saveButton: {
     right: 10,
@@ -111,16 +105,6 @@ const styles = StyleSheet.create({
   keyboard: {
     width: 60,
     height: 40,
-  },
-  richBar: {
-    height: 50,
-    backgroundColor: '#F5FCFF',
-    borderColor: '#e8e8e8',
-    borderTopWidth: StyleSheet.hairlineWidth,
-  },
-  tib: {
-    textAlign: 'center',
-    color: '#515156',
   },
   toolbarIcon: {
     width: 24,
