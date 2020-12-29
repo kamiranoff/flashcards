@@ -4,5 +4,6 @@ import IconButton from './IconButton';
 import Container from './Container';
 import NativeAlert from './Alert';
 import HtmlParser from './HtmlParser';
+import CloseButton from './CloseButton';
 
-export { Button, Form, IconButton, Container, NativeAlert, HtmlParser };
+export { Button, Form, IconButton, Container, NativeAlert, HtmlParser, CloseButton };

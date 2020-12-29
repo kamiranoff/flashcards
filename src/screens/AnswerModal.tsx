@@ -1,16 +1,13 @@
 import React, { FC } from 'react';
-import { View, StyleSheet } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStackParamList, Screens } from '../navigation/interface';
-import { Container, Form } from 'common';
+import { CloseButton, Container, Form } from 'common';
 import { selectCard } from '../redux/seclectors';
 import { Card } from '../redux/reducer';
 import { saveAnswer } from '../redux/actions';
 import CustomText from '../common/CustomText';
-import IconButton from '../common/IconButton';
-import { moderateScale } from '../styles/utils';
 
 type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;
 type AddAnswerScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ANSWER_MODAL>;
@@ -38,21 +35,10 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
       <CustomText centered size="h1">
         {title}
       </CustomText>
-      <View style={styles.backIcon}>
-        <IconButton onPress={handleCloseModal} iconName="close" />
-      </View>
+      <CloseButton onPress={handleCloseModal} />
       <Form placeholder="Answer" initialValue={card?.answer || ''} onSubmit={(answer) => handleSave(answer)} />
     </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  backIcon: {
-    left: 10,
-    position: 'absolute',
-    top: moderateScale(40),
-    zIndex: 999,
-  },
-});
 
 export default AnswerModal;
