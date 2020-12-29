@@ -1,13 +1,16 @@
 import React, { FC } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStackParamList, Screens } from '../navigation/interface';
-import { Form } from 'common';
+import { Container, Form } from 'common';
 import { selectCard } from '../redux/seclectors';
 import { Card } from '../redux/reducer';
 import { saveQuestion } from '../redux/actions';
+import CustomText from '../common/CustomText';
+import IconButton from '../common/IconButton';
+import { moderateScale } from '../styles/utils';
 
 type AddQuestionScreenRouteProp = RouteProp<RootStackParamList, Screens.QUESTION_MODAL>;
 type AddQuestionScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.QUESTION_MODAL>;
@@ -17,10 +20,12 @@ export interface Props {
   navigation: AddQuestionScreenNavigationProp;
 }
 
-const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate } }) => {
+const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, goBack } }) => {
   const { title, deckId, cardId } = params;
   const card = useSelector(selectCard(deckId, cardId));
   const dispatch = useDispatch();
+
+  const handleCloseModal = () => goBack();
 
   const handleSave = (question: Card['question']) => {
     const id = cardId || Date.now().toString(); // Timestamp as id
@@ -30,10 +35,13 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate } 
   };
 
   return (
-    <View style={styles.container}>
-      <Text>{title}</Text>
+    <Container>
+      <CustomText centered size="h1">{title}</CustomText>
+      <View style={styles.backIcon}>
+        <IconButton onPress={handleCloseModal} iconName="close" />
+      </View>
       <Form placeholder="Question" initialValue={card?.question || ''} onSubmit={(question) => handleSave(question)} />
-    </View>
+    </Container>
   );
 };
 
@@ -41,6 +49,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
+  },
+  backIcon: {
+    left: 10,
+    position: 'absolute',
+    top: moderateScale(40),
+    zIndex: 999,
   },
 });
 
