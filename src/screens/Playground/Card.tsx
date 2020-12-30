@@ -1,5 +1,5 @@
 import React, { FC, useRef } from 'react';
-import { View, StyleSheet, Animated, TouchableWithoutFeedback, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Animated, TouchableWithoutFeedback, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { HIT_SLOP, isIOS, WINDOW_WIDTH } from '../../styles/utils';
 import { Card } from '../../redux/reducer';
@@ -65,16 +65,18 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.innerContainer}>
-        <TouchableWithoutFeedback onPress={flipCard}>
-          <View style={{ flex: 1 }}>
-            <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }] }]}>
-              <HtmlParser text={card.question} />
-            </Animated.View>
-            <Animated.View style={[styles.card, styles.cardBack, { transform: [{ rotateY: backInterpolate }] }]}>
-              <HtmlParser text={card.answer} />
-            </Animated.View>
-          </View>
-        </TouchableWithoutFeedback>
+        <ScrollView>
+          <TouchableWithoutFeedback onPress={flipCard}>
+            <View>
+              <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }] }]}>
+                <HtmlParser text={card.question} />
+              </Animated.View>
+              <Animated.View style={[styles.card, styles.cardBack, { transform: [{ rotateY: backInterpolate }] }]}>
+                <HtmlParser text={card.answer} />
+              </Animated.View>
+            </View>
+          </TouchableWithoutFeedback>
+        </ScrollView>
       </View>
     </>
   );
@@ -83,14 +85,13 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
 const styles = StyleSheet.create({
   card: {
     width: '100%',
-    height: ITEM_SIZE * 1.6,
+    minHeight: ITEM_SIZE * 1.6,
     backgroundColor: 'gray',
     backfaceVisibility: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
   },
   cardBack: {
-    backgroundColor: 'yellow',
     position: 'absolute',
     top: 0,
   },
