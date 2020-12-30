@@ -16,8 +16,8 @@ const IconButton: FC<Props> = memo(({ onPress, iconName }) => (
 
 const styles = StyleSheet.create({
   img: {
-    width: 32,
-    height: 32,
+    width: 40,
+    height: 40,
   },
 });
 

@@ -1,11 +1,10 @@
 import React, { FC, useRef } from 'react';
-import { View, StyleSheet, Animated, TouchableWithoutFeedback, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, Animated, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { HIT_SLOP, isIOS, WINDOW_WIDTH } from '../../styles/utils';
+import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
 import { Card } from '../../redux/reducer';
 import { Screens } from '../../navigation/interface';
-import { HtmlParser } from '../../common';
-import assets from '../../assets';
+import { HtmlParser, IconButton } from '../../common';
 
 const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.85 : WINDOW_WIDTH * 0.74;
 
@@ -49,29 +48,34 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
       }).start();
     }
   };
+
+  const handleEdit = () =>
+    v <= 90
+      ? navigation.navigate(Screens.QUESTION_MODAL, { title, deckId, cardId: card.id })
+      : navigation.navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: card.id });
+
+  const handleScore = () => {
+    console.log('score');
+    navigation.navigate(Screens.ALERT);
+  };
+
   return (
     <>
+      <View style={styles.scoreButton}>
+        <IconButton onPress={handleScore} iconName="add" />
+      </View>
       <View style={styles.editButton}>
-        <TouchableOpacity
-          hitSlop={HIT_SLOP}
-          onPress={() =>
-            v <= 90
-              ? navigation.navigate(Screens.QUESTION_MODAL, { title, deckId, cardId: card.id })
-              : navigation.navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: card.id })
-          }>
-          <View style={styles.editContainer}>
-            <Image source={assets.icons.edit} resizeMode="contain" style={styles.editImage} />
-          </View>
-        </TouchableOpacity>
+        <IconButton onPress={handleEdit} iconName="edit" />
       </View>
       <View style={styles.innerContainer}>
         <ScrollView>
           <TouchableWithoutFeedback onPress={flipCard}>
             <View>
-              <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }] }]}>
+              <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }, { perspective: 1000 }] }]}>
                 <HtmlParser text={card.question} />
               </Animated.View>
-              <Animated.View style={[styles.card, styles.cardBack, { transform: [{ rotateY: backInterpolate }] }]}>
+              <Animated.View
+                style={[styles.card, styles.cardBack, { transform: [{ rotateY: backInterpolate }, { perspective: 1000 }] }]}>
                 <HtmlParser text={card.answer} />
               </Animated.View>
             </View>
@@ -109,12 +113,11 @@ const styles = StyleSheet.create({
     right: 5,
     zIndex: 999999,
   },
-  editContainer: {
-    flexDirection: 'row-reverse',
-  },
-  editImage: {
-    width: 40,
-    height: 40,
+  scoreButton: {
+    position: 'absolute',
+    top: 2,
+    left: 5,
+    zIndex: 999999,
   },
 });
 

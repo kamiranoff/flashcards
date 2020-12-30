@@ -27,8 +27,7 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
     navigation.popToTop();
   };
 
-  // NOTE: not sure if I need close icon in this screen?
-  const handleCloseModal = () => navigation.popToTop();
+  const handleCloseModal = () => navigation.goBack();
 
   return (
     <Container>

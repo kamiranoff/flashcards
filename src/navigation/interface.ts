@@ -9,6 +9,7 @@ export enum Screens {
   SETTINGS = 'Settings',
   MAIN = 'Main',
   PLAYGROUND = 'Playground',
+  ALERT = 'Alert',
 }
 
 export type RootStackParamList = {
@@ -21,4 +22,5 @@ export type RootStackParamList = {
   [Screens.DECK_DETAIL]: { id: string; color: string };
   [Screens.PLAYGROUND]: { deckId: string; cardId: Card['id'] };
   [Screens.SETTINGS]: undefined;
+  [Screens.ALERT]: undefined;
 };
