@@ -8,7 +8,7 @@ import Cards from './components/Cards';
 import { moderateScale, SPACING, WINDOW_HEIGHT } from '../../styles/utils';
 import CustomText from '../../common/CustomText';
 import IconButton from '../../common/IconButton';
-import { Container } from '../../common';
+import { CloseButton, Container } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
@@ -26,16 +26,16 @@ const DeckDetail: FC<Props> = ({ route: { params } }) => {
 
   return (
     <Container>
-      <View style={styles.backIcon}>
-        <IconButton onPress={goBack} iconName="goBack" />
-      </View>
+      <CloseButton onPress={goBack} />
       <View style={styles.addIcon}>
         <IconButton onPress={handleOnPress} iconName="add" />
       </View>
       <SharedElement id={`item.${params.id}`} style={[StyleSheet.absoluteFillObject]}>
         <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: params.color }]} />
       </SharedElement>
-      <CustomText size="h1" centered>{deckDetail.title}</CustomText>
+      <CustomText size="h1" centered>
+        {deckDetail.title}
+      </CustomText>
       <View style={styles.content}>
         <CustomText size="h2">Total: {deckDetail.cards.length} cards</CustomText>
         <CustomText size="h2">Bad answer: {deckDetail.cards.length} cards</CustomText>
@@ -59,12 +59,6 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-  },
-  backIcon: {
-    left: 10,
-    position: 'absolute',
-    top: moderateScale(40),
-    zIndex: 999,
   },
   addIcon: {
     right: 10,

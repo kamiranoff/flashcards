@@ -1,10 +1,9 @@
 import React, { FC } from 'react';
-import { StyleSheet } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import { RootStackParamList, Screens } from '../../navigation/interface';
-import { Container } from '../../common';
+import { CloseButton, Container } from '../../common';
 import Carousel from './Carousel';
 import CustomText from '../../common/CustomText';
 import { selectDeckItem } from '../../redux/seclectors';
@@ -17,27 +16,17 @@ export interface Props {
   navigation: PlaygroundScreenNavigationProp;
 }
 
-const Playground: FC<Props> = ({ route: { params } }) => {
+const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) => {
   const deckDetail = useSelector(selectDeckItem(params.deckId));
   return (
     <Container>
+      <CloseButton onPress={goBack} />
       <CustomText size="h1" centered>
         {deckDetail.title}
       </CustomText>
-      <Carousel deckDetail={deckDetail} deckId={params.deckId} />
+      <Carousel deckDetail={deckDetail} deckId={params.deckId} cardId={params.cardId} />
     </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  text: {
-    marginTop: 40,
-  },
-});
 
 export default Playground;

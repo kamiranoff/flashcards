@@ -1,21 +1,38 @@
 import * as React from 'react';
-import { View, StyleSheet, Animated } from 'react-native';
+// import * as R from 'ramda';
+import { View, StyleSheet, Animated, FlatList } from 'react-native';
 import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
 import CardItem from './Card';
 import { Card, Deck } from '../../redux/reducer';
+import { useEffect, useRef } from 'react';
 
 const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.85 : WINDOW_WIDTH * 0.74;
 const EMPTY_ITEM_SIZE = (WINDOW_WIDTH - ITEM_SIZE) / 2;
 
-const Carousel = ({ deckDetail, deckId }: { deckDetail: Deck; deckId: string }) => {
+const Carousel = ({ deckDetail, deckId, cardId }: { deckDetail: Deck; deckId: string; cardId: string }) => {
+  const listRef = useRef<FlatList>(null);
+  // NOTE: either scrollToItem or reshuffle deck for the picked card to be first? Think about it
+  // const card = R.find(R.propEq('id', cardId), deckDetail.cards);
+  // const restOfCards = R.reject(R.propEq('id', cardId), deckDetail.cards);
+  // const reOrderedCards = card ? [card, ...restOfCards] : deckDetail.cards;
+  const index = deckDetail.cards.findIndex((c) => c.id === cardId);
   const data: (Card | { id: string })[] = [{ id: 'empty-left' }, ...deckDetail.cards, { id: 'empty-right' }];
   const scrollX = React.useRef(new Animated.Value(0)).current;
+
+  // FIXME:
+  const getItemLayout = (_: any, i: number) => ({ length: ITEM_SIZE, offset: ITEM_SIZE * index, index: i });
+
+  useEffect(() => {
+    listRef.current?.scrollToIndex({ animated: false, index });
+  }, [index]);
 
   return (
     <View style={styles.container}>
       <Animated.FlatList
+        ref={listRef}
         showsHorizontalScrollIndicator={false}
         data={data as any}
+        getItemLayout={getItemLayout}
         keyExtractor={(item) => item.id}
         horizontal
         bounces={false}
