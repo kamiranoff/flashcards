@@ -54,21 +54,13 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
       ? navigation.navigate(Screens.QUESTION_MODAL, { title, deckId, cardId: card.id })
       : navigation.navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: card.id });
 
-  const handleScore = () => {
-    console.log('score');
-    navigation.navigate(Screens.ALERT);
-  };
-
   return (
     <>
-      <View style={styles.scoreButton}>
-        <IconButton onPress={handleScore} iconName="add" />
-      </View>
       <View style={styles.editButton}>
         <IconButton onPress={handleEdit} iconName="edit" />
       </View>
       <View style={styles.innerContainer}>
-        <ScrollView>
+        <ScrollView nestedScrollEnabled>
           <TouchableWithoutFeedback onPress={flipCard}>
             <View>
               <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }, { perspective: 1000 }] }]}>
@@ -111,13 +103,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 2,
     right: 5,
-    zIndex: 999999,
-  },
-  scoreButton: {
-    position: 'absolute',
-    top: 2,
-    left: 5,
-    zIndex: 999999,
+    zIndex: 999,
   },
 });
 
