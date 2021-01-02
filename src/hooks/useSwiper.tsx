@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { Animated, PanResponder } from 'react-native';
 import { WINDOW_WIDTH } from '../styles/utils';
 import { Card } from '../redux/reducer';
@@ -16,57 +16,66 @@ enum Direction {
 const useSwiper = (cards: Card[], deckId: string, onSwipeRight: (item: Card) => void, onSwipeLeft: (item: Card) => void) => {
   const position = useRef<any>(new Animated.ValueXY()).current; // FIXME
   const [index, setIndex] = useState(0);
+  const incrementIndex = useCallback(() => setIndex((i) => i + 1), []);
 
   useEffect(() => {
     position.setValue({ x: 0, y: 0 });
   }, [deckId, position]);
 
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: (event, gestureState) => {
-        return gestureState.dx !== 0 && gestureState.dy !== 0;
-      },
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
-        return gestureState.dx !== 0 && gestureState.dy !== 0;
-      },
-      onPanResponderMove: (event, gesture) => {
-        position.setValue({ x: gesture.dx, y: gesture.dy });
-      },
-      onPanResponderRelease: (event, gesture) => {
-        if (gesture.dx > SWIPE_THRESHOLD) {
-          forceSwipe(Direction.RIGHT);
-        } else if (gesture.dx < -SWIPE_THRESHOLD) {
-          forceSwipe(Direction.LEFT);
-        } else {
-          resetPosition();
-        }
-      },
-    }),
-  ).current;
+  const onSwipeComplete = useCallback(
+    (direction: TDirection, i: number) => {
+      const item = cards[i];
 
-  const forceSwipe = (direction: TDirection) => {
-    const x = direction === Direction.RIGHT ? WINDOW_WIDTH : -WINDOW_WIDTH;
-    Animated.timing(position, {
-      toValue: { x, y: 0 },
-      duration: SWIPE_OUT_DURATION,
-      useNativeDriver: false,
-    }).start(() => onSwipeComplete(direction));
-  };
+      direction === Direction.RIGHT ? onSwipeRight(item) : onSwipeLeft(item);
+      position.setValue({ x: 0, y: 0 });
+      incrementIndex();
+    },
+    [cards, incrementIndex, onSwipeLeft, onSwipeRight, position],
+  );
 
-  const onSwipeComplete = (direction: TDirection) => {
-    const item = cards[index];
+  const forceSwipe = useCallback(
+    (direction: TDirection, i: number) => {
+      const x = direction === Direction.RIGHT ? WINDOW_WIDTH : -WINDOW_WIDTH;
+      Animated.timing(position, {
+        toValue: { x, y: 0 },
+        duration: SWIPE_OUT_DURATION,
+        useNativeDriver: false,
+      }).start(() => onSwipeComplete(direction, i));
+    },
+    [onSwipeComplete, position],
+  );
 
-    direction === Direction.RIGHT ? onSwipeRight(item) : onSwipeLeft(item);
-    position.setValue({ x: 0, y: 0 });
-    setIndex((prevIndex) => prevIndex + 1);
-  };
-
-  const resetPosition = () => {
+  const resetPosition = useCallback(() => {
     Animated.spring(position, {
       toValue: { x: 0, y: 0 },
       useNativeDriver: false,
     }).start();
-  };
+  }, [position]);
+
+  const panResponder = useMemo(
+    () =>
+      PanResponder.create({
+        onStartShouldSetPanResponder: (event, gestureState) => {
+          return gestureState.dx !== 0 && gestureState.dy !== 0;
+        },
+        onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
+          return gestureState.dx !== 0 && gestureState.dy !== 0;
+        },
+        onPanResponderMove: (event, gesture) => {
+          position.setValue({ x: gesture.dx, y: gesture.dy });
+        },
+        onPanResponderRelease: (event, gesture) => {
+          if (gesture.dx > SWIPE_THRESHOLD) {
+            forceSwipe(Direction.RIGHT, index);
+          } else if (gesture.dx < -SWIPE_THRESHOLD) {
+            forceSwipe(Direction.LEFT, index);
+          } else {
+            resetPosition();
+          }
+        },
+      }),
+    [forceSwipe, index, position, resetPosition],
+  );
 
   return [panResponder, position, index];
 };
