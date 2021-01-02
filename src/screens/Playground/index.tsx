@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button, View } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
@@ -11,9 +11,12 @@ import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
 import Swiper from './Swiper';
 import { Card } from '../../redux/reducer';
+import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
 
 type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
 type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
+
+const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.9 : WINDOW_WIDTH * 0.8;
 
 export interface Props {
   route: PlaygroundScreenRouteProp;
@@ -53,16 +56,26 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
       <CustomText size="h1" centered>
         {deckDetail.title}
       </CustomText>
-      <Swiper
-        deckId={params.deckId}
-        cards={reOrderedCards}
-        onSwipeLeft={onSwipeLeft}
-        onSwipeRight={onSwipeRight}
-        renderNoMoreCards={renderNoMoreCards}
-        renderCard={renderCard}
-      />
+      <View style={styles.swiperContainer}>
+        <Swiper
+          deckId={params.deckId}
+          cards={reOrderedCards}
+          onSwipeLeft={onSwipeLeft}
+          onSwipeRight={onSwipeRight}
+          renderNoMoreCards={renderNoMoreCards}
+          renderCard={renderCard}
+        />
+      </View>
     </Container>
   );
 };
+
+const styles = StyleSheet.create({
+  swiperContainer: {
+    flex: 1,
+    marginTop: 50,
+    marginLeft: WINDOW_WIDTH / 2 - ITEM_SIZE / 2,
+  },
+});
 
 export default Playground;

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
-import { Animated, PanResponder } from 'react-native';
+import { Animated, LayoutAnimation, PanResponder, UIManager } from 'react-native';
 import { WINDOW_WIDTH } from '../styles/utils';
 import { Card } from '../redux/reducer';
 
@@ -8,7 +8,7 @@ const SWIPE_OUT_DURATION = 250;
 
 type TDirection = 'right' | 'left';
 
-enum Direction {
+export enum Direction {
   LEFT = 'left',
   RIGHT = 'right',
 }
@@ -29,6 +29,8 @@ const useSwiper = (cards: Card[], deckId: string, onSwipeRight: (item: Card) => 
       direction === Direction.RIGHT ? onSwipeRight(item) : onSwipeLeft(item);
       position.setValue({ x: 0, y: 0 });
       incrementIndex();
+      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Android spring effect
+      LayoutAnimation.spring(); // IOS spring effect
     },
     [cards, incrementIndex, onSwipeLeft, onSwipeRight, position],
   );
@@ -77,7 +79,7 @@ const useSwiper = (cards: Card[], deckId: string, onSwipeRight: (item: Card) => 
     [forceSwipe, index, position, resetPosition],
   );
 
-  return [panResponder, position, index];
+  return [panResponder, position, index, forceSwipe];
 };
 
 export default useSwiper;
