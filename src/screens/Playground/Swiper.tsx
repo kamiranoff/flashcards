@@ -6,6 +6,7 @@ import useSwiper, { Direction } from '../../hooks/useSwiper';
 import ActionButtons from './ActionButtons';
 
 const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.9 : WINDOW_WIDTH * 0.8;
+const STACK_SIZE = 5;
 
 interface Props {
   cards: Card[];
@@ -17,9 +18,10 @@ interface Props {
 }
 
 const Swiper: FC<Props> = ({ cards, deckId, onSwipeRight, onSwipeLeft, renderNoMoreCards, renderCard }) => {
-  const [panResponder, position, index, forceSwipe] = useSwiper(cards, deckId, onSwipeRight, onSwipeLeft);
-  const handleSwipeRight = () => forceSwipe(Direction.RIGHT, index);
-  const handleSwipeLeft = () => forceSwipe(Direction.LEFT, index);
+  const [panResponder, position, currentCardIndex, forceSwipe] = useSwiper(cards, deckId, onSwipeRight, onSwipeLeft);
+  const handleSwipeRight = () => forceSwipe(Direction.RIGHT, currentCardIndex);
+  const handleSwipeLeft = () => forceSwipe(Direction.LEFT, currentCardIndex);
+  const visibleCards = cards.slice(currentCardIndex, currentCardIndex + STACK_SIZE);
 
   const getCardStyle = () => {
     const rotate = position.x.interpolate({
@@ -33,17 +35,13 @@ const Swiper: FC<Props> = ({ cards, deckId, onSwipeRight, onSwipeLeft, renderNoM
   };
 
   const renderCards = (): ReactNode => {
-    if (index >= cards.length) {
+    if (currentCardIndex >= cards.length) {
       return renderNoMoreCards();
     }
 
-    return cards
+    return visibleCards
       .map((item: Card, i: number) => {
-        if (i < index) {
-          return null;
-        }
-
-        if (i === index) {
+        if (i === 0) {
           // First card in the stack
           return (
             <Animated.View
@@ -54,13 +52,11 @@ const Swiper: FC<Props> = ({ cards, deckId, onSwipeRight, onSwipeLeft, renderNoM
             </Animated.View>
           );
         }
+
         return (
           <Animated.View
             key={item.id}
-            style={[
-              styles.cardContainer,
-              { left: i - index, right: i + index, width: ITEM_SIZE - (i - index + i + index), top: 5 * (i - index), zIndex: 1 },
-            ]}>
+            style={[styles.cardContainer, { left: i * 5, right: i * 5, width: ITEM_SIZE - i * 10, top: 5 * i, zIndex: 1 }]}>
             {renderCard(item)}
           </Animated.View>
         );
@@ -71,7 +67,7 @@ const Swiper: FC<Props> = ({ cards, deckId, onSwipeRight, onSwipeLeft, renderNoM
   return (
     <View style={styles.container}>
       {renderCards()}
-      {index < cards.length ? <ActionButtons onPressLeft={handleSwipeLeft} onPressRight={handleSwipeRight} /> : null}
+      {currentCardIndex < cards.length ? <ActionButtons onPressLeft={handleSwipeLeft} onPressRight={handleSwipeRight} /> : null}
     </View>
   );
 };
