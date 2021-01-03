@@ -6,7 +6,7 @@ import { Card } from '../../redux/reducer';
 import { Screens } from '../../navigation/interface';
 import { HtmlParser, IconButton } from '../../common';
 
-const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.85 : WINDOW_WIDTH * 0.74;
+const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.9 : WINDOW_WIDTH * 0.8;
 
 interface Props {
   card: Card;
@@ -54,21 +54,13 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
       ? navigation.navigate(Screens.QUESTION_MODAL, { title, deckId, cardId: card.id })
       : navigation.navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: card.id });
 
-  const handleScore = () => {
-    console.log('score');
-    navigation.navigate(Screens.ALERT);
-  };
-
   return (
     <>
-      <View style={styles.scoreButton}>
-        <IconButton onPress={handleScore} iconName="add" />
-      </View>
       <View style={styles.editButton}>
         <IconButton onPress={handleEdit} iconName="edit" />
       </View>
       <View style={styles.innerContainer}>
-        <ScrollView>
+        <ScrollView nestedScrollEnabled>
           <TouchableWithoutFeedback onPress={flipCard}>
             <View>
               <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }, { perspective: 1000 }] }]}>
@@ -89,7 +81,7 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
 const styles = StyleSheet.create({
   card: {
     width: '100%',
-    minHeight: ITEM_SIZE * 1.6,
+    minHeight: ITEM_SIZE * 1.4,
     backgroundColor: 'gray',
     backfaceVisibility: 'hidden',
     justifyContent: 'center',
@@ -101,23 +93,17 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     width: '100%',
-    height: ITEM_SIZE * 1.6,
-    borderRadius: 4,
-    backgroundColor: '#94c7b6',
+    height: ITEM_SIZE * 1.4,
+    backgroundColor: 'white',
     margin: 0,
-    marginBottom: 10,
+    borderColor: 'black',
+    borderWidth: 1,
   },
   editButton: {
     position: 'absolute',
     top: 2,
     right: 5,
-    zIndex: 999999,
-  },
-  scoreButton: {
-    position: 'absolute',
-    top: 2,
-    left: 5,
-    zIndex: 999999,
+    zIndex: 999,
   },
 });
 
