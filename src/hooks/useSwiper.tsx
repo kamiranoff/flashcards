@@ -15,8 +15,8 @@ export enum Direction {
 
 const useSwiper = (cards: Card[], deckId: string, onSwipeRight: (item: Card) => void, onSwipeLeft: (item: Card) => void) => {
   const position = useRef<any>(new Animated.ValueXY()).current; // FIXME
-  const [index, setIndex] = useState(0);
-  const incrementIndex = useCallback(() => setIndex((i) => i + 1), []);
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const incrementIndex = useCallback(() => setCurrentCardIndex((index) => index + 1), []);
 
   useEffect(() => {
     position.setValue({ x: 0, y: 0 });
@@ -68,18 +68,18 @@ const useSwiper = (cards: Card[], deckId: string, onSwipeRight: (item: Card) => 
         },
         onPanResponderRelease: (event, gesture) => {
           if (gesture.dx > SWIPE_THRESHOLD) {
-            forceSwipe(Direction.RIGHT, index);
+            forceSwipe(Direction.RIGHT, currentCardIndex);
           } else if (gesture.dx < -SWIPE_THRESHOLD) {
-            forceSwipe(Direction.LEFT, index);
+            forceSwipe(Direction.LEFT, currentCardIndex);
           } else {
             resetPosition();
           }
         },
       }),
-    [forceSwipe, index, position, resetPosition],
+    [forceSwipe, currentCardIndex, position, resetPosition],
   );
 
-  return [panResponder, position, index, forceSwipe];
+  return [panResponder, position, currentCardIndex, forceSwipe];
 };
 
 export default useSwiper;
