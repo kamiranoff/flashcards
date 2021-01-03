@@ -14,7 +14,6 @@ const contentStyle = {
   backgroundColor: '#FFFFFF',
   color: '#000',
   placeholderColor: 'gray',
-  // cssText: '#editor {background-color: #f3f3f3}', // initial valid
   contentCSSText: `font-size: 16px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`, // initial valid
 };
 

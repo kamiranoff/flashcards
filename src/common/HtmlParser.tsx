@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { HtmlParseAndView, HtmlStyles } from '@react-native-html/renderer';
+import { StyleSheet } from 'react-native';
+import HTMLView from 'react-native-htmlview';
 
 interface Props {
   text: string;
@@ -8,10 +9,14 @@ interface Props {
 
 const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
   const slicedText = text.length < 30 ? `${text.slice(0, 22)}...` : `${text.slice(0, 40)}...`;
-  return <HtmlParseAndView rawHtml={isSliced ? slicedText : text} htmlStyles={htmlStyles} />;
+  return <HTMLView value={isSliced ? slicedText : text} stylesheet={htmlStyles} />;
 };
 
-const htmlStyles: HtmlStyles = {
+const htmlStyles = StyleSheet.create({
+  a: {
+    fontWeight: '300',
+    color: '#FF3366', // links color
+  },
   text: {
     fontSize: 18,
     lineHeight: 18 * 1.2,
@@ -47,6 +52,6 @@ const htmlStyles: HtmlStyles = {
     marginVertical: 2,
   },
   listItemContent: {},
-};
+});
 
 export default HtmlParser;
