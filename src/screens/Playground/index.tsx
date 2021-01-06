@@ -45,13 +45,15 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
   const reorderCards1 = () => dispatch(reorderCards(params.deckId));
 
   const renderNoMoreCards = () => {
+    const badAnswers = deckDetail.cards.filter((c) => c.rank === 0).length;
+
     return (
       <View>
         <CustomText size="h1" centered>
           There are no more cards
         </CustomText>
         <CustomText size="h2" centered>
-          There are no more cards
+          Today you answered badly: {badAnswers};
         </CustomText>
         <Button onPress={reorderCards1} title="Re-shuffle your cards" />
       </View>

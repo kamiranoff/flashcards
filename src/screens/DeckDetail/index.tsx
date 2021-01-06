@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { RootStackParamList, Screens } from '../../navigation/interface';
 import Cards from './components/Cards';
@@ -10,6 +10,7 @@ import CustomText from '../../common/CustomText';
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
+import { reorderCards } from '../../redux/actions';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 
@@ -19,10 +20,19 @@ export interface Props {
   route: DeckDetailScreenRouteProp;
 }
 
-const DeckDetail: FC<Props> = ({ route: { params } }) => {
-  const deckDetail = useSelector(selectDeckItem(params.id));
+const DeckDetail: FC<Props> = ({
+  route: {
+    params: { id, color },
+  },
+}) => {
+  const dispatch = useDispatch();
+  const deckDetail = useSelector(selectDeckItem(id));
   const { navigate, goBack } = useNavigation();
-  const handleOnPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: params.id });
+  const handleOnPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
+  const badAnswers = deckDetail.cards.filter((c) => c.rank === 0).length;
+
+  const navigateToPlayground = () => navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].id });
+  const shuffleCards = () => dispatch(reorderCards(id));
 
   return (
     <Container>
@@ -30,24 +40,24 @@ const DeckDetail: FC<Props> = ({ route: { params } }) => {
       <View style={styles.addIcon}>
         <IconButton onPress={handleOnPress} iconName="add" />
       </View>
-      <SharedElement id={`item.${params.id}`} style={[StyleSheet.absoluteFillObject]}>
-        <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: params.color }]} />
+      <SharedElement id={`item.${id}`} style={[StyleSheet.absoluteFillObject]}>
+        <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: color }]} />
       </SharedElement>
       <CustomText size="h1" centered>
         {deckDetail.title}
       </CustomText>
       <View style={styles.content}>
         <CustomText size="h2">Total: {deckDetail.cards.length} cards</CustomText>
-        <CustomText size="h2">Bad answer: {deckDetail.cards.length} cards</CustomText>
-        <CustomText size="h2">Good answer: {deckDetail.cards.length} cards</CustomText>
-        <CustomText size="h2">Excellent answer: {deckDetail.cards.length} cards</CustomText>
-        <View style={styles.center}>
-          <IconButton onPress={() => null} iconName="play" />
+        <CustomText size="h2">You need to practice with {badAnswers} cards</CustomText>
+        <CustomText size="h2">Good answers: {deckDetail.cards.length - badAnswers} cards</CustomText>
+        <View style={styles.actionButtons}>
+          <IconButton onPress={navigateToPlayground} iconName="play" />
+          <IconButton onPress={shuffleCards} iconName="play" />
         </View>
       </View>
       <SharedElement id="general.bg" style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT }] }]}>
         <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
-          <Cards cards={deckDetail.cards} deckId={params.id} />
+          <Cards cards={deckDetail.cards} deckId={id} />
         </View>
       </SharedElement>
     </Container>
@@ -87,6 +97,11 @@ const styles = StyleSheet.create({
   center: {
     marginTop: 10,
     alignSelf: 'center',
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
   },
 });
 
