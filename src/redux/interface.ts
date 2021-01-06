@@ -5,6 +5,13 @@ export enum DecksActionTypes {
   saveQuestion = 'SAVE_QUESTION',
   saveAnswer = 'SAVE_ANSWER',
   deleteCard = 'DELETE_CARD',
+  scoreCard = 'SCORE_CARD',
+  reorderCards = 'REORDER_CARDS',
+}
+
+export enum SCORES {
+  BAD = 0,
+  GOOD = 1,
 }
 
 export interface GetDecks {
@@ -43,4 +50,16 @@ export interface DeleteCard {
   cardId: string;
 }
 
-export type DecksActions = GetDecks | SaveDeck | DeleteDeck | SaveQuestion | SaveAnswer | DeleteCard;
+export interface ScoreCard {
+  type: DecksActionTypes.scoreCard;
+  deckId: string;
+  cardId: string;
+  score: number;
+}
+
+export interface ReorderCards {
+  type: DecksActionTypes.reorderCards;
+  deckId: string;
+}
+
+export type DecksActions = GetDecks | SaveDeck | DeleteDeck | SaveQuestion | SaveAnswer | DeleteCard | ScoreCard | ReorderCards;
