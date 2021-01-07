@@ -1,4 +1,13 @@
-import { SaveDeck, DecksActionTypes, DeleteDeck, GetDecks, SaveQuestion, SaveAnswer } from './interface';
+import {
+  SaveDeck,
+  DecksActionTypes,
+  DeleteDeck,
+  GetDecks,
+  SaveQuestion,
+  SaveAnswer,
+  ScoreCard,
+  ReorderCards
+} from './interface';
 
 export const getDecks = (): GetDecks => ({
   type: DecksActionTypes.getDecks,
@@ -34,4 +43,16 @@ export const deleteCard = (deckId: string, cardId: string) => ({
   type: DecksActionTypes.deleteCard,
   deckId,
   cardId,
+});
+
+export const scoreCard = (deckId: string, cardId: string, score: number): ScoreCard => ({
+  type: DecksActionTypes.scoreCard,
+  deckId,
+  cardId,
+  score,
+});
+
+export const reorderCards = (deckId: string): ReorderCards => ({
+  type: DecksActionTypes.reorderCards,
+  deckId,
 });

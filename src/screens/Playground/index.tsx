@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as R from 'ramda';
 import { RootStackParamList, Screens } from '../../navigation/interface';
 import { CloseButton, Container } from '../../common';
@@ -12,6 +12,8 @@ import CardItem from './Card';
 import Swiper from './Swiper';
 import { Card } from '../../redux/reducer';
 import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
+import { scoreCard, reorderCards } from '../../redux/actions';
+import { SCORES } from '../../redux/interface';
 
 type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
 type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
@@ -24,6 +26,7 @@ export interface Props {
 }
 
 const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) => {
+  const dispatch = useDispatch();
   const deckDetail = useSelector(selectDeckItem(params.deckId));
   const card = R.find(R.propEq('id', params.cardId), deckDetail.cards);
   const restOfCards = R.reject(R.propEq('id', params.cardId), deckDetail.cards);
@@ -32,20 +35,27 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
   const renderCard = (item: Card) => <CardItem card={item} title={deckDetail.title} deckId={params.deckId} />;
 
   const onSwipeRight = (item: Card) => {
-    console.log('onSWipe Right', item);
+    dispatch(scoreCard(params.deckId, item.id, SCORES.GOOD));
   };
 
   const onSwipeLeft = (item: Card) => {
-    console.log('onSWipe Left', item);
+    dispatch(scoreCard(params.deckId, item.id, SCORES.BAD));
   };
 
+  const reorderCards1 = () => dispatch(reorderCards(params.deckId));
+
   const renderNoMoreCards = () => {
+    const badAnswers = deckDetail.cards.filter((c) => c.rank === 0).length;
+
     return (
       <View>
         <CustomText size="h1" centered>
-          There's no more content here!
+          There are no more cards
         </CustomText>
-        <Button onPress={() => console.log('Get more')} title="Get more!" />
+        <CustomText size="h2" centered>
+          Today you answered badly: {badAnswers};
+        </CustomText>
+        <Button onPress={reorderCards1} title="Re-shuffle your cards" />
       </View>
     );
   };

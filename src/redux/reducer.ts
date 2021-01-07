@@ -1,12 +1,11 @@
 import * as R from 'ramda';
-import { DecksActions, DecksActionTypes } from './interface';
+import { DecksActions, DecksActionTypes, SCORES } from './interface';
 
 export interface Card {
   question: string;
   answer: string;
   id: string;
   rank: number;
-  isLearned: boolean;
 }
 
 export interface Deck {
@@ -54,7 +53,6 @@ export default function decks(state = initialState, action: DecksActions): Decks
         question,
         answer: '',
         rank: 0,
-        isLearned: false,
       };
       const newCards = R.prepend(newCard, selectedDeckCards); // unshift
       return { ...state, [deckId]: { ...state[deckId], cards: newCards } };
@@ -74,6 +72,27 @@ export default function decks(state = initialState, action: DecksActions): Decks
       return { ...state, [deckId]: { ...state[deckId], cards: updatedCards } };
     }
 
+    case DecksActionTypes.scoreCard: {
+      const { cardId, deckId, score } = action;
+      const selectedDeckCards = state[deckId].cards;
+      const card = R.find(R.propEq('id', cardId), selectedDeckCards);
+
+      const rankScore = R.cond([
+        [R.propEq('score', SCORES.BAD), R.always(0)],
+        [R.propEq('score', SCORES.GOOD), ({ rank }: { rank: number }) => rank + 1],
+      ])({ score, rank: card!.rank });
+
+      const updatedCards: Card[] = R.map(updateCards({ id: cardId, rank: rankScore }), selectedDeckCards);
+      return { ...state, [deckId]: { ...state[deckId], cards: updatedCards } };
+    }
+
+    case DecksActionTypes.reorderCards: {
+      const { deckId } = action;
+      const selectedDeckCards = state[deckId].cards;
+      const sortByRank = R.sortWith([R.ascend(R.prop('rank'))]);
+
+      return <DecksState>{ ...state, [deckId]: { ...state[deckId], cards: sortByRank(selectedDeckCards) } };
+    }
     default:
       return state;
   }
