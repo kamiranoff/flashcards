@@ -1,10 +1,20 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { FC } from 'react';
+import { Text, Button } from 'react-native';
+import { Container } from '../common';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList, Screens } from '../navigation/interface';
 
-const Contact = () => (
-  <View style={{ flex: 1, backgroundColor: 'red' }}>
+type ContactScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.DRAWER>;
+
+export interface Props {
+  navigation: ContactScreenNavigationProp;
+}
+
+const Contact: FC<Props> = ({ navigation }) => (
+  <Container>
     <Text>Contact</Text>
-  </View>
+    <Button onPress={() => navigation.goBack()} title="Go back home" />
+  </Container>
 );
 
 export default Contact;

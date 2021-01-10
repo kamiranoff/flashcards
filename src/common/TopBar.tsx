@@ -4,10 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import CustomText from './CustomText';
 import IconButton from './IconButton';
-import { DrawerParamList } from '../navigation/interface';
+import { DrawerStackParamList } from '../navigation/interface';
 
 const TopBar = () => {
-  const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
+  const navigation = useNavigation<DrawerNavigationProp<DrawerStackParamList>>();
   return (
     <View>
       <View style={styles.buttonContainer}>

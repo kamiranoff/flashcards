@@ -25,7 +25,7 @@ export type RootStackParamList = {
   [Screens.DRAWER]: undefined;
 };
 
-export type DrawerParamList = {
+export type DrawerStackParamList = {
   [Screens.HOME]: undefined;
   [Screens.CONTACT]: undefined;
 };
