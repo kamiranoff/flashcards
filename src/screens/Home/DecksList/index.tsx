@@ -6,7 +6,7 @@ import { SharedElement } from 'react-navigation-shared-element';
 import DeckItem from './DeckItem';
 import { PlusButton } from '../../../common';
 import { Screens } from '../../../navigation/interface';
-import { moderateScale, SPACING, WINDOW_HEIGHT } from '../../../styles/utils';
+import { getPlatformDimension, moderateScale, SPACING, WINDOW_HEIGHT } from '../../../styles/utils';
 import useDecks from '../../../hooks/useDecks';
 
 const colors = ['#fc9d9a', '#f9cdad', '#c8c8a9', '#83af9b', '#d6e1c7', '#94c7b6'];
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    top: moderateScale(20),
+    top: getPlatformDimension(20, 20, 50),
     right: moderateScale(16),
   },
   dummy: {
