@@ -10,7 +10,7 @@ export enum Screens {
   PLAYGROUND = 'Playground',
   ALERT = 'Alert',
   DRAWER = 'Drawer',
-  CONTACT = 'Contact',
+  GET_FREEBIE = 'GetFreebie',
 }
 
 export type RootStackParamList = {
@@ -27,5 +27,5 @@ export type RootStackParamList = {
 
 export type DrawerStackParamList = {
   [Screens.HOME]: undefined;
-  [Screens.CONTACT]: undefined;
+  [Screens.GET_FREEBIE]: undefined;
 };

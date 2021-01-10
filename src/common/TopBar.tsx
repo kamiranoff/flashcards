@@ -5,6 +5,7 @@ import { DrawerNavigationProp } from '@react-navigation/drawer';
 import CustomText from './CustomText';
 import IconButton from './IconButton';
 import { DrawerStackParamList } from '../navigation/interface';
+import { moderateScale } from '../styles/utils';
 
 const TopBar = () => {
   const navigation = useNavigation<DrawerNavigationProp<DrawerStackParamList>>();
@@ -24,12 +25,13 @@ const TopBar = () => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    left: 16,
+    top: moderateScale(20),
+    left: moderateScale(16),
     position: 'absolute',
     zIndex: 99,
   },
   wrapper: {
-    marginTop: 10,
+    marginTop: moderateScale(20),
   },
 });
 

@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    top: moderateScale(40),
+    top: moderateScale(20),
     right: moderateScale(16),
   },
   dummy: {
