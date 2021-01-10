@@ -5,7 +5,7 @@ import { HIT_SLOP } from '../styles/utils';
 
 interface Props {
   onPress: (event: GestureResponderEvent) => void;
-  iconName: 'goBack' | 'add' | 'remove' | 'play' | 'edit' | 'plus' | 'close' | 'wrong' | 'good';
+  iconName: 'goBack' | 'add' | 'remove' | 'play' | 'edit' | 'plus' | 'close' | 'wrong' | 'good' | 'menu';
   style?: ImageStyle;
 }
 

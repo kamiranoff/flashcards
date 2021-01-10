@@ -5,12 +5,12 @@ import Home from '../screens/Home';
 import DeckDetail from '../screens/DeckDetail';
 import { Easing } from 'react-native';
 
-const MainStack = createSharedElementStackNavigator();
+const HomeStack = createSharedElementStackNavigator();
 
-const MainStackScreen = () => (
-  <MainStack.Navigator initialRouteName={Screens.HOME} screenOptions={{ headerShown: false }}>
-    <MainStack.Screen name={Screens.HOME} component={Home} />
-    <MainStack.Screen
+const HomeStackScreen = () => (
+  <HomeStack.Navigator initialRouteName={Screens.HOME} screenOptions={{ headerShown: false }}>
+    <HomeStack.Screen name={Screens.HOME} component={Home} />
+    <HomeStack.Screen
       name={Screens.DECK_DETAIL}
       component={DeckDetail}
       options={() => ({
@@ -38,7 +38,7 @@ const MainStackScreen = () => (
         return [{ id: `item.${id}` }, { id: 'general.bg' }];
       }}
     />
-  </MainStack.Navigator>
+  </HomeStack.Navigator>
 );
 
-export default MainStackScreen;
+export default HomeStackScreen;
