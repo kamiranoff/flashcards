@@ -1,3 +1,4 @@
 import shuffleArray from './shuffleArray';
+import sendEmail from './sendEmail';
 
-export { shuffleArray };
+export { shuffleArray, sendEmail };

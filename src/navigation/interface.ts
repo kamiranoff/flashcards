@@ -2,7 +2,6 @@ import { Card, Deck } from '../redux/reducer';
 
 export enum Screens {
   HOME = 'Home',
-  HOME_TABS = 'HomeTabs',
   DECK_DETAIL = 'DeckDetails',
   QUESTION_MODAL = 'QuestionModal',
   ANSWER_MODAL = 'AnswerModal',
@@ -10,12 +9,12 @@ export enum Screens {
   MAIN = 'Main',
   PLAYGROUND = 'Playground',
   ALERT = 'Alert',
+  DRAWER = 'Drawer',
+  GET_FREEBIE = 'GetFreebie',
 }
 
 export type RootStackParamList = {
   [Screens.HOME]: undefined;
-  ['Something']: undefined;
-  [Screens.HOME_TABS]: undefined;
   [Screens.MAIN]: undefined;
   [Screens.QUESTION_MODAL]: { title: Deck['title']; deckId: string; cardId?: Card['id'] };
   [Screens.ANSWER_MODAL]: { title: Deck['title']; deckId: string; cardId: Card['id'] };
@@ -23,4 +22,10 @@ export type RootStackParamList = {
   [Screens.PLAYGROUND]: { deckId: string; cardId: Card['id'] };
   [Screens.SETTINGS]: undefined;
   [Screens.ALERT]: undefined;
+  [Screens.DRAWER]: undefined;
+};
+
+export type DrawerStackParamList = {
+  [Screens.HOME]: undefined;
+  [Screens.GET_FREEBIE]: undefined;
 };

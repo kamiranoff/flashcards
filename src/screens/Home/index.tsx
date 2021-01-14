@@ -1,11 +1,13 @@
 import React from 'react';
 import { Container } from '../../common';
 import DecksList from './DecksList';
+import TopBar from '../../common/TopBar';
 
-const Index = () => (
+const Home = () => (
   <Container>
+    <TopBar />
     <DecksList />
   </Container>
 );
 
-export default Index;
+export default Home;

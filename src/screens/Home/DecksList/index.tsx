@@ -4,9 +4,9 @@ import { useNavigation } from '@react-navigation/native';
 import * as R from 'ramda';
 import { SharedElement } from 'react-navigation-shared-element';
 import DeckItem from './DeckItem';
-import Button from '../../../common/Button';
+import { PlusButton } from '../../../common';
 import { Screens } from '../../../navigation/interface';
-import { moderateScale, SPACING, WINDOW_HEIGHT } from '../../../styles/utils';
+import { getPlatformDimension, moderateScale, SPACING, WINDOW_HEIGHT } from '../../../styles/utils';
 import useDecks from '../../../hooks/useDecks';
 
 const colors = ['#fc9d9a', '#f9cdad', '#c8c8a9', '#83af9b', '#d6e1c7', '#94c7b6'];
@@ -25,13 +25,13 @@ const DecksList: FC = () => {
   return (
     <>
       <FlatList
-        contentContainerStyle={{ padding: SPACING }}
+        contentContainerStyle={styles.flatListContainer}
         data={decksIds}
         renderItem={renderItem}
         keyExtractor={(item) => item}
       />
       <View style={styles.buttonContainer}>
-        <Button onPress={handleAddDeck} />
+        <PlusButton onPress={handleAddDeck} />
       </View>
       <SharedElement id="general.bg" style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT }] }]}>
         <View style={[StyleSheet.absoluteFillObject, styles.dummy]} />
@@ -41,9 +41,13 @@ const DecksList: FC = () => {
 };
 
 const styles = StyleSheet.create({
+  flatListContainer: {
+    padding: SPACING,
+    marginTop: 30,
+  },
   buttonContainer: {
     position: 'absolute',
-    bottom: moderateScale(20),
+    top: getPlatformDimension(20, 20, 50),
     right: moderateScale(16),
   },
   dummy: {

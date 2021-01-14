@@ -6,7 +6,7 @@ interface Props {
   onPress: (e: GestureResponderEvent) => void;
 }
 
-const Button: FC<Props> = ({ onPress }) => {
+const PlusButton: FC<Props> = ({ onPress }) => {
   const animation = useRef(new Animated.Value(0)).current;
 
   const setTiming = (value: number, duration: number) => {
@@ -26,7 +26,7 @@ const Button: FC<Props> = ({ onPress }) => {
     }),
     paddingBottom: animation.interpolate({
       inputRange: [0, 1],
-      outputRange: [10, 0],
+      outputRange: [6, 0],
     }),
   };
 
@@ -52,11 +52,11 @@ const Button: FC<Props> = ({ onPress }) => {
 
 const styles = StyleSheet.create({
   button: {
-    height: 70,
-    width: 70,
+    height: 50,
+    width: 50,
   },
   height: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     borderRadius: 12,
   },
   inner: {
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 1)',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 12,
   },
   white: {
     color: '#FFF',
@@ -71,9 +72,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   icon: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
 });
 
-export default Button;
+export default PlusButton;

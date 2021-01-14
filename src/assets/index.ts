@@ -16,6 +16,7 @@ export interface IAssets {
     underline: number;
     good: number;
     wrong: number;
+    menu: number;
   };
 }
 
@@ -37,6 +38,7 @@ const assets: IAssets = {
     strikethrough: require('./images/strikethrough.png'),
     good: require('./images/good.png'),
     wrong: require('./images/wrong.png'),
+    menu: require('./images/menu.png'),
   },
 };
 
