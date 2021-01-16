@@ -36,9 +36,13 @@ const SettingsDrawerContent: FC<Props> = ({ navigation }) => {
       <DrawerItem
         style={[styles.base, styles.bottom]}
         label="Rate the App"
+        onPress={() => navigation.navigate(Screens.RATE_THE_APP)}
+      />
+      <DrawerItem
+        style={[styles.space, styles.top]}
+        label="Get free deck"
         onPress={() => navigation.navigate(Screens.GET_FREEBIE)}
       />
-      <DrawerItem style={[styles.space, styles.top]} label="Get free deck" onPress={() => navigation.navigate(Screens.GET_FREEBIE)} />
       <DrawerItem
         style={[styles.base, styles.bottom]}
         label="Upgrade to PRO LEARNER"

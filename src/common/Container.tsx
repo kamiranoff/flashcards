@@ -9,10 +9,11 @@ const styles = StyleSheet.create({
 
 export interface Props {
   children: React.ReactNode | React.ReactNode[];
+  style: ViewStyle;
 }
 
-const Container: FC<Props> = ({ children }) => (
-  <SafeAreaView style={styles.container}>
+const Container: FC<Props> = ({ children, style }) => (
+  <SafeAreaView style={[styles.container, style]}>
     <StatusBar hidden />
     {children}
   </SafeAreaView>
