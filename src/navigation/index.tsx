@@ -11,7 +11,7 @@ import DrawerNavigator from './DrawerNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-const alertOptions = {
+export const alertOptions = {
   animationEnabled: true,
   cardStyle: { backgroundColor: 'rgba(0, 0, 0, 0.15)' },
   cardOverlayEnabled: true,
