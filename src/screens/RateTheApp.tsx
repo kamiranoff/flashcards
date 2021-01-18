@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Container, PrimaryButton } from '../common';
 import CustomText from '../common/CustomText';
-import RateApp from '../modules/RateApp';
+import rateApp from '../modules/rateApp';
 
 const RateTheApp: FC = () => (
   <Container style={styles.container}>
@@ -10,7 +10,7 @@ const RateTheApp: FC = () => (
       How does our app helping you learn?
     </CustomText>
     <View style={styles.buttonContainer}>
-      <PrimaryButton buttonText="Rate & Review" onPress={RateApp} />
+      <PrimaryButton buttonText="Rate & Review" onPress={() => rateApp(false)} />
     </View>
   </Container>
 );

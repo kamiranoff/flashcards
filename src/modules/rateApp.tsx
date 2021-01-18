@@ -5,10 +5,12 @@ const ANDROID_STORE_URL = 'market://details?id=com.brainsandbrawns.forkflick';
 
 const { FlashCardsRateApp } = NativeModules;
 
-const rateAndroid = async () => {
+const rateAndroidOnDemand = async () => {
   try {
+    // native in-app review
     await FlashCardsRateApp.requestReview();
   } catch (e) {
+    // redirect user to the play store
     Linking.openURL(ANDROID_STORE_URL).catch((err) => console.error(err, 'triggerRateAppModal error android'));
   }
 };
@@ -23,11 +25,17 @@ const rateIOS = () => {
   });
 };
 
-const RateApp = () => {
+// Note:
+// onDemand means in-app rate the app is triggered programmatically - for example if someone creates the third deck
+// if onDemand = false we trigger rate the app by clicking the button (Rate us in settings) and redirect the user to Google Play
+const rateApp = (onDemand: boolean) => {
   if (Platform.OS === 'ios') {
     return rateIOS();
   }
-  return rateAndroid();
+  if (onDemand) {
+    return rateAndroidOnDemand();
+  }
+  return Linking.openURL(ANDROID_STORE_URL).catch((err) => console.error(err, 'triggerRateAppModal error android'));
 };
 
-export default RateApp;
+export default rateApp;
