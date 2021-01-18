@@ -5,8 +5,13 @@ const ANDROID_STORE_URL = 'market://details?id=com.brainsandbrawns.forkflick';
 
 const { FlashCardsRateApp } = NativeModules;
 
-const rateAndroid = () =>
-  Linking.openURL(ANDROID_STORE_URL).catch((err) => console.error(err, 'triggerRateAppModal error android'));
+const rateAndroid = async () => {
+  try {
+    await FlashCardsRateApp.requestReview();
+  } catch (e) {
+    Linking.openURL(ANDROID_STORE_URL).catch((err) => console.error(err, 'triggerRateAppModal error android'));
+  }
+};
 
 const rateIOS = () => {
   if (FlashCardsRateApp.isAvailable) {
