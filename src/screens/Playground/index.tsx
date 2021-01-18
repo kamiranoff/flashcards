@@ -11,7 +11,7 @@ import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
 import Swiper from './Swiper';
 import { Card } from '../../redux/reducer';
-import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
+import { getPlatformDimension, isIOS, WINDOW_WIDTH } from '../../styles/utils';
 import { scoreCard, reorderCards } from '../../redux/actions';
 import { SCORES } from '../../redux/interface';
 
@@ -63,9 +63,11 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
   return (
     <Container>
       <CloseButton onPress={goBack} />
-      <CustomText size="h1" centered>
-        {deckDetail.title}
-      </CustomText>
+      <View style={styles.titleContainer}>
+        <CustomText size="h1" centered>
+          {deckDetail.title}
+        </CustomText>
+      </View>
       <View style={styles.swiperContainer}>
         <Swiper
           deckId={params.deckId}
@@ -85,6 +87,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 50,
     marginLeft: WINDOW_WIDTH / 2 - ITEM_SIZE / 2,
+  },
+  titleContainer: {
+    paddingTop: getPlatformDimension(10, 20, 5),
+    paddingHorizontal: 20,
   },
 });
 

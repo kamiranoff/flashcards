@@ -17,6 +17,7 @@ const DecksList: FC = () => {
 
   const renderItem = ({ item, index }: { item: string; index: number }) => {
     const title = R.prop('title', decks[item]);
+
     const handleNavigate = () =>
       title ? navigate(Screens.DECK_DETAIL, { id: item, color: colors[index % colors.length] }) : null;
     return <DeckItem item={item} index={index} title={title} onPress={handleRemoveDeck(item)} onNavigate={handleNavigate} />;
@@ -43,7 +44,7 @@ const DecksList: FC = () => {
 const styles = StyleSheet.create({
   flatListContainer: {
     padding: SPACING,
-    marginTop: 30,
+    marginTop: 5,
   },
   buttonContainer: {
     position: 'absolute',

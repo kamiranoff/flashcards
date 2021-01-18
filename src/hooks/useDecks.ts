@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import * as R from 'ramda';
 import { deleteDeck } from '../redux/actions';
 import { selectDecks } from '../redux/seclectors';
+import { NativeAlert } from '../common';
 
 const useDecks = () => {
   const decks = useSelector(selectDecks);
@@ -17,8 +18,10 @@ const useDecks = () => {
   }, [decksIds, decks]);
 
   const handleRemoveDeck = (item: string) => () => {
-    dispatch(deleteDeck(item));
-    setDecksIds(R.without([item], decksIds));
+    NativeAlert('Are you sure you want to delete this deck?', () => {
+      dispatch(deleteDeck(item));
+      setDecksIds(R.without([item], decksIds));
+    });
   };
 
   return {

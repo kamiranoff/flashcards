@@ -59,7 +59,11 @@ const CustomText: FC<Props> = ({ children, underlined = false, centered = false,
     textStyle,
   ];
 
-  return <Text style={style}>{children}</Text>;
+  return (
+    <Text adjustsFontSizeToFit style={style}>
+      {children}
+    </Text>
+  );
 };
 
 export default CustomText;

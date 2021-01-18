@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 
 export interface Props {
   children: React.ReactNode | React.ReactNode[];
-  style: ViewStyle;
+  style?: ViewStyle;
 }
 
 const Container: FC<Props> = ({ children, style }) => (
