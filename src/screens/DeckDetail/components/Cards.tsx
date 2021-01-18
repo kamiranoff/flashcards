@@ -67,9 +67,10 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
 
   return (
     <FlatList
+      scrollEnabled
       showsVerticalScrollIndicator={false}
       numColumns={numberColumns}
-      contentContainerStyle={{ paddingBottom: TOP_HEADER_HEIGHT }}
+      contentContainerStyle={{ paddingBottom: TOP_HEADER_HEIGHT, alignItems: 'center' }}
       data={formatData(cards, numberColumns)}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
@@ -81,19 +82,16 @@ const styles = StyleSheet.create({
   item: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
-    padding: 10,
+    padding: 5,
     margin: 5,
-    height: 210,
-    width: 200,
+    height: 180,
+    width: 150,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: 'black',
   },
   content: {
-    flex: 1,
-    width: 180,
-    padding: 5,
+    width: 140,
     justifyContent: 'space-around',
     flexDirection: 'column',
   },
@@ -102,8 +100,8 @@ const styles = StyleSheet.create({
   },
   itemInvisible: {
     backgroundColor: 'transparent',
-    height: 160,
-    width: 200,
+    height: 180,
+    width: 150,
     borderWidth: 0,
   },
 });

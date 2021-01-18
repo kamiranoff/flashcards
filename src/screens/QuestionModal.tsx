@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStackParamList, Screens } from '../navigation/interface';
-import { CloseButton, Container, Form } from 'common';
+import { CloseButton, Container, Form, Title } from 'common';
 import { selectCard } from '../redux/seclectors';
 import { Card } from '../redux/reducer';
 import { saveQuestion } from '../redux/actions';
@@ -33,9 +33,7 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
 
   return (
     <Container>
-      <CustomText centered size="h1">
-        {title}
-      </CustomText>
+      <Title title={title} />
       <CloseButton onPress={handleCloseModal} />
       <Form placeholder="Question" initialValue={card?.question || ''} onSubmit={(question) => handleSave(question)} />
     </Container>

@@ -1,7 +1,7 @@
 import React, { FC, useRef, useState } from 'react';
 import { Button, KeyboardAvoidingView, StyleSheet, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
-import { isIOS, moderateScale, WINDOW_HEIGHT } from '../styles/utils';
+import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../styles/utils';
 import assets from '../assets';
 
 interface Props {
@@ -40,7 +40,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
       <View style={styles.saveButton}>
         <Button title="Save" onPress={() => onSubmit(value)} />
       </View>
-      <ScrollView keyboardDismissMode={'none'} style={styles.scrollView} alwaysBounceVertical={false} bounces={false}>
+      <ScrollView keyboardDismissMode="none" style={styles.scrollView} alwaysBounceVertical={false} bounces={false}>
         <RichEditor
           initialFocus
           pasteAsPlainText
@@ -52,7 +52,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           initialContentHTML={value}
         />
       </ScrollView>
-      <KeyboardAvoidingView behavior={isIOS ? 'padding' : 'height'}>
+      <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={isIOS ? 0 : 25}>
         <TouchableOpacity onPress={handleKeyboard}>
           <Image source={assets.icons.keyboard} style={styles.keyboard} resizeMode="contain" />
         </TouchableOpacity>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   saveButton: {
     right: 10,
     position: 'absolute',
-    top: moderateScale(40),
+    top: getPlatformDimension(20, 15, 40, 20),
     zIndex: 999,
   },
   keyboard: {
