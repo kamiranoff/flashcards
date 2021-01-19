@@ -3,7 +3,7 @@ import CustomText from '../../../common/CustomText';
 import { HtmlParser } from '../../../common';
 import React, { FC } from 'react';
 import { Card } from '../../../redux/reducer';
-import { getPlatformDimension } from '../../../styles/utils';
+import { getPlatformDimension, isSmallDevice } from '../../../styles/utils';
 
 interface Props {
   onPress: (event: GestureResponderEvent) => void;
@@ -32,7 +32,7 @@ const CardItem: FC<Props> = ({ onPress, onLongPress, card }) => (
 
 const styles = StyleSheet.create({
   content: {
-    width: getPlatformDimension(150, 150, 170),
+    width: isSmallDevice() ? 130 : getPlatformDimension(150, 150, 170),
     paddingHorizontal: 5,
     paddingVertical: 10,
     justifyContent: 'space-between',

@@ -5,16 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 import { RootStackParamList, Screens } from '../../navigation/interface';
 import Cards from './components/Cards';
-import { getPlatformDimension, isIOS, SPACING, WINDOW_HEIGHT } from '../../styles/utils';
-import CustomText from '../../common/CustomText';
+import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../styles/utils';
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, Title } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
 import { reorderCards } from '../../redux/actions';
+import TopContent from './components/TopContent';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
+
+const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
 
 export interface Props {
   route: DeckDetailScreenRouteProp;
@@ -45,15 +47,13 @@ const DeckDetail: FC<Props> = ({
         <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: color, zIndex: 1 }]} />
       </SharedElement>
       <Title title={deckDetail.title} />
-      <View style={styles.content}>
-        <CustomText size="h2">Total: {deckDetail.cards.length} cards</CustomText>
-        <CustomText size="h2">You need to practice with {badAnswers} cards</CustomText>
-        <CustomText size="h2">Good answers: {deckDetail.cards.length - badAnswers} cards</CustomText>
-        <View style={styles.actionButtons}>
-          <IconButton onPress={navigateToPlayground} iconName="play" />
-          <IconButton onPress={shuffleCards} iconName="play" />
-        </View>
-      </View>
+      <TopContent
+        navigate={navigateToPlayground}
+        shuffle={shuffleCards}
+        total={deckDetail.cards.length}
+        badAnswersTotal={badAnswers}
+        goodAnswersTotal={deckDetail.cards.length - badAnswers}
+      />
       {isIOS ? (
         <SharedElement
           id="general.bg"
@@ -83,18 +83,13 @@ const styles = StyleSheet.create({
   },
   topView: {
     borderRadius: 0,
-    height: TOP_HEADER_HEIGHT + 30,
-  },
-  content: {
-    zIndex: 1,
-    marginTop: getPlatformDimension(25, 30, 40),
-    marginHorizontal: SPACING,
+    height: TOP_HEADER_HEIGHT + 60,
   },
   dummy: {
     flex: 1,
     position: 'relative',
     backgroundColor: 'white',
-    transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT - 24 }],
+    transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT_SPACING }],
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     paddingTop: SPACING,
@@ -104,11 +99,6 @@ const styles = StyleSheet.create({
   center: {
     marginTop: 10,
     alignSelf: 'center',
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: getPlatformDimension(20, 20, 40),
   },
 });
 
