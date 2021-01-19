@@ -7,6 +7,7 @@ import com.facebook.react.ReactApplication;
 import com.flashcards.modules.FlashCardsRateAppPackage;
 import com.ijzerenhein.sharedelement.RNSharedElementPackage;
 import com.ijzerenhein.sharedelement.RNSharedElementPackage;
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           packages.add(new FlashCardsRateAppPackage());
+          packages.add(new SafeAreaContextPackage());
           return packages;
         }
 

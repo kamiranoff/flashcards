@@ -3,13 +3,13 @@ import { StyleSheet } from 'react-native';
 import HTMLView from 'react-native-htmlview';
 
 interface Props {
-  text: string;
+  text: string | undefined;
   isSliced?: boolean;
 }
 
 const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
-  const slicedText = text.length < 30 ? `${text.slice(0, 22)}...` : `${text.slice(0, 40)}...`;
-  return <HTMLView value={isSliced ? slicedText : text} stylesheet={htmlStyles} />;
+  const slicedText = text ? (text.length < 30 ? `${text.slice(0, 22)}...` : `${text.slice(0, 40)}...`) : '';
+  return text ? <HTMLView value={isSliced ? slicedText : text} stylesheet={htmlStyles} /> : null;
 };
 
 const htmlStyles = StyleSheet.create({

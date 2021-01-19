@@ -7,6 +7,26 @@ import { Easing } from 'react-native';
 
 const HomeStack = createSharedElementStackNavigator();
 
+// export const iosTransitionSpec = {
+//   animation: 'spring',
+//   config: {
+//     stiffness: 1000,
+//     damping: 500,
+//     mass: 3,
+//     overshootClamping: true,
+//     restDisplacementThreshold: 10,
+//     restSpeedThreshold: 10,
+//   },
+// };
+//
+// export const closeAndroidSpec = {
+//   animation: 'timing',
+//   config: {
+//     duration: 350,
+//     easing: Easing.out(Easing.poly(5)),
+//   },
+// };
+
 const HomeStackScreen = () => (
   <HomeStack.Navigator initialRouteName={Screens.HOME} screenOptions={{ headerShown: false }}>
     <HomeStack.Screen name={Screens.HOME} component={Home} />
@@ -26,11 +46,12 @@ const HomeStackScreen = () => (
           },
         },
         cardStyleInterpolator: ({ current: { progress } }) => {
-          return {
-            cardStyle: {
-              opacity: progress,
-            },
-          };
+          const opacity = progress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 1],
+            extrapolate: 'clamp',
+          });
+          return { cardStyle: { opacity } };
         },
       })}
       sharedElements={(route) => {

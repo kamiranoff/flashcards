@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import * as R from 'ramda';
 import { RootStackParamList, Screens } from '../../navigation/interface';
-import { CloseButton, Container } from '../../common';
+import { CloseButton, Container, Title } from '../../common';
 import CustomText from '../../common/CustomText';
 import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
@@ -42,7 +42,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
     dispatch(scoreCard(params.deckId, item.id, SCORES.BAD));
   };
 
-  const reorderCards1 = () => dispatch(reorderCards(params.deckId));
+  const reShuffleCards = () => dispatch(reorderCards(params.deckId));
 
   const renderNoMoreCards = () => {
     const badAnswers = deckDetail.cards.filter((c) => c.rank === 0).length;
@@ -55,7 +55,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
         <CustomText size="h2" centered>
           Today you answered badly: {badAnswers};
         </CustomText>
-        <Button onPress={reorderCards1} title="Re-shuffle your cards" />
+        <Button onPress={reShuffleCards} title="Re-shuffle your cards" />
       </View>
     );
   };
@@ -63,11 +63,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
   return (
     <Container>
       <CloseButton onPress={goBack} />
-      <View style={styles.titleContainer}>
-        <CustomText size="h1" centered>
-          {deckDetail.title}
-        </CustomText>
-      </View>
+      <Title title={deckDetail.title} />
       <View style={styles.swiperContainer}>
         <Swiper
           deckId={params.deckId}
@@ -85,12 +81,8 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
 const styles = StyleSheet.create({
   swiperContainer: {
     flex: 1,
-    marginTop: 50,
+    marginTop: getPlatformDimension(30, 20, 40),
     marginLeft: WINDOW_WIDTH / 2 - ITEM_SIZE / 2,
-  },
-  titleContainer: {
-    paddingTop: getPlatformDimension(10, 20, 5),
-    paddingHorizontal: 20,
   },
 });
 
