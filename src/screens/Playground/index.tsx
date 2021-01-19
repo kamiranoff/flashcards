@@ -11,7 +11,7 @@ import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
 import Swiper from './Swiper';
 import { Card } from '../../redux/reducer';
-import { getPlatformDimension, isIOS, WINDOW_WIDTH } from '../../styles/utils';
+import { getPlatformDimension, isIOS, isSmallDevice, WINDOW_WIDTH } from '../../styles/utils';
 import { scoreCard, reorderCards } from '../../redux/actions';
 import { SCORES } from '../../redux/interface';
 
@@ -81,7 +81,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
 const styles = StyleSheet.create({
   swiperContainer: {
     flex: 1,
-    marginTop: getPlatformDimension(30, 20, 40),
+    marginTop: isSmallDevice() ? 15 : getPlatformDimension(30, 20, 40),
     marginLeft: WINDOW_WIDTH / 2 - ITEM_SIZE / 2,
   },
 });
