@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { StyleSheet, View, GestureResponderEvent } from 'react-native';
 import { IconButton } from '../../common';
-import { moderateVerticalScale } from '../../styles/utils';
+import { getPlatformDimension } from '../../styles/utils';
 
 interface Props {
   onPressLeft: (event: GestureResponderEvent) => void;
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     position: 'absolute',
-    bottom: moderateVerticalScale(40), // FIXME - replace to dynamic value due to different devices
+    bottom: getPlatformDimension(10, 20, 40),
     right: 0,
     left: 0,
   },

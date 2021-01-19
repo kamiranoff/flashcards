@@ -3,11 +3,10 @@ import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStackParamList, Screens } from '../navigation/interface';
-import { CloseButton, Container, Form } from 'common';
+import { CloseButton, Container, Form, Title } from 'common';
 import { selectCard } from '../redux/seclectors';
 import { Card } from '../redux/reducer';
 import { saveAnswer } from '../redux/actions';
-import CustomText from '../common/CustomText';
 
 type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;
 type AddAnswerScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ANSWER_MODAL>;
@@ -31,9 +30,7 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
 
   return (
     <Container>
-      <CustomText centered size="h1">
-        {title}
-      </CustomText>
+      <Title title={title} />
       <CloseButton onPress={handleCloseModal} />
       <Form placeholder="Answer" initialValue={card?.answer || ''} onSubmit={(answer) => handleSave(answer)} />
     </Container>

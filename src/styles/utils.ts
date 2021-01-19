@@ -63,3 +63,10 @@ export function getPlatformDimension(ios: number, android: number, iPhoneX?: num
   }
   return android;
 }
+
+// Ref https://www.paintcodeapp.com/news/ultimate-guide-to-iphone-resolutions
+export const smallDeviceHeight = 568;
+export const largeDeviceHeight = 736;
+
+export const isSmallDevice = () => WINDOW_HEIGHT <= smallDeviceHeight;
+export const isLargeDevice = () => WINDOW_HEIGHT >= largeDeviceHeight;

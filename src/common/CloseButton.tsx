@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
   container: {
     left: 10,
     position: 'absolute',
-    top: getPlatformDimension(20, 10, 40, 20),
-    zIndex: 999,
+    top: getPlatformDimension(10, 10, 30, 20),
+    zIndex: 9,
   },
 });
 

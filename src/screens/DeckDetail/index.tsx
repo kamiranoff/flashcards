@@ -2,19 +2,21 @@ import React, { FC } from 'react';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { RootStackParamList, Screens } from '../../navigation/interface';
 import Cards from './components/Cards';
-import { getPlatformDimension, moderateScale, SPACING, WINDOW_HEIGHT } from '../../styles/utils';
-import CustomText from '../../common/CustomText';
+import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../styles/utils';
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, Title } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
 import { reorderCards } from '../../redux/actions';
+import TopContent from './components/TopContent';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
+
+const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
 
 export interface Props {
   route: DeckDetailScreenRouteProp;
@@ -45,20 +47,24 @@ const DeckDetail: FC<Props> = ({
         <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: color, zIndex: 1 }]} />
       </SharedElement>
       <Title title={deckDetail.title} />
-      <View style={styles.content}>
-        <CustomText size="h2">Total: {deckDetail.cards.length} cards</CustomText>
-        <CustomText size="h2">You need to practice with {badAnswers} cards</CustomText>
-        <CustomText size="h2">Good answers: {deckDetail.cards.length - badAnswers} cards</CustomText>
-        <View style={styles.actionButtons}>
-          <IconButton onPress={navigateToPlayground} iconName="play" />
-          <IconButton onPress={shuffleCards} iconName="play" />
-        </View>
-      </View>
-      <SharedElement id="general.bg" style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT + 10 }] }, { zIndex: 99 }]}>
-        <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
-          <Cards cards={deckDetail.cards} deckId={id} />
-        </View>
-      </SharedElement>
+      <TopContent
+        navigate={navigateToPlayground}
+        shuffle={shuffleCards}
+        total={deckDetail.cards.length}
+        badAnswersTotal={badAnswers}
+        goodAnswersTotal={deckDetail.cards.length - badAnswers}
+      />
+      {isIOS ? (
+        <SharedElement
+          id="general.bg"
+          style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT + 30 }] }]}>
+          <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
+            <Cards cards={deckDetail.cards} deckId={id} />
+          </View>
+        </SharedElement>
+      ) : (
+        <Cards cards={deckDetail.cards} deckId={id} />
+      )}
     </Container>
   );
 };
@@ -72,24 +78,18 @@ const styles = StyleSheet.create({
   addIcon: {
     right: 10,
     position: 'absolute',
-    top: getPlatformDimension(20, 10, 40, 20),
+    top: getPlatformDimension(10, 10, 30, 20),
     zIndex: 9,
   },
   topView: {
     borderRadius: 0,
-    height: TOP_HEADER_HEIGHT + 20,
-  },
-  content: {
-    zIndex: 1,
-    marginTop: moderateScale(30),
-    marginHorizontal: SPACING,
+    height: TOP_HEADER_HEIGHT + 60,
   },
   dummy: {
     flex: 1,
-    zIndex: 99999,
     position: 'relative',
     backgroundColor: 'white',
-    transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT - 24 }],
+    transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT_SPACING }],
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     paddingTop: SPACING,
@@ -99,11 +99,6 @@ const styles = StyleSheet.create({
   center: {
     marginTop: 10,
     alignSelf: 'center',
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 10,
   },
 });
 

@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { View, StyleSheet, TextInput, GestureResponderEvent, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { moderateScale, SPACING, WINDOW_HEIGHT } from '../../../styles/utils';
+import { SPACING } from '../../../styles/utils';
 import { SharedElement } from 'react-navigation-shared-element';
 import IconButton from '../../../common/IconButton';
 import { saveDeck } from '../../../redux/actions';

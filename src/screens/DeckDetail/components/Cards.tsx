@@ -1,26 +1,25 @@
-import React, { FC } from 'react';
-import { FlatList, TouchableOpacity, View, StyleSheet } from 'react-native';
+import React, { FC, useEffect, useRef } from 'react';
+import { Animated, StyleSheet, FlatList, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/interface';
 import { Card } from '../../../redux/reducer';
-import { WINDOW_HEIGHT } from '../../../styles/utils';
+import { isIOS, WINDOW_HEIGHT } from '../../../styles/utils';
 import { useDispatch } from 'react-redux';
-import { HtmlParser, NativeAlert } from '../../../common';
+import { NativeAlert } from '../../../common';
 import { deleteCard } from '../../../redux/actions';
-import CustomText from '../../../common/CustomText';
+import CardItem from './CardItem';
 
 export interface Props {
   cards: Card[];
   deckId: string;
 }
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
-
 const numberColumns = 2;
+
 const formatData = (cards: Card[], numColumns: number) => {
   const data: any = [...cards];
   const numberOfFullRows = Math.floor(data.length / numColumns);
   let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
-
   while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
     data.push({ key: `blank-${numberOfElementsLastRow}`, id: 'empty' });
     numberOfElementsLastRow += 1;
@@ -29,45 +28,47 @@ const formatData = (cards: Card[], numColumns: number) => {
 };
 
 const Cards: FC<Props> = ({ cards, deckId }) => {
+  const opacityVal = useRef(new Animated.Value(0)).current;
+  const yValue = useRef(new Animated.Value(WINDOW_HEIGHT)).current;
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    Animated.timing(opacityVal, {
+      useNativeDriver: true,
+      toValue: 1,
+      duration: isIOS ? 100 : 50,
+      delay: 0,
+    }).start();
+  }, [opacityVal]);
+
+  useEffect(() => {
+    Animated.timing(yValue, {
+      useNativeDriver: true,
+      toValue: 10,
+      duration: 200,
+      delay: 0,
+    }).start();
+  }, [yValue]);
 
   const renderItem = ({ item }: { item: Card }) => {
     const handleDeleteCard = () => {
       NativeAlert('Are you sure you want to delete this card?', () => dispatch(deleteCard(deckId, item.id)));
     };
+    const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id });
 
     if (item.id === 'empty') {
       return <View style={[styles.item, styles.itemInvisible]} />;
     }
-
     return (
-      <View style={styles.item}>
-        <TouchableOpacity
-          onLongPress={handleDeleteCard}
-          onPress={() => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id })}>
-          <View style={styles.content}>
-            <View style={styles.inner}>
-              <CustomText size="h3" underlined>
-                Question:
-              </CustomText>
-              <HtmlParser isSliced text={`${item.question}...`} />
-            </View>
-            <View style={styles.inner}>
-              <CustomText size="h3" underlined>
-                Answer:
-              </CustomText>
-              <HtmlParser isSliced text={item.answer} />
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <Animated.View style={[styles.item, { opacity: opacityVal }]}>
+        <CardItem onPress={handleNavigate} onLongPress={handleDeleteCard} card={item} />
+      </Animated.View>
     );
   };
 
-  return (
+  return isIOS ? (
     <FlatList
-      scrollEnabled
       showsVerticalScrollIndicator={false}
       numColumns={numberColumns}
       contentContainerStyle={{ paddingBottom: TOP_HEADER_HEIGHT, alignItems: 'center' }}
@@ -75,28 +76,38 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
     />
+  ) : (
+    <Animated.FlatList
+      showsVerticalScrollIndicator={false}
+      numColumns={numberColumns}
+      contentContainerStyle={styles.contentContainerStyle}
+      data={formatData(cards, numberColumns)}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+      style={{ ...styles.flatListStyle, transform: [{ translateY: yValue }] }}
+    />
   );
 };
 
 const styles = StyleSheet.create({
+  contentContainerStyle: {
+    paddingBottom: TOP_HEADER_HEIGHT,
+    alignItems: 'center',
+    paddingTop: 20,
+  },
+  flatListStyle: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
+  },
   item: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 5,
     margin: 5,
-    height: 180,
-    width: 150,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: 'black',
-  },
-  content: {
-    width: 140,
-    justifyContent: 'space-around',
-    flexDirection: 'column',
-  },
-  inner: {
-    justifyContent: 'center',
   },
   itemInvisible: {
     backgroundColor: 'transparent',

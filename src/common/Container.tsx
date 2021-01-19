@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, ViewStyle } from 'react-native';
+import { StatusBar, StyleSheet, ViewStyle } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const styles = StyleSheet.create({
   container: {
