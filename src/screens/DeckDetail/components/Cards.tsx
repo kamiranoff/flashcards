@@ -3,7 +3,7 @@ import { Animated, StyleSheet, FlatList, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/interface';
 import { Card } from '../../../redux/reducer';
-import { isIOS, WINDOW_HEIGHT } from '../../../styles/utils';
+import { getPlatformDimension, isIOS, isSmallDevice, WINDOW_HEIGHT } from '../../../styles/utils';
 import { useDispatch } from 'react-redux';
 import { NativeAlert } from '../../../common';
 import { deleteCard } from '../../../redux/actions';
@@ -111,9 +111,10 @@ const styles = StyleSheet.create({
   },
   itemInvisible: {
     backgroundColor: 'transparent',
-    height: 180,
-    width: 150,
+    width: isSmallDevice() ? 140 : getPlatformDimension(160, 160, 180),
     borderWidth: 0,
+    paddingHorizontal: 5,
+    paddingVertical: 10,
   },
 });
 

@@ -5898,10 +5898,10 @@ react-native-iphone-x-helper@^1.3.0:
   resolved "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
 
-react-native-pell-rich-editor@^1.5.5:
-  version "1.5.5"
-  resolved "https://registry.npmjs.org/react-native-pell-rich-editor/-/react-native-pell-rich-editor-1.5.5.tgz#56228c75563e3039cc23848e3af0d9dff2e2d7fc"
-  integrity sha512-mVH5Q0d2g1mmRUAl4sVWim8yoUOWDLMMzlq3ylSBQ12iD1KYVx0jvr6Y1UnciTpFw894tEvXM/edj25Ni9kM1A==
+react-native-pell-rich-editor@^1.6.3:
+  version "1.6.4"
+  resolved "https://registry.npmjs.org/react-native-pell-rich-editor/-/react-native-pell-rich-editor-1.6.4.tgz#585a3abc275df20337f14686f643fed8b1e4d7ab"
+  integrity sha512-eR9mQN1HWMczbxTczKI+iMMw48QDYSzjIJ++ZBHy67Cc4pcShYLfBT+a32E943CUMhaC9775vsvMBE2zHo7t3w==
 
 react-native-reanimated@^1.13.2:
   version "1.13.2"

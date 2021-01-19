@@ -69,8 +69,12 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
             actions.insertOrderedList,
             actions.setStrikethrough,
             actions.setUnderline,
+            actions.undo,
+            actions.redo,
+            actions.blockquote,
             actions.heading1,
             actions.heading4,
+            actions.code,
           ]}
           iconMap={{
             [actions.setStrikethrough]: () => (
