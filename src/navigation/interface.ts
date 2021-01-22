@@ -6,17 +6,19 @@ export enum Screens {
   QUESTION_MODAL = 'QuestionModal',
   ANSWER_MODAL = 'AnswerModal',
   SETTINGS = 'Settings',
-  MAIN = 'Main',
   PLAYGROUND = 'Playground',
   ALERT = 'Alert',
   DRAWER = 'Drawer',
   GET_FREEBIE = 'GetFreebie',
   RATE_THE_APP = 'RateTheApp',
+  ADD_DECK = 'AddDeck',
+  SHARE_THE_APP = 'ShareTheApp',
+  UPGRADE = 'Upgrade',
+  REQUEST_FEATURE = 'RequestFeature',
 }
 
 export type RootStackParamList = {
   [Screens.HOME]: undefined;
-  [Screens.MAIN]: undefined;
   [Screens.QUESTION_MODAL]: { title: Deck['title']; deckId: string; cardId?: Card['id'] };
   [Screens.ANSWER_MODAL]: { title: Deck['title']; deckId: string; cardId: Card['id'] };
   [Screens.DECK_DETAIL]: { id: string; color: string };
@@ -24,10 +26,14 @@ export type RootStackParamList = {
   [Screens.SETTINGS]: undefined;
   [Screens.ALERT]: undefined;
   [Screens.DRAWER]: undefined;
+  [Screens.ADD_DECK]: undefined;
 };
 
 export type DrawerStackParamList = {
   [Screens.HOME]: undefined;
   [Screens.GET_FREEBIE]: undefined;
   [Screens.RATE_THE_APP]: undefined;
+  [Screens.SHARE_THE_APP]: undefined;
+  [Screens.UPGRADE]: undefined;
+  [Screens.REQUEST_FEATURE]: undefined;
 };

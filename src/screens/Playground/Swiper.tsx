@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import { View, Animated, StyleSheet } from 'react-native';
-import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
+import { isIOS, WINDOW_WIDTH } from '../../utils/device';
 import { Card } from '../../redux/reducer';
 import useSwiper, { Direction } from '../../hooks/useSwiper';
 import ActionButtons from './ActionButtons';

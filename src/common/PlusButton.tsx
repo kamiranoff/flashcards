@@ -1,5 +1,12 @@
 import React, { FC, useRef } from 'react';
-import { Animated, TouchableWithoutFeedback, View, StyleSheet, GestureResponderEvent, Image } from 'react-native';
+import {
+  Animated,
+  TouchableWithoutFeedback,
+  View,
+  StyleSheet,
+  GestureResponderEvent,
+  Image,
+} from 'react-native';
 import assets from '../assets';
 
 interface Props {

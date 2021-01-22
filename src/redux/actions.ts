@@ -6,7 +6,7 @@ import {
   SaveQuestion,
   SaveAnswer,
   ScoreCard,
-  ReorderCards
+  ReorderCards,
 } from './interface';
 
 export const getDecks = (): GetDecks => ({

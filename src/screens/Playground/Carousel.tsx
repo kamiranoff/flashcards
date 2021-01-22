@@ -1,7 +1,6 @@
 import * as React from 'react';
-// import * as R from 'ramda';
 import { View, StyleSheet, Animated, FlatList } from 'react-native';
-import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
+import { isIOS, WINDOW_WIDTH } from '../../utils/device';
 import CardItem from './Card';
 import { Card, Deck } from '../../redux/reducer';
 import { useEffect, useRef } from 'react';

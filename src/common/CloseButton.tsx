@@ -1,26 +1,23 @@
 import { GestureResponderEvent, StyleSheet, View } from 'react-native';
 import IconButton from './IconButton';
 import React, { FC } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { isIOS } from '../styles/utils';
+import { getPlatformDimension } from '../utils/device';
 
 interface Props {
   onPress: (e: GestureResponderEvent) => void;
 }
 
-const CloseButton: FC<Props> = ({ onPress }) => {
-  const insets = useSafeAreaInsets();
-  return (
-    <View style={[styles.container, { top: isIOS ? insets.top : 10 }]}>
-      <IconButton onPress={onPress} iconName="close" />
-    </View>
-  );
-};
+const CloseButton: FC<Props> = ({ onPress }) => (
+  <View style={styles.container}>
+    <IconButton onPress={onPress} iconName="x" />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
     left: 10,
     position: 'absolute',
+    top: getPlatformDimension(20, 20, 5), // Dont like that
     zIndex: 9,
   },
 });

@@ -1,11 +1,11 @@
 import React from 'react';
 import CustomText from './CustomText';
 import { StyleSheet, View } from 'react-native';
-import { getPlatformDimension } from '../styles/utils';
+import { getPlatformDimension } from '../utils/device';
 
 const Title = ({ title }: { title: string }) => (
   <View style={styles.container}>
-    <CustomText size="h1" centered>
+    <CustomText size="header" centered ellipsizeMode="tail" numberOfLines={1}>
       {title}
     </CustomText>
   </View>
@@ -13,8 +13,8 @@ const Title = ({ title }: { title: string }) => (
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: getPlatformDimension(20, 20, 5),
-    paddingHorizontal: 20,
+    paddingTop: getPlatformDimension(25, 25, 5),
+    paddingHorizontal: 70,
   },
 });
 

@@ -1,19 +1,25 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as R from 'ramda';
 import { SharedElement } from 'react-navigation-shared-element';
 import DeckItem from './DeckItem';
-import { PlusButton } from '../../../common';
 import { Screens } from '../../../navigation/interface';
-import { getPlatformDimension, isIOS, moderateScale, SPACING, WINDOW_HEIGHT } from '../../../styles/utils';
+import { getPlatformDimension, isIOS, moderateScale, SPACING, WINDOW_HEIGHT } from '../../../utils/device';
 import useDecks from '../../../hooks/useDecks';
+import AddButton from '../../../common/AddButton';
+import usePrevious from '../../../hooks/usePrevious';
+import { theme } from '../../../utils';
 
-const colors = ['#fc9d9a', '#f9cdad', '#c8c8a9', '#83af9b', '#d6e1c7', '#94c7b6'];
+const colors = theme.colors.list;
 
 const DecksList: FC = () => {
-  const { decks, decksIds, handleAddDeck, handleRemoveDeck } = useDecks();
-  const { navigate } = useNavigation();
+  const flatListRef = useRef<FlatList>(null);
+  const { navigate, addListener } = useNavigation();
+  const { decks, decksIds, handleRemoveDeck } = useDecks();
+  const previousDecksIds = usePrevious(decksIds.length);
+
+  const handleOpenModal = () => navigate(Screens.ADD_DECK);
 
   const renderItem = ({ item, index }: { item: string; index: number }) => {
     const title = R.prop('title', decks[item]);
@@ -23,19 +29,31 @@ const DecksList: FC = () => {
     return <DeckItem item={item} index={index} title={title} onPress={handleRemoveDeck(item)} onNavigate={handleNavigate} />;
   };
 
+  useEffect(() => {
+    return addListener('focus', () => {
+      if (previousDecksIds && decksIds.length > previousDecksIds) {
+        flatListRef && flatListRef.current && flatListRef.current.scrollToEnd({ animated: true });
+      }
+    });
+  }, [addListener, decksIds.length, previousDecksIds]);
+
   return (
     <>
       <FlatList
+        ref={flatListRef}
         contentContainerStyle={styles.flatListContainer}
         data={decksIds}
         renderItem={renderItem}
         keyExtractor={(item) => item}
+        keyboardShouldPersistTaps="always"
       />
       <View style={styles.buttonContainer}>
-        <PlusButton onPress={handleAddDeck} />
+        <AddButton onOpenModal={handleOpenModal} />
       </View>
       {isIOS ? (
-        <SharedElement id="general.bg" style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT }] }]}>
+        <SharedElement
+          id="general.bg"
+          style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT }] }]}>
           <View style={[StyleSheet.absoluteFillObject, styles.dummy]} />
         </SharedElement>
       ) : null}

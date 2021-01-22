@@ -62,4 +62,12 @@ export interface ReorderCards {
   deckId: string;
 }
 
-export type DecksActions = GetDecks | SaveDeck | DeleteDeck | SaveQuestion | SaveAnswer | DeleteCard | ScoreCard | ReorderCards;
+export type DecksActions =
+  | GetDecks
+  | SaveDeck
+  | DeleteDeck
+  | SaveQuestion
+  | SaveAnswer
+  | DeleteCard
+  | ScoreCard
+  | ReorderCards;

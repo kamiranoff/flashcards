@@ -17,6 +17,26 @@ export interface IAssets {
     good: number;
     wrong: number;
     menu: number;
+    trash: number;
+    menuCurve: number;
+    plusCurve: number;
+    x: number;
+    strokeWhite: number;
+    strokeWhite2: number;
+    strokeBlack: number;
+    magicWanda: number;
+    chat: number;
+    sale: number;
+    heartCupid: number;
+    gift: number;
+    free: number;
+    student: number;
+    star: number;
+    confusedFace: number;
+    notSureFace: number;
+    happyFace: number;
+    faces: number;
+    review: number;
   };
 }
 
@@ -39,6 +59,26 @@ const assets: IAssets = {
     good: require('./images/good.png'),
     wrong: require('./images/wrong.png'),
     menu: require('./images/menu.png'),
+    trash: require('./images/trash.png'),
+    menuCurve: require('./images/menuCurve.png'),
+    plusCurve: require('./images/plusCurve.png'),
+    x: require('./images/x.png'),
+    strokeWhite: require('./images/stroke.png'),
+    strokeWhite2: require('./images/stroke2.png'),
+    strokeBlack: require('./images/strokeBlack3.png'),
+    magicWanda: require('./images/magicWand.png'),
+    chat: require('./images/chat.png'),
+    sale: require('./images/sale.png'),
+    heartCupid: require('./images/heart.png'),
+    gift: require('./images/gift.png'),
+    free: require('./images/free.png'),
+    student: require('./images/student.png'),
+    star: require('./images/star.png'),
+    confusedFace: require('./images/confused.png'),
+    notSureFace: require('./images/scared.png'),
+    happyFace: require('./images/smiley.png'),
+    faces: require('./images/faces.png'),
+    review: require('./images/review.png'),
   },
 };
 

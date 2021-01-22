@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import { StyleSheet, View, GestureResponderEvent } from 'react-native';
+import { StyleSheet, View, GestureResponderEvent, Platform } from 'react-native';
 import { IconButton } from '../../common';
-import { getPlatformDimension, isSmallDevice } from '../../styles/utils';
+import { getPlatformDimension, isSmallDevice } from '../../utils/device';
 
 interface Props {
   onPressLeft: (event: GestureResponderEvent) => void;
@@ -11,8 +11,8 @@ interface Props {
 const ActionButtons: FC<Props> = ({ onPressRight, onPressLeft }) => (
   <View style={styles.container}>
     <View style={styles.buttonBar}>
-      <IconButton onPress={onPressLeft} iconName="wrong" style={styles.icon} />
-      <IconButton onPress={onPressRight} iconName="good" style={styles.icon} />
+      <IconButton onPress={onPressLeft} iconName="notSureFace" style={styles.badAnswer} imgStyle={styles.icon} />
+      <IconButton onPress={onPressRight} iconName="happyFace" style={styles.iconContainer} imgStyle={styles.icon} />
     </View>
   </View>
 );
@@ -32,9 +32,41 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 10,
   },
+  badAnswer: {
+    width: 50,
+    height: 50,
+    ...Platform.select({
+      android: {
+        elevation: 4,
+      },
+      default: {
+        shadowColor: 'rgba(0,0,0, .4)',
+        shadowOffset: { height: 2, width: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 1,
+      },
+    }),
+    backgroundColor: '#ffad8b', // #f8bad0
+  },
+  iconContainer: {
+    width: 50,
+    height: 50,
+    ...Platform.select({
+      android: {
+        elevation: 4,
+      },
+      default: {
+        shadowColor: 'rgba(0,0,0, .4)',
+        shadowOffset: { height: 2, width: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 1,
+      },
+    }),
+    backgroundColor: '#fbe29f',
+  },
   icon: {
-    width: 60,
-    height: 60,
+    width: 55,
+    height: 55,
   },
 });
 
