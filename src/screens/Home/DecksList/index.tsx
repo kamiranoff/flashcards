@@ -26,7 +26,16 @@ const DecksList: FC = () => {
 
     const handleNavigate = () =>
       title ? navigate(Screens.DECK_DETAIL, { id: item, color: colors[index % colors.length] }) : null;
-    return <DeckItem item={item} index={index} title={title} onPress={handleRemoveDeck(item)} onNavigate={handleNavigate} />;
+
+    return (
+      <DeckItem
+        item={item}
+        index={index}
+        title={title}
+        onPress={handleRemoveDeck(item)}
+        onNavigate={handleNavigate}
+      />
+    );
   };
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import { Container, PrimaryButton } from '../../common';
 import CustomText from '../../common/CustomText';
 import rateApp from '../../modules/rateApp';
 import assets from '../../assets';
+import { getPlatformDimension } from '../../utils/device';
 
 const RateTheApp: FC = () => (
   <Container style={styles.container}>
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1.5,
     marginLeft: 10,
-    marginTop: 30,
+    marginTop: getPlatformDimension(60, 60, 80, 100),
     alignContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   buttonContainer: {
-    marginTop: 15,
+    marginTop: 20,
     width: 150,
     alignSelf: 'center',
   },

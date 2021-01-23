@@ -15,6 +15,8 @@ import { getPlatformDimension, isSmallDevice } from '../../utils/device';
 import { scoreCard, reorderCards } from '../../redux/actions';
 import { SCORES } from '../../redux/interface';
 import ActionButtons from './ActionButtons';
+import LottieView from 'lottie-react-native';
+import animations from '../../assets/animations';
 
 type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
 type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
@@ -107,7 +109,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
     const badAnswers = deckDetail.cards.filter((c) => c.rank === 0).length;
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <CustomText size="h1" centered>
           There are no more cards
         </CustomText>
@@ -115,6 +117,9 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
           Today you answered badly: {badAnswers};
         </CustomText>
         <Button onPress={reShuffleCards} title="Re-shuffle your cards" />
+        <View style={styles.animationContainer}>
+          <LottieView autoPlay loop speed={1.5} source={animations.lady} style={{ width: 120, height: 120 }}/>
+        </View>
       </View>
     );
   };
@@ -163,6 +168,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: isSmallDevice() ? 15 : getPlatformDimension(30, 20, 40),
   },
+  animationContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 10,
+  }
 });
 
 export default Playground;

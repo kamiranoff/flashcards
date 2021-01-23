@@ -15,6 +15,8 @@ export enum Screens {
   SHARE_THE_APP = 'ShareTheApp',
   UPGRADE = 'Upgrade',
   REQUEST_FEATURE = 'RequestFeature',
+  CONTACT = 'Contact',
+  SCREENS = 'Screens', // FIXME: better name
 }
 
 export type RootStackParamList = {
@@ -31,9 +33,11 @@ export type RootStackParamList = {
 
 export type DrawerStackParamList = {
   [Screens.HOME]: undefined;
+  [Screens.SCREENS]: undefined;
   [Screens.GET_FREEBIE]: undefined;
   [Screens.RATE_THE_APP]: undefined;
   [Screens.SHARE_THE_APP]: undefined;
   [Screens.UPGRADE]: undefined;
   [Screens.REQUEST_FEATURE]: undefined;
+  [Screens.CONTACT]: undefined;
 };

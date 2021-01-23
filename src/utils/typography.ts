@@ -14,6 +14,7 @@ const FONT_SIZE_30 = scaleFont(30);
 const FONT_SIZE_18 = scaleFont(18);
 const FONT_SIZE_16 = scaleFont(16);
 const FONT_SIZE_14 = scaleFont(14);
+const FONT_SIZE_12 = scaleFont(12);
 
 // LINE HEIGHT
 const LINE_HEIGHT_24 = scaleFont(24);
@@ -61,6 +62,10 @@ const typography = {
   body: {
     fontSize: FONT_SIZE_16,
     lineHeight: LINE_HEIGHT_24,
+    fontFamily: FONT_FAMILY_REGULAR,
+  },
+  p: {
+    fontSize: FONT_SIZE_12,
     fontFamily: FONT_FAMILY_REGULAR,
   },
   button: {

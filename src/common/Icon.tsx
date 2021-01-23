@@ -25,7 +25,9 @@ export interface IconButtonProps {
     | 'gift'
     | 'free'
     | 'student'
-    | 'star';
+    | 'star'
+    | 'speedometer'
+    | 'home';
   style?: ViewStyle;
   bgColor?: string;
 }

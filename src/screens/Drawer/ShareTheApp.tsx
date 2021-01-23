@@ -3,6 +3,7 @@ import { View, StyleSheet, Image } from 'react-native';
 import { Container, PrimaryButton } from '../../common';
 import CustomText from '../../common/CustomText';
 import assets from '../../assets';
+import { getPlatformDimension } from '../../utils/device';
 
 const ShareTheApp: FC = () => (
   <Container style={styles.container}>
@@ -25,12 +26,15 @@ const ShareTheApp: FC = () => (
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignContent: 'center',
     backgroundColor: '#fff',
   },
   imageContainer: {
-    flex: 2,
+    flex: 1.6,
     marginLeft: 10,
+    marginTop: getPlatformDimension(60, 60, 80, 100),
     alignContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',

@@ -84,6 +84,7 @@ const transparentIcon = {
   borderColor: '#222',
   width: 30,
   height: 30,
+  shadowColor: 'transparent',
 };
 
 const styles = StyleSheet.create({
