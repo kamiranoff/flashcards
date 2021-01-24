@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import Animated from 'react-native-reanimated';
+import Animated, { Value, Node } from 'react-native-reanimated';
 import HomeStack from './HomeStack';
 import { DrawerStackParamList, Screens } from './interface';
 import DrawerContent from '../screens/Drawer/DrawerContent';
@@ -19,7 +20,9 @@ import { getPlatformDimension, moderateScale } from '../utils/device';
 const Drawer = createDrawerNavigator<DrawerStackParamList>();
 const Stack = createStackNavigator<DrawerStackParamList>();
 
-const setOptions = (navigation) => ({
+type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, Screens.DRAWER_SCREENS>;
+
+const setOptions = (navigation: DrawerScreenNavigationProp) => ({
   headerTransparent: true,
   headerTitle: '',
   gestureEnabled: false, // prevent dismiss the screen by swiping
@@ -28,7 +31,12 @@ const setOptions = (navigation) => ({
   ),
 });
 
-const ScreensDrawer = ({ navigation, style }: { navigation: any; style: ViewStyle }) => {
+export interface Props {
+  style: Animated.AnimateStyle<ViewStyle>; // CHECK THIS?
+  navigation: DrawerScreenNavigationProp;
+}
+
+const ScreensDrawer: FC<Props> = ({ navigation, style }) => {
   return (
     <Animated.View style={StyleSheet.flatten([styles.scene, style])}>
       <Stack.Navigator>
@@ -53,18 +61,18 @@ const ScreensDrawer = ({ navigation, style }: { navigation: any; style: ViewStyl
 };
 
 const DrawerNavigator = () => {
-  const [progress, setProgress] = useState(new Animated.Value(0));
+  const [progress, setProgress] = useState<Node<number>>(new Value(0));
   const scale = Animated.interpolate(progress, {
     inputRange: [0, 1],
     outputRange: [1, 0.8],
   });
   // animate border radius of the scene screen, border radius dont work wth shadow FIXME
-  const borderRadius = Animated.interpolate(progress, {
-    inputRange: [0, 1],
-    outputRange: [0, 16],
-  });
+  // const borderRadius = Animated.interpolate(progress, {
+  //   inputRange: [0, 1],
+  //   outputRange: [0, 16],
+  // });
 
-  const animatedStyle = { borderRadius, transform: [{ scale }] };
+  const animatedStyle = { transform: [{ scale }] };
 
   return (
     <View style={{ flex: 1 }}>
@@ -78,11 +86,11 @@ const DrawerNavigator = () => {
         // set the scene background to transparent
         sceneContainerStyle={{ backgroundColor: 'transparent' }}
         drawerContent={(props) => {
-          // FIXME - settingProgress should not be done like this
+          // FIXME - settingProgress should not be done like this - this prompts big fat warning
           setProgress(props.progress);
           return <DrawerContent {...props} />;
         }}>
-        <Drawer.Screen name={Screens.SCREENS}>
+        <Drawer.Screen name={Screens.DRAWER_SCREENS}>
           {(props) => <ScreensDrawer {...props} style={animatedStyle} />}
         </Drawer.Screen>
       </Drawer.Navigator>

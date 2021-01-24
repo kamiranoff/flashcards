@@ -16,7 +16,7 @@ export enum Screens {
   UPGRADE = 'Upgrade',
   REQUEST_FEATURE = 'RequestFeature',
   CONTACT = 'Contact',
-  SCREENS = 'Screens', // FIXME: better name
+  DRAWER_SCREENS = 'DrawerScreens',
 }
 
 export type RootStackParamList = {
@@ -33,7 +33,7 @@ export type RootStackParamList = {
 
 export type DrawerStackParamList = {
   [Screens.HOME]: undefined;
-  [Screens.SCREENS]: undefined;
+  [Screens.DRAWER_SCREENS]: undefined;
   [Screens.GET_FREEBIE]: undefined;
   [Screens.RATE_THE_APP]: undefined;
   [Screens.SHARE_THE_APP]: undefined;
