@@ -32,7 +32,11 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
     <Container>
       <Title title={title} />
       <CloseButton onPress={handleCloseModal} />
-      <Form placeholder="Answer" initialValue={card?.answer || ''} onSubmit={(answer) => handleSave(answer)} />
+      <Form
+        placeholder="Answer"
+        initialValue={card?.answer || ''}
+        onSubmit={(answer) => handleSave(answer)}
+      />
     </Container>
   );
 };

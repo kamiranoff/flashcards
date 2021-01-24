@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomText from './CustomText';
 import CloseButton from './CloseButton';
 import IconButton from './IconButton';
+import { IconButtonProps } from './IconButton';
 
 interface HeaderProps {
   left: {
@@ -12,7 +13,7 @@ interface HeaderProps {
   };
   title: string;
   right?: {
-    icon: 'goBack' | 'add' | 'remove' | 'play' | 'edit' | 'plus' | 'close' | 'wrong' | 'good' | 'menu';
+    icon: IconButtonProps['iconName'];
     onPress: () => void;
   };
   dark: boolean;

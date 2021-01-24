@@ -3,7 +3,7 @@ import CustomText from '../../../common/CustomText';
 import { HtmlParser } from '../../../common';
 import React, { FC } from 'react';
 import { Card } from '../../../redux/reducer';
-import { getPlatformDimension, isSmallDevice } from '../../../styles/utils';
+import { getPlatformDimension, isSmallDevice } from '../../../utils/device';
 
 interface Props {
   onPress: (event: GestureResponderEvent) => void;

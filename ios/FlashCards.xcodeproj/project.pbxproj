@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* FlashCardsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* FlashCardsTests.m */; };
 		0829F22D25B44E46001DE6E9 /* FlashCardsRateApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829F22C25B44E46001DE6E9 /* FlashCardsRateApp.m */; };
+		08FA889425B9BD790085EE81 /* YuseiMagic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08FA889325B9BD790085EE81 /* YuseiMagic-Regular.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -47,6 +48,7 @@
 		00E356F21AD99517003FC87E /* FlashCardsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlashCardsTests.m; sourceTree = "<group>"; };
 		0829F22B25B44E04001DE6E9 /* FlashCardsRateApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlashCardsRateApp.h; sourceTree = "<group>"; };
 		0829F22C25B44E46001DE6E9 /* FlashCardsRateApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlashCardsRateApp.m; sourceTree = "<group>"; };
+		08FA889325B9BD790085EE81 /* YuseiMagic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YuseiMagic-Regular.ttf"; sourceTree = "<group>"; };
 		0CFC16B772B1D5F0E028E60A /* libPods-FlashCards-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlashCards-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* FlashCards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashCards.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = FlashCards/AppDelegate.h; sourceTree = "<group>"; };
@@ -134,6 +136,14 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
+		08FA889025B9BD300085EE81 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				08FA889325B9BD790085EE81 /* YuseiMagic-Regular.ttf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* FlashCards */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +196,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				08FA889025B9BD300085EE81 /* Resources */,
 				0829F22A25B44CE8001DE6E9 /* Modules */,
 				13B07FAE1A68108700A75B9A /* FlashCards */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -353,6 +364,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08FA889425B9BD790085EE81 /* YuseiMagic-Regular.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);

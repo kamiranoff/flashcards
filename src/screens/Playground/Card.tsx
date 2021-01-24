@@ -1,7 +1,7 @@
 import React, { FC, useRef } from 'react';
 import { View, StyleSheet, Animated, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { WINDOW_WIDTH } from '../../styles/utils';
+import { WINDOW_WIDTH } from '../../utils/device';
 import { Card } from '../../redux/reducer';
 import { Screens } from '../../navigation/interface';
 import { HtmlParser, IconButton } from '../../common';
@@ -86,9 +86,10 @@ const styles = StyleSheet.create({
     backfaceVisibility: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'black',
-    borderWidth: 1,
+    borderColor: '#222',
+    borderWidth: 0.5,
     paddingVertical: 10,
+    borderRadius: 8
   },
   cardBack: {
     position: 'absolute',

@@ -1,8 +1,10 @@
 import React, { FC, useRef, useState } from 'react';
-import { Button, KeyboardAvoidingView, StyleSheet, TouchableOpacity, View, ScrollView, Image } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
-import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../styles/utils';
+import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../utils/device';
 import assets from '../assets';
+import PrimaryButton from './Button';
+import { theme } from '../utils';
 
 interface Props {
   initialValue: string;
@@ -13,7 +15,7 @@ interface Props {
 const contentStyle = {
   backgroundColor: '#FFFFFF',
   color: '#000',
-  placeholderColor: 'gray',
+  placeholderColor: theme.colors.border,
   contentCSSText: `font-size: 16px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`, // initial valid
 };
 
@@ -38,9 +40,14 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   return (
     <>
       <View style={styles.saveButton}>
-        <Button title="Save" onPress={() => onSubmit(value)} />
+        <PrimaryButton buttonText="Save" onPress={() => onSubmit(value)} />
       </View>
-      <ScrollView keyboardDismissMode="none" style={styles.scrollView} alwaysBounceVertical={false} bounces={false}>
+      <ScrollView
+        keyboardDismissMode="none"
+        style={styles.scrollView}
+        alwaysBounceVertical={false}
+        bounces={false}
+      >
         <RichEditor
           initialFocus
           pasteAsPlainText
@@ -98,8 +105,12 @@ const styles = StyleSheet.create({
   },
   richEditorContainer: {
     marginHorizontal: 10,
+    borderWidth: 0.5,
+    borderColor: theme.colors.border,
+    borderRadius: theme.borderRadius.m,
   },
   saveButton: {
+    width: 60,
     right: 10,
     position: 'absolute',
     top: getPlatformDimension(20, 15, 40, 20),

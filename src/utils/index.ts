@@ -1,4 +1,4 @@
-import shuffleArray from './shuffleArray';
-import sendEmail from './sendEmail';
+import theme from './theme';
+import typography from './typography';
 
-export { shuffleArray, sendEmail };
+export { theme, typography };

@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { Animated, LayoutAnimation, PanResponder, UIManager } from 'react-native';
-import { WINDOW_WIDTH } from '../styles/utils';
+import { WINDOW_WIDTH } from '../utils/device';
 import { Card } from '../redux/reducer';
 
 const SWIPE_THRESHOLD = 0.25 * WINDOW_WIDTH;
@@ -29,7 +29,8 @@ const useSwiper = (cards: Card[], deckId: string, onSwipeRight: (item: Card) => 
       direction === Direction.RIGHT ? onSwipeRight(item) : onSwipeLeft(item);
       position.setValue({ x: 0, y: 0 });
       incrementIndex();
-      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Android spring effect
+      UIManager.setLayoutAnimationEnabledExperimental &&
+        UIManager.setLayoutAnimationEnabledExperimental(true); // Android spring effect
       LayoutAnimation.spring(); // IOS spring effect
     },
     [cards, incrementIndex, onSwipeLeft, onSwipeRight, position],

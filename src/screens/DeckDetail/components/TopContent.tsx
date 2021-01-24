@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import CustomText from '../../../common/CustomText';
 import { GestureResponderEvent, StyleSheet, View } from 'react-native';
 import IconButton from '../../../common/IconButton';
-import { getPlatformDimension, isSmallDevice, SPACING } from '../../../styles/utils';
+import { getPlatformDimension, isSmallDevice, SPACING } from '../../../utils/device';
 
 interface Props {
   total: number;

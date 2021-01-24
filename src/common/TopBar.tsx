@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import IconButton from './IconButton';
 import { DrawerStackParamList } from '../navigation/interface';
-import { getPlatformDimension, isIOS, moderateScale } from '../styles/utils';
+import { getPlatformDimension, isIOS, moderateScale } from '../utils/device';
 import Title from './Title';
 
 const TopBar = () => {
@@ -12,7 +12,7 @@ const TopBar = () => {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <IconButton onPress={() => navigation.openDrawer()} iconName="menu" />
+        <IconButton onPress={() => navigation.openDrawer()} iconName="menuCurve" />
       </View>
       <Title title="Decks" />
     </View>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     top: getPlatformDimension(20, 20, 5), // Dont like that
     left: moderateScale(16),
     position: 'absolute',
-    zIndex: 99,
+    zIndex: 9,
   },
   container: {
     paddingBottom: isIOS ? 25 : 30,

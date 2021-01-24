@@ -7,7 +7,6 @@ import { CloseButton, Container, Form, Title } from 'common';
 import { selectCard } from '../redux/seclectors';
 import { Card } from '../redux/reducer';
 import { saveQuestion } from '../redux/actions';
-import CustomText from '../common/CustomText';
 
 type AddQuestionScreenRouteProp = RouteProp<RootStackParamList, Screens.QUESTION_MODAL>;
 type AddQuestionScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.QUESTION_MODAL>;
@@ -35,7 +34,11 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
     <Container>
       <Title title={title} />
       <CloseButton onPress={handleCloseModal} />
-      <Form placeholder="Question" initialValue={card?.question || ''} onSubmit={(question) => handleSave(question)} />
+      <Form
+        placeholder="Question"
+        initialValue={card?.question || ''}
+        onSubmit={(question) => handleSave(question)}
+      />
     </Container>
   );
 };

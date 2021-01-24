@@ -11,7 +11,7 @@ import CustomText from '../../common/CustomText';
 import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
 import { Card } from '../../redux/reducer';
-import { getPlatformDimension, isSmallDevice } from '../../styles/utils';
+import { getPlatformDimension, isSmallDevice } from '../../utils/device';
 import { scoreCard, reorderCards } from '../../redux/actions';
 import { SCORES } from '../../redux/interface';
 import ActionButtons from './ActionButtons';
@@ -31,13 +31,15 @@ const overlayButtons = {
     title: 'Ups',
     style: {
       label: {
-        backgroundColor: 'red',
-        borderColor: 'red',
-        color: 'white',
-        borderWidth: 1,
-        fontSize: 24,
+        backgroundColor: '#ffad8b',
+        color: '#222',
+        borderColor: '#222',
+        borderWidth: 0.5,
+        fontSize: 18,
+        fontFamily: 'YuseiMagic-Regular',
       },
       wrapper: {
+        zIndex: 1000,
         flexDirection: 'column',
         alignItems: 'flex-end',
         justifyContent: 'flex-start',
@@ -50,13 +52,15 @@ const overlayButtons = {
     title: 'Well done',
     style: {
       label: {
-        backgroundColor: 'blue',
-        borderColor: 'blue',
-        color: 'white',
-        borderWidth: 1,
-        fontSize: 24,
+        backgroundColor: '#fbe29f',
+        borderColor: '#222',
+        color: '#222',
+        borderWidth: 0.5,
+        fontSize: 18,
+        fontFamily: 'YuseiMagic-Regular',
       },
       wrapper: {
+        zIndex: 1000,
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
@@ -143,7 +147,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
     );
   };
   return (
-    <Container>
+    <Container style={{ backgroundColor: '#bedcd3'}}>
       <CloseButton onPress={goBack} />
       <Title title={deckDetail.title} />
       <View style={styles.swiperContainer}>

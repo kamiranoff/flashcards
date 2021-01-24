@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 import { RootStackParamList, Screens } from '../../navigation/interface';
 import Cards from './components/Cards';
-import { isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../styles/utils';
+import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, Title } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
 import { reorderCards } from '../../redux/actions';
 import TopContent from './components/TopContent';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { theme } from '../../utils';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 
@@ -28,7 +28,6 @@ const DeckDetail: FC<Props> = ({
     params: { id, color },
   },
 }) => {
-  const insets = useSafeAreaInsets();
   const dispatch = useDispatch();
   const deckDetail = useSelector(selectDeckItem(id));
   const { navigate, goBack } = useNavigation();
@@ -36,14 +35,16 @@ const DeckDetail: FC<Props> = ({
   const handleOnPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
   const badAnswers = deckDetail.cards.filter((c) => c.rank === 0).length;
 
-  const navigateToPlayground = () => navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].id });
+  const navigateToPlayground = () =>
+    navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].id });
+
   const shuffleCards = () => dispatch(reorderCards(id));
 
   return (
     <Container>
       <CloseButton onPress={goBack} />
-      <View style={[styles.addIcon, { top: isIOS ? insets.top : 10 }]}>
-        <IconButton onPress={handleOnPress} iconName="add" />
+      <View style={styles.addIcon}>
+        <IconButton onPress={handleOnPress} iconName="plusCurve" />
       </View>
       <SharedElement id={`item.${id}`} style={[StyleSheet.absoluteFillObject]}>
         <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: color, zIndex: 1 }]} />
@@ -72,14 +73,10 @@ const DeckDetail: FC<Props> = ({
 };
 
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-  },
   addIcon: {
     right: 10,
     position: 'absolute',
+    top: getPlatformDimension(20, 20, 5),
     zIndex: 9,
   },
   topView: {
@@ -93,6 +90,8 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT_SPACING }],
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
+    borderColor: theme.colors.border,
+    borderWidth: 1,
     paddingTop: SPACING,
     paddingHorizontal: 5,
     paddingBottom: SPACING + 10,

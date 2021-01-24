@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import { StatusBar, StyleSheet, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { theme } from '../utils';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: theme.colors.background,
   },
 });
 
