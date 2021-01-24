@@ -1,12 +1,12 @@
 import React, { FC, useRef } from 'react';
 import { View, StyleSheet, Animated, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { isIOS, WINDOW_WIDTH } from '../../styles/utils';
+import { WINDOW_WIDTH } from '../../styles/utils';
 import { Card } from '../../redux/reducer';
 import { Screens } from '../../navigation/interface';
 import { HtmlParser, IconButton } from '../../common';
 
-const ITEM_SIZE = isIOS ? WINDOW_WIDTH * 0.9 : WINDOW_WIDTH * 0.8;
+const ITEM_SIZE = WINDOW_WIDTH * 0.9;
 
 interface Props {
   card: Card;
@@ -82,22 +82,24 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     minHeight: ITEM_SIZE * 1.4,
-    backgroundColor: 'gray',
+    backgroundColor: 'white',
     backfaceVisibility: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    paddingVertical: 10,
   },
   cardBack: {
     position: 'absolute',
     top: 0,
+    height: ITEM_SIZE * 1.4,
   },
   innerContainer: {
     width: '100%',
-    height: ITEM_SIZE * 1.4,
-    backgroundColor: 'white',
+    height: ITEM_SIZE * 1.4 + 5,
+    backgroundColor: 'transparent',
     margin: 0,
-    borderColor: 'black',
-    borderWidth: 1,
   },
   editButton: {
     position: 'absolute',

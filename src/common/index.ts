@@ -7,5 +7,6 @@ import HtmlParser from './HtmlParser';
 import CloseButton from './CloseButton';
 import PrimaryButton from './Button';
 import Title from './Title';
+import Header from './Header';
 
-export { PlusButton, Form, IconButton, Container, NativeAlert, HtmlParser, CloseButton, PrimaryButton, Title };
+export { PlusButton, Form, IconButton, Container, NativeAlert, HtmlParser, CloseButton, PrimaryButton, Title, Header };
