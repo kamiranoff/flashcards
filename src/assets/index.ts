@@ -37,6 +37,10 @@ export interface IAssets {
     happyFace: number;
     faces: number;
     review: number;
+    speedometer: number;
+    home: number;
+    shuffle: number;
+    question: number;
   };
 }
 
@@ -78,7 +82,11 @@ const assets: IAssets = {
     notSureFace: require('./images/scared.png'),
     happyFace: require('./images/smiley.png'),
     faces: require('./images/faces.png'),
-    review: require('./images/review.png'),
+    review: require('./images/oldMan.png'),
+    speedometer: require('./images/speedometer.png'),
+    home: require('./images/home.png'),
+    shuffle: require('./images/shuffle.png'),
+    question: require('./images/question.png'),
   },
 };
 

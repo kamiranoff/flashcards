@@ -11,7 +11,7 @@ interface Props extends TextProps {
 }
 
 type TTextAlign = 'left' | 'center' | 'auto' | 'right' | 'justify' | undefined;
-type TTextSize = 'h1' | 'h2' | 'h3' | 'hero' | 'header' | 'body';
+type TTextSize = 'h1' | 'h2' | 'h3' | 'hero' | 'header' | 'body' | 'p';
 
 export enum TextSize {
   H1 = 'h1',
@@ -20,6 +20,7 @@ export enum TextSize {
   HERO = 'hero',
   HEADER = 'header',
   BODY = 'body',
+  P = 'p',
 }
 
 const getStyles = (size: TextSize | TTextSize) => {
@@ -36,6 +37,8 @@ const getStyles = (size: TextSize | TTextSize) => {
       return typography.header;
     case TextSize.BODY:
       return typography.body;
+    case TextSize.P:
+      return typography.p;
     default:
       return {};
   }

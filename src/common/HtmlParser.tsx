@@ -8,7 +8,7 @@ interface Props {
 }
 
 const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
-  const slicedText = text ? (text.length < 30 ? `${text.slice(0, 22)}...` : `${text.slice(0, 40)}...`) : '';
+  const slicedText = text ? (text.length < 10 ? `${text.slice(0, 22)}...` : `${text.slice(0, 50)}...`) : '';
   return text ? <HTMLView value={isSliced ? slicedText : text} stylesheet={htmlStyles} /> : null;
 };
 
@@ -18,6 +18,7 @@ const htmlStyles = StyleSheet.create({
     color: '#FF3366', // links color
   },
   text: {
+    color: 'red',
     fontSize: 18,
     lineHeight: 18 * 1.2,
   },

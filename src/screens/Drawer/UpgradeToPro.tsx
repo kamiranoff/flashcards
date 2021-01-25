@@ -2,23 +2,28 @@ import React, { FC } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { Container, PrimaryButton } from '../../common';
 import CustomText from '../../common/CustomText';
-import rateApp from '../../modules/rateApp';
 import assets from '../../assets';
+import { theme } from '../../utils';
 
-const RateTheApp: FC = () => (
+const UpgradeToPro: FC = () => (
   <Container style={styles.container}>
     <View style={styles.imageContainer}>
       <Image source={assets.icons.review} resizeMode="contain" style={styles.image} />
     </View>
     <View style={{ flex: 1 }}>
       <CustomText centered size="h2">
-        We'd love to hear from you.
+        Upgrade to Pro
       </CustomText>
       <CustomText centered size="h2">
-        Your review means A LOT to us.
+        hello
       </CustomText>
       <View style={styles.buttonContainer}>
-        <PrimaryButton buttonText="Rate & Review" onPress={() => rateApp(false)} />
+        <PrimaryButton
+          buttonText="Upgrade"
+          onPress={() => null}
+          buttonStyle={{ backgroundColor: theme.colors.drawerItem.upgrade }}
+          buttonTextStyle={{ color: theme.colors.border }}
+        />
       </View>
     </View>
   </Container>
@@ -30,6 +35,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 16,
   },
+  image: {
+    aspectRatio: 1.5,
+    resizeMode: 'contain',
+    height: 300,
+  },
   imageContainer: {
     flex: 1.5,
     marginLeft: 10,
@@ -38,11 +48,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
-  image: {
-    aspectRatio: 1.5,
-    resizeMode: 'contain',
-    height: 300,
-  },
   buttonContainer: {
     marginTop: 15,
     width: 150,
@@ -50,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RateTheApp;
+export default UpgradeToPro;

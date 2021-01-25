@@ -24,7 +24,12 @@ export const deleteDeck = (id: string): DeleteDeck => ({
   id,
 });
 
-export const saveQuestion = (deckId: string, cardId: string, question: string, isEdit: boolean): SaveQuestion => ({
+export const saveQuestion = (
+  deckId: string,
+  cardId: string,
+  question: string,
+  isEdit: boolean,
+): SaveQuestion => ({
   type: DecksActionTypes.saveQuestion,
   deckId,
   cardId,

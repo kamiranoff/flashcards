@@ -11,8 +11,18 @@ interface Props {
 const ActionButtons: FC<Props> = ({ onPressRight, onPressLeft }) => (
   <View style={styles.container}>
     <View style={styles.buttonBar}>
-      <IconButton onPress={onPressLeft} iconName="notSureFace" style={styles.badAnswer} imgStyle={styles.icon} />
-      <IconButton onPress={onPressRight} iconName="happyFace" style={styles.iconContainer} imgStyle={styles.icon} />
+      <IconButton
+        onPress={onPressLeft}
+        iconName="notSureFace"
+        style={styles.badAnswer}
+        imgStyle={styles.icon}
+      />
+      <IconButton
+        onPress={onPressRight}
+        iconName="happyFace"
+        style={styles.iconContainer}
+        imgStyle={styles.icon}
+      />
     </View>
   </View>
 );

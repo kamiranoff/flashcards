@@ -2,23 +2,23 @@ import React, { FC } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { Container, PrimaryButton } from '../../common';
 import CustomText from '../../common/CustomText';
-import rateApp from '../../modules/rateApp';
 import assets from '../../assets';
+import { getPlatformDimension } from '../../utils/device';
 
-const UpgradeToPro: FC = () => (
+const ShareTheApp: FC = () => (
   <Container style={styles.container}>
     <View style={styles.imageContainer}>
-      <Image source={assets.icons.review} resizeMode="contain" style={styles.image} />
+      <Image source={assets.icons.faces} resizeMode="contain" />
     </View>
     <View style={{ flex: 1 }}>
       <CustomText centered size="h2">
-        Upgrade to Pro
+        Enjoying the app?
       </CustomText>
       <CustomText centered size="h2">
-        hello
+        Share it with your friends
       </CustomText>
       <View style={styles.buttonContainer}>
-        <PrimaryButton buttonText="Upgrade" onPress={() => rateApp(false)} />
+        <PrimaryButton buttonText="Share" onPress={() => null} />
       </View>
     </View>
   </Container>
@@ -26,28 +26,24 @@ const UpgradeToPro: FC = () => (
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignContent: 'center',
     backgroundColor: '#fff',
-    paddingHorizontal: 16,
-  },
-  image: {
-    aspectRatio: 1.5,
-    resizeMode: 'contain',
-    height: 300,
   },
   imageContainer: {
-    flex: 1.5,
+    flex: 1.6,
     marginLeft: 10,
-    marginTop: 30,
+    marginTop: getPlatformDimension(60, 60, 80, 100),
     alignContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
   },
   buttonContainer: {
     marginTop: 15,
-    width: 150,
+    width: 120,
     alignSelf: 'center',
   },
 });
 
-export default UpgradeToPro;
+export default ShareTheApp;

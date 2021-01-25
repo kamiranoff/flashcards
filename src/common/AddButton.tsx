@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, Text, StyleSheet, Animated } from 'react-native';
+import { StyleSheet, Animated } from 'react-native';
 import IconButton from './IconButton';
 
 const styles = StyleSheet.create({
