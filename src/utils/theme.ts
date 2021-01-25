@@ -23,6 +23,7 @@ const palette = {
   superLightGreen: '#bed8d1',
   fadeGray: '#dbdfe2',
   gray: '#222',
+  midGray: '#646464',
   darkGray: '#2c2c2d',
   lightGray: '#d1d2d1',
 };
@@ -31,9 +32,13 @@ const theme = {
   colors: {
     success: palette.green,
     alert: palette.yellow,
+    good: palette.yellow,
+    bad: palette.orange,
     warning: palette.orange,
     icon: palette.softWhite,
+    p: palette.midGray,
     border: palette.gray,
+    lightBorder: palette.lightGray,
     background: palette.fadeGray,
     background2: palette.fadeGreen,
     background3: palette.gray,

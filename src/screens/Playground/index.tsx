@@ -51,7 +51,7 @@ const overlayButtons = {
     },
   },
   right: {
-    title: 'Well done',
+    title: 'Yay',
     style: {
       label: {
         backgroundColor: '#fbe29f',
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 10,
-  }
+  },
 });
 
 export default Playground;

@@ -29,7 +29,8 @@ export interface IconButtonProps {
     | 'x'
     | 'confusedFace'
     | 'notSureFace'
-    | 'happyFace';
+    | 'happyFace'
+    | 'shuffle';
   imgStyle?: ImageStyle;
   style?: ViewStyle;
 }

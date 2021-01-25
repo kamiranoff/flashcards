@@ -14,7 +14,7 @@ export interface Props {
 
 const DrawerContent: FC<Props> = ({ navigation }) => {
   return (
-    <DrawerContentScrollView contentContainerStyle={styles.scrollView}>
+    <DrawerContentScrollView contentContainerStyle={styles.scrollView} scrollEnabled={false}>
       <View style={styles.topContent}>
         <DrawerItem
           label="Home"

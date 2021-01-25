@@ -39,6 +39,8 @@ export interface IAssets {
     review: number;
     speedometer: number;
     home: number;
+    shuffle: number;
+    question: number;
   };
 }
 
@@ -83,6 +85,8 @@ const assets: IAssets = {
     review: require('./images/oldMan.png'),
     speedometer: require('./images/speedometer.png'),
     home: require('./images/home.png'),
+    shuffle: require('./images/shuffle.png'),
+    question: require('./images/question.png'),
   },
 };
 

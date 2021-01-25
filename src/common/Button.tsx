@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle } from 'react-
 import { theme, typography } from '../utils';
 
 // FIXME
-export interface IPrimaryButtonProps {
+interface Props {
   onPress: () => void;
   buttonStyle?: ViewStyle;
   buttonTextStyle?: TextStyle;
@@ -11,13 +11,7 @@ export interface IPrimaryButtonProps {
   disabled?: boolean;
 }
 
-const PrimaryButton = ({
-  onPress,
-  buttonStyle,
-  buttonTextStyle,
-  buttonText,
-  disabled,
-}: IPrimaryButtonProps) => (
+const PrimaryButton = ({ onPress, buttonStyle, buttonTextStyle, buttonText, disabled }: Props) => (
   <TouchableOpacity
     disabled={disabled}
     activeOpacity={0.6}

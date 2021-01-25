@@ -36,7 +36,7 @@ export interface Props {
   navigation: DrawerScreenNavigationProp;
 }
 
-const ScreensDrawer: FC<Props> = ({ navigation, style }) => {
+const DrawerScreensStack: FC<Props> = ({ navigation, style }) => {
   return (
     <Animated.View style={StyleSheet.flatten([styles.scene, style])}>
       <Stack.Navigator>
@@ -75,7 +75,7 @@ const DrawerNavigator = () => {
   const animatedStyle = { transform: [{ scale }] };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <Drawer.Navigator
         drawerType="slide"
         drawerStyle={styles.drawer}
@@ -91,7 +91,7 @@ const DrawerNavigator = () => {
           return <DrawerContent {...props} />;
         }}>
         <Drawer.Screen name={Screens.DRAWER_SCREENS}>
-          {(props) => <ScreensDrawer {...props} style={animatedStyle} />}
+          {(props) => <DrawerScreensStack {...props} style={animatedStyle} />}
         </Drawer.Screen>
       </Drawer.Navigator>
     </View>
@@ -99,6 +99,9 @@ const DrawerNavigator = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   scene: {
     flex: 1,
     ...theme.iconButtonShadow,

@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 import { RootStackParamList, Screens } from '../../navigation/interface';
 import Cards from './components/Cards';
 import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
@@ -12,6 +12,8 @@ import { selectDeckItem } from '../../redux/seclectors';
 import { reorderCards } from '../../redux/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
+import NoCardsText from './components/NoCardsText';
+import ActionButtons from './components/ActionButttons';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 
@@ -28,15 +30,26 @@ const DeckDetail: FC<Props> = ({
     params: { id, color },
   },
 }) => {
+  const opacityVal = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
   const deckDetail = useSelector(selectDeckItem(id));
   const { navigate, goBack } = useNavigation();
 
+  useEffect(() => {
+    Animated.timing(opacityVal, {
+      toValue: 1,
+      delay: 200,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [opacityVal]);
+
   const handleOnPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
   const badAnswers = deckDetail.cards.filter((c) => c.rank === 0).length;
 
-  const navigateToPlayground = () =>
+  const navigateToPlayground = () => {
     navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].id });
+  };
 
   const shuffleCards = () => dispatch(reorderCards(id));
 
@@ -46,13 +59,11 @@ const DeckDetail: FC<Props> = ({
       <View style={styles.addIcon}>
         <IconButton onPress={handleOnPress} iconName="plusCurve" />
       </View>
-      <SharedElement id={`item.${id}`} style={[StyleSheet.absoluteFillObject]}>
-        <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: color, zIndex: 1 }]} />
+      <SharedElement id={`item.${id}`} style={StyleSheet.absoluteFillObject}>
+        <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: color }]} />
       </SharedElement>
       <Title title={deckDetail.title} />
       <TopContent
-        navigate={navigateToPlayground}
-        shuffle={shuffleCards}
         total={deckDetail.cards.length}
         badAnswersTotal={badAnswers}
         goodAnswersTotal={deckDetail.cards.length - badAnswers}
@@ -62,7 +73,14 @@ const DeckDetail: FC<Props> = ({
           id="general.bg"
           style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT + 30 }] }]}>
           <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
-            <Cards cards={deckDetail.cards} deckId={id} />
+            <Animated.View style={{ opacity: opacityVal }}>
+              {deckDetail.cards.length ? (
+                <ActionButtons navigate={navigateToPlayground} shuffle={shuffleCards} />
+              ) : (
+                <NoCardsText />
+              )}
+              <Cards cards={deckDetail.cards} deckId={id} />
+            </Animated.View>
           </View>
         </SharedElement>
       ) : (
@@ -90,15 +108,11 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT_SPACING }],
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
-    borderColor: theme.colors.border,
-    borderWidth: 1,
+    borderColor: theme.colors.lightBorder,
+    borderWidth: 0.5,
     paddingTop: SPACING,
     paddingHorizontal: 5,
     paddingBottom: SPACING + 10,
-  },
-  center: {
-    marginTop: 10,
-    alignSelf: 'center',
   },
 });
 

@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { Container, PrimaryButton } from '../../common';
 import CustomText from '../../common/CustomText';
-import rateApp from '../../modules/rateApp';
 import assets from '../../assets';
+import { theme } from '../../utils';
 
 const UpgradeToPro: FC = () => (
   <Container style={styles.container}>
@@ -18,7 +18,12 @@ const UpgradeToPro: FC = () => (
         hello
       </CustomText>
       <View style={styles.buttonContainer}>
-        <PrimaryButton buttonText="Upgrade" onPress={() => rateApp(false)} />
+        <PrimaryButton
+          buttonText="Upgrade"
+          onPress={() => null}
+          buttonStyle={{ backgroundColor: theme.colors.drawerItem.upgrade }}
+          buttonTextStyle={{ color: theme.colors.border }}
+        />
       </View>
     </View>
   </Container>

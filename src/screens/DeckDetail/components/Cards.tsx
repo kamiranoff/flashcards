@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { NativeAlert } from '../../../common';
 import { deleteCard } from '../../../redux/actions';
 import CardItem from './CardItem';
+import { theme } from '../../../utils';
 
 export interface Props {
   cards: Card[];
@@ -71,7 +72,7 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
     <FlatList
       showsVerticalScrollIndicator={false}
       numColumns={numberColumns}
-      contentContainerStyle={{ paddingBottom: TOP_HEADER_HEIGHT, alignItems: 'center' }}
+      contentContainerStyle={styles.contentContainerStyle}
       data={formatData(cards, numberColumns)}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
@@ -93,21 +94,26 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingBottom: TOP_HEADER_HEIGHT,
     alignItems: 'center',
-    paddingTop: 20,
+    marginTop: 10,
   },
   flatListStyle: {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
   },
+  actionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 10,
+  },
   item: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 5,
+    paddingHorizontal: 5,
     margin: 5,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: 'black',
+    borderRadius: 8,
+    backgroundColor: theme.colors.icon,
+    ...theme.iconButtonShadow,
   },
   itemInvisible: {
     backgroundColor: 'transparent',
