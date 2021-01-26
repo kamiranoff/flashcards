@@ -30,7 +30,12 @@ export interface IconButtonProps {
     | 'home'
     | 'notSureFace'
     | 'happyFace'
-    | 'question';
+    | 'question'
+    | 'cards'
+    | 'cardsWithPen'
+    | 'decks'
+    | 'noAds'
+    | 'toolbar';
   style?: ViewStyle;
   bgColor?: string;
   imgStyle?: ImageStyle;

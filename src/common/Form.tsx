@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, StyleSheet, TouchableOpacity, View, ScrollView, I
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../utils/device';
 import assets from '../assets';
-import PrimaryButton from './Button';
+import PrimaryButton from './PrimaryButton';
 import { theme } from '../utils';
 
 interface Props {
@@ -46,8 +46,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
         keyboardDismissMode="none"
         style={styles.scrollView}
         alwaysBounceVertical={false}
-        bounces={false}
-      >
+        bounces={false}>
         <RichEditor
           initialFocus
           pasteAsPlainText
@@ -90,8 +89,12 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
             [actions.setUnderline]: () => (
               <Image source={assets.icons.underline} resizeMode="contain" style={styles.toolbarIcon} />
             ),
-            [actions.heading1]: () => <Image source={assets.icons.h1} resizeMode="contain" style={styles.toolbarIcon} />,
-            [actions.heading4]: () => <Image source={assets.icons.h2} resizeMode="contain" style={styles.toolbarIcon} />,
+            [actions.heading1]: () => (
+              <Image source={assets.icons.h1} resizeMode="contain" style={styles.toolbarIcon} />
+            ),
+            [actions.heading4]: () => (
+              <Image source={assets.icons.h2} resizeMode="contain" style={styles.toolbarIcon} />
+            ),
           }}
         />
       </KeyboardAvoidingView>

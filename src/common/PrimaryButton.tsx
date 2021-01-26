@@ -11,7 +11,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const PrimaryButton = ({ onPress, buttonStyle, buttonTextStyle, buttonText, disabled }: Props) => (
+const PrimaryButton = ({ onPress, buttonStyle, buttonTextStyle, buttonText, disabled = false }: Props) => (
   <TouchableOpacity
     disabled={disabled}
     activeOpacity={0.6}
@@ -34,9 +34,5 @@ const styles = StyleSheet.create({
     color: theme.colors.buttonText,
   },
 });
-
-PrimaryButton.defaultProps = {
-  disabled: false,
-};
 
 export default PrimaryButton;

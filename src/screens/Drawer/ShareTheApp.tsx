@@ -17,6 +17,9 @@ const ShareTheApp: FC = () => (
       <CustomText centered size="h2">
         Share it with your friends
       </CustomText>
+      <CustomText centered size="h2">
+        & get extra free deck!
+      </CustomText>
       <View style={styles.buttonContainer}>
         <PrimaryButton buttonText="Share" onPress={() => null} />
       </View>

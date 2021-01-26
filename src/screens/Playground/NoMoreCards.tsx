@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { FC } from 'react';
 import CustomText from '../../common/CustomText';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import animations from '../../assets/animations';
+import { useSelector } from 'react-redux';
+import { selectBadAnswers } from '../../redux/seclectors';
 import assets from '../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';
-import { Container, PrimaryButton } from '../../common';
-import { theme } from '../../utils';
 
-const GetFreebie = () => {
+interface Props {
+  deckId: string;
+  totalCards: number;
+}
+
+const NoMoreCards: FC<Props> = ({ deckId, totalCards }) => {
+  const badAnswers = useSelector(selectBadAnswers(deckId));
   return (
-    <Container style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground
         source={assets.icons.bubble}
         resizeMethod="scale"
@@ -19,48 +25,37 @@ const GetFreebie = () => {
         imageStyle={styles.bubbleImg}>
         <View style={styles.content}>
           <CustomText size="h2" centered>
-            Wanna get an extra
-          </CustomText>
-          <CustomText size="h2" centered>
-            free deck?
+            Today:
           </CustomText>
           <View style={styles.spacer} />
           <CustomText size="h2" centered>
-            Simply send invite to your
+            You have: {totalCards - badAnswers} correct
           </CustomText>
           <CustomText size="h2" centered>
-            friends :)
+            and {badAnswers} incorrect answers!
           </CustomText>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton
-              buttonText="Invite"
-              onPress={() => null}
-              buttonStyle={styles.buttonStyle}
-              buttonTextStyle={{ color: '#222' }}
-            />
-          </View>
+          <View style={styles.spacer} />
+          <CustomText size="h2" centered>
+            Keep up the good work!
+          </CustomText>
         </View>
       </ImageBackground>
       <View style={styles.animationContainer}>
-        <LottieView autoPlay loop speed={1.5} source={animations.lady} style={styles.lottie} />
+        <LottieView autoPlay loop speed={1.5} source={animations.lady} style={{ width: 120, height: 120 }} />
       </View>
-    </Container>
+    </View>
   );
 };
 
-const halfWindow = WINDOW_WIDTH / 2;
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: 'center',
-    backgroundColor: theme.colors.drawerItem.freeDeck,
   },
   animationContainer: {
     position: 'absolute',
     bottom: 0,
     left: 10,
-  },
-  lottie: {
-    width: 120,
   },
   bubbleStyle: {
     position: 'absolute',
@@ -72,26 +67,16 @@ const styles = StyleSheet.create({
     width: WINDOW_WIDTH,
   },
   bubbleImg: {
-    top: getPlatformDimension(halfWindow - 70, halfWindow - 70, halfWindow - 70, 60),
-    height: '65%',
+    bottom: getPlatformDimension(20, 20, 0, 60),
+    height: '80%',
     resizeMode: 'contain',
   },
   content: {
-    top: getPlatformDimension(halfWindow, halfWindow, halfWindow, halfWindow),
+    top: getPlatformDimension(WINDOW_WIDTH / 2 - 70, 20, 0, 60),
   },
   spacer: {
     marginTop: 10,
   },
-  buttonContainer: {
-    marginTop: 60,
-    width: 120,
-    alignSelf: 'center',
-  },
-  buttonStyle: {
-    backgroundColor: '#fff',
-    borderWidth: 0.5,
-    borderColor: '#222',
-  },
 });
 
-export default GetFreebie;
+export default NoMoreCards;

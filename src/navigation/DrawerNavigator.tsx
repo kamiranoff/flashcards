@@ -13,9 +13,9 @@ import RateTheApp from '../screens/Drawer/RateTheApp';
 import ShareTheApp from '../screens/Drawer/ShareTheApp';
 import RequestFeature from '../screens/Drawer/RequestFeature';
 import Contact from '../screens/Drawer/Contact';
-import UpgradeToPro from '../screens/Drawer/UpgradeToPro';
 import { theme } from '../utils';
 import { getPlatformDimension, moderateScale } from '../utils/device';
+import UpgradeToPro from '../screens/Drawer/UpgradeToPro';
 
 const Drawer = createDrawerNavigator<DrawerStackParamList>();
 const Stack = createStackNavigator<DrawerStackParamList>();
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
   },
   drawer: {
     backgroundColor: 'transparent',
-    width: '75%',
   },
   menuIcon: {
     left: moderateScale(16),

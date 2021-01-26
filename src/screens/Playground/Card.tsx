@@ -63,11 +63,11 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
         <ScrollView nestedScrollEnabled>
           <TouchableWithoutFeedback onPress={flipCard}>
             <View>
-              <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }, { perspective: 1000 }] }]}>
+              <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }] }]}>
                 <HtmlParser text={card.question} />
               </Animated.View>
               <Animated.View
-                style={[styles.card, styles.cardBack, { transform: [{ rotateY: backInterpolate }, { perspective: 1000 }] }]}>
+                style={[styles.card, styles.cardBack, { transform: [{ rotateY: backInterpolate }] }]}>
                 <HtmlParser text={card.answer} />
               </Animated.View>
             </View>
@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
     borderColor: '#222',
     borderWidth: 0.5,
     paddingVertical: 10,
-    borderRadius: 8
+    paddingHorizontal: 16,
+    borderRadius: 8,
   },
   cardBack: {
     position: 'absolute',

@@ -5,12 +5,14 @@ import Container from './Container';
 import NativeAlert from './Alert';
 import HtmlParser from './HtmlParser';
 import CloseButton from './CloseButton';
-import PrimaryButton from './Button';
+import PrimaryButton from './PrimaryButton';
 import Title from './Title';
 import Header from './Header';
 import Icon from './Icon';
+import PriceButton from './PriceButton';
 
 export {
+  PriceButton,
   PlusButton,
   Form,
   IconButton,

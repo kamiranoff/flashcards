@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,16 +7,15 @@ import Swiper from 'react-native-deck-swiper';
 import * as R from 'ramda';
 import { RootStackParamList, Screens } from '../../navigation/interface';
 import { CloseButton, Container, Title } from '../../common';
-import CustomText from '../../common/CustomText';
 import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
 import { Card } from '../../redux/reducer';
 import { getPlatformDimension, isSmallDevice } from '../../utils/device';
-import { scoreCard, reorderCards } from '../../redux/actions';
+import { scoreCard } from '../../redux/actions';
 import { SCORES } from '../../redux/interface';
 import ActionButtons from './ActionButtons';
-import LottieView from 'lottie-react-native';
-import animations from '../../assets/animations';
+import NoMoreCards from './NoMoreCards';
+import { theme } from '../../utils';
 
 type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
 type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
@@ -27,51 +26,6 @@ export interface Props {
 }
 
 const STACK_SIZE = 3;
-
-const overlayButtons = {
-  left: {
-    title: 'Ups',
-    style: {
-      label: {
-        backgroundColor: '#ffad8b',
-        color: '#222',
-        borderColor: '#222',
-        borderWidth: 0.5,
-        fontSize: 18,
-        fontFamily: 'YuseiMagic-Regular',
-      },
-      wrapper: {
-        zIndex: 1000,
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-start',
-        marginTop: 20,
-        marginLeft: -20,
-      },
-    },
-  },
-  right: {
-    title: 'Yay',
-    style: {
-      label: {
-        backgroundColor: '#fbe29f',
-        borderColor: '#222',
-        color: '#222',
-        borderWidth: 0.5,
-        fontSize: 18,
-        fontFamily: 'YuseiMagic-Regular',
-      },
-      wrapper: {
-        zIndex: 1000,
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-        marginTop: 20,
-        marginLeft: 20,
-      },
-    },
-  },
-};
 
 const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -103,29 +57,9 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
     dispatch(scoreCard(params.deckId, currentCard.id, SCORES.BAD));
   };
 
-  const reShuffleCards = () => dispatch(reorderCards(params.deckId));
-
-  const renderNoMoreCards = () => {
-    const badAnswers = deckDetail.cards.filter((c) => c.rank === 0).length;
-
-    return (
-      <View style={{ flex: 1 }}>
-        <CustomText size="h1" centered>
-          There are no more cards
-        </CustomText>
-        <CustomText size="h2" centered>
-          Today you answered badly: {badAnswers};
-        </CustomText>
-        <Button onPress={reShuffleCards} title="Re-shuffle your cards" />
-        <View style={styles.animationContainer}>
-          <LottieView autoPlay loop speed={1.5} source={animations.lady} style={{ width: 120, height: 120 }}/>
-        </View>
-      </View>
-    );
-  };
   const renderCards = () => {
     if (noMoreCards) {
-      return renderNoMoreCards();
+      return <NoMoreCards deckId={params.deckId} totalCards={deckDetail.cards.length} />;
     }
 
     return (
@@ -146,13 +80,13 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
         animateCardOpacity
         disableTopSwipe
         disableBottomSwipe
-        overlayLabels={overlayButtons}
+        overlayLabels={theme.playgroundOverlayButtons}
         onSwipedAll={() => setNoMoreCards(true)}
       />
     );
   };
   return (
-    <Container style={{ backgroundColor: '#bedcd3'}}>
+    <Container style={styles.container}>
       <CloseButton onPress={goBack} />
       <Title title={deckDetail.title} />
       <View style={styles.swiperContainer}>
@@ -164,6 +98,9 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: theme.colors.background2
+  },
   swiperContainer: {
     flex: 1,
     marginTop: isSmallDevice() ? 15 : getPlatformDimension(30, 20, 40),
