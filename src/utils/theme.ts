@@ -28,10 +28,55 @@ const palette = {
   lightGray: '#d1d2d1',
 };
 
+const PLAYGROUND_OVERLAY_BUTTONS = {
+  left: {
+    title: 'Ups',
+    style: {
+      label: {
+        backgroundColor: '#ffad8b',
+        color: '#222',
+        borderColor: '#222',
+        borderWidth: 0.5,
+        fontSize: 18,
+        fontFamily: 'YuseiMagic-Regular',
+      },
+      wrapper: {
+        zIndex: 1000,
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start',
+        marginTop: 20,
+        marginLeft: -20,
+      },
+    },
+  },
+  right: {
+    title: 'Yay',
+    style: {
+      label: {
+        backgroundColor: '#fbe29f',
+        borderColor: '#222',
+        color: '#222',
+        borderWidth: 0.5,
+        fontSize: 18,
+        fontFamily: 'YuseiMagic-Regular',
+      },
+      wrapper: {
+        zIndex: 1000,
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        marginTop: 20,
+        marginLeft: 20,
+      },
+    },
+  },
+};
+
 const theme = {
   colors: {
     success: palette.green,
-    alert: palette.yellow,
+    alert: palette.fadeYellow,
     good: palette.yellow,
     bad: palette.orange,
     warning: palette.orange,
@@ -106,6 +151,7 @@ const theme = {
     phone: 0,
     tablet: 768,
   },
+  playgroundOverlayButtons: PLAYGROUND_OVERLAY_BUTTONS,
 };
 
 export default theme;

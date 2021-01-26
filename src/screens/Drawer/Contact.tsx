@@ -27,7 +27,7 @@ const Contact: FC = () => {
           Please contact us
         </CustomText>
         <View style={styles.buttonContainer}>
-          <PrimaryButton buttonText="Contact" onPress={handleContact} />
+          <PrimaryButton buttonText="Contact us" onPress={handleContact} />
         </View>
       </View>
     </Container>

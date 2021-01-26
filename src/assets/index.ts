@@ -41,6 +41,14 @@ export interface IAssets {
     home: number;
     shuffle: number;
     question: number;
+    bubble: number;
+    cards: number;
+    cardsWithPen: number;
+    decks: number;
+    noAds: number;
+    toolbar: number;
+    flashMaster: number;
+    arrow: number;
   };
 }
 
@@ -87,6 +95,14 @@ const assets: IAssets = {
     home: require('./images/home.png'),
     shuffle: require('./images/shuffle.png'),
     question: require('./images/question.png'),
+    bubble: require('./images/bubble.png'),
+    cards: require('./images/cards.png'),
+    cardsWithPen: require('./images/cardsWithPen.png'),
+    decks: require('./images/decks.png'),
+    noAds: require('./images/noAds.png'),
+    toolbar: require('./images/toolbar.png'),
+    flashMaster: require('./images/flashMaster.png'),
+    arrow: require('./images/arrow.png'),
   },
 };
 

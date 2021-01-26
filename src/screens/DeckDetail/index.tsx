@@ -8,7 +8,7 @@ import Cards from './components/Cards';
 import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, Title } from '../../common';
-import { selectDeckItem } from '../../redux/seclectors';
+import { selectBadAnswers, selectDeckItem } from '../../redux/seclectors';
 import { reorderCards } from '../../redux/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
@@ -33,6 +33,7 @@ const DeckDetail: FC<Props> = ({
   const opacityVal = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
   const deckDetail = useSelector(selectDeckItem(id));
+  const badAnswers = useSelector(selectBadAnswers(id));
   const { navigate, goBack } = useNavigation();
 
   useEffect(() => {
@@ -45,13 +46,14 @@ const DeckDetail: FC<Props> = ({
   }, [opacityVal]);
 
   const handleOnPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
-  const badAnswers = deckDetail.cards.filter((c) => c.rank === 0).length;
 
   const navigateToPlayground = () => {
     navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].id });
   };
 
-  const shuffleCards = () => dispatch(reorderCards(id));
+  const shuffleCards = () => {
+    return dispatch(reorderCards(id));
+  };
 
   return (
     <Container>
