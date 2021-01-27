@@ -30,7 +30,7 @@ export const DEFAULT_CARD_HEIGHT = CARD_WIDTH * ratio;
 
 console.log('CARD_HEIGHT', CARD_HEIGHT);
 const ITEM_HEIGHT = 120;
-export const CARD_HEIGHT = ITEM_HEIGHT + SPACING * 2;
+export const CARD_HEIGHT = ITEM_HEIGHT + SPACING * 3;
 const height = WINDOW_HEIGHT - 64;
 
 interface Props {
@@ -56,35 +56,43 @@ const DeckItem: FC<Props> = ({ item, index, scrollY, title, onPress, onNavigate 
   const isBottom = WINDOW_HEIGHT - CARD_HEIGHT;
   const isAppearing = WINDOW_HEIGHT;
   console.log('WINDOW_HEIGHT', WINDOW_HEIGHT);
-  const translateY = Animated.add(
-    Animated.add(
-      scrollY,
-      scrollY.interpolate({
-        inputRange: [0, 0.00001 + index * CARD_HEIGHT],
-        outputRange: [0, -index * CARD_HEIGHT],
-        extrapolateRight: 'clamp',
-      }),
-    ),
-    position.interpolate({
-      inputRange: [isBottom, isAppearing],
-      outputRange: [0, -CARD_HEIGHT / 4],
-      extrapolate: 'clamp',
-    }),
-  );
-  const scale = position.interpolate({
-    inputRange: [isDisappearing, isTop, isBottom, isAppearing],
-    outputRange: [0.5, 1, 1, 0.5],
-    extrapolate: 'clamp',
+  // const translateY = Animated.add(
+  //   Animated.add(
+  //     scrollY,
+  //     scrollY.interpolate({
+  //       inputRange: [0, 0.00001 + index * CARD_HEIGHT],
+  //       outputRange: [0, -index * CARD_HEIGHT],
+  //       extrapolateRight: 'clamp',
+  //     }),
+  //   ),
+  //   position.interpolate({
+  //     inputRange: [isBottom, isAppearing],
+  //     outputRange: [0, -CARD_HEIGHT / 4],
+  //     extrapolate: 'clamp',
+  //   }),
+  // );
+  // const scale = position.interpolate({
+  //   inputRange: [isDisappearing, isTop],
+  //   outputRange: [0.5, 1],
+  //   extrapolate: 'clamp',
+  // });
+  // const opacity = position.interpolate({
+  //   inputRange: [isDisappearing, isTop],
+  //   outputRange: [0.5, 1],
+  // });
+
+  const scale = scrollY.interpolate({
+    inputRange: [-1, 0, CARD_HEIGHT * index, CARD_HEIGHT * (index + 2)],
+    outputRange: [1, 1, 1, 0],
   });
-  const opacity = position.interpolate({
-    inputRange: [isDisappearing, isTop, isBottom, isAppearing],
-    outputRange: [0.5, 1, 1, 0.5],
+  const opacity = scrollY.interpolate({
+    inputRange: [-1, 0, CARD_HEIGHT * index, CARD_HEIGHT * (index + 1)],
+    outputRange: [1, 1, 1, 0],
   });
 
   return (
-    <TouchableOpacity onPress={onNavigate}>
-      <Animated.View
-        style={[styles.container, styles.wrapper, { opacity, transform: [{ translateY }, { scale }] }]}>
+    <TouchableOpacity onPress={onNavigate} activeOpacity={0.5}>
+      <Animated.View style={[styles.container, styles.wrapper, { opacity, transform: [{ scale }] }]}>
         <SharedElement id={`item.${item}`} style={[StyleSheet.absoluteFillObject]}>
           <View
             style={[

@@ -47,7 +47,7 @@ const AddButton = ({ onOpenModal }: Props) => {
           {
             transform: [{ scale: scaleValueInterpolation }],
             top: 0,
-            right: 0
+            right: 0,
           },
         ]}
       />

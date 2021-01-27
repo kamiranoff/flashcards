@@ -1,15 +1,17 @@
 import React, { FC, memo } from 'react';
 import {
+  Animated,
   Image,
   StyleSheet,
   GestureResponderEvent,
-  TouchableOpacity,
   ImageStyle,
   ViewStyle,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import assets from '../assets';
 import { HIT_SLOP } from '../utils/device';
 import { theme } from '../utils';
+import useAnimatedPress from '../hooks/useAnimatedPress';
 
 export interface IconButtonProps {
   onPress: (event: GestureResponderEvent) => void;
@@ -35,11 +37,20 @@ export interface IconButtonProps {
   style?: ViewStyle;
 }
 
-const IconButton: FC<IconButtonProps> = memo(({ onPress, iconName, style, imgStyle }) => (
-  <TouchableOpacity onPress={onPress} hitSlop={HIT_SLOP} style={[styles.container, style]}>
-    <Image source={assets.icons[iconName]} resizeMode="contain" style={[styles.img, imgStyle]} />
-  </TouchableOpacity>
-));
+const IconButton: FC<IconButtonProps> = memo(({ onPress, iconName, style, imgStyle }) => {
+  const { scale, handlePressIn, handlePressOut } = useAnimatedPress();
+  return (
+    <TouchableWithoutFeedback
+      onPress={onPress}
+      hitSlop={HIT_SLOP}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}>
+      <Animated.View style={[styles.container, style, { transform: [{ scale }] }]}>
+        <Image source={assets.icons[iconName]} resizeMode="contain" style={[styles.img, imgStyle]} />
+      </Animated.View>
+    </TouchableWithoutFeedback>
+  );
+});
 
 const styles = StyleSheet.create({
   img: {
