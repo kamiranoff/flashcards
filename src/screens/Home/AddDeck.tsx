@@ -7,6 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList, Screens } from '../../navigation/interface';
 import assets from '../../assets';
 import CustomText from '../../common/CustomText';
+import { isIOS } from '../../utils/device';
 
 type AddDeckScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ADD_DECK>;
 
@@ -36,10 +37,8 @@ const AddDeck: FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <CloseButton onPress={() => navigation.goBack()} />
-      <Animated.View style={{ opacity: opacityVal, paddingHorizontal: 10, marginTop: 100 }}>
-        <CustomText size="hero">
-          Your new deck name
-        </CustomText>
+      <Animated.View style={{ opacity: isIOS ? opacityVal : 1, paddingHorizontal: 10, marginTop: 100 }}>
+        <CustomText size="hero">Your new deck name</CustomText>
         <TextInput
           style={styles.input}
           value={newTitle}
@@ -56,6 +55,7 @@ const AddDeck: FC<Props> = ({ navigation }) => {
             onPress={handleSaveDeck}
             buttonStyle={{ backgroundColor: '#f5f4ee' }}
             buttonTextStyle={{ color: 'black' }}
+            hasShadow={isIOS}
           />
         </View>
       </Animated.View>

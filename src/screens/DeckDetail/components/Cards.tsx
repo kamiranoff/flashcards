@@ -59,7 +59,7 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
     const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id });
 
     if (item.id === 'empty') {
-      return <View style={[styles.item, styles.itemInvisible]} />;
+      return <View style={styles.itemInvisible} />;
     }
     return (
       <Animated.View style={[styles.item, { opacity: opacityVal }]}>

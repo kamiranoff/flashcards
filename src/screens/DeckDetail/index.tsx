@@ -86,7 +86,14 @@ const DeckDetail: FC<Props> = ({
           </View>
         </SharedElement>
       ) : (
-        <Cards cards={deckDetail.cards} deckId={id} />
+        <View style={styles.androidList}>
+          {deckDetail.cards.length ? (
+            <ActionButtons navigate={navigateToPlayground} shuffle={shuffleCards} />
+          ) : (
+            <NoCardsText />
+          )}
+          <Cards cards={deckDetail.cards} deckId={id} />
+        </View>
       )}
     </Container>
   );
@@ -115,6 +122,13 @@ const styles = StyleSheet.create({
     paddingTop: SPACING,
     paddingHorizontal: 5,
     paddingBottom: SPACING + 10,
+  },
+  androidList: {
+    flex: 1,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    paddingTop: SPACING,
+    backgroundColor: 'white',
   },
 });
 

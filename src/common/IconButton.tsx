@@ -33,10 +33,14 @@ export interface IconButtonProps {
     | 'shuffle';
   imgStyle?: ImageStyle;
   style?: ViewStyle;
+  hasShadow?: boolean;
 }
 
-const IconButton: FC<IconButtonProps> = memo(({ onPress, iconName, style, imgStyle }) => (
-  <TouchableOpacity onPress={onPress} hitSlop={HIT_SLOP} style={[styles.container, style]}>
+const IconButton: FC<IconButtonProps> = memo(({ onPress, iconName, style, imgStyle, hasShadow = true }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    hitSlop={HIT_SLOP}
+    style={[styles.container, style, hasShadow ? theme.iconButtonShadow : {}]}>
     <Image source={assets.icons[iconName]} resizeMode="contain" style={[styles.img, imgStyle]} />
   </TouchableOpacity>
 ));
@@ -54,8 +58,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1,
-    ...theme.iconButtonShadow,
+    zIndex: 99,
   },
 });
 

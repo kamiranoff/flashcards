@@ -43,19 +43,30 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
 
   const renderCard = (item: Card) => <CardItem card={item} title={deckDetail.title} deckId={params.deckId} />;
 
-  const onSwipeRight = () => {
+  const scoreGoodAnswer = (i: number) => {
+    const currentCard = deckDetail.cards[i];
+    dispatch(scoreCard(params.deckId, currentCard.id, SCORES.GOOD));
+  };
+
+  const scoreBadAnswer = (i: number) => {
+    const currentCard = deckDetail.cards[i];
+    dispatch(scoreCard(params.deckId, currentCard.id, SCORES.BAD));
+  };
+
+  const handlePressRight = () => {
     if (swiperRef) {
       swiperRef.current.swipeRight();
-      const currentCard = deckDetail.cards[index];
-      dispatch(scoreCard(params.deckId, currentCard.id, SCORES.GOOD));
+      scoreGoodAnswer(index);
     }
   };
 
-  const onSwipeLeft = () => {
+  const handlePressLeft = () => {
     swiperRef.current.swipeLeft();
-    const currentCard = deckDetail.cards[index];
-    dispatch(scoreCard(params.deckId, currentCard.id, SCORES.BAD));
+    scoreBadAnswer(index);
   };
+
+  const handleSwipeRight = (currentIndex: number) => scoreGoodAnswer(currentIndex);
+  const handleSwipeLeft = (currentIndex: number) => scoreBadAnswer(currentIndex);
 
   const renderCards = () => {
     if (noMoreCards) {
@@ -76,6 +87,8 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
         stackScale={10}
         verticalSwipe={false}
         stackSeparation={30}
+        onSwipedRight={handleSwipeRight}
+        onSwipedLeft={handleSwipeLeft}
         animateOverlayLabelsOpacity
         animateCardOpacity
         disableTopSwipe
@@ -91,7 +104,9 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
       <Title title={deckDetail.title} />
       <View style={styles.swiperContainer}>
         {renderCards()}
-        {!noMoreCards ? <ActionButtons onPressLeft={onSwipeLeft} onPressRight={onSwipeRight} /> : null}
+        {!noMoreCards ? (
+          <ActionButtons onPressLeft={handlePressLeft} onPressRight={handlePressRight} />
+        ) : null}
       </View>
     </Container>
   );
@@ -99,7 +114,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.background2
+    backgroundColor: theme.colors.background2,
   },
   swiperContainer: {
     flex: 1,

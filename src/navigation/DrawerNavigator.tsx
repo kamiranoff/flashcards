@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   scene: {
     flex: 1,
-    ...theme.iconButtonShadow,
+    ...theme.backgroundShadow,
   },
   drawer: {
     backgroundColor: 'transparent',
