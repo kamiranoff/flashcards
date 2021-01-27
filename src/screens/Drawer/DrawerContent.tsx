@@ -5,6 +5,7 @@ import { DrawerStackParamList, Screens } from '../../navigation/interface';
 import { StyleSheet } from 'react-native';
 import { Icon } from '../../common';
 import { theme, typography } from '../../utils';
+import { isIOS } from '../../utils/device';
 
 type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, any>; // FIXME
 
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
   labelStyle: {
     ...typography.drawerLabel,
     marginLeft: -22,
+    marginTop: isIOS ? 0 : -10,
   },
   bottomLabelStyle: {
     ...typography.p,

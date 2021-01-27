@@ -1,15 +1,7 @@
 import React, { FC, useRef, useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  GestureResponderEvent,
-  TouchableOpacity,
-  Image,
-  Platform,
-} from 'react-native';
+import { View, StyleSheet, TextInput, GestureResponderEvent, TouchableOpacity, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { SPACING } from '../../../utils/device';
+import { isIOS, SPACING } from '../../../utils/device';
 import { SharedElement } from 'react-navigation-shared-element';
 import IconButton from '../../../common/IconButton';
 import { saveDeck } from '../../../redux/actions';
@@ -38,7 +30,7 @@ const DeckItem: FC<Props> = ({ item, index, title, onPress, onNavigate }) => {
   const handleEdit = () => inputRef && inputRef.current && inputRef.current.focus();
 
   return (
-    <TouchableOpacity onPress={onNavigate} style={styles.wrapper}>
+    <TouchableOpacity onPress={onNavigate}>
       <View style={styles.container}>
         <SharedElement id={`item.${item}`} style={[StyleSheet.absoluteFillObject]}>
           <View
@@ -54,12 +46,14 @@ const DeckItem: FC<Props> = ({ item, index, title, onPress, onNavigate }) => {
             iconName="trash"
             imgStyle={styles.transparentIconImg}
             style={{ ...transparentIcon, marginRight: 10 }}
+            hasShadow={isIOS}
           />
           <IconButton
             onPress={handleEdit}
             iconName="edit"
             imgStyle={styles.transparentIconImg}
             style={styles.transparentIcon}
+            hasShadow={isIOS}
           />
         </View>
         <TextInput
@@ -88,24 +82,11 @@ const transparentIcon = {
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    marginBottom: SPACING,
-    height: ITEM_HEIGHT,
-    ...Platform.select({
-      android: {
-        elevation: 4,
-      },
-      default: {
-        shadowColor: 'rgba(0,0,0, .4)',
-        shadowOffset: { height: 1, width: 1 },
-        shadowOpacity: 1,
-        shadowRadius: 1,
-      },
-    }),
-  },
   container: {
-    flex: 1,
+    height: ITEM_HEIGHT,
     padding: SPACING,
+    marginBottom: SPACING,
+    ...theme.backgroundShadow,
   },
   input: {
     marginTop: 10,

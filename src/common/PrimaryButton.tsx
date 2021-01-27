@@ -9,13 +9,21 @@ interface Props {
   buttonTextStyle?: TextStyle;
   buttonText: string;
   disabled?: boolean;
+  hasShadow?: boolean;
 }
 
-const PrimaryButton = ({ onPress, buttonStyle, buttonTextStyle, buttonText, disabled = false }: Props) => (
+const PrimaryButton = ({
+  onPress,
+  buttonStyle,
+  buttonTextStyle,
+  buttonText,
+  disabled = false,
+  hasShadow = true,
+}: Props) => (
   <TouchableOpacity
     disabled={disabled}
     activeOpacity={0.6}
-    style={[styles.button, { ...buttonStyle }]}
+    style={[styles.button, { ...buttonStyle }, hasShadow ? theme.buttonShadow : {}]}
     onPress={onPress}>
     <Text style={[styles.text, { ...buttonTextStyle }]}>{buttonText}</Text>
   </TouchableOpacity>
@@ -23,7 +31,6 @@ const PrimaryButton = ({ onPress, buttonStyle, buttonTextStyle, buttonText, disa
 
 const styles = StyleSheet.create({
   button: {
-    ...theme.buttonShadow,
     paddingVertical: 12,
     paddingHorizontal: 0,
     borderRadius: 8,

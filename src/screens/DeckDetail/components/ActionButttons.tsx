@@ -1,4 +1,4 @@
-import { StyleSheet, View, GestureResponderEvent } from 'react-native';
+import { StyleSheet, View, GestureResponderEvent, Platform } from 'react-native';
 import { PrimaryButton } from '../../../common';
 import { theme } from '../../../utils';
 import IconButton from '../../../common/IconButton';
@@ -18,7 +18,7 @@ const ActionButtons: FC<Props> = ({ navigate, shuffle }) => (
         buttonTextStyle={styles.buttonText}
       />
     </View>
-    <View style={styles.iconContainer}>
+    <View style={styles.shuffleContainer}>
       <IconButton onPress={shuffle} iconName="shuffle" />
     </View>
   </View>
@@ -38,9 +38,16 @@ const styles = StyleSheet.create({
     width: 80,
     backgroundColor: theme.colors.icon,
   },
-  iconContainer: {
+  shuffleContainer: {
     position: 'absolute',
-    left: 5,
+    ...Platform.select({
+      android: {
+        left: 16,
+      },
+      ios: {
+        left: 5,
+      },
+    }),
     top: 3,
   },
   buttonText: {
