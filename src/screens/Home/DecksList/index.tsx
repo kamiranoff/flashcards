@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as R from 'ramda';
 import { SharedElement } from 'react-navigation-shared-element';
@@ -15,6 +15,10 @@ const colors = theme.colors.list;
 
 const DecksList: FC = () => {
   const flatListRef = useRef<FlatList>(null);
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+    useNativeDriver: true,
+  });
   const { navigate, addListener } = useNavigation();
   const { decks, decksIds, handleRemoveDeck } = useDecks();
   const previousDecksIds = usePrevious(decksIds.length);
@@ -23,7 +27,6 @@ const DecksList: FC = () => {
 
   const renderItem = ({ item, index }: { item: string; index: number }) => {
     const title = R.prop('title', decks[item]);
-
     const handleNavigate = () =>
       title ? navigate(Screens.DECK_DETAIL, { id: item, color: colors[index % colors.length] }) : null;
 
@@ -32,6 +35,7 @@ const DecksList: FC = () => {
         item={item}
         index={index}
         title={title}
+        scrollY={scrollY}
         onPress={handleRemoveDeck(item)}
         onNavigate={handleNavigate}
       />
@@ -48,13 +52,15 @@ const DecksList: FC = () => {
 
   return (
     <>
-      <FlatList
+      <Animated.FlatList
         ref={flatListRef}
         contentContainerStyle={styles.flatListContainer}
+        scrollEventThrottle={16}
         data={decksIds}
         renderItem={renderItem}
         keyExtractor={(item) => item}
         keyboardShouldPersistTaps="always"
+        {...{ onScroll }}
       />
       <View style={styles.buttonContainer}>
         <AddButton onOpenModal={handleOpenModal} />

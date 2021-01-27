@@ -147,6 +147,22 @@ const theme = {
       },
     }),
   },
+  backgroundShadow: {
+    ...Platform.select({
+      android: {
+        elevation: 4,
+      },
+      ios: {
+        shadowColor: '#000',
+        shadowRadius: 10,
+        shadowOpacity: 0.2,
+        shadowOffset: {
+          width: 0,
+          height: 40,
+        },
+      },
+    }),
+  },
   breakpoints: {
     phone: 0,
     tablet: 768,
