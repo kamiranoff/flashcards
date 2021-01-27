@@ -7,11 +7,9 @@ import {
   GestureResponderEvent,
   TouchableOpacity,
   Image,
-  Platform,
-  Dimensions,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { SPACING, WINDOW_HEIGHT } from '../../../utils/device';
+import { isIOS, SPACING } from '../../../utils/device';
 import { SharedElement } from 'react-navigation-shared-element';
 import IconButton from '../../../common/IconButton';
 import { saveDeck } from '../../../redux/actions';
@@ -21,17 +19,8 @@ import { theme } from '../../../utils';
 // const colors = ['#fc9d9a', '#f9cdad', '#c8c8a9', '#83af9b', '#d6e1c7', '#94c7b6'];
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
 const colors = theme.colors.list;
-
-const { width } = Dimensions.get('window');
-const ratio = 228 / 362;
-export const CARD_WIDTH = width * 0.8;
-export const MARGIN = 16;
-export const DEFAULT_CARD_HEIGHT = CARD_WIDTH * ratio;
-
-console.log('CARD_HEIGHT', CARD_HEIGHT);
 const ITEM_HEIGHT = 120;
-export const CARD_HEIGHT = ITEM_HEIGHT + SPACING * 3;
-const height = WINDOW_HEIGHT - 64;
+export const CARD_HEIGHT = ITEM_HEIGHT + SPACING;
 
 interface Props {
   item: string;
@@ -48,51 +37,20 @@ const DeckItem: FC<Props> = ({ item, index, scrollY, title, onPress, onNavigate 
   const inputRef = useRef<TextInput>(null);
   const handleSaveDeck = () => (newTitle ? dispatch(saveDeck(item, newTitle)) : null);
   const handleEdit = () => inputRef && inputRef.current && inputRef.current.focus();
-  console.log('index', index, CARD_HEIGHT, scrollY);
-
-  const position = Animated.subtract(index * CARD_HEIGHT, scrollY);
-  const isDisappearing = -CARD_HEIGHT + 60;
-  const isTop = 0;
-  const isBottom = WINDOW_HEIGHT - CARD_HEIGHT;
-  const isAppearing = WINDOW_HEIGHT;
-  console.log('WINDOW_HEIGHT', WINDOW_HEIGHT);
-  // const translateY = Animated.add(
-  //   Animated.add(
-  //     scrollY,
-  //     scrollY.interpolate({
-  //       inputRange: [0, 0.00001 + index * CARD_HEIGHT],
-  //       outputRange: [0, -index * CARD_HEIGHT],
-  //       extrapolateRight: 'clamp',
-  //     }),
-  //   ),
-  //   position.interpolate({
-  //     inputRange: [isBottom, isAppearing],
-  //     outputRange: [0, -CARD_HEIGHT / 4],
-  //     extrapolate: 'clamp',
-  //   }),
-  // );
-  // const scale = position.interpolate({
-  //   inputRange: [isDisappearing, isTop],
-  //   outputRange: [0.5, 1],
-  //   extrapolate: 'clamp',
-  // });
-  // const opacity = position.interpolate({
-  //   inputRange: [isDisappearing, isTop],
-  //   outputRange: [0.5, 1],
-  // });
 
   const scale = scrollY.interpolate({
     inputRange: [-1, 0, CARD_HEIGHT * index, CARD_HEIGHT * (index + 2)],
-    outputRange: [1, 1, 1, 0],
+    outputRange: [1, 1, 1, 0.5],
   });
+
   const opacity = scrollY.interpolate({
     inputRange: [-1, 0, CARD_HEIGHT * index, CARD_HEIGHT * (index + 1)],
-    outputRange: [1, 1, 1, 0],
+    outputRange: [1, 1, 1, 0.5],
   });
 
   return (
     <TouchableOpacity onPress={onNavigate} activeOpacity={0.5}>
-      <Animated.View style={[styles.container, styles.wrapper, { opacity, transform: [{ scale }] }]}>
+      <Animated.View style={[styles.container, { opacity, transform: [{ scale }] }]}>
         <SharedElement id={`item.${item}`} style={[StyleSheet.absoluteFillObject]}>
           <View
             style={[
@@ -107,12 +65,14 @@ const DeckItem: FC<Props> = ({ item, index, scrollY, title, onPress, onNavigate 
             iconName="trash"
             imgStyle={styles.transparentIconImg}
             style={{ ...transparentIcon, marginRight: 10 }}
+            hasShadow={isIOS}
           />
           <IconButton
             onPress={handleEdit}
             iconName="edit"
             imgStyle={styles.transparentIconImg}
             style={styles.transparentIcon}
+            hasShadow={isIOS}
           />
         </View>
         <TextInput
@@ -141,25 +101,11 @@ const transparentIcon = {
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    marginBottom: SPACING,
-    ...theme.backgroundShadow,
-    // ...Platform.select({
-    //   android: {
-    //     elevation: 4,
-    //   },
-    //   default: {
-    //     shadowColor: 'rgba(0,0,0, .4)',
-    //     shadowOffset: { height: 1, width: 1 },
-    //     shadowOpacity: 1,
-    //     shadowRadius: 1,
-    //   },
-    // }),
-  },
   container: {
     height: ITEM_HEIGHT,
-    // flex: 1,
     padding: SPACING,
+    marginBottom: SPACING,
+    ...theme.iconButtonShadow,
   },
   input: {
     marginTop: 10,

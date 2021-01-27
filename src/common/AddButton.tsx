@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Animated } from 'react-native';
 import IconButton from './IconButton';
+import { isIOS } from '../utils/device';
 
 const styles = StyleSheet.create({
   container: {

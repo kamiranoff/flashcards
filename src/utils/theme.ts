@@ -137,7 +137,7 @@ const theme = {
   iconButtonShadow: {
     ...Platform.select({
       android: {
-        elevation: 4,
+        elevation: 10,
       },
       default: {
         shadowColor: 'rgba(0,0,0, .4)',
@@ -150,7 +150,7 @@ const theme = {
   backgroundShadow: {
     ...Platform.select({
       android: {
-        elevation: 4,
+        elevation: 10,
       },
       ios: {
         shadowColor: '#000',

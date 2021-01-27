@@ -59,7 +59,7 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
     const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id });
 
     if (item.id === 'empty') {
-      return <View style={[styles.item, styles.itemInvisible]} />;
+      return <View style={styles.itemInvisible} />;
     }
     return (
       <Animated.View style={[styles.item, { opacity: opacityVal }]}>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   itemInvisible: {
     backgroundColor: 'transparent',
-    width: isSmallDevice() ? 140 : getPlatformDimension(160, 160, 180),
+    width: isSmallDevice() ? 150 : getPlatformDimension(170, 170, 190),
     borderWidth: 0,
     paddingHorizontal: 5,
     paddingVertical: 10,

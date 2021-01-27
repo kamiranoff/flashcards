@@ -35,9 +35,10 @@ export interface IconButtonProps {
     | 'shuffle';
   imgStyle?: ImageStyle;
   style?: ViewStyle;
+  hasShadow?: boolean;
 }
 
-const IconButton: FC<IconButtonProps> = memo(({ onPress, iconName, style, imgStyle }) => {
+const IconButton: FC<IconButtonProps> = memo(({ onPress, iconName, style, imgStyle, hasShadow = true }) => {
   const { scale, handlePressIn, handlePressOut } = useAnimatedPress();
   return (
     <TouchableWithoutFeedback
@@ -45,7 +46,13 @@ const IconButton: FC<IconButtonProps> = memo(({ onPress, iconName, style, imgSty
       hitSlop={HIT_SLOP}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}>
-      <Animated.View style={[styles.container, style, { transform: [{ scale }] }]}>
+      <Animated.View
+        style={[
+          styles.container,
+          style,
+          hasShadow ? theme.iconButtonShadow : {},
+          { transform: [{ scale }] },
+        ]}>
         <Image source={assets.icons[iconName]} resizeMode="contain" style={[styles.img, imgStyle]} />
       </Animated.View>
     </TouchableWithoutFeedback>
@@ -65,8 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1,
-    ...theme.iconButtonShadow,
+    zIndex: 99,
   },
 });
 
