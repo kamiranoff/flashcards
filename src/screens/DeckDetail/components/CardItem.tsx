@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     color: theme.colors.p,
   },
   emptyView: {
-    height: 30
-  }
+    height: 30,
+  },
 });
 
 export default CardItem;

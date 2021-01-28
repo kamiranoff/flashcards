@@ -8,6 +8,7 @@ import { RootStackParamList, Screens } from '../../navigation/interface';
 import assets from '../../assets';
 import CustomText from '../../common/CustomText';
 import { isIOS } from '../../utils/device';
+import { theme } from '../../utils';
 
 type AddDeckScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ADD_DECK>;
 
@@ -36,7 +37,9 @@ const AddDeck: FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <CloseButton onPress={() => navigation.goBack()} />
+      <View style={styles.offset}>
+        <CloseButton onPress={() => navigation.goBack()} />
+      </View>
       <Animated.View style={{ opacity: isIOS ? opacityVal : 1, paddingHorizontal: 10, marginTop: 100 }}>
         <CustomText size="hero">Your new deck name</CustomText>
         <TextInput
@@ -53,9 +56,9 @@ const AddDeck: FC<Props> = ({ navigation }) => {
           <PrimaryButton
             buttonText="Save"
             onPress={handleSaveDeck}
-            buttonStyle={{ backgroundColor: '#f5f4ee' }}
-            buttonTextStyle={{ color: 'black' }}
             hasShadow={isIOS}
+            buttonStyle={styles.buttonStyle}
+            buttonTextStyle={{ color: theme.colors.border }}
           />
         </View>
       </Animated.View>
@@ -87,6 +90,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 120,
     alignSelf: 'center',
+  },
+  content: {
+    paddingHorizontal: 10,
+    marginTop: 100,
+  },
+  offset: {
+    marginLeft: 6,
+  },
+  buttonStyle: {
+    backgroundColor: theme.colors.icon,
   },
 });
 

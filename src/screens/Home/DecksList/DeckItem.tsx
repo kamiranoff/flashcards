@@ -1,5 +1,13 @@
 import React, { FC, useRef, useState } from 'react';
-import { View, StyleSheet, TextInput, GestureResponderEvent, TouchableOpacity, Image } from 'react-native';
+import {
+  Animated,
+  View,
+  StyleSheet,
+  TextInput,
+  GestureResponderEvent,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { isIOS, SPACING } from '../../../utils/device';
 import { SharedElement } from 'react-navigation-shared-element';
@@ -11,27 +19,38 @@ import { theme } from '../../../utils';
 // const colors = ['#fc9d9a', '#f9cdad', '#c8c8a9', '#83af9b', '#d6e1c7', '#94c7b6'];
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
 const colors = theme.colors.list;
-
 const ITEM_HEIGHT = 120;
+export const CARD_HEIGHT = ITEM_HEIGHT + SPACING;
 
 interface Props {
   item: string;
   index: number;
+  scrollY: Animated.Value;
   title: string | undefined;
   onPress: (event: GestureResponderEvent) => void;
   onNavigate: (event: GestureResponderEvent) => void;
 }
 
-const DeckItem: FC<Props> = ({ item, index, title, onPress, onNavigate }) => {
+const DeckItem: FC<Props> = ({ item, index, scrollY, title, onPress, onNavigate }) => {
   const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState(title);
   const inputRef = useRef<TextInput>(null);
   const handleSaveDeck = () => (newTitle ? dispatch(saveDeck(item, newTitle)) : null);
   const handleEdit = () => inputRef && inputRef.current && inputRef.current.focus();
 
+  const scale = scrollY.interpolate({
+    inputRange: [-1, 0, CARD_HEIGHT * index, CARD_HEIGHT * (index + 2)],
+    outputRange: [1, 1, 1, 0.5],
+  });
+
+  const opacity = scrollY.interpolate({
+    inputRange: [-1, 0, CARD_HEIGHT * index, CARD_HEIGHT * (index + 1)],
+    outputRange: [1, 1, 1, 0.5],
+  });
+
   return (
-    <TouchableOpacity onPress={onNavigate}>
-      <View style={styles.container}>
+    <TouchableOpacity onPress={onNavigate} activeOpacity={0.5}>
+      <Animated.View style={[styles.container, { opacity, transform: [{ scale }] }]}>
         <SharedElement id={`item.${item}`} style={[StyleSheet.absoluteFillObject]}>
           <View
             style={[
@@ -67,7 +86,7 @@ const DeckItem: FC<Props> = ({ item, index, title, onPress, onNavigate }) => {
           selectionColor="#222"
         />
         <Image source={assets.icons.strokeBlack} resizeMode="contain" style={styles.stroke} />
-      </View>
+      </Animated.View>
     </TouchableOpacity>
   );
 };
@@ -86,7 +105,7 @@ const styles = StyleSheet.create({
     height: ITEM_HEIGHT,
     padding: SPACING,
     marginBottom: SPACING,
-    ...theme.backgroundShadow,
+    ...theme.iconButtonShadow,
   },
   input: {
     marginTop: 10,

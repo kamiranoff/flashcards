@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   itemInvisible: {
     backgroundColor: 'transparent',
-    width: isSmallDevice() ? 140 : getPlatformDimension(160, 160, 180),
+    width: isSmallDevice() ? 150 : getPlatformDimension(170, 170, 190),
     borderWidth: 0,
     paddingHorizontal: 5,
     paddingVertical: 10,
