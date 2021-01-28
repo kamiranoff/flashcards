@@ -49,6 +49,7 @@ export interface IAssets {
     toolbar: number;
     flashMaster: number;
     arrow: number;
+    sort: number;
   };
 }
 
@@ -103,6 +104,7 @@ const assets: IAssets = {
     toolbar: require('./images/toolbar.png'),
     flashMaster: require('./images/flashMaster.png'),
     arrow: require('./images/arrow.png'),
+    sort: require('./images/sort.png'),
   },
 };
 

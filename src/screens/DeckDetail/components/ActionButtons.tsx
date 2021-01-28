@@ -6,9 +6,10 @@ import React, { FC } from 'react';
 
 interface Props {
   navigate: () => void;
+  sort: (event: GestureResponderEvent) => void;
   shuffle: (event: GestureResponderEvent) => void;
 }
-const ActionButtons: FC<Props> = ({ navigate, shuffle }) => (
+const ActionButtons: FC<Props> = ({ navigate, sort, shuffle }) => (
   <View style={styles.container}>
     <View style={styles.center}>
       <PrimaryButton
@@ -17,6 +18,9 @@ const ActionButtons: FC<Props> = ({ navigate, shuffle }) => (
         buttonStyle={styles.play}
         buttonTextStyle={styles.buttonText}
       />
+    </View>
+    <View style={styles.sortContainer}>
+      <IconButton onPress={sort} iconName="sort" />
     </View>
     <View style={styles.shuffleContainer}>
       <IconButton onPress={shuffle} iconName="shuffle" />
@@ -38,7 +42,7 @@ const styles = StyleSheet.create({
     width: 80,
     backgroundColor: theme.colors.icon,
   },
-  shuffleContainer: {
+  sortContainer: {
     position: 'absolute',
     ...Platform.select({
       android: {
@@ -46,6 +50,18 @@ const styles = StyleSheet.create({
       },
       ios: {
         left: 5,
+      },
+    }),
+    top: 3,
+  },
+  shuffleContainer: {
+    position: 'absolute',
+    ...Platform.select({
+      android: {
+        right: 16,
+      },
+      ios: {
+        right: 5,
       },
     }),
     top: 3,

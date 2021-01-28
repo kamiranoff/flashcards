@@ -70,7 +70,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
 
   const renderCards = () => {
     if (noMoreCards) {
-      return <NoMoreCards deckId={params.deckId} totalCards={deckDetail.cards.length} />;
+      return <NoMoreCards deckId={params.deckId} />;
     }
 
     return (

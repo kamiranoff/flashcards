@@ -4,17 +4,17 @@ import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import animations from '../../assets/animations';
 import { useSelector } from 'react-redux';
-import { selectBadAnswers } from '../../redux/seclectors';
+import { selectBadAnswers, selectGoodAnswers } from '../../redux/seclectors';
 import assets from '../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';
 
 interface Props {
   deckId: string;
-  totalCards: number;
 }
 
-const NoMoreCards: FC<Props> = ({ deckId, totalCards }) => {
+const NoMoreCards: FC<Props> = ({ deckId }) => {
   const badAnswers = useSelector(selectBadAnswers(deckId));
+  const goodAnswers = useSelector(selectGoodAnswers(deckId));
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -29,7 +29,7 @@ const NoMoreCards: FC<Props> = ({ deckId, totalCards }) => {
           </CustomText>
           <View style={styles.spacer} />
           <CustomText size="h2" centered>
-            You have: {totalCards - badAnswers} correct
+            You have: {goodAnswers} correct
           </CustomText>
           <CustomText size="h2" centered>
             and {badAnswers} incorrect answers!

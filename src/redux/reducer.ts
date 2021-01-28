@@ -1,11 +1,12 @@
 import * as R from 'ramda';
 import { DecksActions, DecksActionTypes, SCORES } from './interface';
+import { shuffleArray } from '../lib';
 
 export interface Card {
   question: string;
   answer: string;
   id: string;
-  rank: number;
+  rank: number | null;
 }
 
 export interface Deck {
@@ -52,7 +53,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         id: cardId,
         question,
         answer: '',
-        rank: 0,
+        rank: null,
       };
       const newCards = R.prepend(newCard, selectedDeckCards); // unshift
       return { ...state, [deckId]: { ...state[deckId], cards: newCards } };
@@ -92,6 +93,14 @@ export default function decks(state = initialState, action: DecksActions): Decks
       const sortByRank = R.sortWith([R.ascend(R.prop('rank'))]);
 
       return <DecksState>{ ...state, [deckId]: { ...state[deckId], cards: sortByRank(selectedDeckCards) } };
+    }
+
+    case DecksActionTypes.shuffleCards: {
+      const { deckId } = action;
+      const selectedDeckCards = state[deckId].cards;
+      const cards = shuffleArray(selectedDeckCards);
+
+      return <DecksState>{ ...state, [deckId]: { ...state[deckId], cards } };
     }
     default:
       return state;
