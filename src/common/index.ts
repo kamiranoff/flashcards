@@ -10,6 +10,7 @@ import Title from './Title';
 import Header from './Header';
 import Icon from './Icon';
 import PriceButton from './PriceButton';
+import TouchableScale from './TouchableScale';
 
 export {
   PriceButton,
@@ -24,4 +25,5 @@ export {
   Title,
   Header,
   Icon,
+  TouchableScale,
 };

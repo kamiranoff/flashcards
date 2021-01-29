@@ -1,20 +1,14 @@
 import React, { FC, useRef, useState } from 'react';
-import {
-  Animated,
-  View,
-  StyleSheet,
-  TextInput,
-  GestureResponderEvent,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { Animated, View, StyleSheet, TextInput, GestureResponderEvent, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { isIOS, SPACING } from '../../../utils/device';
+import { SPACING } from '../../../utils/device';
 import { SharedElement } from 'react-navigation-shared-element';
 import IconButton from '../../../common/IconButton';
 import { saveDeck } from '../../../redux/actions';
 import assets from '../../../assets';
 import { theme } from '../../../utils';
+import { TouchableScale } from '../../../common';
+import CustomText from '../../../common/CustomText';
 
 // const colors = ['#fc9d9a', '#f9cdad', '#c8c8a9', '#83af9b', '#d6e1c7', '#94c7b6'];
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
@@ -27,11 +21,22 @@ interface Props {
   index: number;
   scrollY: Animated.Value;
   title: string | undefined;
+  totalCards: number;
+  goodAnswers: number;
   onPress: (event: GestureResponderEvent) => void;
   onNavigate: (event: GestureResponderEvent) => void;
 }
 
-const DeckItem: FC<Props> = ({ item, index, scrollY, title, onPress, onNavigate }) => {
+const DeckItem: FC<Props> = ({
+  item,
+  index,
+  scrollY,
+  title,
+  totalCards,
+  goodAnswers,
+  onPress,
+  onNavigate,
+}) => {
   const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState(title);
   const inputRef = useRef<TextInput>(null);
@@ -49,7 +54,7 @@ const DeckItem: FC<Props> = ({ item, index, scrollY, title, onPress, onNavigate 
   });
 
   return (
-    <TouchableOpacity onPress={onNavigate} activeOpacity={0.5}>
+    <TouchableScale onPress={onNavigate}>
       <Animated.View style={[styles.container, { opacity, transform: [{ scale }] }]}>
         <SharedElement id={`item.${item}`} style={[StyleSheet.absoluteFillObject]}>
           <View
@@ -65,14 +70,14 @@ const DeckItem: FC<Props> = ({ item, index, scrollY, title, onPress, onNavigate 
             iconName="trash"
             imgStyle={styles.transparentIconImg}
             style={{ ...transparentIcon, marginRight: 10 }}
-            hasShadow={isIOS}
+            hasShadow={false}
           />
           <IconButton
             onPress={handleEdit}
             iconName="edit"
             imgStyle={styles.transparentIconImg}
             style={styles.transparentIcon}
-            hasShadow={isIOS}
+            hasShadow={false}
           />
         </View>
         <TextInput
@@ -86,8 +91,16 @@ const DeckItem: FC<Props> = ({ item, index, scrollY, title, onPress, onNavigate 
           selectionColor="#222"
         />
         <Image source={assets.icons.strokeBlack} resizeMode="contain" style={styles.stroke} />
+        <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 5, justifyContent: 'space-between' }}>
+          <CustomText size="p">
+            {totalCards} {totalCards === 1 ? 'card' : 'cards'}
+          </CustomText>
+          <CustomText size="p">
+            {goodAnswers} / {totalCards}
+          </CustomText>
+        </View>
       </Animated.View>
-    </TouchableOpacity>
+    </TouchableScale>
   );
 };
 
@@ -108,6 +121,8 @@ const styles = StyleSheet.create({
     ...theme.iconButtonShadow,
   },
   input: {
+    color: '#222',
+    fontWeight: 'bold',
     marginTop: 10,
     height: 40,
     borderColor: 'black',

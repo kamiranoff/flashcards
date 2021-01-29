@@ -158,7 +158,7 @@ const theme = {
         shadowOpacity: 0.2,
         shadowOffset: {
           width: 0,
-          height: 40,
+          height: 10,
         },
       },
     }),
