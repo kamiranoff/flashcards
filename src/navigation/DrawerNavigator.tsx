@@ -1,9 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import Animated, { Value, Node } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import HomeStack from './HomeStack';
 import { DrawerStackParamList, Screens } from './interface';
 import DrawerContent from '../screens/Drawer/DrawerContent';
@@ -61,19 +61,7 @@ const DrawerScreensStack: FC<Props> = ({ navigation, style }) => {
 };
 
 const DrawerNavigator = () => {
-  const [progress, setProgress] = useState<Node<number>>(new Value(0));
-  const scale = Animated.interpolate(progress, {
-    inputRange: [0, 1],
-    outputRange: [1, 0.8],
-  });
-  // animate border radius of the scene screen, border radius dont work wth shadow FIXME
-  // const borderRadius = Animated.interpolate(progress, {
-  //   inputRange: [0, 1],
-  //   outputRange: [0, 16],
-  // });
-
-  const animatedStyle = { transform: [{ scale }] };
-
+  let animatedStyle: Animated.AnimateStyle<ViewStyle> = {};
   return (
     <View style={styles.container}>
       <Drawer.Navigator
@@ -86,8 +74,18 @@ const DrawerNavigator = () => {
         // set the scene background to transparent
         sceneContainerStyle={{ backgroundColor: 'transparent' }}
         drawerContent={(props) => {
-          // FIXME - settingProgress should not be done like this - this prompts big fat warning
-          setProgress(props.progress);
+          const scale = Animated.interpolate(props.progress, {
+            inputRange: [0, 1],
+            outputRange: [1, 0.85],
+            extrapolate: Animated.Extrapolate.CLAMP,
+          });
+          animatedStyle = {
+            transform: [
+              {
+                scale: scale,
+              },
+            ],
+          };
           return <DrawerContent {...props} />;
         }}>
         <Drawer.Screen name={Screens.DRAWER_SCREENS}>
