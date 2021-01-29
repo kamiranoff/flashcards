@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import CustomText from '../../common/CustomText';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
-import animations from '../../assets/animations';
 import { useSelector } from 'react-redux';
+import animations from '../../assets/animations';
+import CustomText from '../../common/CustomText';
 import { selectBadAnswers, selectGoodAnswers } from '../../redux/seclectors';
 import assets from '../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';

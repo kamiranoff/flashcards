@@ -4,7 +4,7 @@ import {
   StackNavigationOptions,
   TransitionSpecs,
 } from '@react-navigation/stack';
-import { Animated } from 'react-native';
+import { Animated, Easing } from 'react-native';
 import { isIOS } from '../utils/device';
 
 export const verticalTopToBottomTransition: StackNavigationOptions = {
@@ -123,46 +123,24 @@ export const horizontalAnimation: StackNavigationOptions = {
   },
 };
 
-export const basicOpacityTransition: StackNavigationOptions = {
-  gestureDirection: 'horizontal',
+export const smoothOpacityTransition: StackNavigationOptions = {
+  gestureEnabled: false,
+  headerBackTitleVisible: false,
   transitionSpec: {
     open: {
       animation: 'timing',
-      config: {
-        duration: 1000,
-        delay: 10000,
-      },
+      config: { duration: 400, easing: Easing.inOut(Easing.ease) },
     },
     close: {
       animation: 'timing',
-      config: {
-        duration: 1000,
-      },
+      config: { duration: 300, easing: Easing.inOut(Easing.ease) },
     },
   },
-  cardStyleInterpolator: ({ current }: { current: { progress: Animated.AnimatedInterpolation } }) => ({
-    cardStyle: {
-      opacity: current.progress,
-    },
-  }),
+  cardStyleInterpolator: ({ current: { progress } }) => {
+    return {
+      cardStyle: {
+        opacity: progress,
+      },
+    };
+  },
 };
-
-// export const iosTransitionSpec = {
-//   animation: 'spring',
-//   config: {
-//     stiffness: 1000,
-//     damping: 500,
-//     mass: 3,
-//     overshootClamping: true,
-//     restDisplacementThreshold: 10,
-//     restSpeedThreshold: 10,
-//   },
-// };
-//
-// export const closeAndroidSpec = {
-//   animation: 'timing',
-//   config: {
-//     duration: 350,
-//     easing: Easing.out(Easing.poly(5)),
-//   },
-// };

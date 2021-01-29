@@ -50,6 +50,7 @@ export interface IAssets {
     flashMaster: number;
     arrow: number;
     sort: number;
+    starBadge: number;
   };
 }
 
@@ -105,6 +106,7 @@ const assets: IAssets = {
     flashMaster: require('./images/flashMaster.png'),
     arrow: require('./images/arrow.png'),
     sort: require('./images/sort.png'),
+    starBadge: require('./images/starBadge.png'),
   },
 };
 

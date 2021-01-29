@@ -35,7 +35,8 @@ export interface IconButtonProps {
     | 'cardsWithPen'
     | 'decks'
     | 'noAds'
-    | 'toolbar';
+    | 'toolbar'
+    | 'starBadge';
   style?: ViewStyle;
   bgColor?: string;
   imgStyle?: ImageStyle;

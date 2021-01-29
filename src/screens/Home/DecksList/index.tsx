@@ -11,6 +11,7 @@ import AddButton from '../../../common/AddButton';
 import usePrevious from '../../../hooks/usePrevious';
 import { theme } from '../../../utils';
 
+// const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
 const colors = theme.colors.list;
 
 const DecksList: FC = () => {
@@ -27,6 +28,9 @@ const DecksList: FC = () => {
 
   const renderItem = ({ item, index }: { item: string; index: number }) => {
     const title = R.prop('title', decks[item]);
+    const cards = R.prop('cards', decks[item]);
+    const goodAnswers = cards.filter((c) => c.rank !== null && c.rank > 0).length;
+
     const handleNavigate = () =>
       title ? navigate(Screens.DECK_DETAIL, { id: item, color: colors[index % colors.length] }) : null;
 
@@ -38,6 +42,8 @@ const DecksList: FC = () => {
         scrollY={scrollY}
         onPress={handleRemoveDeck(item)}
         onNavigate={handleNavigate}
+        totalCards={cards.length}
+        goodAnswers={goodAnswers}
       />
     );
   };

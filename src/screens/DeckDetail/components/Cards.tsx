@@ -61,8 +61,14 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
     if (item.id === 'empty') {
       return <View style={styles.itemInvisible} />;
     }
+
     return (
-      <Animated.View style={[styles.item, { opacity: opacityVal }]}>
+      <Animated.View
+        style={[
+          styles.item,
+          { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon },
+          { opacity: opacityVal },
+        ]}>
         <CardItem onPress={handleNavigate} onLongPress={handleDeleteCard} card={item} />
       </Animated.View>
     );
@@ -112,7 +118,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     margin: 5,
     borderRadius: 8,
-    backgroundColor: theme.colors.icon,
     ...theme.iconButtonShadow,
   },
   itemInvisible: {
