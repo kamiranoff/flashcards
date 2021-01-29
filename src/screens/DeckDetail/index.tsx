@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC } from 'react';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,17 +8,17 @@ import Cards from './components/Cards';
 import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, Title } from '../../common';
-import { selectBadAnswers, selectDeckItem } from '../../redux/seclectors';
-import { reorderCards } from '../../redux/actions';
+import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
+import { sortByRankCards, shuffleCards } from '../../redux/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
 import NoCardsText from './components/NoCardsText';
-import ActionButtons from './components/ActionButttons';
+import ActionButtons from './components/ActionButtons';
+import useOpacity from './useOpacity';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
-
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
 
 export interface Props {
@@ -30,30 +30,20 @@ const DeckDetail: FC<Props> = ({
     params: { id, color },
   },
 }) => {
-  const opacityVal = useRef(new Animated.Value(0)).current;
+  const { opacityVal } = useOpacity();
   const dispatch = useDispatch();
+  const { navigate, goBack } = useNavigation();
   const deckDetail = useSelector(selectDeckItem(id));
   const badAnswers = useSelector(selectBadAnswers(id));
-  const { navigate, goBack } = useNavigation();
-
-  useEffect(() => {
-    Animated.timing(opacityVal, {
-      toValue: 1,
-      delay: 200,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  }, [opacityVal]);
+  const goodAnswers = useSelector(selectGoodAnswers(id));
 
   const handleOnPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
 
-  const navigateToPlayground = () => {
+  const navigateToPlayground = () =>
     navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].id });
-  };
 
-  const shuffleCards = () => {
-    return dispatch(reorderCards(id));
-  };
+  const handleSortCards = () => dispatch(sortByRankCards(id));
+  const handleShuffleCards = () => dispatch(shuffleCards(id));
 
   return (
     <Container>
@@ -68,7 +58,7 @@ const DeckDetail: FC<Props> = ({
       <TopContent
         total={deckDetail.cards.length}
         badAnswersTotal={badAnswers}
-        goodAnswersTotal={deckDetail.cards.length - badAnswers}
+        goodAnswersTotal={goodAnswers}
       />
       {isIOS ? (
         <SharedElement
@@ -77,7 +67,11 @@ const DeckDetail: FC<Props> = ({
           <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
             <Animated.View style={{ opacity: opacityVal }}>
               {deckDetail.cards.length ? (
-                <ActionButtons navigate={navigateToPlayground} shuffle={shuffleCards} />
+                <ActionButtons
+                  navigate={navigateToPlayground}
+                  shuffle={handleShuffleCards}
+                  sort={handleSortCards}
+                />
               ) : (
                 <NoCardsText />
               )}
@@ -88,7 +82,11 @@ const DeckDetail: FC<Props> = ({
       ) : (
         <View style={styles.androidList}>
           {deckDetail.cards.length ? (
-            <ActionButtons navigate={navigateToPlayground} shuffle={shuffleCards} />
+            <ActionButtons
+              navigate={navigateToPlayground}
+              shuffle={handleShuffleCards}
+              sort={handleSortCards}
+            />
           ) : (
             <NoCardsText />
           )}

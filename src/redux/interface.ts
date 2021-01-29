@@ -7,6 +7,7 @@ export enum DecksActionTypes {
   deleteCard = 'DELETE_CARD',
   scoreCard = 'SCORE_CARD',
   reorderCards = 'REORDER_CARDS',
+  shuffleCards = 'SHUFFLE_CARDS',
 }
 
 export enum SCORES {
@@ -62,6 +63,11 @@ export interface ReorderCards {
   deckId: string;
 }
 
+export interface ShuffleCards {
+  type: DecksActionTypes.shuffleCards;
+  deckId: string;
+}
+
 export type DecksActions =
   | GetDecks
   | SaveDeck
@@ -70,4 +76,5 @@ export type DecksActions =
   | SaveAnswer
   | DeleteCard
   | ScoreCard
-  | ReorderCards;
+  | ReorderCards
+  | ShuffleCards;

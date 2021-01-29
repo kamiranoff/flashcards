@@ -7,6 +7,7 @@ import {
   SaveAnswer,
   ScoreCard,
   ReorderCards,
+  ShuffleCards,
 } from './interface';
 
 export const getDecks = (): GetDecks => ({
@@ -57,7 +58,12 @@ export const scoreCard = (deckId: string, cardId: string, score: number): ScoreC
   score,
 });
 
-export const reorderCards = (deckId: string): ReorderCards => ({
+export const sortByRankCards = (deckId: string): ReorderCards => ({
   type: DecksActionTypes.reorderCards,
+  deckId,
+});
+
+export const shuffleCards = (deckId: string): ShuffleCards => ({
+  type: DecksActionTypes.shuffleCards,
   deckId,
 });

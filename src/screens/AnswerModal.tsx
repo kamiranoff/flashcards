@@ -26,7 +26,7 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
     navigation.popToTop();
   };
 
-  const handleCloseModal = () => navigation.goBack();
+  const handleCloseModal = () => navigation.popToTop();
 
   return (
     <Container>
