@@ -9,7 +9,7 @@ import {
 interface Props {
   children: ReactNode;
   onPress: (e: GestureResponderEvent) => void;
-  props: TouchableWithoutFeedbackProps;
+  props?: TouchableWithoutFeedbackProps;
 }
 
 const TouchableScale: FC<Props> = ({ children, onPress, props }) => {

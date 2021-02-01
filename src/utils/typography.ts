@@ -65,7 +65,7 @@ const typography = {
     fontFamily: FONT_FAMILY_REGULAR,
   },
   p: {
-    fontSize: FONT_SIZE_12,
+    fontSize: FONT_SIZE_14,
     fontFamily: FONT_FAMILY_REGULAR,
   },
   button: {

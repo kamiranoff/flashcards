@@ -27,7 +27,7 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
     const id = cardId || Date.now().toString(); // Timestamp as id
     const isEdit = !!cardId;
     dispatch(saveQuestion(deckId, id, question, isEdit));
-    navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: id });
+    return navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: id });
   };
 
   return (
@@ -35,7 +35,7 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
       <Title title={title} />
       <CloseButton onPress={handleCloseModal} />
       <Form
-        placeholder="Question"
+        placeholder="Type a question"
         initialValue={card?.question || ''}
         onSubmit={(question) => handleSave(question)}
       />

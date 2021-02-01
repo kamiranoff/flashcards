@@ -26,6 +26,7 @@ const palette = {
   midGray: '#646464',
   darkGray: '#2c2c2d',
   lightGray: '#d1d2d1',
+  lightMidGray: '#d9dddc',
 };
 
 const PLAYGROUND_OVERLAY_BUTTONS = {
@@ -82,6 +83,7 @@ const theme = {
     warning: palette.orange,
     icon: palette.softWhite,
     p: palette.midGray,
+    placeholder: palette.lightMidGray,
     border: palette.gray,
     lightBorder: palette.lightGray,
     background: palette.fadeGray,

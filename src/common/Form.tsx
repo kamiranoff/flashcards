@@ -1,6 +1,12 @@
 import React, { FC, useRef, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
+import {
+  ImageLibraryOptions,
+  ImagePickerResponse,
+  launchCamera,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../utils/device';
 import assets from '../assets';
 import PrimaryButton from './PrimaryButton';
@@ -15,12 +21,20 @@ interface Props {
 const contentStyle = {
   backgroundColor: '#FFFFFF',
   color: '#000',
-  placeholderColor: theme.colors.border,
+  placeholderColor: theme.colors.p,
   contentCSSText: `font-size: 16px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`, // initial valid
+};
+
+const imageOptions: ImageLibraryOptions = {
+  mediaType: 'photo',
+  includeBase64: false,
+  maxHeight: 400,
+  maxWidth: 600,
 };
 
 const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   const [value, setValue] = useState(initialValue);
+  const [response, setResponse] = useState<ImagePickerResponse | null>(null);
   const richText = useRef<RichEditor>(null);
 
   const handleKeyboard = () => {
@@ -32,23 +46,49 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
     }
   };
 
+  const handleSubmit = () => {
+    const editor = richText.current!;
+    editor.dismissKeyboard();
+    onSubmit(value);
+  };
   const handlePressAddImage = () => {
-    // TODO:
-    console.log('pressed image');
+    launchImageLibrary(imageOptions, (res) => {
+      if (res.uri) {
+        console.log('res', res);
+        // const style = { width: res.width, height: res.height };
+        // const source = isIOS ? { uri: res.uri.replace('file://', '') } : { uri: res.uri };
+        richText.current?.insertImage(
+          'https://img.lesmao.vip/k/h256/R/MeiTu/1297.jpg',
+          'width:200;height:100;',
+        );
+      }
+    });
+  };
+
+  const handleInsertImageFromCamera = () => {
+    launchCamera(imageOptions, (res) => {
+      setResponse(res);
+      const style = { width: res.width, height: res.height };
+      richText.current?.insertImage(
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/100px-React-icon.svg.png',
+        `width: ${style.width};height: ${style.height};`,
+      );
+    });
   };
 
   return (
     <>
       <View style={styles.saveButton}>
-        <PrimaryButton buttonText="Save" onPress={() => onSubmit(value)} />
+        <PrimaryButton buttonText="Save" onPress={handleSubmit} />
       </View>
       <ScrollView
+        keyboardShouldPersistTaps="handled"
         keyboardDismissMode="none"
         style={styles.scrollView}
         alwaysBounceVertical={false}
         bounces={false}>
         <RichEditor
-          initialFocus
+          initialFocus={false}
           pasteAsPlainText
           placeholder={placeholder}
           ref={richText}
@@ -66,9 +106,12 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           getEditor={() => richText.current!}
           iconTint="#282828"
           onPressAddImage={handlePressAddImage}
+          /* @ts-ignore FIXME at some point */
+          insertImageFromCamera={handleInsertImageFromCamera}
           selectedIconTint="#2095F2"
           actions={[
             actions.insertImage,
+            'insertImageFromCamera',
             actions.setBold,
             actions.setItalic,
             actions.insertBulletsList,
@@ -94,6 +137,9 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
             ),
             [actions.heading4]: () => (
               <Image source={assets.icons.h2} resizeMode="contain" style={styles.toolbarIcon} />
+            ),
+            insertImageFromCamera: () => (
+              <Image source={assets.icons.camera} resizeMode="contain" style={styles.toolbarIcon} />
             ),
           }}
         />

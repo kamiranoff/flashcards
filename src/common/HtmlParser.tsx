@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import HTMLView from 'react-native-htmlview';
 
 interface Props {
@@ -7,10 +7,50 @@ interface Props {
   isSliced?: boolean;
 }
 
-const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
-  const slicedText = text ? (text.length < 10 ? `${text.slice(0, 22)}...` : `${text.slice(0, 50)}...`) : '';
-  return text ? <HTMLView value={isSliced ? slicedText : text} stylesheet={htmlStyles} /> : null;
+const Img = (props: any) => {
+  const imgStyle = {
+    width: props.isSliced ? 120 : 300,
+    height: props.isSliced ? 80 : 300,
+  };
+
+  const source = {
+    uri: props.attribs.src,
+    width: imgStyle.width,
+    height: imgStyle.height,
+  };
+
+  return (
+    <View>
+      <Image source={source} style={imgStyle} resizeMode="contain" />
+    </View>
+  );
 };
+
+const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
+  const slicedText = text ? `${text.slice(0, 150)}...` : '';
+
+  const renderNode = (node: any, index: number) => {
+    if (node.name === 'img') {
+      return <Img key={index} attribs={node.attribs} isSliced={isSliced} />;
+    }
+  };
+
+  return text ? (
+    <HTMLView
+      renderNode={renderNode}
+      value={isSliced ? slicedText : text}
+      stylesheet={htmlStyles}
+      addLineBreaks={false}
+      textComponentProps={{ style: defaultStyle.text }}
+    />
+  ) : null;
+};
+
+const defaultStyle = StyleSheet.create({
+  text: {
+    fontSize: 16,
+  },
+});
 
 const htmlStyles = StyleSheet.create({
   a: {
@@ -18,11 +58,11 @@ const htmlStyles = StyleSheet.create({
     color: '#FF3366', // links color
   },
   text: {
-    color: 'red',
     fontSize: 18,
     lineHeight: 18 * 1.2,
   },
   paragraph: {
+    fontSize: 16,
     marginVertical: 10,
   },
   image: {

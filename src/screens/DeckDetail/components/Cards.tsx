@@ -98,7 +98,7 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
-    paddingBottom: TOP_HEADER_HEIGHT,
+    paddingBottom: TOP_HEADER_HEIGHT + 60,
     alignItems: 'center',
     marginTop: 10,
   },
