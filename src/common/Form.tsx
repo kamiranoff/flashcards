@@ -1,16 +1,26 @@
 import React, { FC, useRef, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
-import {
-  ImageLibraryOptions,
-  ImagePickerResponse,
-  launchCamera,
-  launchImageLibrary,
-} from 'react-native-image-picker';
+import { ImageLibraryOptions, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../utils/device';
 import assets from '../assets';
 import PrimaryButton from './PrimaryButton';
 import { theme } from '../utils';
+import Api from '../api';
+
+const getPhoto = async (uri: string) => {
+  const fileType = uri.substr(uri.lastIndexOf('.') + 1);
+  const file = {
+    uri,
+    name: `image.${fileType}?date=${Date.now()}`,
+    type: `image/${fileType}`,
+  };
+  try {
+    return await Api.savePhoto(file);
+  } catch (e) {
+    console.log('e', e); // FIXME logger
+  }
+};
 
 interface Props {
   initialValue: string;
@@ -28,13 +38,12 @@ const contentStyle = {
 const imageOptions: ImageLibraryOptions = {
   mediaType: 'photo',
   includeBase64: false,
-  maxHeight: 400,
-  maxWidth: 600,
+  maxHeight: 621,
+  maxWidth: 1366,
 };
 
 const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   const [value, setValue] = useState(initialValue);
-  const [response, setResponse] = useState<ImagePickerResponse | null>(null);
   const richText = useRef<RichEditor>(null);
 
   const handleKeyboard = () => {
@@ -51,28 +60,24 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
     editor.dismissKeyboard();
     onSubmit(value);
   };
+
   const handlePressAddImage = () => {
-    launchImageLibrary(imageOptions, (res) => {
+    launchImageLibrary(imageOptions, async (res) => {
       if (res.uri) {
-        console.log('res', res);
-        // const style = { width: res.width, height: res.height };
-        // const source = isIOS ? { uri: res.uri.replace('file://', '') } : { uri: res.uri };
-        richText.current?.insertImage(
-          'https://img.lesmao.vip/k/h256/R/MeiTu/1297.jpg',
-          'width:200;height:100;',
-        );
+        const uri = res.uri;
+        const photo = await getPhoto(uri);
+        richText.current?.insertImage(photo);
       }
     });
   };
 
   const handleInsertImageFromCamera = () => {
-    launchCamera(imageOptions, (res) => {
-      setResponse(res);
-      const style = { width: res.width, height: res.height };
-      richText.current?.insertImage(
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/100px-React-icon.svg.png',
-        `width: ${style.width};height: ${style.height};`,
-      );
+    launchCamera(imageOptions, async (res) => {
+      if (res.uri) {
+        const uri = res.uri;
+        const photo = await getPhoto(uri);
+        richText.current?.insertImage(photo);
+      }
     });
   };
 

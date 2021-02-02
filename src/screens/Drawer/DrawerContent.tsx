@@ -59,7 +59,7 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
         <DrawerItem
           labelStyle={styles.labelStyle}
           icon={() => <Icon name="student" bgColor={theme.colors.drawerItem.upgrade} />}
-          label="Upgrade to FLASHMASTER"
+          label="Upgrade to PRO"
           onPress={() => navigation.navigate(Screens.UPGRADE)}
         />
         <DrawerItem
