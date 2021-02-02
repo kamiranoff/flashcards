@@ -9,7 +9,7 @@ interface File {
 async function savePhoto(file: File): Promise<string[]> {
   const formData = new FormData();
   formData.append('photo', file as any);
-  const response = await axios.post('http://192.168.0.13:3000/image', formData, {
+  const response = await axios.post('http://localhost:3000/image', formData, {
     timeout: 15000,
     headers: {
       'Content-Type': 'multipart/form-data',
