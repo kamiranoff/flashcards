@@ -86,4 +86,5 @@ function getBottomSpace(): number {
 }
 
 // https://stackoverflow.com/a/25550871/2829540
-const IOS_TABBAR_HEIGHT = isIphoneWithNotch() ? 34 + 49 : 49;
+export const IOS_TABBAR_HEIGHT = isIphoneWithNotch() ? 120 : 49;
+export const ANDROID_TABBAR_HEIGHT = 56;

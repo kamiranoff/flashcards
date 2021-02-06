@@ -17,6 +17,7 @@ export enum Screens {
   REQUEST_FEATURE = 'RequestFeature',
   CONTACT = 'Contact',
   DRAWER_SCREENS = 'DrawerScreens',
+  IMPROVE_THE_APP = 'ImproveTheApp',
 }
 
 export type RootStackParamList = {
@@ -40,4 +41,5 @@ export type DrawerStackParamList = {
   [Screens.UPGRADE]: undefined;
   [Screens.REQUEST_FEATURE]: undefined;
   [Screens.CONTACT]: undefined;
+  [Screens.IMPROVE_THE_APP]: undefined;
 };

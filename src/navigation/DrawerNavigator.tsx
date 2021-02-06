@@ -16,6 +16,7 @@ import Contact from '../screens/Drawer/Contact';
 import { theme } from '../utils';
 import { getPlatformDimension, moderateScale } from '../utils/device';
 import UpgradeToPro from '../screens/Drawer/UpgradeToPro';
+import ImproveTheApp from '../screens/Drawer/ImproveTheApp';
 
 const Drawer = createDrawerNavigator<DrawerStackParamList>();
 const Stack = createStackNavigator<DrawerStackParamList>();
@@ -44,6 +45,11 @@ const DrawerScreensStack: FC<Props> = ({ navigation, style }) => {
           name={Screens.HOME}
           component={HomeStack}
           options={{ headerTransparent: true, headerTitle: '' }}
+        />
+        <Stack.Screen
+          name={Screens.IMPROVE_THE_APP}
+          component={ImproveTheApp}
+          options={setOptions(navigation)}
         />
         <Stack.Screen name={Screens.GET_FREEBIE} component={GetFreebie} options={setOptions(navigation)} />
         <Stack.Screen name={Screens.RATE_THE_APP} component={RateTheApp} options={setOptions(navigation)} />

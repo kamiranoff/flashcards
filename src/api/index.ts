@@ -18,8 +18,19 @@ async function savePhoto(file: File): Promise<string[]> {
   return response.data.photo;
 }
 
+async function contact(data: {}): Promise<{ data: boolean }> {
+  try {
+    const response = await axios.post('http://localhost:3000/contact', data);
+    return response.data;
+  } catch (error) {
+    console.log('error', error); // FIXME logger
+    return error;
+  }
+}
+
 const Api = {
   savePhoto,
+  contact,
 };
 
 export default Api;

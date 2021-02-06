@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import HTMLView from 'react-native-htmlview';
+import { SPACING, WINDOW_WIDTH } from '../utils/device';
 
 interface Props {
   text: string | undefined;
@@ -9,8 +10,9 @@ interface Props {
 
 const Img = (props: any) => {
   const imgStyle = {
-    width: props.isSliced ? 120 : 300,
-    height: props.isSliced ? 80 : 300,
+    width: props.isSliced ? 120 : WINDOW_WIDTH - SPACING * 5, // FIXME
+    height: props.isSliced ? 80 : undefined,
+    aspectRatio: 1,
   };
 
   const source = {
@@ -19,11 +21,7 @@ const Img = (props: any) => {
     height: imgStyle.height,
   };
 
-  return (
-    <View>
-      <Image source={source} style={imgStyle} resizeMode="contain" />
-    </View>
-  );
+  return <Image source={source} style={imgStyle} resizeMode="cover" />;
 };
 
 const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {

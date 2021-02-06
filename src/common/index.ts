@@ -11,6 +11,9 @@ import Header from './Header';
 import Icon from './Icon';
 import PriceButton from './PriceButton';
 import TouchableScale from './TouchableScale';
+import RadioButton from './RadioButton';
+import DismissKeyboard from './DismissKeyboard';
+import Input from './Input';
 
 export {
   PriceButton,
@@ -26,4 +29,7 @@ export {
   Header,
   Icon,
   TouchableScale,
+  RadioButton,
+  DismissKeyboard,
+  Input,
 };
