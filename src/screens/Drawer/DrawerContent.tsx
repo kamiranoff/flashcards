@@ -27,7 +27,7 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
           labelStyle={styles.labelStyle}
           label="Help improve the app"
           icon={() => <Icon name="speedometer" bgColor={theme.colors.drawerItem.improve} />}
-          onPress={() => navigation.navigate(Screens.GET_FREEBIE)}
+          onPress={() => navigation.navigate(Screens.IMPROVE_THE_APP)}
         />
         <DrawerItem
           label="Request feature"
@@ -59,7 +59,7 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
         <DrawerItem
           labelStyle={styles.labelStyle}
           icon={() => <Icon name="student" bgColor={theme.colors.drawerItem.upgrade} />}
-          label="Upgrade to FLASHMASTER"
+          label="Upgrade to PRO"
           onPress={() => navigation.navigate(Screens.UPGRADE)}
         />
         <DrawerItem

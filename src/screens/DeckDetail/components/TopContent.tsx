@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
     paddingTop: -20,
   },
   bodyText: {
-    fontSize: 12,
     marginTop: -5,
     color: theme.colors.border,
   },

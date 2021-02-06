@@ -41,8 +41,8 @@ const UpgradeToPro: FC = () => (
         </View>
       </View>
       <View style={styles.textContent}>
-        {data.map((item) => (
-          <Item icon={item.icon} label={item.label} text={item.text} />
+        {data.map((item, index) => (
+          <Item key={index} icon={item.icon} label={item.label} text={item.text} />
         ))}
       </View>
       <View style={styles.buttonContainer}>

@@ -51,6 +51,9 @@ export interface IAssets {
     arrow: number;
     sort: number;
     starBadge: number;
+    camera: number;
+    sideMan: number;
+    oldMan1: number;
   };
 }
 
@@ -107,6 +110,9 @@ const assets: IAssets = {
     arrow: require('./images/arrow.png'),
     sort: require('./images/sort.png'),
     starBadge: require('./images/starBadge.png'),
+    camera: require('./images/camera.png'),
+    sideMan: require('./images/sideMan.png'),
+    oldMan1: require('./images/oldMan1.png'),
   },
 };
 

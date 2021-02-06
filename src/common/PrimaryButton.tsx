@@ -23,9 +23,14 @@ const PrimaryButton = ({
   <TouchableOpacity
     disabled={disabled}
     activeOpacity={0.6}
-    style={[styles.button, { ...buttonStyle }, hasShadow ? theme.buttonShadow : {}]}
+    style={[
+      styles.button,
+      { ...buttonStyle },
+      hasShadow ? theme.buttonShadow : {},
+      disabled ? styles.disabled : {},
+    ]}
     onPress={onPress}>
-    <Text style={[styles.text, { ...buttonTextStyle }]}>{buttonText}</Text>
+    <Text style={[styles.text, { ...buttonTextStyle }, disabled ? { color: '#fff' } : {}]}>{buttonText}</Text>
   </TouchableOpacity>
 );
 
@@ -39,6 +44,9 @@ const styles = StyleSheet.create({
   text: {
     ...typography.button,
     color: theme.colors.buttonText,
+  },
+  disabled: {
+    backgroundColor: theme.colors.lightBorder,
   },
 });
 

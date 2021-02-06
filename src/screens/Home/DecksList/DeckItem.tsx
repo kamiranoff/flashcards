@@ -91,7 +91,7 @@ const DeckItem: FC<Props> = ({
           selectionColor="#222"
         />
         <Image source={assets.icons.strokeBlack} resizeMode="contain" style={styles.stroke} />
-        <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 5, justifyContent: 'space-between' }}>
+        <View style={styles.bottom}>
           <CustomText size="p">
             {totalCards} {totalCards === 1 ? 'card' : 'cards'}
           </CustomText>
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     paddingHorizontal: 10,
     paddingVertical: 8,
+    fontSize: 18,
   },
   button: {
     position: 'absolute',
@@ -149,6 +150,12 @@ const styles = StyleSheet.create({
   transparentIconImg: {
     width: 18,
     height: 18,
+  },
+  bottom: {
+    flexDirection: 'row',
+    marginTop: 30,
+    marginLeft: 5,
+    justifyContent: 'space-between',
   },
 });
 

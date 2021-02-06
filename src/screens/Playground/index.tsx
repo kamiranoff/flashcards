@@ -120,11 +120,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: isSmallDevice() ? 15 : getPlatformDimension(30, 20, 40),
   },
-  animationContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 10,
-  },
 });
 
 export default Playground;

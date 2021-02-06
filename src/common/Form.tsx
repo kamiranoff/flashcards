@@ -1,10 +1,26 @@
 import React, { FC, useRef, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
+import { ImageLibraryOptions, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../utils/device';
 import assets from '../assets';
 import PrimaryButton from './PrimaryButton';
 import { theme } from '../utils';
+import Api from '../api';
+
+const getPhoto = async (uri: string) => {
+  const fileType = uri.substr(uri.lastIndexOf('.') + 1);
+  const file = {
+    uri,
+    name: `image.${fileType}?date=${Date.now()}`,
+    type: `image/${fileType}`,
+  };
+  try {
+    return await Api.savePhoto(file);
+  } catch (e) {
+    console.log('e', e); // FIXME logger
+  }
+};
 
 interface Props {
   initialValue: string;
@@ -15,8 +31,15 @@ interface Props {
 const contentStyle = {
   backgroundColor: '#FFFFFF',
   color: '#000',
-  placeholderColor: theme.colors.border,
+  placeholderColor: theme.colors.p,
   contentCSSText: `font-size: 16px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`, // initial valid
+};
+
+const imageOptions: ImageLibraryOptions = {
+  mediaType: 'photo',
+  includeBase64: false,
+  maxHeight: 621,
+  maxWidth: 1366,
 };
 
 const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
@@ -32,23 +55,45 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
     }
   };
 
+  const handleSubmit = () => {
+    const editor = richText.current!;
+    editor.dismissKeyboard();
+    onSubmit(value);
+  };
+
   const handlePressAddImage = () => {
-    // TODO:
-    console.log('pressed image');
+    launchImageLibrary(imageOptions, async (res) => {
+      if (res.uri) {
+        const uri = res.uri;
+        const photo = await getPhoto(uri);
+        richText.current?.insertImage(photo);
+      }
+    });
+  };
+
+  const handleInsertImageFromCamera = () => {
+    launchCamera(imageOptions, async (res) => {
+      if (res.uri) {
+        const uri = res.uri;
+        const photo = await getPhoto(uri);
+        richText.current?.insertImage(photo);
+      }
+    });
   };
 
   return (
     <>
       <View style={styles.saveButton}>
-        <PrimaryButton buttonText="Save" onPress={() => onSubmit(value)} />
+        <PrimaryButton buttonText="Save" onPress={handleSubmit} />
       </View>
       <ScrollView
+        keyboardShouldPersistTaps="handled"
         keyboardDismissMode="none"
         style={styles.scrollView}
         alwaysBounceVertical={false}
         bounces={false}>
         <RichEditor
-          initialFocus
+          initialFocus={false}
           pasteAsPlainText
           placeholder={placeholder}
           ref={richText}
@@ -66,9 +111,12 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           getEditor={() => richText.current!}
           iconTint="#282828"
           onPressAddImage={handlePressAddImage}
+          /* @ts-ignore FIXME at some point */
+          insertImageFromCamera={handleInsertImageFromCamera}
           selectedIconTint="#2095F2"
           actions={[
             actions.insertImage,
+            'insertImageFromCamera',
             actions.setBold,
             actions.setItalic,
             actions.insertBulletsList,
@@ -94,6 +142,9 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
             ),
             [actions.heading4]: () => (
               <Image source={assets.icons.h2} resizeMode="contain" style={styles.toolbarIcon} />
+            ),
+            insertImageFromCamera: () => (
+              <Image source={assets.icons.camera} resizeMode="contain" style={styles.toolbarIcon} />
             ),
           }}
         />

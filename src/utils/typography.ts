@@ -65,7 +65,7 @@ const typography = {
     fontFamily: FONT_FAMILY_REGULAR,
   },
   p: {
-    fontSize: FONT_SIZE_12,
+    fontSize: FONT_SIZE_14,
     fontFamily: FONT_FAMILY_REGULAR,
   },
   button: {
@@ -77,7 +77,7 @@ const typography = {
   drawerLabel: {
     color: 'black',
     fontFamily: FONT_FAMILY_HERO,
-    fontSize: FONT_SIZE_14,
+    fontSize: FONT_SIZE_16,
     letterSpacing: 0.5,
   },
 };
