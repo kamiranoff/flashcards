@@ -28,9 +28,21 @@ async function contact(data: {}): Promise<{ data: boolean }> {
   }
 }
 
+async function saveDeck(data: {}): Promise<{ data: boolean }> {
+  try {
+    const d = { ...data, owner: 'anita' }; // FIXME ME
+    const response = await axios.post('http://localhost:3000/deck', d);
+    return response.data;
+  } catch (error) {
+    console.log('error', error); // FIXME logger
+    return error;
+  }
+}
+
 const Api = {
   savePhoto,
   contact,
+  saveDeck,
 };
 
 export default Api;

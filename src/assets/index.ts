@@ -54,6 +54,8 @@ export interface IAssets {
     camera: number;
     sideMan: number;
     oldMan1: number;
+    prettyLady: number;
+    happyFace2: number;
   };
 }
 
@@ -113,6 +115,8 @@ const assets: IAssets = {
     camera: require('./images/camera.png'),
     sideMan: require('./images/sideMan.png'),
     oldMan1: require('./images/oldMan1.png'),
+    prettyLady: require('./images/prettyLady.png'),
+    happyFace2: require('./images/happyFace2.png'),
   },
 };
 

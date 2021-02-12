@@ -36,7 +36,8 @@ export interface IconButtonProps {
     | 'decks'
     | 'noAds'
     | 'toolbar'
-    | 'starBadge';
+    | 'starBadge'
+    | 'happyFace2';
   style?: ViewStyle;
   bgColor?: string;
   imgStyle?: ImageStyle;
