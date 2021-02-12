@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: 'white',
     borderRadius: 6,
-    width: WINDOW_WIDTH - 30,
+    width: WINDOW_WIDTH - 30, // FIXME width tablets??
     height: WINDOW_HEIGHT / 2,
   },
   shareContainer: {
