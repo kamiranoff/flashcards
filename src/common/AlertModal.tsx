@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { View, StyleSheet, DeviceEventEmitter } from 'react-native';
+import { View, StyleSheet, DeviceEventEmitter, Platform } from 'react-native';
+import Share, { Options } from 'react-native-share';
 import { RootStackParamList, Screens } from '../navigation/interface';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
@@ -17,8 +18,46 @@ export interface Props {
   route: AlertScreenRouteProp;
 }
 
+const url = 'https://awesome.contents.com/';
+const title = 'Awesome Contents';
+const message = 'Please check this out in the FlashCards App';
+// const icon = 'data:<data_type>/<file_extension>;base64,<base64_data>';
+const options: Options = Platform.select({
+  ios: {
+    activityItemSources: [
+      {
+        // For sharing url with custom title.
+        placeholderItem: { type: 'url', content: url },
+        item: {
+          default: { type: 'url', content: url },
+        },
+        subject: {
+          default: title,
+        },
+        linkMetadata: { originalUrl: url, url, title },
+      },
+    ],
+  },
+  default: {
+    title,
+    subject: title,
+    message: `${message} ${url}`,
+  },
+});
+
+// const options: Options = {
+//   url: 'url',
+//   message: 'Check out my FlashCards',
+//   title: 'title',
+//   subject: 'Learn with Flashcards App',
+//   saveToFiles: false,
+// };
+
 const ShareContent = () => {
-  const handleSharePress = () => DeviceEventEmitter.emit('share');
+  const handleSharePress = () => {
+    DeviceEventEmitter.emit('share');
+    Share.open(options).catch(null);
+  };
   return (
     <View style={styles.shareContainer}>
       <CustomText size="h2">"Knowledge shared</CustomText>
@@ -81,8 +120,8 @@ const styles = StyleSheet.create({
     marginVertical: 36,
   },
   icon: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
   },
 });
 
