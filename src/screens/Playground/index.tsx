@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, DeviceEventEmitter } from 'react-native';
+import React, { FC, useRef, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,6 @@ import ActionButtons from './ActionButtons';
 import NoMoreCards from './NoMoreCards';
 import { theme } from '../../utils';
 import PrimaryButton from '../../common/PrimaryButton';
-import Api from '../../api';
 
 type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
 type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
@@ -43,15 +42,8 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
     setIndex((index + 1) % deckDetail.cards.length);
   };
 
-  useEffect(() => {
-    // this event is listening for share deck with friends
-    DeviceEventEmitter.addListener('share', () => Api.saveDeck(deckDetail));
-    return () => {
-      DeviceEventEmitter.removeAllListeners('share');
-    };
-  }, []);
-
-  const handleShareDeck = () => navigate(Screens.ALERT, { modalTemplate: 'shareModal' });
+  const handleShareDeck = () =>
+    navigate(Screens.ALERT, { modalTemplate: 'shareModal', deckId: params.deckId });
 
   const renderCard = (item: Card) => <CardItem card={item} title={deckDetail.title} deckId={params.deckId} />;
 

@@ -33,7 +33,8 @@ export interface IconButtonProps {
     | 'notSureFace'
     | 'happyFace'
     | 'shuffle'
-    | 'sort';
+    | 'sort'
+    | 'share';
   imgStyle?: ImageStyle;
   style?: ViewStyle;
   hasShadow?: boolean;

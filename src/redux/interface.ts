@@ -1,3 +1,5 @@
+import { Deck } from './reducer';
+
 export enum DecksActionTypes {
   getDecks = 'GET_DECKS',
   deleteDeck = 'DELETE_DECK',
@@ -8,6 +10,8 @@ export enum DecksActionTypes {
   scoreCard = 'SCORE_CARD',
   reorderCards = 'REORDER_CARDS',
   shuffleCards = 'SHUFFLE_CARDS',
+  editSharedOnDeck = 'EDIT_SHARED_ON_DECK',
+  saveSharedDeck = 'SAVE_SHARED_DECK',
 }
 
 export enum SCORES {
@@ -68,6 +72,17 @@ export interface ShuffleCards {
   deckId: string;
 }
 
+export interface EditSharedOnDeck {
+  type: DecksActionTypes.editSharedOnDeck;
+  deckId: string;
+}
+
+export interface SaveSharedDeck {
+  type: DecksActionTypes.saveSharedDeck;
+  deck: Deck;
+  id: string;
+}
+
 export type DecksActions =
   | GetDecks
   | SaveDeck
@@ -77,4 +92,6 @@ export type DecksActions =
   | DeleteCard
   | ScoreCard
   | ReorderCards
-  | ShuffleCards;
+  | ShuffleCards
+  | EditSharedOnDeck
+  | SaveSharedDeck;

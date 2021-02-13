@@ -10,6 +10,7 @@ import useDecks from '../../../hooks/useDecks';
 import AddButton from '../../../common/AddButton';
 import usePrevious from '../../../hooks/usePrevious';
 import { theme } from '../../../utils';
+import IconButton from '../../../common/IconButton';
 
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
 const colors = theme.colors.list;
@@ -25,6 +26,8 @@ const DecksList: FC = () => {
   const previousDecksIds = usePrevious(decksIds.length);
 
   const handleOpenModal = () => navigate(Screens.ADD_DECK);
+
+  const handleOpenCodeModal = () => navigate(Screens.ALERT, { modalTemplate: 'codeModal' });
 
   const renderItem = ({ item, index }: { item: string; index: number }) => {
     const title = R.prop('title', decks[item]);
@@ -69,7 +72,10 @@ const DecksList: FC = () => {
         {...{ onScroll }}
       />
       <View style={styles.buttonContainer}>
-        <AddButton onOpenModal={handleOpenModal} />
+        <View style={styles.row}>
+          <IconButton onPress={handleOpenCodeModal} iconName="share" style={{ marginRight: 10 }} />
+          <AddButton onOpenModal={handleOpenModal} />
+        </View>
       </View>
       {isIOS ? (
         <SharedElement
@@ -97,6 +103,9 @@ const styles = StyleSheet.create({
     transform: [{ translateY: 0 }],
     borderTopLeftRadius: 48,
     borderTopRightRadius: 48,
+  },
+  row: {
+    flexDirection: 'row',
   },
 });
 
