@@ -105,18 +105,18 @@ const ShareContent = ({ deckId }: { deckId: string }) => {
 
   return (
     <View style={styles.wrapper}>
-      <CustomText size="h2">"Knowledge shared</CustomText>
-      <CustomText size="h2">is knowledge squared"</CustomText>
+      <CustomText size="h2">"Sharing is caring"</CustomText>
       <View style={styles.iconContainer}>
         <Icon name="happyFace2" imgStyle={styles.icon} />
       </View>
       <View style={styles.shareButtonContainer}>
         <PrimaryButton buttonText="Share your deck" onPress={handleSharePress} />
       </View>
-      <View style={{ marginTop: 10 }}>
+      <View style={{ marginTop: 20 }}>
         <CustomText size="body" centered>
-          Share this code: {deckDetail.shareId}
+          Click the button
         </CustomText>
+        <CustomText size="body">or share this code: {deckDetail.shareId}</CustomText>
       </View>
     </View>
   );
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    marginTop: 80,
+    marginTop: 60,
     alignItems: 'center',
   },
   shareButtonContainer: {

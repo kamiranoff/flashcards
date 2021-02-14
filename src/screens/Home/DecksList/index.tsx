@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { FlatList, StyleSheet, View, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import * as R from 'ramda';
 import { SharedElement } from 'react-navigation-shared-element';
 import DeckItem from './DeckItem';
 import { Screens } from '../../../navigation/interface';
@@ -30,8 +29,7 @@ const DecksList: FC = () => {
   const handleOpenCodeModal = () => navigate(Screens.ALERT, { modalTemplate: 'codeModal' });
 
   const renderItem = ({ item, index }: { item: string; index: number }) => {
-    const title = R.prop('title', decks[item]);
-    const cards = R.prop('cards', decks[item]);
+    const { title, cards, sharedWithYou } = decks[item];
     const goodAnswers = cards.filter((c) => c.rank !== null && c.rank > 0).length;
 
     const handleNavigate = () =>
@@ -47,6 +45,7 @@ const DecksList: FC = () => {
         onNavigate={handleNavigate}
         totalCards={cards.length}
         goodAnswers={goodAnswers}
+        sharedWithYou={sharedWithYou}
       />
     );
   };

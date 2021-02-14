@@ -9,12 +9,13 @@ import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } fr
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
-import { sortByRankCards, shuffleCards } from '../../redux/actions';
+import { sortByRankCards, shuffleCards, saveSharedDeck } from '../../redux/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
 import NoCardsText from './components/NoCardsText';
 import ActionButtons from './components/ActionButtons';
 import useOpacity from './useOpacity';
+import Api from '../../api';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 
@@ -44,6 +45,26 @@ const DeckDetail: FC<Props> = ({
 
   const handleSortCards = () => dispatch(sortByRankCards(id));
   const handleShuffleCards = () => dispatch(shuffleCards(id));
+  const handlerRefreshSharedDeck = async () => {
+    if (deckDetail.sharedWithYou) {
+      try {
+        const response = await Api.getSharedDeckBySharedId(deckDetail.shareId);
+        const id = response.data.id;
+        const deck = {
+          owner: response.data.owner,
+          title: response.data.title,
+          cards: response.data.cards,
+          shareId: response.data.share_id,
+          sharedByYou: false,
+          sharedWithYou: true,
+        };
+        dispatch(saveSharedDeck(deck, id));
+      } catch (error) {
+        // FIXME add logger
+        return error;
+      }
+    }
+  };
 
   return (
     <Container>
@@ -93,6 +114,9 @@ const DeckDetail: FC<Props> = ({
           <Cards cards={deckDetail.cards} deckId={id} />
         </View>
       )}
+      <View style={styles.refresh}>
+        <IconButton onPress={handlerRefreshSharedDeck} iconName="plusCurve" />
+      </View>
     </Container>
   );
 };
@@ -127,6 +151,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     paddingTop: SPACING,
     backgroundColor: 'white',
+  },
+  refresh: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
   },
 });
 
