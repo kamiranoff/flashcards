@@ -114,9 +114,11 @@ const DeckDetail: FC<Props> = ({
           <Cards cards={deckDetail.cards} deckId={id} />
         </View>
       )}
-      <View style={styles.refresh}>
-        <IconButton onPress={handlerRefreshSharedDeck} iconName="plusCurve" />
-      </View>
+      {deckDetail.sharedWithYou ? (
+        <View style={styles.refresh}>
+          <IconButton onPress={handlerRefreshSharedDeck} iconName="refresh" />
+        </View>
+      ) : null}
     </Container>
   );
 };

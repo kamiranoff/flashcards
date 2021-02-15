@@ -32,7 +32,7 @@ async function contact(data: {}): Promise<{ data: boolean }> {
     const response = await axios.post('http://localhost:3000/contact', data);
     return response.data;
   } catch (error) {
-    console.log('error', error); // FIXME add logger
+    // FIXME add logger
     return error;
   }
 }
@@ -42,7 +42,17 @@ async function saveDeck(data: {}): Promise<{ data: boolean }> {
     const response = await axios.post('http://localhost:3000/deck', data);
     return response.data;
   } catch (error) {
-    console.log('error', error); // FIXME add logger
+    // FIXME add logger
+    return error;
+  }
+}
+
+async function editDeckByShareId(data: {}, shareId: string): Promise<{ data: boolean }> {
+  try {
+    const response = await axios.post(`http://localhost:3000/deck/${shareId}`, data);
+    return response.data;
+  } catch (error) {
+    // FIXME add logger
     return error;
   }
 }
@@ -52,6 +62,7 @@ async function getSharedDeckBySharedId(sharedId: string): Promise<{ data: Respon
     const response = await axios.get(`http://localhost:3000/deck/${sharedId}`);
     return response.data;
   } catch (error) {
+    // FIXME add logger
     return error;
   }
 }
@@ -61,6 +72,7 @@ const Api = {
   contact,
   saveDeck,
   getSharedDeckBySharedId,
+  editDeckByShareId,
 };
 
 export default Api;

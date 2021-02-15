@@ -34,7 +34,8 @@ export interface IconButtonProps {
     | 'happyFace'
     | 'shuffle'
     | 'sort'
-    | 'share';
+    | 'share'
+    | 'refresh';
   imgStyle?: ImageStyle;
   style?: ViewStyle;
   hasShadow?: boolean;
