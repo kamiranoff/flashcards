@@ -24,6 +24,7 @@
     "ramda": "^0.27.1",
     "react": "16.13.1",
     "react-native": "0.63.3",
+    "react-native-config": "^1.4.2",
     "react-native-deck-swiper": "^2.0.5",
     "react-native-gesture-handler": "1.8.0",
     "react-native-htmlview": "^0.16.0",
