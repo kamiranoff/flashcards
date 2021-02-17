@@ -7,7 +7,7 @@ import IconButton from '../../../common/IconButton';
 import { saveDeck } from '../../../redux/actions';
 import assets from '../../../assets';
 import { theme } from '../../../utils';
-import { TouchableScale } from '../../../common';
+import { Bubble, TouchableScale } from '../../../common';
 import CustomText from '../../../common/CustomText';
 
 // const colors = ['#fc9d9a', '#f9cdad', '#c8c8a9', '#83af9b', '#d6e1c7', '#94c7b6'];
@@ -25,6 +25,7 @@ interface Props {
   goodAnswers: number;
   onPress: (event: GestureResponderEvent) => void;
   onNavigate: (event: GestureResponderEvent) => void;
+  sharedWithYou: boolean;
 }
 
 const DeckItem: FC<Props> = ({
@@ -36,6 +37,7 @@ const DeckItem: FC<Props> = ({
   goodAnswers,
   onPress,
   onNavigate,
+  sharedWithYou,
 }) => {
   const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState(title);
@@ -64,6 +66,11 @@ const DeckItem: FC<Props> = ({
             ]}
           />
         </SharedElement>
+        {sharedWithYou ? (
+          <View style={styles.bubble}>
+            <Bubble />
+          </View>
+        ) : null}
         <View style={styles.button}>
           <IconButton
             onPress={onPress}
@@ -137,6 +144,11 @@ const styles = StyleSheet.create({
     top: 5,
     right: 10,
     alignSelf: 'flex-end',
+  },
+  bubble: {
+    position: 'absolute',
+    top: -5,
+    left: -5,
   },
   stroke: {
     width: '100%',

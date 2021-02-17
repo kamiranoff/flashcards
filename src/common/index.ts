@@ -14,6 +14,7 @@ import TouchableScale from './TouchableScale';
 import RadioButton from './RadioButton';
 import DismissKeyboard from './DismissKeyboard';
 import Input from './Input';
+import Bubble from './Bubble';
 
 export {
   PriceButton,
@@ -32,4 +33,5 @@ export {
   RadioButton,
   DismissKeyboard,
   Input,
+  Bubble,
 };

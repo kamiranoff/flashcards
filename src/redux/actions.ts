@@ -8,7 +8,10 @@ import {
   ScoreCard,
   ReorderCards,
   ShuffleCards,
+  EditSharedOnDeck,
+  SaveSharedDeck,
 } from './interface';
+import { Deck } from './reducer';
 
 export const getDecks = (): GetDecks => ({
   type: DecksActionTypes.getDecks,
@@ -66,4 +69,15 @@ export const sortByRankCards = (deckId: string): ReorderCards => ({
 export const shuffleCards = (deckId: string): ShuffleCards => ({
   type: DecksActionTypes.shuffleCards,
   deckId,
+});
+
+export const editSharedOnDeck = (deckId: string): EditSharedOnDeck => ({
+  type: DecksActionTypes.editSharedOnDeck,
+  deckId,
+});
+
+export const saveSharedDeck = (deck: Deck, id: string): SaveSharedDeck => ({
+  type: DecksActionTypes.saveSharedDeck,
+  deck,
+  id,
 });

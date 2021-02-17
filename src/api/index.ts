@@ -1,9 +1,18 @@
 import axios from 'axios';
+import { Card } from '../redux/reducer';
 
 interface File {
   uri: string;
   name: string;
   type: string;
+}
+
+export interface ResponseDeck {
+  id: string;
+  title: string;
+  owner: string;
+  share_id: string;
+  cards: Card[];
 }
 
 async function savePhoto(file: File): Promise<string[]> {
@@ -23,7 +32,37 @@ async function contact(data: {}): Promise<{ data: boolean }> {
     const response = await axios.post('http://localhost:3000/contact', data);
     return response.data;
   } catch (error) {
-    console.log('error', error); // FIXME logger
+    // FIXME add logger
+    return error;
+  }
+}
+
+async function saveDeck(data: {}): Promise<{ data: boolean }> {
+  try {
+    const response = await axios.post('http://localhost:3000/deck', data);
+    return response.data;
+  } catch (error) {
+    // FIXME add logger
+    return error;
+  }
+}
+
+async function editDeckByShareId(data: {}, shareId: string): Promise<{ data: boolean }> {
+  try {
+    const response = await axios.post(`http://localhost:3000/deck/${shareId}`, data);
+    return response.data;
+  } catch (error) {
+    // FIXME add logger
+    return error;
+  }
+}
+
+async function getSharedDeckBySharedId(sharedId: string): Promise<{ data: ResponseDeck }> {
+  try {
+    const response = await axios.get(`http://localhost:3000/deck/${sharedId}`);
+    return response.data;
+  } catch (error) {
+    // FIXME add logger
     return error;
   }
 }
@@ -31,6 +70,9 @@ async function contact(data: {}): Promise<{ data: boolean }> {
 const Api = {
   savePhoto,
   contact,
+  saveDeck,
+  getSharedDeckBySharedId,
+  editDeckByShareId,
 };
 
 export default Api;

@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import { nanoid } from 'nanoid';
 import { DecksActions, DecksActionTypes, SCORES } from './interface';
 import { shuffleArray } from '../lib';
 
@@ -11,6 +12,10 @@ export interface Card {
 
 export interface Deck {
   title: string;
+  owner: string;
+  shareId: string;
+  sharedByYou: boolean;
+  sharedWithYou: boolean;
   cards: Card[];
 }
 
@@ -37,7 +42,17 @@ export default function decks(state = initialState, action: DecksActions): Decks
           [action.id]: { ...state[action.id], title: action.title },
         };
       }
-      return { ...state, [action.id]: { title: action.title, cards: [] } };
+      return {
+        ...state,
+        [action.id]: {
+          title: action.title,
+          owner: '',
+          shareId: nanoid(6),
+          sharedByYou: false,
+          sharedWithYou: false,
+          cards: [],
+        },
+      };
     }
     case DecksActionTypes.deleteDeck: {
       return R.omit([action.id], state);
@@ -101,6 +116,24 @@ export default function decks(state = initialState, action: DecksActions): Decks
       const cards = shuffleArray(selectedDeckCards);
 
       return <DecksState>{ ...state, [deckId]: { ...state[deckId], cards } };
+    }
+    case DecksActionTypes.editSharedOnDeck: {
+      const { deckId } = action;
+      return { ...state, [deckId]: { ...state[deckId], sharedByYou: true } };
+    }
+    case DecksActionTypes.saveSharedDeck: {
+      const { deck, id } = action;
+      if (id in state) {
+        // do I need this?
+        return {
+          ...state,
+          [id]: { ...state[id], ...deck },
+        };
+      }
+      return {
+        ...state,
+        [id]: { ...deck },
+      };
     }
     default:
       return state;

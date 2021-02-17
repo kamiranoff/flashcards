@@ -20,6 +20,8 @@ export enum Screens {
   IMPROVE_THE_APP = 'ImproveTheApp',
 }
 
+export type ModalTemplate = 'shareModal' | 'alertModal';
+
 export type RootStackParamList = {
   [Screens.HOME]: undefined;
   [Screens.QUESTION_MODAL]: { title: Deck['title']; deckId: string; cardId?: Card['id'] };
@@ -27,7 +29,7 @@ export type RootStackParamList = {
   [Screens.DECK_DETAIL]: { id: string; color: string };
   [Screens.PLAYGROUND]: { deckId: string; cardId: Card['id'] };
   [Screens.SETTINGS]: undefined;
-  [Screens.ALERT]: undefined;
+  [Screens.ALERT]: { modalTemplate: ModalTemplate; deckId: string };
   [Screens.DRAWER]: undefined;
   [Screens.ADD_DECK]: undefined;
 };

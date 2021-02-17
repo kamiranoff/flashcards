@@ -55,8 +55,10 @@ const ImproveTheApp: FC = () => {
       <DismissKeyboard onPress={dismissKeyboard}>
         <>
           <View style={styles.topContainer}>
-            <Image source={assets.icons.sideMan} style={{ width: 70, height: 70 }} resizeMode="contain" />
-            <Image source={assets.icons.oldMan1} style={{ width: 70, height: 50 }} resizeMode="contain" />
+            <Image source={assets.icons.sideMan} style={styles.img} resizeMode="contain" />
+            <Image source={assets.icons.oldMan1} style={styles.imgSmall} resizeMode="contain" />
+            <Image source={assets.icons.prettyLady} style={styles.img} resizeMode="contain" />
+            <Image source={assets.icons.boy} style={styles.imgSmall} resizeMode="contain" />
           </View>
           <ScrollView
             style={styles.container}
@@ -111,6 +113,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 120,
     alignSelf: 'center',
+  },
+  img: {
+    width: 70,
+    height: 70,
+  },
+  imgSmall: {
+    width: 70,
+    height: 50,
   },
 });
 

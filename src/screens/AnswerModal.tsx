@@ -4,9 +4,10 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStackParamList, Screens } from '../navigation/interface';
 import { CloseButton, Container, Form, Title } from 'common';
-import { selectCard } from '../redux/seclectors';
+import { selectCard, selectDeckItem } from '../redux/seclectors';
 import { Card } from '../redux/reducer';
 import { saveAnswer } from '../redux/actions';
+import Api from '../api';
 
 type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;
 type AddAnswerScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ANSWER_MODAL>;
@@ -19,10 +20,14 @@ export interface Props {
 const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
   const { title, deckId, cardId } = params;
   const card = useSelector(selectCard(deckId, cardId));
+  const deckDetail = useSelector(selectDeckItem(deckId));
   const dispatch = useDispatch();
 
-  const handleSave = (answer: Card['answer']) => {
+  const handleSave = async (answer: Card['answer']) => {
     dispatch(saveAnswer(deckId, cardId, answer));
+    if (deckDetail.sharedByYou) {
+      await Api.editDeckByShareId(deckDetail, deckDetail.shareId);
+    }
     navigation.popToTop();
   };
 

@@ -16,6 +16,7 @@ import { SCORES } from '../../redux/interface';
 import ActionButtons from './ActionButtons';
 import NoMoreCards from './NoMoreCards';
 import { theme } from '../../utils';
+import PrimaryButton from '../../common/PrimaryButton';
 
 type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
 type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
@@ -27,7 +28,7 @@ export interface Props {
 
 const STACK_SIZE = 3;
 
-const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) => {
+const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, navigate } }) => {
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
   const [noMoreCards, setNoMoreCards] = useState(false);
@@ -40,6 +41,9 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
   const onSwiped = () => {
     setIndex((index + 1) % deckDetail.cards.length);
   };
+
+  const handleShareDeck = () =>
+    navigate(Screens.ALERT, { modalTemplate: 'shareModal', deckId: params.deckId });
 
   const renderCard = (item: Card) => <CardItem card={item} title={deckDetail.title} deckId={params.deckId} />;
 
@@ -102,6 +106,9 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack } }) =>
     <Container style={styles.container}>
       <CloseButton onPress={goBack} />
       <Title title={deckDetail.title} />
+      <View style={styles.shareButtonContainer}>
+        <PrimaryButton buttonText="Share" onPress={handleShareDeck} />
+      </View>
       <View style={styles.swiperContainer}>
         {renderCards()}
         {!noMoreCards ? (
@@ -119,6 +126,13 @@ const styles = StyleSheet.create({
   swiperContainer: {
     flex: 1,
     marginTop: isSmallDevice() ? 15 : getPlatformDimension(30, 20, 40),
+  },
+  shareButtonContainer: {
+    width: 60,
+    right: 10,
+    position: 'absolute',
+    top: getPlatformDimension(20, 15, 40, 20),
+    zIndex: 999,
   },
 });
 
