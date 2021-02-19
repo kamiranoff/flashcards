@@ -1,4 +1,6 @@
 import * as R from 'ramda';
+// reference https://www.npmjs.com/package/react-native-get-random-values
+import 'react-native-get-random-values';
 import { nanoid } from 'nanoid';
 import { DecksActions, DecksActionTypes, SCORES } from './interface';
 import { shuffleArray } from '../lib';

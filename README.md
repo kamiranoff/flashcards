@@ -1,5 +1,9 @@
 Flashcard App
 
+#### IOS:
+master (dev): [![Build status]()](https://appcenter.ms)
+release (prod): [![Build status]()](https://appcenter.ms)
+
 Run the app locally:
 ```yarn start```
 
