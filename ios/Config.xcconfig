@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  FlashCards
+//
+//  Created by Anita Czapla on 18/02/2021.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include? "tmp.xcconfig"
