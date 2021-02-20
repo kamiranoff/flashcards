@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { View, StyleSheet, TextInput, Image } from 'react-native';
+import { View, StyleSheet, TextInput, Image, Text } from 'react-native';
 import Share, { Options } from 'react-native-share';
 import { RootStackParamList, Screens } from '../navigation/interface';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -82,7 +82,7 @@ const ShareContent = ({ deckId }: { deckId: string }) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
   const dispatch = useDispatch();
   const options: Options = {
-    url: 'https://flashcards.app',
+    url: 'https://myflashcards.app',
     message: `Check out my FlashCards.\nHere is my passcode: ${deckDetail.shareId}`,
     title: 'title',
     subject: 'Learn with Flashcards App',
@@ -116,7 +116,10 @@ const ShareContent = ({ deckId }: { deckId: string }) => {
         <CustomText size="body" centered>
           Click the button
         </CustomText>
-        <CustomText size="body">or share this code: {deckDetail.shareId}</CustomText>
+        <CustomText size="body">
+          or share this code:{' '}
+          <Text style={{ backgroundColor: theme.colors.placeholder }}>{deckDetail.shareId}</Text>
+        </CustomText>
       </View>
     </View>
   );

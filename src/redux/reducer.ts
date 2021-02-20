@@ -49,7 +49,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         [action.id]: {
           title: action.title,
           owner: '',
-          shareId: nanoid(6),
+          shareId: nanoid(4),
           sharedByYou: false,
           sharedWithYou: false,
           cards: [],

@@ -1,14 +1,15 @@
 import React, { FC } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, ViewStyle } from 'react-native';
 import CustomText from './CustomText';
 import assets from '../assets';
 
 interface Props {
   text: string;
   iconName?: 'oldMan1' | 'prettyLady';
+  style?: ViewStyle;
 }
-const NoContentInfo: FC<Props> = ({ text, iconName = 'oldMan1' }) => (
-  <View style={styles.container}>
+const NoContentInfo: FC<Props> = ({ text, iconName = 'oldMan1', style }) => (
+  <View style={[styles.container, style]}>
     <View style={styles.row}>
       <Image source={assets.icons[iconName]} style={styles.img} resizeMode="contain" />
       <View>
@@ -16,7 +17,7 @@ const NoContentInfo: FC<Props> = ({ text, iconName = 'oldMan1' }) => (
           Press plus to
         </CustomText>
         <CustomText size="h2" centered>
-          create your first {text}!
+          create your first {text}
         </CustomText>
       </View>
     </View>
@@ -25,9 +26,7 @@ const NoContentInfo: FC<Props> = ({ text, iconName = 'oldMan1' }) => (
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
-    marginTop: -50,
   },
   img: {
     width: 80,

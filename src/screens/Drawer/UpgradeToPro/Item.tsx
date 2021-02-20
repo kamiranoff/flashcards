@@ -13,7 +13,7 @@ const Item: FC<Props> = ({ icon, label, text }) => (
   <View style={styles.container}>
     <Icon name={icon} />
     <View style={styles.inner}>
-      <CustomText size="h3" textStyle={styles.text}>
+      <CustomText size="h2" textStyle={styles.text}>
         {label}
       </CustomText>
       <CustomText size="p">{text}</CustomText>
