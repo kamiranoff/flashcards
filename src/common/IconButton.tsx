@@ -35,7 +35,8 @@ export interface IconButtonProps {
     | 'shuffle'
     | 'sort'
     | 'share'
-    | 'refresh';
+    | 'refresh'
+    | 'codebar';
   imgStyle?: ImageStyle;
   style?: ViewStyle;
   hasShadow?: boolean;

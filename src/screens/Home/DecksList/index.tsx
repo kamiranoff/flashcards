@@ -64,12 +64,12 @@ const DecksList: FC = () => {
     <>
       <View style={styles.buttonContainer}>
         <View style={styles.row}>
-          <IconButton onPress={handleOpenCodeModal} iconName="share" style={{ marginRight: 10 }} />
+          <IconButton onPress={handleOpenCodeModal} iconName="codebar" style={{ marginRight: 10 }} />
           <AddButton onOpenModal={handleOpenModal} />
         </View>
       </View>
       {R.isEmpty(decks) ? (
-        <NoContentInfo text="flashcard" />
+        <NoContentInfo text="flashcard" style={styles.noContentInfo} />
       ) : (
         <>
           <Animated.FlatList
@@ -114,6 +114,10 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+  },
+  noContentInfo: {
+    flex: 1,
+    marginTop: -50,
   },
 });
 

@@ -19,7 +19,7 @@ const TopContent: FC<Props> = ({ total, badAnswersTotal, goodAnswersTotal }) => 
         {goodAnswersTotal}
       </CustomText>
       <CustomText size="body" textStyle={styles.bodyText}>
-        good answers
+        {goodAnswersTotal === 1 ? 'good answer' : 'good answers'}
       </CustomText>
     </View>
     <View style={{ alignItems: 'center' }}>
@@ -27,7 +27,7 @@ const TopContent: FC<Props> = ({ total, badAnswersTotal, goodAnswersTotal }) => 
         {total}
       </CustomText>
       <CustomText size="body" textStyle={{ color: theme.colors.border }}>
-        cards
+        {total === 1 ? 'card' : 'cards'}
       </CustomText>
     </View>
     <View style={styles.outerBox}>
@@ -36,7 +36,7 @@ const TopContent: FC<Props> = ({ total, badAnswersTotal, goodAnswersTotal }) => 
         {badAnswersTotal}
       </CustomText>
       <CustomText size="body" textStyle={styles.bodyText}>
-        bad answers
+        {badAnswersTotal === 1 ? 'bad answer' : 'bad answers'}
       </CustomText>
     </View>
   </View>

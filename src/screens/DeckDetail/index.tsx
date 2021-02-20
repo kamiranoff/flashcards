@@ -7,12 +7,11 @@ import { RootStackParamList, Screens } from '../../navigation/interface';
 import Cards from './components/Cards';
 import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
 import IconButton from '../../common/IconButton';
-import { CloseButton, Container, Title } from '../../common';
+import { CloseButton, Container, NoContentInfo, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
 import { sortByRankCards, shuffleCards, saveSharedDeck } from '../../redux/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
-import NoCardsText from './components/NoCardsText';
 import ActionButtons from './components/ActionButtons';
 import useOpacity from './useOpacity';
 import Api from '../../api';
@@ -94,7 +93,7 @@ const DeckDetail: FC<Props> = ({
                   sort={handleSortCards}
                 />
               ) : (
-                <NoCardsText />
+                <NoContentInfo text="card" style={styles.noContentInfo} iconName="prettyLady" />
               )}
               <Cards cards={deckDetail.cards} deckId={id} />
             </Animated.View>
@@ -109,7 +108,7 @@ const DeckDetail: FC<Props> = ({
               sort={handleSortCards}
             />
           ) : (
-            <NoCardsText />
+            <NoContentInfo text="card" style={styles.noContentInfo} iconName="prettyLady" />
           )}
           <Cards cards={deckDetail.cards} deckId={id} />
         </View>
@@ -158,6 +157,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     left: 10,
+  },
+  noContentInfo: {
+    marginTop: WINDOW_HEIGHT / 6,
   },
 });
 

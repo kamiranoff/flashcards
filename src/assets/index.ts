@@ -59,6 +59,7 @@ export interface IAssets {
     boy: number;
     share: number;
     refresh: number;
+    codebar: number;
   };
 }
 
@@ -123,6 +124,7 @@ const assets: IAssets = {
     boy: require('./images/boy.png'),
     share: require('./images/share.png'),
     refresh: require('./images/refresh.png'),
+    codebar: require('./images/codebar.png'),
   },
 };
 

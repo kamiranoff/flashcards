@@ -6,8 +6,13 @@ import assets from '../../../assets';
 import { theme } from '../../../utils';
 import Item from './Item';
 
-// FIXME: typescript issue
-const data = [
+interface IData {
+  icon: 'cardsWithPen' | 'decks' | 'noAds' | 'toolbar';
+  label: string;
+  text: string;
+}
+
+const data: IData[] = [
   {
     icon: 'decks',
     label: 'Unlock unlimited decks',
@@ -81,6 +86,7 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: '#fff',
+    marginTop: -60,
   },
   image: {
     aspectRatio: 0.8,
