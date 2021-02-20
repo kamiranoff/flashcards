@@ -19,7 +19,7 @@ export interface ResponseDeck {
 async function savePhoto(file: File): Promise<string[]> {
   const formData = new FormData();
   formData.append('photo', file as any);
-  const response = await axios.post(`http://${Config.API_URL}/image`, formData, {
+  const response = await axios.post(`${Config.API_URL}/image`, formData, {
     timeout: 15000,
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -30,7 +30,7 @@ async function savePhoto(file: File): Promise<string[]> {
 
 async function contact(data: {}): Promise<{ data: boolean }> {
   try {
-    const response = await axios.post(`http://${Config.API_URL}/contact`, data);
+    const response = await axios.post(`${Config.API_URL}/contact`, data);
     return response.data;
   } catch (error) {
     // FIXME add logger
@@ -40,7 +40,7 @@ async function contact(data: {}): Promise<{ data: boolean }> {
 
 async function saveDeck(data: {}): Promise<{ data: boolean }> {
   try {
-    const response = await axios.post(`http://${Config.API_URL}/deck`, data);
+    const response = await axios.post(`${Config.API_URL}/deck`, data);
     return response.data;
   } catch (error) {
     // FIXME add logger
@@ -50,7 +50,7 @@ async function saveDeck(data: {}): Promise<{ data: boolean }> {
 
 async function editDeckByShareId(data: {}, shareId: string): Promise<{ data: boolean }> {
   try {
-    const response = await axios.post(`http://${Config.API_URL}/deck/${shareId}`, data);
+    const response = await axios.post(`${Config.API_URL}/deck/${shareId}`, data);
     return response.data;
   } catch (error) {
     // FIXME add logger
@@ -60,7 +60,7 @@ async function editDeckByShareId(data: {}, shareId: string): Promise<{ data: boo
 
 async function getSharedDeckBySharedId(sharedId: string): Promise<{ data: ResponseDeck }> {
   try {
-    const response = await axios.get(`http://${Config.API_URL}/deck/${sharedId}`);
+    const response = await axios.get(`${Config.API_URL}/deck/${sharedId}`);
     return response.data;
   } catch (error) {
     // FIXME add logger
