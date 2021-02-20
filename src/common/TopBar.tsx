@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     zIndex: 9,
   },
   container: {
+    zIndex: 9,
     paddingBottom: isIOS ? 25 : 20,
   },
 });

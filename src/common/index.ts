@@ -15,6 +15,7 @@ import RadioButton from './RadioButton';
 import DismissKeyboard from './DismissKeyboard';
 import Input from './Input';
 import Bubble from './Bubble';
+import NoContentInfo from './NoContentInfo';
 
 export {
   PriceButton,
@@ -34,4 +35,5 @@ export {
   DismissKeyboard,
   Input,
   Bubble,
+  NoContentInfo,
 };
