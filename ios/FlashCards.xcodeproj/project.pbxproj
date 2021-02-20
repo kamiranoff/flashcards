@@ -790,6 +790,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7NC826G6TU;
@@ -802,7 +803,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.myflashcards.myflashcards;
 				PRODUCT_NAME = FlashCards;
-				PROVISIONING_PROFILE_SPECIFIER = "Flashcards dev profile";
+				PROVISIONING_PROFILE_SPECIFIER = "Flashcards Production";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

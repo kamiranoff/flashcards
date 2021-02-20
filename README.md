@@ -1,7 +1,7 @@
 Flashcard App
 
 #### IOS:
-master (dev): [![Build status]()](https://appcenter.ms)
+master (dev): [![Build status](https://build.appcenter.ms/v0.1/apps/e9a179b2-6d20-4972-baa5-88555b777e12/branches/master/badge)](https://appcenter.ms)
 release (prod): [![Build status]()](https://appcenter.ms)
 
 Run the app locally:
