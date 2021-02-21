@@ -29,19 +29,9 @@ const formatData = (cards: Card[], numColumns: number) => {
 };
 
 const Cards: FC<Props> = ({ cards, deckId }) => {
-  const opacityVal = useRef(new Animated.Value(0)).current;
   const yValue = useRef(new Animated.Value(WINDOW_HEIGHT)).current;
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    Animated.timing(opacityVal, {
-      useNativeDriver: true,
-      toValue: 1,
-      duration: isIOS ? 100 : 50,
-      delay: 0,
-    }).start();
-  }, [opacityVal]);
 
   useEffect(() => {
     Animated.timing(yValue, {
@@ -64,12 +54,8 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
 
     return (
       <Animated.View
-        style={[
-          styles.item,
-          { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon },
-          { opacity: opacityVal },
-        ]}>
-        <CardItem onPress={handleNavigate} onLongPress={handleDeleteCard} card={item} />
+        style={[styles.item, { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon }]}>
+        <CardItem onPress={handleNavigate} onTrashPress={handleDeleteCard} card={item} />
       </Animated.View>
     );
   };
@@ -119,6 +105,7 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 8,
     ...theme.iconButtonShadow,
+    zIndex: 3,
   },
   itemInvisible: {
     backgroundColor: 'transparent',

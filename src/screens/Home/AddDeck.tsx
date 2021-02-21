@@ -44,7 +44,9 @@ const AddDeck: FC<Props> = ({ navigation }) => {
         <CloseButton onPress={() => navigation.goBack()} />
       </View>
       <Animated.View style={[{ opacity: isIOS ? opacityVal : 1 }, styles.content]}>
-        <CustomText size="hero">Your new deck name</CustomText>
+        <CustomText size="hero" centered>
+          Your new deck name
+        </CustomText>
         <TextInput
           style={styles.input}
           value={newTitle}

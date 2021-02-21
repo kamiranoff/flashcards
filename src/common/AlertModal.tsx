@@ -50,7 +50,7 @@ const CodeContent = ({ navigation }: { navigation: AlertScreenNavigationProp }) 
     }
   };
   return (
-    <View style={[styles.wrapper, { marginTop: 30 }]}>
+    <View style={[styles.wrapper, { marginTop: 20 }]}>
       <CustomText size="h2">Someone shared a deck with you?</CustomText>
       <CustomText size="h2">Type the code here:</CustomText>
       <TextInput
