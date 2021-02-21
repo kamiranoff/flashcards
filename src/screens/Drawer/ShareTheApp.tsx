@@ -1,10 +1,20 @@
 import React, { FC } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
+import * as Analytics from 'appcenter-analytics';
+import Share, { Options } from 'react-native-share';
 import { Container, PrimaryButton } from '../../common';
 import CustomText from '../../common/CustomText';
 import assets from '../../assets';
 import { getPlatformDimension } from '../../utils/device';
+import { analytics } from '../../utils';
 
+const options: Options = {
+  url: 'https://myflashcards.app',
+  message: 'Check out a new app called MyFlashCards',
+  title: '',
+  subject: 'Learn with Flashcards App',
+  saveToFiles: false,
+};
 const ShareTheApp: FC = () => (
   <Container style={styles.container}>
     <View style={styles.imageContainer}>
@@ -21,7 +31,13 @@ const ShareTheApp: FC = () => (
         & get extra free deck!
       </CustomText>
       <View style={styles.buttonContainer}>
-        <PrimaryButton buttonText="Share" onPress={() => null} />
+        <PrimaryButton
+          buttonText="Share"
+          onPress={() => {
+            Analytics.trackEvent(analytics.inviteFriends).catch(null);
+            Share.open(options).catch(() => null);
+          }}
+        />
       </View>
     </View>
   </Container>
