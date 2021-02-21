@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
-import { View, StyleSheet, TextInput, Image } from 'react-native';
+import { View, StyleSheet, TextInput, Image, Keyboard } from 'react-native';
 import Share, { Options } from 'react-native-share';
 import { RootStackParamList, Screens } from '../navigation/interface';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { isIOS, WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
+import { getPlatformDimension, isIOS, WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
 import CustomText from './CustomText';
 import PrimaryButton from './PrimaryButton';
 import { RouteProp } from '@react-navigation/native';
@@ -50,18 +50,17 @@ const CodeContent = ({ navigation }: { navigation: AlertScreenNavigationProp }) 
     }
   };
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, { marginTop: 30 }]}>
       <CustomText size="h2">Someone shared a deck with you?</CustomText>
       <CustomText size="h2">Type the code here:</CustomText>
       <TextInput
         style={styles.input}
         value={code}
         onChangeText={setCode}
-        placeholder=""
-        placeholderTextColor="black"
-        autoFocus
+        placeholder="abcd"
+        placeholderTextColor={theme.colors.placeholder}
         selectionColor="black"
-        maxLength={6}
+        maxLength={4}
       />
       <Image source={assets.icons.strokeBlack} resizeMode="contain" style={styles.stroke} />
       <View style={styles.buttonContainer}>
@@ -69,7 +68,7 @@ const CodeContent = ({ navigation }: { navigation: AlertScreenNavigationProp }) 
           buttonText="Submit"
           onPress={handleSaveSharedDeck}
           hasShadow={isIOS}
-          disabled={code.length < 6}
+          disabled={code.length < 4}
           buttonStyle={styles.buttonStyle}
           buttonTextStyle={{ color: theme.colors.border }}
         />
@@ -118,7 +117,12 @@ const ShareContent = ({ deckId }: { deckId: string }) => {
         </CustomText>
         <View style={{ flexDirection: 'row' }}>
           <CustomText size="body">or share this code:</CustomText>
-          <TextInput keyboardType={undefined} value={deckDetail.shareId} style={styles.codeInput} />
+          <TextInput
+            editable={false}
+            keyboardType={undefined}
+            value={deckDetail.shareId}
+            style={styles.codeInput}
+          />
         </View>
       </View>
     </View>
@@ -128,7 +132,13 @@ const ShareContent = ({ deckId }: { deckId: string }) => {
 const AlertModal: FC<Props> = ({ navigation, route: { params } }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
+      <View
+        style={[
+          styles.content,
+          params.modalTemplate === 'codeModal'
+            ? { height: WINDOW_HEIGHT / 3 }
+            : { height: WINDOW_HEIGHT / getPlatformDimension(2, 2, 2.5) },
+        ]}>
         <View style={styles.closeButton}>
           <IconButton onPress={() => navigation.pop()} iconName="x" />
         </View>
@@ -159,7 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 6,
     width: WINDOW_WIDTH - 30, // FIXME width tablets??
-    height: WINDOW_HEIGHT / 2,
+    height: WINDOW_HEIGHT / 3,
   },
   wrapper: {
     flex: 1,
@@ -179,17 +189,16 @@ const styles = StyleSheet.create({
     height: 60,
   },
   stroke: {
-    width: '80%',
+    width: '30%',
     height: 5,
     resizeMode: 'contain',
   },
   input: {
-    marginTop: 40,
-    height: 40,
+    marginTop: 30,
     fontSize: 18,
     borderRadius: 0,
     paddingHorizontal: 10,
-    paddingVertical: 8,
+    fontWeight: 'bold',
     color: 'black',
   },
   buttonContainer: {

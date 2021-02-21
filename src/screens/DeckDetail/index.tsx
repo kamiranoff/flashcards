@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   addIcon: {
     right: 10,
     position: 'absolute',
-    top: getPlatformDimension(20, 20, 5),
+    top: getPlatformDimension(20, 20, 50),
     zIndex: 9,
   },
   topView: {

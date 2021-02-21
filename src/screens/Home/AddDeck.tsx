@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList, Screens } from '../../navigation/interface';
 import assets from '../../assets';
 import CustomText from '../../common/CustomText';
-import { isIOS } from '../../utils/device';
+import { getPlatformDimension, isIOS } from '../../utils/device';
 import { theme } from '../../utils';
 
 type AddDeckScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ADD_DECK>;
@@ -43,7 +43,7 @@ const AddDeck: FC<Props> = ({ navigation }) => {
       <View style={styles.offset}>
         <CloseButton onPress={() => navigation.goBack()} />
       </View>
-      <Animated.View style={{ opacity: isIOS ? opacityVal : 1, paddingHorizontal: 10, marginTop: 100 }}>
+      <Animated.View style={[{ opacity: isIOS ? opacityVal : 1 }, styles.content]}>
         <CustomText size="hero">Your new deck name</CustomText>
         <TextInput
           style={styles.input}
@@ -51,7 +51,6 @@ const AddDeck: FC<Props> = ({ navigation }) => {
           onChangeText={setNewTitle}
           placeholder=""
           placeholderTextColor="white"
-          autoFocus
           selectionColor="white"
         />
         <Image source={assets.icons.strokeWhite2} resizeMode="contain" style={styles.stroke} />
@@ -76,6 +75,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
     alignContent: 'center',
   },
+  content: {
+    paddingHorizontal: 10,
+    marginTop: getPlatformDimension(120, 120, 140, 160),
+  },
   stroke: {
     width: '100%',
     height: 5,
@@ -94,10 +97,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 120,
     alignSelf: 'center',
-  },
-  content: {
-    paddingHorizontal: 10,
-    marginTop: 100,
   },
   offset: {
     marginLeft: 6,

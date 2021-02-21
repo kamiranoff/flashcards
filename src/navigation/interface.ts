@@ -20,7 +20,7 @@ export enum Screens {
   IMPROVE_THE_APP = 'ImproveTheApp',
 }
 
-export type ModalTemplate = 'shareModal' | 'alertModal';
+export type ModalTemplate = 'shareModal' | 'alertModal' | 'codeModal';
 
 export type RootStackParamList = {
   [Screens.HOME]: undefined;
