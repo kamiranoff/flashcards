@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useRef } from 'react';
-import { FlatList, StyleSheet, View, Animated } from 'react-native';
+import React, { FC, useRef } from 'react';
+import { StyleSheet, View, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import * as R from 'ramda';
@@ -8,7 +8,6 @@ import { Screens } from '../../../navigation/interface';
 import { getPlatformDimension, isIOS, moderateScale, SPACING, WINDOW_HEIGHT } from '../../../utils/device';
 import useDecks from '../../../hooks/useDecks';
 import AddButton from '../../../common/AddButton';
-import usePrevious from '../../../hooks/usePrevious';
 import { theme } from '../../../utils';
 import IconButton from '../../../common/IconButton';
 import NoContentInfo from '../../../common/NoContentInfo';
@@ -17,14 +16,12 @@ import NoContentInfo from '../../../common/NoContentInfo';
 const colors = theme.colors.list;
 
 const DecksList: FC = () => {
-  const flatListRef = useRef<FlatList>(null);
   const scrollY = useRef(new Animated.Value(0)).current;
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
     useNativeDriver: true,
   });
-  const { navigate, addListener } = useNavigation();
+  const { navigate } = useNavigation();
   const { decks, decksIds, handleRemoveDeck } = useDecks();
-  const previousDecksIds = usePrevious(decksIds.length);
 
   const handleOpenModal = () => navigate(Screens.ADD_DECK);
 
@@ -52,14 +49,6 @@ const DecksList: FC = () => {
     );
   };
 
-  useEffect(() => {
-    return addListener('focus', () => {
-      if (previousDecksIds && decksIds.length > previousDecksIds) {
-        flatListRef && flatListRef.current && flatListRef.current.scrollToEnd({ animated: true });
-      }
-    });
-  }, [addListener, decksIds.length, previousDecksIds]);
-
   return (
     <>
       <View style={styles.buttonContainer}>
@@ -73,7 +62,6 @@ const DecksList: FC = () => {
       ) : (
         <>
           <Animated.FlatList
-            ref={flatListRef}
             contentContainerStyle={styles.flatListContainer}
             scrollEventThrottle={16}
             data={decksIds}

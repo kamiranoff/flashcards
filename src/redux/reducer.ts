@@ -45,7 +45,6 @@ export default function decks(state = initialState, action: DecksActions): Decks
         };
       }
       return {
-        ...state,
         [action.id]: {
           title: action.title,
           owner: '',
@@ -54,6 +53,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
           sharedWithYou: false,
           cards: [],
         },
+        ...state,
       };
     }
     case DecksActionTypes.deleteDeck: {
