@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
-import { View, StyleSheet, TextInput, Image, Keyboard } from 'react-native';
+import { View, StyleSheet, TextInput, Image } from 'react-native';
 import Share, { Options } from 'react-native-share';
+import * as Analytics from 'appcenter-analytics';
 import { RootStackParamList, Screens } from '../navigation/interface';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { getPlatformDimension, isIOS, WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
@@ -14,7 +15,7 @@ import { selectDeckItem } from '../redux/seclectors';
 import Api from '../api';
 import { editSharedOnDeck, saveSharedDeck } from '../redux/actions';
 import assets from '../assets';
-import { theme } from '../utils';
+import { analytics, theme } from '../utils';
 
 type AlertScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ALERT>;
 type AlertScreenRouteProp = RouteProp<RootStackParamList, Screens.ALERT>;
@@ -96,6 +97,7 @@ const ShareContent = ({ deckId }: { deckId: string }) => {
           return Share.open(options).catch(null);
         }
       }
+      await Analytics.trackEvent(analytics.shareDeckByUser);
       return Share.open(options).catch(() => null);
     } catch (error) {
       console.log('e', error);
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginLeft: 5,
     paddingHorizontal: 4,
-    width: 48,
+    width: 60,
     backgroundColor: theme.colors.placeholder,
   },
 });
