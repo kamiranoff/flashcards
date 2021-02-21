@@ -13,7 +13,7 @@ import Icon from './Icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectDeckItem } from '../redux/seclectors';
 import Api from '../api';
-import { editSharedOnDeck, saveSharedDeck } from '../redux/actions';
+import { editSharedOnDeck, saveSharedDeck } from '../redux/decks/actions';
 import assets from '../assets';
 import { analytics, theme } from '../utils';
 

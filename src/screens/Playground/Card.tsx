@@ -2,7 +2,7 @@ import React, { FC, useRef } from 'react';
 import { View, StyleSheet, Animated, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { WINDOW_WIDTH } from '../../utils/device';
-import { Card } from '../../redux/reducer';
+import { Card } from '../../redux/decks/reducer';
 import { Screens } from '../../navigation/interface';
 import { HtmlParser, IconButton } from '../../common';
 

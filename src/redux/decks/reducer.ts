@@ -3,7 +3,7 @@ import * as R from 'ramda';
 import 'react-native-get-random-values';
 import { nanoid } from 'nanoid';
 import { DecksActions, DecksActionTypes, SCORES } from './interface';
-import { shuffleArray } from '../lib';
+import { shuffleArray } from '../../lib';
 
 export interface Card {
   question: string;

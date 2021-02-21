@@ -3,7 +3,8 @@ import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-import decks, { DecksState } from './reducer';
+import decks, { DecksState } from './decks/reducer';
+import { user, UserState } from './user/reducer';
 
 const middleware: Middleware[] = [];
 
@@ -19,10 +20,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 export interface RootState {
   decks: DecksState;
+  user: UserState;
 }
 
 const rootReducer = combineReducers<RootState>({
   decks,
+  user,
 });
 
 const persistConfig = {

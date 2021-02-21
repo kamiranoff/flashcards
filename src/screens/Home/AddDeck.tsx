@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { View, Animated, StyleSheet, TextInput, Image } from 'react-native';
 import { CloseButton, PrimaryButton } from '../../common';
 import { useDispatch } from 'react-redux';
-import { saveDeck } from '../../redux/actions';
+import { saveDeck } from '../../redux/decks/actions';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList, Screens } from '../../navigation/interface';
 import assets from '../../assets';

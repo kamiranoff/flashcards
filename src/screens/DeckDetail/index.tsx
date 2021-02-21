@@ -9,7 +9,7 @@ import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } fr
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, NoContentInfo, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
-import { sortByRankCards, shuffleCards, saveSharedDeck } from '../../redux/actions';
+import { sortByRankCards, shuffleCards, saveSharedDeck } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
 import ActionButtons from './components/ActionButtons';
