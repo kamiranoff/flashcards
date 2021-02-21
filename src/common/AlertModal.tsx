@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { View, StyleSheet, TextInput, Image, Text } from 'react-native';
+import { View, StyleSheet, TextInput, Image } from 'react-native';
 import Share, { Options } from 'react-native-share';
 import { RootStackParamList, Screens } from '../navigation/interface';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -116,10 +116,10 @@ const ShareContent = ({ deckId }: { deckId: string }) => {
         <CustomText size="body" centered>
           Click the button
         </CustomText>
-        <CustomText size="body">
-          or share this code:{' '}
-          <Text style={{ backgroundColor: theme.colors.placeholder }}>{deckDetail.shareId}</Text>
-        </CustomText>
+        <View style={{ flexDirection: 'row' }}>
+          <CustomText size="body">or share this code:</CustomText>
+          <TextInput keyboardType={undefined} value={deckDetail.shareId} style={styles.codeInput} />
+        </View>
       </View>
     </View>
   );
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    marginTop: 60,
+    marginTop: 40,
     alignItems: 'center',
   },
   shareButtonContainer: {
@@ -199,6 +199,14 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: theme.colors.icon,
+  },
+  codeInput: {
+    fontSize: 18,
+    borderRadius: 4,
+    marginLeft: 5,
+    paddingHorizontal: 4,
+    width: 48,
+    backgroundColor: theme.colors.placeholder,
   },
 });
 
