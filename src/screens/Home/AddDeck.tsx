@@ -32,7 +32,10 @@ const AddDeck: FC<Props> = ({ navigation }) => {
 
   const handleSaveDeck = () => {
     const newId = String(Date.now());
-    return newTitle ? dispatch(saveDeck(newId, newTitle)) : null;
+    if (newTitle) {
+      dispatch(saveDeck(newId, newTitle));
+      setTimeout(() => navigation.goBack(), 200);
+    }
   };
 
   return (
@@ -54,6 +57,7 @@ const AddDeck: FC<Props> = ({ navigation }) => {
         <Image source={assets.icons.strokeWhite2} resizeMode="contain" style={styles.stroke} />
         <View style={styles.buttonContainer}>
           <PrimaryButton
+            disabled={!newTitle}
             buttonText="Save"
             onPress={handleSaveDeck}
             hasShadow={isIOS}
