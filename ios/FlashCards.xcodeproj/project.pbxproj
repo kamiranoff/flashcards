@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* FlashCardsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* FlashCardsTests.m */; };
 		0829F22D25B44E46001DE6E9 /* FlashCardsRateApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829F22C25B44E46001DE6E9 /* FlashCardsRateApp.m */; };
+		084BE31725E2F329002BE640 /* FlashCardsAppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 084BE31625E2F329002BE640 /* FlashCardsAppVersion.m */; };
 		08858B0B25DF2F9500438BB4 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08858B0A25DF2F9500438BB4 /* AppCenter-Config.plist */; };
 		08FA889425B9BD790085EE81 /* YuseiMagic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08FA889325B9BD790085EE81 /* YuseiMagic-Regular.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -49,6 +50,8 @@
 		00E356F21AD99517003FC87E /* FlashCardsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlashCardsTests.m; sourceTree = "<group>"; };
 		0829F22B25B44E04001DE6E9 /* FlashCardsRateApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlashCardsRateApp.h; sourceTree = "<group>"; };
 		0829F22C25B44E46001DE6E9 /* FlashCardsRateApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlashCardsRateApp.m; sourceTree = "<group>"; };
+		084BE31125E2F2F6002BE640 /* FlashCardsAppVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlashCardsAppVersion.h; sourceTree = "<group>"; };
+		084BE31625E2F329002BE640 /* FlashCardsAppVersion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlashCardsAppVersion.m; sourceTree = "<group>"; };
 		08858B0825DF236900438BB4 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		08858B0A25DF2F9500438BB4 /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		08FA889325B9BD790085EE81 /* YuseiMagic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YuseiMagic-Regular.ttf"; sourceTree = "<group>"; };
@@ -135,6 +138,8 @@
 			children = (
 				0829F22B25B44E04001DE6E9 /* FlashCardsRateApp.h */,
 				0829F22C25B44E46001DE6E9 /* FlashCardsRateApp.m */,
+				084BE31125E2F2F6002BE640 /* FlashCardsAppVersion.h */,
+				084BE31625E2F329002BE640 /* FlashCardsAppVersion.m */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -679,6 +684,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				0829F22D25B44E46001DE6E9 /* FlashCardsRateApp.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				084BE31725E2F329002BE640 /* FlashCardsAppVersion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

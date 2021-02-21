@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.flashcards.modules.FlashCardsAppVersionPackage;
 import com.flashcards.modules.FlashCardsRateAppPackage;
 import com.ijzerenhein.sharedelement.RNSharedElementPackage;
 import com.ijzerenhein.sharedelement.RNSharedElementPackage;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
           packages.add(new FlashCardsRateAppPackage());
           packages.add(new SafeAreaContextPackage());
+          packages.add(new FlashCardsAppVersionPackage());
           return packages;
         }
 

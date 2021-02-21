@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native';
 import { Icon } from '../../common';
 import { theme, typography } from '../../utils';
 import { isIOS } from '../../utils/device';
+import useAppVersion from '../../modules/AppVersion';
 
 type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, any>; // FIXME
 
@@ -14,6 +15,8 @@ export interface Props {
 }
 
 const DrawerContent: FC<Props> = ({ navigation }) => {
+  const { appVersion } = useAppVersion();
+
   return (
     <DrawerContentScrollView contentContainerStyle={styles.scrollView} scrollEnabled={false}>
       <View style={styles.topContent}>
@@ -72,7 +75,7 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
       <View>
         <DrawerItem
           labelStyle={styles.bottomLabelStyle}
-          label="FlashCards v1.0"
+          label={appVersion}
           onPress={() => navigation.navigate(Screens.UPGRADE)}
         />
       </View>
