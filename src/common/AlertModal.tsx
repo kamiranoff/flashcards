@@ -30,7 +30,7 @@ const CodeContent = ({ navigation }: { navigation: AlertScreenNavigationProp }) 
   const dispatch = useDispatch();
   const handleSaveSharedDeck = async () => {
     try {
-      if (code.length === 6) {
+      if (code.length === 4) {
         const response = await Api.getSharedDeckBySharedId(code);
         const id = response.data.id;
         const deck = {
@@ -43,6 +43,7 @@ const CodeContent = ({ navigation }: { navigation: AlertScreenNavigationProp }) 
         };
         dispatch(saveSharedDeck(deck, id));
         setCode('');
+        Analytics.trackEvent(analytics.addSharedDeck).catch(null);
         setTimeout(() => navigation.pop(), 300);
       }
     } catch (error) {

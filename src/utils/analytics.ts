@@ -6,9 +6,8 @@ enum analytics {
   reviewApp = 'reviewApp',
   upgradeToPro = 'upgradeToPro',
   contactUs = 'contactUs',
-  onSwipeRight = 'onSwipeRight',
-  onSwipeLeft = 'onSwipeLeft',
   screenVisibility = 'screenVisibility',
+  getFreebie = 'getFreebie',
 }
 
 export default analytics;

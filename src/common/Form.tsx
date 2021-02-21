@@ -1,11 +1,12 @@
 import React, { FC, useRef, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
+import * as Analytics from 'appcenter-analytics';
 import { ImageLibraryOptions, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../utils/device';
 import assets from '../assets';
 import PrimaryButton from './PrimaryButton';
-import { theme } from '../utils';
+import { analytics, theme } from '../utils';
 import Api from '../api';
 
 const getPhoto = async (uri: string) => {
@@ -62,6 +63,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   };
 
   const handlePressAddImage = () => {
+    Analytics.trackEvent(analytics.addImageToCard).catch(null);
     launchImageLibrary(imageOptions, async (res) => {
       if (res.uri) {
         const uri = res.uri;

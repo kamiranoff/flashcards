@@ -1,6 +1,7 @@
-import { Linking, NativeModules, Platform } from 'react-native';
+import { Linking, NativeModules } from 'react-native';
 import * as Analytics from 'appcenter-analytics';
 import { analytics } from '../utils';
+import { isIOS } from '../utils/device';
 
 const IOS_STORE_URL = 'itms-apps://itunes.apple.com/app/id1496618544?action=write-review';
 const ANDROID_STORE_URL = 'market://details?id=com.brainsandbrawns.forkflick';
@@ -35,7 +36,7 @@ const rateIOS = () => {
 // onDemand means in-app rate the app is triggered programmatically - for example if someone creates the third deck
 // if onDemand = false we trigger rate the app by clicking the button (Rate us in settings) and redirect the user to Google Play
 const rateApp = (onDemand: boolean) => {
-  if (Platform.OS === 'ios') {
+  if (isIOS) {
     return rateIOS();
   }
   if (onDemand) {
