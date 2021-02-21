@@ -13,7 +13,7 @@ const Title = ({ title }: { title: string }) => (
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: getPlatformDimension(25, 10, 5),
+    paddingTop: getPlatformDimension(25, 10, 15),
     paddingHorizontal: 70,
   },
 });

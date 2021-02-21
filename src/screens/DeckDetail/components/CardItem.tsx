@@ -44,7 +44,7 @@ const CardItem: FC<Props> = ({ onPress, onLongPress, card }) => (
 
 const styles = StyleSheet.create({
   content: {
-    width: isSmallDevice() ? 130 : getPlatformDimension(150, 150, 170),
+    width: isSmallDevice() ? 130 : getPlatformDimension(150, 150, 150),
     paddingHorizontal: 5,
     paddingVertical: 10,
     justifyContent: 'space-between',
