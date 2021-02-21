@@ -6,9 +6,12 @@ import CustomText from '../../common/CustomText';
 import { sendEmail } from '../../lib';
 import animations from '../../assets/animations';
 import { getPlatformDimension } from '../../utils/device';
+import * as Analytics from 'appcenter-analytics';
+import { analytics } from '../../utils';
 
 const Contact: FC = () => {
   const handleContact = () => {
+    Analytics.trackEvent(analytics.contactUs).catch(null);
     sendEmail('czaplaanita@gmail.com', 'Hello from FlashCard App!').then(() => {
       console.log('Our email successful provided to device mail ');
     });

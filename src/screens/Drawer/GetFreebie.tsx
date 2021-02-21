@@ -2,11 +2,21 @@ import React from 'react';
 import CustomText from '../../common/CustomText';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
+import * as Analytics from 'appcenter-analytics';
+import Share, { Options } from 'react-native-share';
 import animations from '../../assets/animations';
 import assets from '../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';
 import { Container, PrimaryButton } from '../../common';
-import { theme } from '../../utils';
+import { analytics, theme } from '../../utils';
+
+const options: Options = {
+  url: 'https://myflashcards.app',
+  message: 'Check out a new app called MyFlashCards',
+  title: '',
+  subject: 'Learn with Flashcards App',
+  saveToFiles: false,
+};
 
 const GetFreebie = () => {
   return (
@@ -34,7 +44,10 @@ const GetFreebie = () => {
           <View style={styles.buttonContainer}>
             <PrimaryButton
               buttonText="Invite"
-              onPress={() => null}
+              onPress={() => {
+                Analytics.trackEvent(analytics.getFreebie).catch(null);
+                Share.open(options).catch(() => null);
+              }}
               buttonStyle={styles.buttonStyle}
               buttonTextStyle={{ color: '#222' }}
             />
