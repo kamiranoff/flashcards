@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Config from 'react-native-config';
-import { Card } from '../redux/reducer';
+import { Card } from '../redux/decks/reducer';
 
 interface File {
   uri: string;

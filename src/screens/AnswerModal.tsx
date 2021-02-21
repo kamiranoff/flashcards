@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootStackParamList, Screens } from '../navigation/interface';
 import { CloseButton, Container, Form, Title } from 'common';
 import { selectCard, selectDeckItem } from '../redux/seclectors';
-import { Card } from '../redux/reducer';
-import { saveAnswer } from '../redux/actions';
+import { Card } from '../redux/decks/reducer';
+import { saveAnswer } from '../redux/decks/actions';
 import Api from '../api';
 
 type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;

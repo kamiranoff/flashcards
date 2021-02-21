@@ -9,14 +9,17 @@ import { RootStackParamList, Screens } from '../../navigation/interface';
 import { CloseButton, Container, Title } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
-import { Card } from '../../redux/reducer';
+import { Card } from '../../redux/decks/reducer';
 import { getPlatformDimension, isSmallDevice } from '../../utils/device';
-import { scoreCard } from '../../redux/actions';
-import { SCORES } from '../../redux/interface';
+import { scoreCard } from '../../redux/decks/actions';
+import { SCORES } from '../../redux/decks/interface';
 import ActionButtons from './ActionButtons';
 import NoMoreCards from './NoMoreCards';
 import { theme } from '../../utils';
 import PrimaryButton from '../../common/PrimaryButton';
+import { RootState } from '../../redux/store';
+import { triggerRateApp } from '../../redux/user/actions';
+import rateApp from '../../modules/rateApp';
 
 type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
 type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
@@ -34,6 +37,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   const [noMoreCards, setNoMoreCards] = useState(false);
   const swiperRef = useRef<any>(null); // FIXME
   const deckDetail = useSelector(selectDeckItem(params.deckId));
+  const { ratedAppAt } = useSelector((state: RootState) => state.user);
   const card = R.find(R.propEq('id', params.cardId), deckDetail.cards);
   const restOfCards = R.reject(R.propEq('id', params.cardId), deckDetail.cards);
   const reOrderedCards = card ? [card, ...restOfCards] : deckDetail.cards; // First card is the one which has been clicked from deck detail
@@ -71,6 +75,13 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
 
   const handleSwipeRight = (currentIndex: number) => scoreGoodAnswer(currentIndex);
   const handleSwipeLeft = (currentIndex: number) => scoreBadAnswer(currentIndex);
+  const handleGoBack = () => {
+    if (deckDetail.cards.length && !ratedAppAt) {
+      dispatch(triggerRateApp());
+      rateApp(true);
+    }
+    goBack();
+  };
 
   const renderCards = () => {
     if (noMoreCards) {
@@ -104,7 +115,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   };
   return (
     <Container style={styles.container}>
-      <CloseButton onPress={goBack} />
+      <CloseButton onPress={handleGoBack} />
       <Title title={deckDetail.title} />
       <View style={styles.shareButtonContainer}>
         <PrimaryButton buttonText="Share" onPress={handleShareDeck} />

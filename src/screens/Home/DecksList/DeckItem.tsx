@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { SPACING } from '../../../utils/device';
 import { SharedElement } from 'react-navigation-shared-element';
 import IconButton from '../../../common/IconButton';
-import { saveDeck } from '../../../redux/actions';
+import { saveDeck } from '../../../redux/decks/actions';
 import assets from '../../../assets';
 import { theme } from '../../../utils';
 import { Bubble, TouchableScale } from '../../../common';

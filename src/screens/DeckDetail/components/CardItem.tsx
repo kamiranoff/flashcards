@@ -2,7 +2,7 @@ import { GestureResponderEvent, StyleSheet, TouchableOpacity, View } from 'react
 import CustomText from '../../../common/CustomText';
 import { HtmlParser, Icon } from '../../../common';
 import React, { FC } from 'react';
-import { Card } from '../../../redux/reducer';
+import { Card } from '../../../redux/decks/reducer';
 import { getPlatformDimension, isSmallDevice } from '../../../utils/device';
 import { theme } from '../../../utils';
 import IconButton from '../../../common/IconButton';
