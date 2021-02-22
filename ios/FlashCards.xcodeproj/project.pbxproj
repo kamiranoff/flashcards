@@ -10,6 +10,7 @@
 		00E356F31AD99517003FC87E /* FlashCardsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* FlashCardsTests.m */; };
 		0829F22D25B44E46001DE6E9 /* FlashCardsRateApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0829F22C25B44E46001DE6E9 /* FlashCardsRateApp.m */; };
 		084BE31725E2F329002BE640 /* FlashCardsAppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 084BE31625E2F329002BE640 /* FlashCardsAppVersion.m */; };
+		085FD6AF25E45EE8002E4A37 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085FD6AE25E45EE8002E4A37 /* StoreKit.framework */; };
 		08858B0B25DF2F9500438BB4 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08858B0A25DF2F9500438BB4 /* AppCenter-Config.plist */; };
 		08FA889425B9BD790085EE81 /* YuseiMagic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08FA889325B9BD790085EE81 /* YuseiMagic-Regular.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -52,6 +53,7 @@
 		0829F22C25B44E46001DE6E9 /* FlashCardsRateApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlashCardsRateApp.m; sourceTree = "<group>"; };
 		084BE31125E2F2F6002BE640 /* FlashCardsAppVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlashCardsAppVersion.h; sourceTree = "<group>"; };
 		084BE31625E2F329002BE640 /* FlashCardsAppVersion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlashCardsAppVersion.m; sourceTree = "<group>"; };
+		085FD6AE25E45EE8002E4A37 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		08858B0825DF236900438BB4 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		08858B0A25DF2F9500438BB4 /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		08FA889325B9BD790085EE81 /* YuseiMagic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YuseiMagic-Regular.ttf"; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				44D82DA6630F437D31E8E10A /* libPods-FlashCards.a in Frameworks */,
+				085FD6AF25E45EE8002E4A37 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +188,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				085FD6AE25E45EE8002E4A37 /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				26781000F84436C9F8286345 /* libPods-FlashCards.a */,
