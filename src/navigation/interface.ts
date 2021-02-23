@@ -18,6 +18,7 @@ export enum Screens {
   CONTACT = 'Contact',
   DRAWER_SCREENS = 'DrawerScreens',
   IMPROVE_THE_APP = 'ImproveTheApp',
+  SHOP = 'Shop',
 }
 
 export type ModalTemplate = 'shareModal' | 'alertModal' | 'codeModal';
@@ -44,4 +45,5 @@ export type DrawerStackParamList = {
   [Screens.REQUEST_FEATURE]: undefined;
   [Screens.CONTACT]: undefined;
   [Screens.IMPROVE_THE_APP]: undefined;
+  [Screens.SHOP]: undefined;
 };

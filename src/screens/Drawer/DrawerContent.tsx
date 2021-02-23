@@ -71,13 +71,15 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
           onPress={() => navigation.navigate(Screens.CONTACT)}
           icon={() => <Icon name="chat" bgColor={theme.colors.drawerItem.contact} />}
         />
+        <DrawerItem
+          label="Shop"
+          labelStyle={styles.labelStyle}
+          onPress={() => navigation.navigate(Screens.SHOP)}
+          icon={() => <Icon name="sale" bgColor={theme.colors.drawerItem.contact} />}
+        />
       </View>
       <View>
-        <DrawerItem
-          labelStyle={styles.bottomLabelStyle}
-          label={appVersion}
-          onPress={() => navigation.navigate(Screens.UPGRADE)}
-        />
+        <DrawerItem labelStyle={styles.bottomLabelStyle} label={appVersion} onPress={() => null} />
       </View>
     </DrawerContentScrollView>
   );

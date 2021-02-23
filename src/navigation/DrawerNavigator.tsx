@@ -17,6 +17,7 @@ import { theme } from '../utils';
 import { getPlatformDimension, moderateScale } from '../utils/device';
 import UpgradeToPro from '../screens/Drawer/UpgradeToPro';
 import ImproveTheApp from '../screens/Drawer/ImproveTheApp';
+import Shop from '../screens/Drawer/Shop';
 
 const Drawer = createDrawerNavigator<DrawerStackParamList>();
 const Stack = createStackNavigator<DrawerStackParamList>();
@@ -61,6 +62,7 @@ const DrawerScreensStack: FC<Props> = ({ navigation, style }) => {
           options={setOptions(navigation)}
         />
         <Stack.Screen name={Screens.CONTACT} component={Contact} options={setOptions(navigation)} />
+        <Stack.Screen name={Screens.SHOP} component={Shop} options={setOptions(navigation)} />
       </Stack.Navigator>
     </Animated.View>
   );
