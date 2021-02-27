@@ -56,6 +56,7 @@
 		085FD6AE25E45EE8002E4A37 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		08858B0825DF236900438BB4 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		08858B0A25DF2F9500438BB4 /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
+		08A1A7F825EA894500A253F7 /* TestAppPurchase.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestAppPurchase.storekit; sourceTree = "<group>"; };
 		08FA889325B9BD790085EE81 /* YuseiMagic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YuseiMagic-Regular.ttf"; sourceTree = "<group>"; };
 		0CFC16B772B1D5F0E028E60A /* libPods-FlashCards-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlashCards-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* FlashCards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlashCards.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,6 +210,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				08A1A7F825EA894500A253F7 /* TestAppPurchase.storekit */,
 				08858B0825DF236900438BB4 /* Config.xcconfig */,
 				08FA889025B9BD300085EE81 /* Resources */,
 				0829F22A25B44CE8001DE6E9 /* Modules */,

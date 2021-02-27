@@ -109,6 +109,7 @@ const theme = {
       freeDeck: palette.lightViolet,
       upgrade: palette.green,
       contact: palette.blue,
+      shop: palette.yellow,
     },
   },
   spacing: {

@@ -2690,6 +2690,11 @@ domutils@^2.1.0:
     domelementtype "^2.0.1"
     domhandler "^4.0.0"
 
+dooboolab-welcome@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/dooboolab-welcome/-/dooboolab-welcome-1.2.0.tgz#295818ce85a8e97dc90c0ec0510b4008e2d722dc"
+  integrity sha512-XgEbjJHAsKLge/e8jtuHsv84Ovg1Gx0GvnOTOmOlVGV1643nduTAkT3fyo/mxKbzvyXBr47RHaJAY4R2toI0UA==
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.npmjs.org/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -6054,6 +6059,13 @@ react-native-htmlview@^0.16.0:
   dependencies:
     entities "^1.1.1"
     htmlparser2-without-node-native "^3.9.2"
+
+react-native-iap@5.2.13:
+  version "5.2.13"
+  resolved "https://registry.npmjs.org/react-native-iap/-/react-native-iap-5.2.13.tgz#4017b33e54ec4004f1f6ee25b16358e305a9bdbe"
+  integrity sha512-WbDDJ+IRyGHk98ZQkK1uhPWXRmHZLDlbUSf5MO29Q0DXMIMmsDCScFUn9uVva2vbc34YDAEftSq+ZRhYZupP/w==
+  dependencies:
+    dooboolab-welcome "^1.2.0"
 
 react-native-image-picker@^3.1.4:
   version "3.1.4"

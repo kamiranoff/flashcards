@@ -40,42 +40,43 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
         />
         <DrawerItem
           style={[styles.space, styles.top]}
-          label="Share App"
+          label="Upgrade to PRO"
           labelStyle={styles.labelStyle}
-          icon={() => <Icon name="heartCupid" bgColor={theme.colors.drawerItem.share} />}
-          onPress={() => navigation.navigate(Screens.SHARE_THE_APP)}
+          icon={() => <Icon name="student" bgColor={theme.colors.drawerItem.upgrade} />}
+          onPress={() => navigation.navigate(Screens.UPGRADE)}
         />
         <DrawerItem
           labelStyle={styles.labelStyle}
           style={[styles.base, styles.bottom]}
-          icon={() => <Icon name="star" bgColor={theme.colors.drawerItem.rate} />}
-          label="Rate the App"
-          onPress={() => navigation.navigate(Screens.RATE_THE_APP)}
+          icon={() => <Icon name="sale" bgColor={theme.colors.drawerItem.shop} />}
+          label="Shop"
+          onPress={() => navigation.navigate(Screens.SHOP)}
         />
         <DrawerItem
           labelStyle={styles.labelStyle}
           icon={() => <Icon name="free" bgColor={theme.colors.drawerItem.freeDeck} />}
-          style={[styles.space]}
+          style={[styles.base, styles.bottom]}
           label="Get free deck"
           onPress={() => navigation.navigate(Screens.GET_FREEBIE)}
         />
         <DrawerItem
+          style={[styles.space]}
           labelStyle={styles.labelStyle}
-          icon={() => <Icon name="student" bgColor={theme.colors.drawerItem.upgrade} />}
-          label="Upgrade to PRO"
-          onPress={() => navigation.navigate(Screens.UPGRADE)}
+          icon={() => <Icon name="heartCupid" bgColor={theme.colors.drawerItem.share} />}
+          label="Share App"
+          onPress={() => navigation.navigate(Screens.SHARE_THE_APP)}
+        />
+        <DrawerItem
+          label="Rate the App"
+          labelStyle={styles.labelStyle}
+          onPress={() => navigation.navigate(Screens.RATE_THE_APP)}
+          icon={() => <Icon name="star" bgColor={theme.colors.drawerItem.rate} />}
         />
         <DrawerItem
           label="Contact us"
           labelStyle={styles.labelStyle}
           onPress={() => navigation.navigate(Screens.CONTACT)}
           icon={() => <Icon name="chat" bgColor={theme.colors.drawerItem.contact} />}
-        />
-        <DrawerItem
-          label="Shop"
-          labelStyle={styles.labelStyle}
-          onPress={() => navigation.navigate(Screens.SHOP)}
-          icon={() => <Icon name="sale" bgColor={theme.colors.drawerItem.contact} />}
         />
       </View>
       <View>
