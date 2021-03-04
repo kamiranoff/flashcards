@@ -44,7 +44,7 @@ const getStyles = (size: TextSize | TTextSize) => {
   }
 };
 
-const CustomText: FC<Props> = ({
+const AppText: FC<Props> = ({
   children,
   underlined = false,
   centered = false,
@@ -67,4 +67,4 @@ const CustomText: FC<Props> = ({
   );
 };
 
-export default CustomText;
+export default AppText;

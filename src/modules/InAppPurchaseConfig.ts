@@ -1,3 +1,12 @@
+import {
+  getOneUnlimitedDeck,
+  getThreeUnlimitedDecks,
+  removeAds,
+  setMonthlySubscription,
+  setYearlySubscription,
+} from '../redux/shop/actions';
+import { addFreeDeck } from '../redux/decks/actions';
+
 export enum ProductsIds {
   ONE_UNLIMITED_DECK = 'one_unlimited_deck',
   THREE_UNLIMITED_DECKS = 'three_unlimited_decks',
@@ -10,6 +19,7 @@ export enum DecksToGive {
   ONE_UNLIMITED_DECK = 1,
   THREE_UNLIMITED_DECKS = 3,
 }
+
 export const itemSkus = [
   ProductsIds.ONE_UNLIMITED_DECK,
   ProductsIds.THREE_UNLIMITED_DECKS,
@@ -18,22 +28,31 @@ export const itemSkus = [
   ProductsIds.YEARLY_SUBSCRIPTION,
 ];
 
-export const getNumberOfDecksToGive = (productId: string) => {
+export const dispatchShopActions = (productId: string, dispatch: any) => {
   switch (productId) {
-    case ProductsIds.ONE_UNLIMITED_DECK:
-      return DecksToGive.ONE_UNLIMITED_DECK;
-
-    case ProductsIds.THREE_UNLIMITED_DECKS:
-      return DecksToGive.THREE_UNLIMITED_DECKS;
-
+    case ProductsIds.ONE_UNLIMITED_DECK: {
+      dispatch(getOneUnlimitedDeck('oneUnlimitedDeck'));
+      dispatch(addFreeDeck(1));
+      break;
+    }
+    case ProductsIds.THREE_UNLIMITED_DECKS: {
+      dispatch(getThreeUnlimitedDecks('threeUnlimitedDecks'));
+      dispatch(addFreeDeck(3));
+      break;
+    }
     case ProductsIds.REMOVE_ADS:
-      return 'remove_ads';
-    case ProductsIds.MONTHLY_SUBSCRIPTION:
-      return 'monthly_subscription';
-    case ProductsIds.YEARLY_SUBSCRIPTION:
-      return 'yearly_subscription';
+      return dispatch(removeAds('removeAds'));
+    case ProductsIds.MONTHLY_SUBSCRIPTION: {
+      dispatch(setMonthlySubscription('monthlySubscription'));
+      dispatch(addFreeDeck(Infinity));
+      break;
+    }
+    case ProductsIds.YEARLY_SUBSCRIPTION: {
+      dispatch(setYearlySubscription('yearlySubscription'));
+      dispatch(addFreeDeck(Infinity));
+      break;
+    }
     default:
-      console.log('subscription');
       return null;
   }
 };

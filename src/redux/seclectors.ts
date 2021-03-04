@@ -1,7 +1,9 @@
 import { createSelector } from 'reselect';
 import { RootState } from './store';
 
-export const selectAllDecks = (state: RootState) => state.decks;
+export const selectAllDecks = (state: RootState) => state.decks.decks;
+
+export const selectMaxFreeDecks = (state: RootState) => state.decks.maxFreeDecks;
 
 export const selectDecks = createSelector([selectAllDecks], (decks) => decks);
 

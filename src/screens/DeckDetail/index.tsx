@@ -34,6 +34,7 @@ const DeckDetail: FC<Props> = ({
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
   const deckDetail = useSelector(selectDeckItem(id));
+  console.log('deckDetail', deckDetail);
   const badAnswers = useSelector(selectBadAnswers(id));
   const goodAnswers = useSelector(selectGoodAnswers(id));
 

@@ -2,9 +2,8 @@ import React, { FC } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { isEmpty } from 'ramda';
-import { Container, PriceButton } from '../../common';
+import { Container, PriceButton, AppText } from '../../common';
 import assets from '../../assets';
-import CustomText from '../../common/CustomText';
 import { theme } from '../../utils';
 import { DrawerStackParamList, Screens } from '../../navigation/interface';
 import { usePayments } from '../../modules/usePayments';
@@ -35,7 +34,7 @@ const data: IData[] = [
   {
     label: 'Get free deck',
     id: 'get_free',
-    price: '£0',
+    price: '0',
   },
 ];
 
@@ -46,41 +45,55 @@ interface Props {
 
 const Shop: FC<Props> = ({ navigation }) => {
   const onSuccess = () => console.log('success');
-  const { productsObject, isLoading, onBuyPack, restorePurchase } = usePayments(onSuccess);
-  if (isLoading) {
-    // TODO: what happens if connection to app stores fail => show message in the screen
-    return <ActivityIndicator size="small" style={{ flex: 1 }} />;
-  }
+  const { productsObject, isLoading, onBuyPack, restorePurchase, isProcessingPurchase } = usePayments(
+    onSuccess,
+  );
+
+  const handleBuyProduct = (itemId: string, productId: Product) => {
+    if (itemId === 'get_free') {
+      return navigation.navigate(Screens.GET_FREEBIE);
+    }
+    return onBuyPack(productId);
+  };
+  console.log('isLoading', isLoading, isProcessingPurchase);
+  // if (isProcessingPurchase) {
+  //   // TODO: what happens if connection to app stores fail => show message in the screen
+  //   return <ActivityIndicator size="small" style={{ flex: 1 }} />;
+  // }
   return (
     <Container style={styles.container}>
       <View style={styles.content}>
         <View style={styles.header}>
           <Image source={assets.icons.happyFace} style={styles.image} />
           <View style={{ marginTop: 0, marginLeft: 10 }}>
-            <CustomText size="h1">WELCOME</CustomText>
-            <CustomText size="h1">TO OUR SHOP</CustomText>
+            <AppText size="h1">WELCOME</AppText>
+            <AppText size="h1">TO OUR SHOP</AppText>
           </View>
         </View>
-        <CustomText size="h2" centered>
+        <AppText size="h2" centered>
           Support us
-        </CustomText>
-        <CustomText size="h2" centered>
+        </AppText>
+        <AppText size="h2" centered>
           & get full access to our features
-        </CustomText>
+        </AppText>
         <View style={styles.textContent}>
           {data.map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => onBuyPack(productsObject[item.id])}>
+            <TouchableOpacity
+              key={index}
+              disabled={isLoading}
+              onPress={() => handleBuyProduct(item.id, productsObject[item.id])}>
               <View style={styles.itemButton}>
                 <View style={{ width: '70%' }}>
-                  <CustomText size="h2">{item.label}</CustomText>
+                  <AppText size="h2">{item.label}</AppText>
                 </View>
-                <View style={{ marginLeft: 40 }}>
-                  <CustomText size="h2">
-                    {(!isEmpty(productsObject) &&
+                <View style={{ marginLeft: 20 }}>
+                  <AppText size="h2">
+                    {(!isLoading &&
+                      !isEmpty(productsObject) &&
                       productsObject[item.id] &&
                       productsObject[item.id].localizedPrice) ||
                       item.price}
-                  </CustomText>
+                  </AppText>
                 </View>
               </View>
             </TouchableOpacity>
@@ -94,14 +107,14 @@ const Shop: FC<Props> = ({ navigation }) => {
           />
           <View style={styles.arrowContainer}>
             <Image source={assets.icons.arrow} style={styles.arrowImg} resizeMode="contain" />
-            <CustomText size="h3">50% off</CustomText>
+            <AppText size="h3">50% off</AppText>
           </View>
         </View>
       </View>
       <View style={styles.info}>
-        <CustomText size="p" underlined centered onPress={restorePurchase}>
+        <AppText size="p" underlined centered onPress={restorePurchase}>
           Restore Purchase
-        </CustomText>
+        </AppText>
       </View>
     </Container>
   );

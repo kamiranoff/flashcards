@@ -20,6 +20,7 @@ export interface Props {
 const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, goBack } }) => {
   const { title, deckId, cardId } = params;
   const card = useSelector(selectCard(deckId, cardId));
+  console.log('card', card);
   const deckDetail = useSelector(selectDeckItem(deckId));
   const dispatch = useDispatch();
 

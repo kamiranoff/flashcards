@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { Container, PriceButton } from '../../../common';
-import CustomText from '../../../common/CustomText';
+import AppText from '../../../common/AppText';
 import assets from '../../../assets';
 import { theme } from '../../../utils';
 import Item from './Item';
@@ -46,17 +46,17 @@ const UpgradeToPro: FC = () => {
     : 'N/A';
   const yearlySubsText = isProductObj ? `${productsObject.yearly_subscription.localizedPrice} / year` : 'N/A';
 
-  if (isLoading) {
-    return <ActivityIndicator size="small" style={{ flex: 1 }} />;
-  }
+  // if (isLoading) {
+  //   return <ActivityIndicator size="small" style={{ flex: 1 }} />;
+  // }
   return (
     <Container style={styles.container}>
       <View style={styles.content}>
         <View style={styles.header}>
           <Image source={assets.icons.flashMaster} style={styles.image} />
           <View style={{ marginTop: 30 }}>
-            <CustomText size="h1">BECOME A</CustomText>
-            <CustomText size="h1">FLASHMASTER</CustomText>
+            <AppText size="h1">BECOME A</AppText>
+            <AppText size="h1">FLASHMASTER</AppText>
           </View>
         </View>
         <View style={styles.textContent}>
@@ -78,18 +78,18 @@ const UpgradeToPro: FC = () => {
           />
           <View style={styles.arrowContainer}>
             <Image source={assets.icons.arrow} style={styles.arrowImg} resizeMode="contain" />
-            <CustomText size="h3">50% off</CustomText>
+            <AppText size="h3">50% off</AppText>
           </View>
         </View>
       </View>
       <View style={styles.info}>
         <View style={styles.innerInfo}>
-          <CustomText size="p" underlined onPress={() => console.log('ADD LINK')}>
+          <AppText size="p" underlined onPress={() => console.log('ADD LINK')}>
             Terms of Service
-          </CustomText>
-          <CustomText size="p" underlined onPress={() => console.log('ADD LInk')}>
+          </AppText>
+          <AppText size="p" underlined onPress={() => console.log('ADD LInk')}>
             Privacy Policy
-          </CustomText>
+          </AppText>
         </View>
       </View>
     </Container>

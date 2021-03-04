@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
 import animations from '../../assets/animations';
-import CustomText from '../../common/CustomText';
+import { AppText } from '../../common';
 import { selectBadAnswers, selectGoodAnswers } from '../../redux/seclectors';
 import assets from '../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';
@@ -24,20 +24,20 @@ const NoMoreCards: FC<Props> = ({ deckId }) => {
         style={styles.bubbleStyle}
         imageStyle={styles.bubbleImg}>
         <View style={styles.content}>
-          <CustomText size="h2" centered>
+          <AppText size="h2" centered>
             Today:
-          </CustomText>
+          </AppText>
           <View style={styles.spacer} />
-          <CustomText size="h2" centered>
+          <AppText size="h2" centered>
             You have: {goodAnswers} correct
-          </CustomText>
-          <CustomText size="h2" centered>
+          </AppText>
+          <AppText size="h2" centered>
             and {badAnswers} incorrect answers!
-          </CustomText>
+          </AppText>
           <View style={styles.spacer} />
-          <CustomText size="h2" centered>
+          <AppText size="h2" centered>
             Keep up the good work!
-          </CustomText>
+          </AppText>
         </View>
       </ImageBackground>
       <View style={styles.animationContainer}>

@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { Container, PrimaryButton } from '../../common';
-import CustomText from '../../common/CustomText';
+import { Container, PrimaryButton, AppText } from '../../common';
 import rateApp from '../../modules/rateApp';
 import assets from '../../assets';
 import { getPlatformDimension } from '../../utils/device';
@@ -16,12 +15,12 @@ const RateTheApp: FC = () => {
         <Image source={assets.icons.review} resizeMode="contain" style={styles.image} />
       </View>
       <View style={{ flex: 1 }}>
-        <CustomText centered size="h2">
+        <AppText centered size="h2">
           We'd love to hear from you.
-        </CustomText>
-        <CustomText centered size="h2">
+        </AppText>
+        <AppText centered size="h2">
           Your review means A LOT to us.
-        </CustomText>
+        </AppText>
         <View style={styles.buttonContainer}>
           <PrimaryButton
             buttonText="Rate & Review"

@@ -1,5 +1,4 @@
 import React from 'react';
-import CustomText from '../../common/CustomText';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import * as Analytics from 'appcenter-analytics';
@@ -7,7 +6,7 @@ import Share, { Options } from 'react-native-share';
 import animations from '../../assets/animations';
 import assets from '../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';
-import { Container, PrimaryButton } from '../../common';
+import { Container, PrimaryButton, AppText } from '../../common';
 import { analytics, theme } from '../../utils';
 
 const options: Options = {
@@ -28,19 +27,19 @@ const GetFreebie = () => {
         style={styles.bubbleStyle}
         imageStyle={styles.bubbleImg}>
         <View style={styles.content}>
-          <CustomText size="h2" centered>
+          <AppText size="h2" centered>
             Wanna get an extra
-          </CustomText>
-          <CustomText size="h2" centered>
+          </AppText>
+          <AppText size="h2" centered>
             free deck?
-          </CustomText>
+          </AppText>
           <View style={styles.spacer} />
-          <CustomText size="h2" centered>
+          <AppText size="h2" centered>
             Simply send invite to your
-          </CustomText>
-          <CustomText size="h2" centered>
+          </AppText>
+          <AppText size="h2" centered>
             friends :)
-          </CustomText>
+          </AppText>
           <View style={styles.buttonContainer}>
             <PrimaryButton
               buttonText="Invite"

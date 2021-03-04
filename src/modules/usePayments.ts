@@ -17,7 +17,7 @@ import { Alert, EmitterSubscription } from 'react-native';
 
 import { useDispatch } from 'react-redux';
 import { isAndroid, isIOS } from '../utils/device';
-import { getNumberOfDecksToGive, itemSkus, ProductsIds } from './InAppPurchaseConfig';
+import { dispatchShopActions, itemSkus, ProductsIds } from './InAppPurchaseConfig';
 
 let purchaseUpdateSubscription: EmitterSubscription;
 let purchaseErrorSubscription: EmitterSubscription;
@@ -28,12 +28,14 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
   const dispatch = useDispatch();
   const [productsObject, setProductsObject] = useState<ProductsObject>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isProcessingPurchase, setIsProcessingPurchase] = useState<boolean>(false);
 
   const handleBuyPack = (item: Product): void => {
     requestPurchase(item.productId).catch((e) => {
       console.warn(`could not requestPurchase ${e}`);
     });
     setIsLoading(true);
+    setIsProcessingPurchase(true);
   };
 
   const restorePurchase = async (): Promise<void> => {
@@ -45,16 +47,14 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
       }
 
       purchases.forEach((purchase) => {
-        switch (purchase.productId) {
-          case ProductsIds.ONE_UNLIMITED_DECK: {
-            const nbrOfDecks = getNumberOfDecksToGive(purchase.productId);
-            console.log('nbrOfDecks', nbrOfDecks);
-            Alert.alert('Restore Successful', 'You successfully restored your purchase');
-            return onPurchaseSuccessful();
-          }
-          default:
-            Alert.alert('No Purchases', "We couldn't find any purchase to restore");
-            return null;
+        const shopActions = dispatchShopActions(purchase.productId, dispatch);
+        console.log('shopActions restore', shopActions);
+        if (shopActions) {
+          Alert.alert('Restore Successful', 'You successfully restored your purchase');
+          return onPurchaseSuccessful();
+        } else {
+          Alert.alert('No Purchases', "We couldn't find any purchase to restore");
+          return null;
         }
       });
     } catch (err) {
@@ -86,18 +86,23 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
             console.warn(`ackErr ${ackErr}`, 'Error');
           }
           setIsLoading(false);
-          const nbrOfDecks = getNumberOfDecksToGive(purchase.productId);
+          setIsProcessingPurchase(false);
+          const shopActions = dispatchShopActions(purchase.productId, dispatch);
           // DISPATCH ACTIONS
-          console.log('nbrOfDecks', nbrOfDecks);
+          console.log('shopActions', shopActions);
           onPurchaseSuccessful();
         }
       });
 
       purchaseErrorSubscription = purchaseErrorListener((error: PurchaseError) => {
         setIsLoading(false);
-        const errorTitle = isIOS ? 'Shop.appStoreError' : 'Shop.googlePlayError';
-        Alert.alert(errorTitle, error.message);
-        console.warn(`Purchase not completed: ${error.message}`);
+        setIsProcessingPurchase(false);
+        console.log('error', error);
+        if (error.code !== 'E_USER_CANCELLED') {
+          const errorTitle = isIOS ? 'Shop.appStoreError' : 'Shop.googlePlayError';
+          Alert.alert(errorTitle, error.message);
+          console.warn(`Purchase not completed: ${error.message}`);
+        }
       });
 
       try {
@@ -134,6 +139,7 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
   return {
     productsObject,
     isLoading,
+    isProcessingPurchase,
     onBuyPack: handleBuyPack,
     restorePurchase,
   };

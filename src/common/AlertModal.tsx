@@ -5,7 +5,7 @@ import * as Analytics from 'appcenter-analytics';
 import { RootStackParamList, Screens } from '../navigation/interface';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { getPlatformDimension, isIOS, WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
-import CustomText from './CustomText';
+import AppText from './AppText';
 import PrimaryButton from './PrimaryButton';
 import { RouteProp } from '@react-navigation/native';
 import IconButton from './IconButton';
@@ -13,7 +13,7 @@ import Icon from './Icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectDeckItem } from '../redux/seclectors';
 import Api from '../api';
-import { editSharedOnDeck, saveSharedDeck } from '../redux/decks/actions';
+import { editSharedOnDeck, getDeckByShareId } from '../redux/decks/actions';
 import assets from '../assets';
 import { analytics, theme } from '../utils';
 
@@ -29,19 +29,21 @@ const CodeContent = ({ navigation }: { navigation: AlertScreenNavigationProp }) 
   const [code, setCode] = useState('');
   const dispatch = useDispatch();
   const handleSaveSharedDeck = async () => {
+    // TODO dont need try catch here
     try {
       if (code.length === 4) {
-        const response = await Api.getSharedDeckBySharedId(code);
-        const id = response.data.id;
-        const deck = {
-          owner: response.data.owner,
-          title: response.data.title,
-          cards: response.data.cards,
-          shareId: response.data.share_id,
-          sharedByYou: false,
-          sharedWithYou: true,
-        };
-        dispatch(saveSharedDeck(deck, id));
+        dispatch(getDeckByShareId(code));
+        // const response = await Api.getSharedDeckBySharedId(code);
+        // const id = response.data.id;
+        // const deck = {
+        //   owner: response.data.owner,
+        //   title: response.data.title,
+        //   cards: response.data.cards,
+        //   shareId: response.data.share_id,
+        //   sharedByYou: false,
+        //   sharedWithYou: true,
+        // };
+        // dispatch(saveSharedDeck(deck, id));
         setCode('');
         Analytics.trackEvent(analytics.addSharedDeck).catch(null);
         setTimeout(() => navigation.pop(), 300);
@@ -53,8 +55,8 @@ const CodeContent = ({ navigation }: { navigation: AlertScreenNavigationProp }) 
   };
   return (
     <View style={[styles.wrapper, { marginTop: 20 }]}>
-      <CustomText size="h2">Someone shared a deck with you?</CustomText>
-      <CustomText size="h2">Type the code here:</CustomText>
+      <AppText size="h2">Someone shared a deck with you?</AppText>
+      <AppText size="h2">Type the code here:</AppText>
       <TextInput
         style={styles.input}
         value={code}
@@ -107,7 +109,7 @@ const ShareContent = ({ deckId }: { deckId: string }) => {
 
   return (
     <View style={styles.wrapper}>
-      <CustomText size="h2">"Sharing is caring"</CustomText>
+      <AppText size="h2">"Sharing is caring"</AppText>
       <View style={styles.iconContainer}>
         <Icon name="happyFace2" imgStyle={styles.icon} />
       </View>
@@ -115,11 +117,11 @@ const ShareContent = ({ deckId }: { deckId: string }) => {
         <PrimaryButton buttonText="Share your deck" onPress={handleSharePress} />
       </View>
       <View style={{ marginTop: 20 }}>
-        <CustomText size="body" centered>
+        <AppText size="body" centered>
           Click the button
-        </CustomText>
+        </AppText>
         <View style={{ flexDirection: 'row' }}>
-          <CustomText size="body">or share this code:</CustomText>
+          <AppText size="body">or share this code:</AppText>
           <TextInput
             editable={false}
             keyboardType={undefined}

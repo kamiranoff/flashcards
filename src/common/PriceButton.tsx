@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
 import { theme } from '../utils';
-import CustomText from './CustomText';
+import AppText from './AppText';
 
 interface Props {
   onPress: () => void;
@@ -17,12 +17,12 @@ const PriceButton = ({ onPress, buttonStyle, primaryText, disabled = false }: Pr
     style={[styles.button, { ...buttonStyle }]}
     onPress={onPress}>
     <>
-      <CustomText centered size="body">
+      <AppText centered size="body">
         {primaryText}
-      </CustomText>
-      <CustomText centered size="p">
+      </AppText>
+      <AppText centered size="p">
         Try free for 3 days
-      </CustomText>
+      </AppText>
     </>
   </TouchableOpacity>
 );
