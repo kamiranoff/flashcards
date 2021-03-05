@@ -9,12 +9,11 @@ import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } fr
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, NoContentInfo, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
-import { sortByRankCards, shuffleCards, saveSharedDeck } from '../../redux/decks/actions';
+import { sortByRankCards, shuffleCards, getDeckByShareId } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
 import ActionButtons from './components/ActionButtons';
 import useOpacity from './useOpacity';
-import Api from '../../api';
 
 type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 
@@ -34,7 +33,6 @@ const DeckDetail: FC<Props> = ({
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
   const deckDetail = useSelector(selectDeckItem(id));
-  console.log('deckDetail', deckDetail);
   const badAnswers = useSelector(selectBadAnswers(id));
   const goodAnswers = useSelector(selectGoodAnswers(id));
 
@@ -47,22 +45,7 @@ const DeckDetail: FC<Props> = ({
   const handleShuffleCards = () => dispatch(shuffleCards(id));
   const handlerRefreshSharedDeck = async () => {
     if (deckDetail.sharedWithYou) {
-      try {
-        const response = await Api.getSharedDeckBySharedId(deckDetail.shareId);
-        const id = response.data.id;
-        const deck = {
-          owner: response.data.owner,
-          title: response.data.title,
-          cards: response.data.cards,
-          shareId: response.data.share_id,
-          sharedByYou: false,
-          sharedWithYou: true,
-        };
-        dispatch(saveSharedDeck(deck, id));
-      } catch (error) {
-        // FIXME add logger
-        return error;
-      }
+      dispatch(getDeckByShareId(deckDetail.shareId));
     }
   };
 

@@ -39,16 +39,13 @@ const data: IData[] = [
 
 const UpgradeToPro: FC = () => {
   const onSuccess = () => console.log('success');
-  const { productsObject, isLoading, onBuyPack } = usePayments(onSuccess);
-  const isProductObj = !isEmpty(productsObject);
+  const { productsObject, isLoadingProducts, onBuyPack } = usePayments(onSuccess);
+  const isProductObj = !isEmpty(productsObject) && !isLoadingProducts;
   const monthlySubsText = isProductObj
     ? `${productsObject.monthly_subscription.localizedPrice} / month`
     : 'N/A';
   const yearlySubsText = isProductObj ? `${productsObject.yearly_subscription.localizedPrice} / year` : 'N/A';
 
-  // if (isLoading) {
-  //   return <ActivityIndicator size="small" style={{ flex: 1 }} />;
-  // }
   return (
     <Container style={styles.container}>
       <View style={styles.content}>

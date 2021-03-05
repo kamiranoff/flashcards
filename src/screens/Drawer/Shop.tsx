@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { isEmpty } from 'ramda';
 import { Container, PriceButton, AppText } from '../../common';
@@ -45,9 +45,7 @@ interface Props {
 
 const Shop: FC<Props> = ({ navigation }) => {
   const onSuccess = () => console.log('success');
-  const { productsObject, isLoading, onBuyPack, restorePurchase, isProcessingPurchase } = usePayments(
-    onSuccess,
-  );
+  const { productsObject, isLoadingProducts, onBuyPack, restorePurchase } = usePayments(onSuccess);
 
   const handleBuyProduct = (itemId: string, productId: Product) => {
     if (itemId === 'get_free') {
@@ -55,11 +53,7 @@ const Shop: FC<Props> = ({ navigation }) => {
     }
     return onBuyPack(productId);
   };
-  console.log('isLoading', isLoading, isProcessingPurchase);
-  // if (isProcessingPurchase) {
-  //   // TODO: what happens if connection to app stores fail => show message in the screen
-  //   return <ActivityIndicator size="small" style={{ flex: 1 }} />;
-  // }
+
   return (
     <Container style={styles.container}>
       <View style={styles.content}>
@@ -80,7 +74,7 @@ const Shop: FC<Props> = ({ navigation }) => {
           {data.map((item, index) => (
             <TouchableOpacity
               key={index}
-              disabled={isLoading}
+              disabled={isLoadingProducts}
               onPress={() => handleBuyProduct(item.id, productsObject[item.id])}>
               <View style={styles.itemButton}>
                 <View style={{ width: '70%' }}>
@@ -88,7 +82,7 @@ const Shop: FC<Props> = ({ navigation }) => {
                 </View>
                 <View style={{ marginLeft: 20 }}>
                   <AppText size="h2">
-                    {(!isLoading &&
+                    {(!isLoadingProducts &&
                       !isEmpty(productsObject) &&
                       productsObject[item.id] &&
                       productsObject[item.id].localizedPrice) ||

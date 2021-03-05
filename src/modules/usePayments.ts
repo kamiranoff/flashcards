@@ -27,14 +27,13 @@ type ProductsObject = { [key: string]: Product };
 export const usePayments = (onPurchaseSuccessful: () => void) => {
   const dispatch = useDispatch();
   const [productsObject, setProductsObject] = useState<ProductsObject>({});
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true);
   const [isProcessingPurchase, setIsProcessingPurchase] = useState<boolean>(false);
 
   const handleBuyPack = (item: Product): void => {
     requestPurchase(item.productId).catch((e) => {
       console.warn(`could not requestPurchase ${e}`);
     });
-    setIsLoading(true);
     setIsProcessingPurchase(true);
   };
 
@@ -48,7 +47,6 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
 
       purchases.forEach((purchase) => {
         const shopActions = dispatchShopActions(purchase.productId, dispatch);
-        console.log('shopActions restore', shopActions);
         if (shopActions) {
           Alert.alert('Restore Successful', 'You successfully restored your purchase');
           return onPurchaseSuccessful();
@@ -85,19 +83,14 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
           } catch (ackErr) {
             console.warn(`ackErr ${ackErr}`, 'Error');
           }
-          setIsLoading(false);
           setIsProcessingPurchase(false);
-          const shopActions = dispatchShopActions(purchase.productId, dispatch);
-          // DISPATCH ACTIONS
-          console.log('shopActions', shopActions);
-          onPurchaseSuccessful();
+          dispatchShopActions(purchase.productId, dispatch);
+          return onPurchaseSuccessful();
         }
       });
 
       purchaseErrorSubscription = purchaseErrorListener((error: PurchaseError) => {
-        setIsLoading(false);
         setIsProcessingPurchase(false);
-        console.log('error', error);
         if (error.code !== 'E_USER_CANCELLED') {
           const errorTitle = isIOS ? 'Shop.appStoreError' : 'Shop.googlePlayError';
           Alert.alert(errorTitle, error.message);
@@ -115,7 +108,7 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
         }, {});
 
         setProductsObject(mappedProducts);
-        setIsLoading(false);
+        setIsLoadingProducts(false);
       } catch (e) {
         console.warn('Error on getProducts', e);
       }
@@ -138,7 +131,7 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
 
   return {
     productsObject,
-    isLoading,
+    isLoadingProducts,
     isProcessingPurchase,
     onBuyPack: handleBuyPack,
     restorePurchase,

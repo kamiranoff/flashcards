@@ -43,7 +43,7 @@ const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
 export default function decks(state = initialState, action: DecksActions): DecksState {
   switch (action.type) {
     case DecksActionTypes.saveDeck: {
-      if (action.id in state) {
+      if (action.id in state.decks) {
         // rename current deck title
         return {
           ...state,
@@ -77,9 +77,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
     }
     case DecksActionTypes.saveQuestion: {
       const { cardId, question, deckId, isEdit } = action;
-      console.log('cardId', question, cardId, deckId, isEdit);
       const selectedDeckCards = state.decks[deckId].cards;
-      console.log('selectedDeckCards', selectedDeckCards);
       if (isEdit) {
         const updatedCards: Card[] = R.map(updateCards({ id: cardId, question }), selectedDeckCards);
         return {
@@ -204,7 +202,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
     }
     case DecksActionTypes.saveSharedDeck: {
       const { deck, id } = action;
-      if (id in state) {
+      if (id in state.decks) {
         // do I need this?
         return {
           ...state,

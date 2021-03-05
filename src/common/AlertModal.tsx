@@ -29,28 +29,11 @@ const CodeContent = ({ navigation }: { navigation: AlertScreenNavigationProp }) 
   const [code, setCode] = useState('');
   const dispatch = useDispatch();
   const handleSaveSharedDeck = async () => {
-    // TODO dont need try catch here
-    try {
-      if (code.length === 4) {
-        dispatch(getDeckByShareId(code));
-        // const response = await Api.getSharedDeckBySharedId(code);
-        // const id = response.data.id;
-        // const deck = {
-        //   owner: response.data.owner,
-        //   title: response.data.title,
-        //   cards: response.data.cards,
-        //   shareId: response.data.share_id,
-        //   sharedByYou: false,
-        //   sharedWithYou: true,
-        // };
-        // dispatch(saveSharedDeck(deck, id));
-        setCode('');
-        Analytics.trackEvent(analytics.addSharedDeck).catch(null);
-        setTimeout(() => navigation.pop(), 300);
-      }
-    } catch (error) {
-      // FIXME add logger
-      return error;
+    if (code.length === 4) {
+      dispatch(getDeckByShareId(code));
+      setCode('');
+      Analytics.trackEvent(analytics.addSharedDeck).catch(null);
+      setTimeout(() => navigation.pop(), 300);
     }
   };
   return (
