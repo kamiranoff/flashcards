@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { Container, PrimaryButton } from '../../common';
-import CustomText from '../../common/CustomText';
+import { Container, PrimaryButton, AppText } from '../../common';
 import { sendEmail } from '../../lib';
 import animations from '../../assets/animations';
 import { getPlatformDimension } from '../../utils/device';
@@ -23,12 +22,12 @@ const Contact: FC = () => {
         <LottieView autoPlay loop speed={1.5} source={animations.contact} />
       </View>
       <View style={styles.content}>
-        <CustomText centered size="h2">
+        <AppText centered size="h2">
           Any issues?
-        </CustomText>
-        <CustomText centered size="h2">
+        </AppText>
+        <AppText centered size="h2">
           Please contact us
-        </CustomText>
+        </AppText>
         <View style={styles.buttonContainer}>
           <PrimaryButton buttonText="Contact us" onPress={handleContact} />
         </View>

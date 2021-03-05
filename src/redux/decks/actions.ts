@@ -10,6 +10,7 @@ import {
   ShuffleCards,
   EditSharedOnDeck,
   SaveSharedDeck,
+  GetDeckByShareId,
 } from './interface';
 import { Deck } from './reducer';
 
@@ -80,4 +81,14 @@ export const saveSharedDeck = (deck: Deck, id: string): SaveSharedDeck => ({
   type: DecksActionTypes.saveSharedDeck,
   deck,
   id,
+});
+
+export const getDeckByShareId = (code: string): GetDeckByShareId => ({
+  type: DecksActionTypes.getDeckByShareId,
+  code,
+});
+
+export const addFreeDeck = (quantity: number) => ({
+  type: DecksActionTypes.addFreeDeck,
+  quantity,
 });

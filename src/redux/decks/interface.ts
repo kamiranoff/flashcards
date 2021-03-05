@@ -12,6 +12,8 @@ export enum DecksActionTypes {
   shuffleCards = 'SHUFFLE_CARDS',
   editSharedOnDeck = 'EDIT_SHARED_ON_DECK',
   saveSharedDeck = 'SAVE_SHARED_DECK',
+  getDeckByShareId = 'GET_DECK_BY_SHARE_ID',
+  addFreeDeck = 'ADD_FREE_DECK',
 }
 
 export enum SCORES {
@@ -83,6 +85,16 @@ export interface SaveSharedDeck {
   id: string;
 }
 
+export interface GetDeckByShareId {
+  type: DecksActionTypes.getDeckByShareId;
+  code: string;
+}
+
+export interface AddFreeDeck {
+  type: DecksActionTypes.addFreeDeck;
+  quantity: number;
+}
+
 export type DecksActions =
   | GetDecks
   | SaveDeck
@@ -94,4 +106,6 @@ export type DecksActions =
   | ReorderCards
   | ShuffleCards
   | EditSharedOnDeck
-  | SaveSharedDeck;
+  | SaveSharedDeck
+  | GetDeckByShareId
+  | AddFreeDeck;

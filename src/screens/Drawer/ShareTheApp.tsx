@@ -2,8 +2,7 @@ import React, { FC } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import * as Analytics from 'appcenter-analytics';
 import Share, { Options } from 'react-native-share';
-import { Container, PrimaryButton } from '../../common';
-import CustomText from '../../common/CustomText';
+import { Container, PrimaryButton, AppText } from '../../common';
 import assets from '../../assets';
 import { getPlatformDimension } from '../../utils/device';
 import { analytics } from '../../utils';
@@ -21,15 +20,15 @@ const ShareTheApp: FC = () => (
       <Image source={assets.icons.faces} resizeMode="contain" />
     </View>
     <View style={{ flex: 1 }}>
-      <CustomText centered size="h2">
+      <AppText centered size="h2">
         Enjoying the app?
-      </CustomText>
-      <CustomText centered size="h2">
+      </AppText>
+      <AppText centered size="h2">
         Share it with your friends
-      </CustomText>
-      <CustomText centered size="h2">
+      </AppText>
+      <AppText centered size="h2">
         & get extra free deck!
-      </CustomText>
+      </AppText>
       <View style={styles.buttonContainer}>
         <PrimaryButton
           buttonText="Share"

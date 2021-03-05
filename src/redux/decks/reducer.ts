@@ -22,10 +22,16 @@ export interface Deck {
 }
 
 export interface DecksState {
-  [id: string]: Deck;
+  decks: {
+    [id: string]: Deck;
+  };
+  maxFreeDecks: number;
 }
 
-export const initialState: DecksState = {};
+export const initialState: DecksState = {
+  decks: {},
+  maxFreeDecks: 1,
+};
 
 const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
   if (newCard.id === card.id) {
@@ -37,34 +43,50 @@ const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
 export default function decks(state = initialState, action: DecksActions): DecksState {
   switch (action.type) {
     case DecksActionTypes.saveDeck: {
-      if (action.id in state) {
+      if (action.id in state.decks) {
         // rename current deck title
         return {
           ...state,
-          [action.id]: { ...state[action.id], title: action.title },
+          decks: {
+            ...state.decks,
+            [action.id]: { ...state.decks[action.id], title: action.title },
+          },
         };
       }
       return {
-        [action.id]: {
-          title: action.title,
-          owner: '',
-          shareId: nanoid(4),
-          sharedByYou: false,
-          sharedWithYou: false,
-          cards: [],
-        },
         ...state,
+        decks: {
+          [action.id]: {
+            title: action.title,
+            owner: '',
+            shareId: nanoid(4),
+            sharedByYou: false,
+            sharedWithYou: false,
+            cards: [],
+          },
+          ...state.decks,
+        },
       };
     }
     case DecksActionTypes.deleteDeck: {
-      return R.omit([action.id], state);
+      const updatedDecks = R.omit([action.id], state.decks);
+      return {
+        ...state,
+        decks: updatedDecks,
+      };
     }
     case DecksActionTypes.saveQuestion: {
       const { cardId, question, deckId, isEdit } = action;
-      const selectedDeckCards = state[deckId].cards;
+      const selectedDeckCards = state.decks[deckId].cards;
       if (isEdit) {
         const updatedCards: Card[] = R.map(updateCards({ id: cardId, question }), selectedDeckCards);
-        return { ...state, [deckId]: { ...state[deckId], cards: updatedCards } };
+        return {
+          ...state,
+          decks: {
+            ...state.decks,
+            [deckId]: { ...state.decks[deckId], cards: updatedCards },
+          },
+        };
       }
       const newCard = {
         id: cardId,
@@ -73,26 +95,40 @@ export default function decks(state = initialState, action: DecksActions): Decks
         rank: null,
       };
       const newCards = R.prepend(newCard, selectedDeckCards); // unshift
-      return { ...state, [deckId]: { ...state[deckId], cards: newCards } };
+      return {
+        ...state,
+        decks: {
+          ...state.decks,
+          [deckId]: { ...state.decks[deckId], cards: newCards },
+        },
+      };
     }
 
     case DecksActionTypes.saveAnswer: {
       const { cardId, deckId, answer } = action;
-      const selectedDeckCards = state[deckId].cards;
+      const selectedDeckCards = state.decks[deckId].cards;
       const updatedCards: Card[] = R.map(updateCards({ id: cardId, answer }), selectedDeckCards);
-      return { ...state, [deckId]: { ...state[deckId], cards: updatedCards } };
+      return {
+        ...state,
+        decks: {
+          ...state.decks,
+          [deckId]: {
+            ...state.decks[deckId],
+            cards: updatedCards,
+          },
+        },
+      };
     }
-
     case DecksActionTypes.deleteCard: {
       const { cardId, deckId } = action;
-      const selectedDeckCards = state[deckId].cards;
+      const selectedDeckCards = state.decks[deckId].cards;
       const updatedCards = R.reject(R.propEq('id', cardId), selectedDeckCards);
-      return { ...state, [deckId]: { ...state[deckId], cards: updatedCards } };
+      return { ...state, [deckId]: { ...state.decks[deckId], cards: updatedCards } };
     }
 
     case DecksActionTypes.scoreCard: {
       const { cardId, deckId, score } = action;
-      const selectedDeckCards = state[deckId].cards;
+      const selectedDeckCards = state.decks[deckId].cards;
       const card = R.find(R.propEq('id', cardId), selectedDeckCards);
 
       const rankScore = R.cond([
@@ -101,40 +137,90 @@ export default function decks(state = initialState, action: DecksActions): Decks
       ])({ score, rank: card!.rank });
 
       const updatedCards: Card[] = R.map(updateCards({ id: cardId, rank: rankScore }), selectedDeckCards);
-      return { ...state, [deckId]: { ...state[deckId], cards: updatedCards } };
+      return {
+        ...state,
+        decks: {
+          ...state.decks,
+          [deckId]: {
+            ...state.decks[deckId],
+            cards: updatedCards,
+          },
+        },
+      };
     }
-
     case DecksActionTypes.reorderCards: {
       const { deckId } = action;
-      const selectedDeckCards = state[deckId].cards;
+      const selectedDeckCards = state.decks[deckId].cards;
       const sortByRank = R.sortWith([R.ascend(R.prop('rank'))]);
 
-      return <DecksState>{ ...state, [deckId]: { ...state[deckId], cards: sortByRank(selectedDeckCards) } };
+      return <DecksState>{
+        ...state,
+        decks: {
+          ...state.decks,
+          [deckId]: {
+            ...state.decks[deckId],
+            cards: sortByRank(selectedDeckCards),
+          },
+        },
+      };
     }
-
     case DecksActionTypes.shuffleCards: {
       const { deckId } = action;
-      const selectedDeckCards = state[deckId].cards;
+      const selectedDeckCards = state.decks[deckId].cards;
       const cards = shuffleArray(selectedDeckCards);
 
-      return <DecksState>{ ...state, [deckId]: { ...state[deckId], cards } };
+      return <DecksState>{
+        ...state,
+        decks: {
+          ...state.decks,
+          [deckId]: {
+            ...state.decks[deckId],
+            cards,
+          },
+        },
+      };
     }
     case DecksActionTypes.editSharedOnDeck: {
       const { deckId } = action;
-      return { ...state, [deckId]: { ...state[deckId], sharedByYou: true } };
+      return {
+        ...state,
+        decks: {
+          ...state.decks,
+          [deckId]: {
+            ...state.decks[deckId],
+            sharedByYou: true,
+          },
+        },
+      };
+    }
+    case DecksActionTypes.addFreeDeck: {
+      const { quantity } = action;
+      return {
+        ...state,
+        maxFreeDecks: state.maxFreeDecks + quantity,
+      };
     }
     case DecksActionTypes.saveSharedDeck: {
       const { deck, id } = action;
-      if (id in state) {
+      if (id in state.decks) {
         // do I need this?
         return {
           ...state,
-          [id]: { ...state[id], ...deck },
+          decks: {
+            ...state.decks,
+            [id]: {
+              ...state.decks[id],
+              ...deck,
+            },
+          },
         };
       }
       return {
         ...state,
-        [id]: { ...deck },
+        decks: {
+          ...state.decks,
+          [id]: { ...deck },
+        },
       };
     }
     default:

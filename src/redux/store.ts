@@ -3,10 +3,14 @@ import { createLogger } from 'redux-logger';
 import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import createSagaMiddleware from 'redux-saga';
 import decks, { DecksState } from './decks/reducer';
+import rootSaga from './rootSaga';
 import { user, UserState } from './user/reducer';
+import { shop, ShopState } from './shop/reducer';
 
-const middleware: Middleware[] = [];
+const sagaMiddleware = createSagaMiddleware();
+const middleware: Middleware[] = [sagaMiddleware];
 
 const logger = createLogger({
   collapsed: true,
@@ -21,11 +25,13 @@ if (process.env.NODE_ENV !== 'production') {
 export interface RootState {
   decks: DecksState;
   user: UserState;
+  shop: ShopState;
 }
 
 const rootReducer = combineReducers<RootState>({
   decks,
   user,
+  shop,
 });
 
 const persistConfig = {
@@ -41,6 +47,7 @@ const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
 const store = createStore(persistedReducer, applyMiddleware(...middleware));
 const persistor = persistStore(store);
+sagaMiddleware.run(rootSaga);
 // persistor.purge();
 
 export { store, persistor };

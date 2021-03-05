@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Image, StyleSheet, View, ViewStyle } from 'react-native';
-import CustomText from './CustomText';
+import AppText from './AppText';
 import assets from '../assets';
 
 interface Props {
@@ -13,12 +13,12 @@ const NoContentInfo: FC<Props> = ({ text, iconName = 'oldMan1', style }) => (
     <View style={styles.row}>
       <Image source={assets.icons[iconName]} style={styles.img} resizeMode="contain" />
       <View>
-        <CustomText size="h1" centered>
+        <AppText size="h1" centered>
           Press plus to
-        </CustomText>
-        <CustomText size="h2" centered>
+        </AppText>
+        <AppText size="h2" centered>
           create your first {text}
-        </CustomText>
+        </AppText>
       </View>
     </View>
   </View>

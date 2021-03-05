@@ -16,8 +16,10 @@ import DismissKeyboard from './DismissKeyboard';
 import Input from './Input';
 import Bubble from './Bubble';
 import NoContentInfo from './NoContentInfo';
+import AppText from './AppText';
 
 export {
+  AppText,
   PriceButton,
   PlusButton,
   Form,

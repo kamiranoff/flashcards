@@ -1,6 +1,5 @@
 import { GestureResponderEvent, StyleSheet, TouchableOpacity, View } from 'react-native';
-import CustomText from '../../../common/CustomText';
-import { HtmlParser, Icon } from '../../../common';
+import { HtmlParser, Icon, AppText } from '../../../common';
 import React, { FC } from 'react';
 import { Card } from '../../../redux/decks/reducer';
 import { getPlatformDimension, isSmallDevice } from '../../../utils/device';
@@ -27,9 +26,9 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card }) => (
     <TouchableOpacity onPress={onPress}>
       <View>
         <View style={styles.top}>
-          <CustomText size="p" textStyle={styles.label}>
+          <AppText size="p" textStyle={styles.label}>
             Question:
-          </CustomText>
+          </AppText>
           <View style={{ marginVertical: 8 }}>
             <HtmlParser isSliced text={`${card.question}`} />
           </View>
@@ -44,9 +43,9 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card }) => (
               imgStyle={styles.iconImg}
               style={styles.icon}
             />
-            <CustomText size="p" textStyle={{ color: '#646464' }}>
+            <AppText size="p" textStyle={{ color: '#646464' }}>
               Missing answer
-            </CustomText>
+            </AppText>
           </View>
         )}
       </View>
