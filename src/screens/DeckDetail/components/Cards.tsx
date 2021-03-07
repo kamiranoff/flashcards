@@ -13,6 +13,7 @@ import { theme } from '../../../utils';
 export interface Props {
   cards: Card[];
   deckId: string;
+  isOwner: boolean;
 }
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const numberColumns = 2;
@@ -28,7 +29,7 @@ const formatData = (cards: Card[], numColumns: number) => {
   return data;
 };
 
-const Cards: FC<Props> = ({ cards, deckId }) => {
+const Cards: FC<Props> = ({ cards, deckId, isOwner }) => {
   const yValue = useRef(new Animated.Value(WINDOW_HEIGHT)).current;
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const Cards: FC<Props> = ({ cards, deckId }) => {
     return (
       <Animated.View
         style={[styles.item, { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon }]}>
-        <CardItem onPress={handleNavigate} onTrashPress={handleDeleteCard} card={item} />
+        <CardItem onPress={handleNavigate} onTrashPress={handleDeleteCard} card={item} isOwner={isOwner} />
       </Animated.View>
     );
   };

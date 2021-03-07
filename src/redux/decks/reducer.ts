@@ -16,6 +16,7 @@ export interface Deck {
   title: string;
   owner: string;
   shareId: string;
+  isOwner: boolean;
   sharedByYou: boolean;
   sharedWithYou: boolean;
   cards: Card[];
@@ -60,6 +61,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
             title: action.title,
             owner: '',
             shareId: nanoid(4),
+            isOwner: true,
             sharedByYou: false,
             sharedWithYou: false,
             cards: [],
@@ -123,7 +125,15 @@ export default function decks(state = initialState, action: DecksActions): Decks
       const { cardId, deckId } = action;
       const selectedDeckCards = state.decks[deckId].cards;
       const updatedCards = R.reject(R.propEq('id', cardId), selectedDeckCards);
-      return { ...state, [deckId]: { ...state.decks[deckId], cards: updatedCards } };
+      return {
+        ...state,
+        decks: {
+          [deckId]: {
+            ...state.decks[deckId],
+            cards: updatedCards,
+          },
+        },
+      };
     }
 
     case DecksActionTypes.scoreCard: {

@@ -14,6 +14,7 @@ function* getDeckByShareIdSaga({ code }: GetDeckByShareId) {
       shareId: response.data.share_id,
       sharedByYou: false,
       sharedWithYou: true,
+      isOwner: false,
     };
     yield put(saveSharedDeck(deck, id));
   } catch (error) {
