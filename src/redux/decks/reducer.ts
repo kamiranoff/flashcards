@@ -30,7 +30,7 @@ export interface DecksState {
 
 export const initialState: DecksState = {
   decks: {},
-  maxFreeDecks: 1,
+  maxFreeDecks: 5,
 };
 
 const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {

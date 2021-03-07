@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import * as Analytics from 'appcenter-analytics';
@@ -8,6 +9,11 @@ import assets from '../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';
 import { Container, PrimaryButton, AppText } from '../../common';
 import { analytics, theme } from '../../utils';
+import { sentInviteToFriends } from '../../redux/user/actions';
+import { RootState } from '../../redux/store';
+import { DrawerStackParamList, Screens } from '../../navigation/interface';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { addFreeDeck } from '../../redux/decks/actions';
 
 const options: Options = {
   url: 'https://myflashcards.app',
@@ -17,7 +23,27 @@ const options: Options = {
   saveToFiles: false,
 };
 
-const GetFreebie = () => {
+type GetFreebieScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.UPGRADE>;
+interface Props {
+  navigation: GetFreebieScreenNavigationProp;
+}
+
+const GetFreebie: FC<Props> = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state);
+  const handleGoToShop = () => navigation.navigate(Screens.UPGRADE);
+  const handlePressInvite = () => {
+    Analytics.trackEvent(analytics.getFreebie).catch(null);
+    return Share.open(options)
+      .then(() => {
+        dispatch(sentInviteToFriends());
+        dispatch(addFreeDeck(1));
+      })
+      .catch(() => {
+        // FIXME add logger
+        return null;
+      });
+  };
   return (
     <Container style={styles.container}>
       <ImageBackground
@@ -27,30 +53,41 @@ const GetFreebie = () => {
         style={styles.bubbleStyle}
         imageStyle={styles.bubbleImg}>
         <View style={styles.content}>
-          <AppText size="h2" centered>
-            Wanna get an extra
-          </AppText>
-          <AppText size="h2" centered>
-            free deck?
-          </AppText>
-          <View style={styles.spacer} />
-          <AppText size="h2" centered>
-            Simply send invite to your
-          </AppText>
-          <AppText size="h2" centered>
-            friends :)
-          </AppText>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton
-              buttonText="Invite"
-              onPress={() => {
-                Analytics.trackEvent(analytics.getFreebie).catch(null);
-                Share.open(options).catch(() => null);
-              }}
-              buttonStyle={styles.buttonStyle}
-              buttonTextStyle={{ color: '#222' }}
-            />
-          </View>
+          {!user.hasSentInvite ? (
+            <>
+              <AppText size="h1" centered>
+                Wanna get a
+              </AppText>
+              <AppText size="h1" centered>
+                free deck?
+              </AppText>
+              <View style={styles.spacer} />
+              <AppText size="h2" centered>
+                Simply send invite to your
+              </AppText>
+              <AppText size="h2" centered>
+                friends to download the app :)
+              </AppText>
+              <View style={styles.buttonContainer}>
+                <PrimaryButton
+                  buttonText="Invite"
+                  onPress={handlePressInvite}
+                  buttonStyle={styles.buttonStyle}
+                  buttonTextStyle={{ color: '#222' }}
+                />
+              </View>
+            </>
+          ) : (
+            <View style={{ margin: 40 }}>
+              <AppText size="h2" centered>
+                Looks like you already invited your friends :) We are super grateful for that! Get more decks
+                in our shop!
+              </AppText>
+              <View style={styles.buttonContainer}>
+                <PrimaryButton onPress={handleGoToShop} buttonText="Get more decks" />
+              </View>
+            </View>
+          )}
         </View>
       </ImageBackground>
       <View style={styles.animationContainer}>
@@ -96,7 +133,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 60,
-    width: 120,
+    width: 140,
     alignSelf: 'center',
   },
   buttonStyle: {

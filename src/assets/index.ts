@@ -60,6 +60,7 @@ export interface IAssets {
     share: number;
     refresh: number;
     codebar: number;
+    shopIsOpen: number;
   };
 }
 
@@ -125,6 +126,7 @@ const assets: IAssets = {
     share: require('./images/share.png'),
     refresh: require('./images/refresh.png'),
     codebar: require('./images/codebar.png'),
+    shopIsOpen: require('./images/shopIsOpen.png'),
   },
 };
 
