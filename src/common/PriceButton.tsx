@@ -5,24 +5,27 @@ import AppText from './AppText';
 
 interface Props {
   onPress: () => void;
-  buttonStyle?: ViewStyle;
+  style?: ViewStyle;
   primaryText: string;
   disabled?: boolean;
+  isSecondaryText?: boolean;
 }
 
-const PriceButton = ({ onPress, buttonStyle, primaryText, disabled = false }: Props) => (
+const PriceButton = ({ onPress, style, primaryText, disabled = false, isSecondaryText = true }: Props) => (
   <TouchableOpacity
     disabled={disabled}
     activeOpacity={0.6}
-    style={[styles.button, { ...buttonStyle }]}
+    style={[styles.button, { ...style }]}
     onPress={onPress}>
     <>
       <AppText centered size="body">
         {primaryText}
       </AppText>
-      <AppText centered size="p">
-        Try free for 3 days
-      </AppText>
+      {isSecondaryText && (
+        <AppText centered size="p">
+          Try free for 3 days
+        </AppText>
+      )}
     </>
   </TouchableOpacity>
 );

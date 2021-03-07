@@ -97,7 +97,7 @@ const DeckDetail: FC<Props> = ({
           <Cards cards={deckDetail.cards} deckId={id} />
         </View>
       )}
-      {deckDetail.sharedWithYou ? (
+      {deckDetail.sharedWithYou || deckDetail.sharedByYou ? (
         <View style={styles.refresh}>
           <IconButton onPress={handlerRefreshSharedDeck} iconName="refresh" />
         </View>

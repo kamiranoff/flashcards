@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useSelector } from 'react-redux';
 import { isEmpty } from 'ramda';
 import { Container, PriceButton, AppText } from '../../common';
 import assets from '../../assets';
@@ -8,6 +9,7 @@ import { theme } from '../../utils';
 import { DrawerStackParamList, Screens } from '../../navigation/interface';
 import { usePayments } from '../../modules/usePayments';
 import { Product } from 'react-native-iap';
+import { RootState } from '../../redux/store';
 
 interface IData {
   label: string;
@@ -46,6 +48,7 @@ interface Props {
 const Shop: FC<Props> = ({ navigation }) => {
   const onSuccess = () => console.log('success');
   const { productsObject, isLoadingProducts, onBuyPack, restorePurchase } = usePayments(onSuccess);
+  const { user } = useSelector((state: RootState) => state);
 
   const handleBuyProduct = (itemId: string, productId: Product) => {
     if (itemId === 'get_free') {
@@ -71,33 +74,38 @@ const Shop: FC<Props> = ({ navigation }) => {
           & get full access to our features
         </AppText>
         <View style={styles.textContent}>
-          {data.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              disabled={isLoadingProducts}
-              onPress={() => handleBuyProduct(item.id, productsObject[item.id])}>
-              <View style={styles.itemButton}>
-                <View style={{ width: '70%' }}>
-                  <AppText size="h2">{item.label}</AppText>
+          {data.map((item, index) => {
+            if (item.id === 'get_free' && user.hasSentInvite) {
+              return null;
+            }
+            return (
+              <TouchableOpacity
+                key={index}
+                disabled={isLoadingProducts}
+                onPress={() => handleBuyProduct(item.id, productsObject[item.id])}>
+                <View style={styles.itemButton}>
+                  <View style={{ width: '70%' }}>
+                    <AppText size="h2">{item.label}</AppText>
+                  </View>
+                  <View style={{ marginLeft: 20 }}>
+                    <AppText size="h2">
+                      {(!isLoadingProducts &&
+                        !isEmpty(productsObject) &&
+                        productsObject[item.id] &&
+                        productsObject[item.id].localizedPrice) ||
+                        item.price}
+                    </AppText>
+                  </View>
                 </View>
-                <View style={{ marginLeft: 20 }}>
-                  <AppText size="h2">
-                    {(!isLoadingProducts &&
-                      !isEmpty(productsObject) &&
-                      productsObject[item.id] &&
-                      productsObject[item.id].localizedPrice) ||
-                      item.price}
-                  </AppText>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+              </TouchableOpacity>
+            );
+          })}
         </View>
         <View style={styles.buttonContainer}>
           <PriceButton
             primaryText="UPGRADE TO PRO"
             onPress={() => navigation.navigate(Screens.UPGRADE)}
-            buttonStyle={{ paddingHorizontal: 16 }}
+            style={{ paddingHorizontal: 16 }}
           />
           <View style={styles.arrowContainer}>
             <Image source={assets.icons.arrow} style={styles.arrowImg} resizeMode="contain" />

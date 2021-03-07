@@ -33,6 +33,7 @@ export type RootStackParamList = {
   [Screens.ALERT]: { modalTemplate: ModalTemplate; deckId: string };
   [Screens.DRAWER]: undefined;
   [Screens.ADD_DECK]: undefined;
+  [Screens.SHOP]: undefined;
 };
 
 export type DrawerStackParamList = {
