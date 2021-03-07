@@ -117,9 +117,11 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
     <Container style={styles.container}>
       <CloseButton onPress={handleGoBack} />
       <Title title={deckDetail.title} />
-      <View style={styles.shareButtonContainer}>
-        <PrimaryButton buttonText="Share" onPress={handleShareDeck} />
-      </View>
+      {deckDetail.isOwner && (
+        <View style={styles.shareButtonContainer}>
+          <PrimaryButton buttonText="Share" onPress={handleShareDeck} />
+        </View>
+      )}
       <View style={styles.swiperContainer}>
         {renderCards()}
         {!noMoreCards ? (

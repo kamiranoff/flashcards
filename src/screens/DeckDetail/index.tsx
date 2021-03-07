@@ -79,7 +79,7 @@ const DeckDetail: FC<Props> = ({
               ) : (
                 <NoContentInfo text="card" style={styles.noContentInfo} iconName="prettyLady" />
               )}
-              <Cards cards={deckDetail.cards} deckId={id} />
+              <Cards cards={deckDetail.cards} deckId={id} isOwner={deckDetail.isOwner} />
             </Animated.View>
           </View>
         </SharedElement>
@@ -94,7 +94,7 @@ const DeckDetail: FC<Props> = ({
           ) : (
             <NoContentInfo text="card" style={styles.noContentInfo} iconName="prettyLady" />
           )}
-          <Cards cards={deckDetail.cards} deckId={id} />
+          <Cards cards={deckDetail.cards} deckId={id} isOwner={deckDetail.sharedByYou} />
         </View>
       )}
       {deckDetail.sharedWithYou || deckDetail.sharedByYou ? (

@@ -25,7 +25,7 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
 
   const handleSave = async (answer: Card['answer']) => {
     dispatch(saveAnswer(deckId, cardId, answer));
-    if (deckDetail.sharedByYou) {
+    if (deckDetail.sharedByYou || deckDetail.sharedWithYou) {
       await Api.editDeckByShareId(deckDetail, deckDetail.shareId);
     }
     navigation.popToTop();

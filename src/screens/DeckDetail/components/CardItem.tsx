@@ -10,19 +10,22 @@ interface Props {
   onPress: (event: GestureResponderEvent) => void;
   onTrashPress: (event: GestureResponderEvent) => void;
   card: Pick<Card, 'question' | 'answer'>;
+  isOwner: boolean;
 }
 
-const CardItem: FC<Props> = ({ onPress, onTrashPress, card }) => (
+const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
   <View style={styles.content}>
-    <View style={styles.trashIconContainer}>
-      <IconButton
-        onPress={onTrashPress}
-        iconName="trash"
-        imgStyle={styles.transparentIconImg}
-        style={styles.trashIcon}
-        hasShadow={false}
-      />
-    </View>
+    {isOwner && (
+      <View style={styles.trashIconContainer}>
+        <IconButton
+          onPress={onTrashPress}
+          iconName="trash"
+          imgStyle={styles.transparentIconImg}
+          style={styles.trashIcon}
+          hasShadow={false}
+        />
+      </View>
+    )}
     <TouchableOpacity onPress={onPress}>
       <View>
         <View style={styles.top}>
