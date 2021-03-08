@@ -83,9 +83,10 @@ export const saveSharedDeck = (deck: Deck, id: string): SaveSharedDeck => ({
   id,
 });
 
-export const getDeckByShareId = (code: string): GetDeckByShareId => ({
+export const getDeckByShareId = (code: string, deckId: string | null): GetDeckByShareId => ({
   type: DecksActionTypes.getDeckByShareId,
   code,
+  deckId,
 });
 
 export const addFreeDeck = (quantity: number) => ({

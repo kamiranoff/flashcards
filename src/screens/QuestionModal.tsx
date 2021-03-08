@@ -29,6 +29,7 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
     const id = cardId || Date.now().toString(); // Timestamp as id
     const isEdit = !!cardId;
     dispatch(saveQuestion(deckId, id, question, isEdit));
+
     if (deckDetail.sharedByYou || deckDetail.sharedWithYou) {
       await Api.editDeckByShareId(deckDetail, deckDetail.shareId);
     }

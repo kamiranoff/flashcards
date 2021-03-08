@@ -88,6 +88,7 @@ export interface SaveSharedDeck {
 export interface GetDeckByShareId {
   type: DecksActionTypes.getDeckByShareId;
   code: string;
+  deckId: string | null;
 }
 
 export interface AddFreeDeck {
