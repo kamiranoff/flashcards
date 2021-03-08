@@ -229,7 +229,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         ...state,
         decks: {
           ...state.decks,
-          [id]: { ...deck },
+          [id]: deck,
         },
       };
     }

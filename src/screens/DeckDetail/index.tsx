@@ -44,8 +44,8 @@ const DeckDetail: FC<Props> = ({
   const handleSortCards = () => dispatch(sortByRankCards(id));
   const handleShuffleCards = () => dispatch(shuffleCards(id));
   const handlerRefreshSharedDeck = async () => {
-    if (deckDetail.sharedWithYou) {
-      dispatch(getDeckByShareId(deckDetail.shareId));
+    if (deckDetail.sharedWithYou || deckDetail.sharedByYou) {
+      dispatch(getDeckByShareId(deckDetail.shareId, id));
     }
   };
 
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   refresh: {
     position: 'absolute',
-    bottom: 10,
+    bottom: getPlatformDimension(10, 10, 20),
     left: 10,
   },
   noContentInfo: {

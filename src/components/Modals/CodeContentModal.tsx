@@ -19,7 +19,7 @@ const CodeContentModal: FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch();
   const handleSaveSharedDeck = async () => {
     if (code.length === 4) {
-      dispatch(getDeckByShareId(code));
+      dispatch(getDeckByShareId(code, null));
       setCode('');
       Analytics.trackEvent(analytics.addSharedDeck).catch(null);
       setTimeout(() => navigation.pop(), 300);
