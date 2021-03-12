@@ -6,8 +6,7 @@ import { RootStackParamList, Screens } from '../navigation/interface';
 import { CloseButton, Container, Form, Title } from 'common';
 import { selectCard, selectDeckItem } from '../redux/seclectors';
 import { Card } from '../redux/decks/reducer';
-import { saveQuestion } from '../redux/decks/actions';
-import Api from '../api';
+import { editAndSaveSharedDeck, saveQuestion } from '../redux/decks/actions';
 
 type AddQuestionScreenRouteProp = RouteProp<RootStackParamList, Screens.QUESTION_MODAL>;
 type AddQuestionScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.QUESTION_MODAL>;
@@ -31,7 +30,7 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
     dispatch(saveQuestion(deckId, id, question, isEdit));
 
     if (deckDetail.sharedByYou || deckDetail.sharedWithYou) {
-      await Api.editDeckByShareId(deckDetail, deckDetail.shareId);
+      dispatch(editAndSaveSharedDeck(deckId, deckDetail.shareId));
     }
     return navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: id });
   };
