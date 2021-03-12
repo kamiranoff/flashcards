@@ -7,7 +7,6 @@ import Navigation from './navigation';
 import { persistor, store } from './redux/store';
 
 // enableScreens();
-
 const App = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>

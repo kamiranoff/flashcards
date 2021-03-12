@@ -93,3 +93,9 @@ export const addFreeDeck = (quantity: number) => ({
   type: DecksActionTypes.addFreeDeck,
   quantity,
 });
+
+export const editAndSaveSharedDeck = (deckId: string, shareId: string) => ({
+  type: DecksActionTypes.editAndSaveSharedDeck,
+  deckId,
+  shareId,
+});
