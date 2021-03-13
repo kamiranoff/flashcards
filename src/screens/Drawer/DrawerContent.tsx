@@ -1,17 +1,15 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
-import { DrawerContentScrollView, DrawerItem, DrawerNavigationProp } from '@react-navigation/drawer';
-import { DrawerStackParamList, Screens } from '../../navigation/interface';
+import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import { DrawerScreenNavigationProp, Screens } from '../../navigation/types';
 import { StyleSheet } from 'react-native';
 import { Icon } from '../../common';
 import { theme, typography } from '../../utils';
 import { isIOS } from '../../utils/device';
 import useAppVersion from '../../modules/AppVersion';
 
-type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, any>; // FIXME
-
 export interface Props {
-  navigation: DrawerScreenNavigationProp & any; // FIXME
+  navigation: DrawerScreenNavigationProp;
 }
 
 const DrawerContent: FC<Props> = ({ navigation }) => {
@@ -102,6 +100,7 @@ const styles = StyleSheet.create({
   },
   bottomLabelStyle: {
     ...typography.p,
+    marginLeft: 10,
   },
   base: {
     marginVertical: 0,

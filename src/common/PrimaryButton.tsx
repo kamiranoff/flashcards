@@ -1,10 +1,16 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+  GestureResponderEvent,
+} from 'react-native';
 import { theme, typography } from '../utils';
 
-// FIXME
 interface Props {
-  onPress: () => void;
+  onPress: (e: GestureResponderEvent) => void;
   buttonStyle?: ViewStyle;
   buttonTextStyle?: TextStyle;
   buttonText: string;

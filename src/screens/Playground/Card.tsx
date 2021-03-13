@@ -3,7 +3,7 @@ import { View, StyleSheet, Animated, TouchableWithoutFeedback, ScrollView } from
 import { useNavigation } from '@react-navigation/native';
 import { WINDOW_WIDTH } from '../../utils/device';
 import { Card } from '../../redux/decks/reducer';
-import { Screens } from '../../navigation/interface';
+import { Screens } from '../../navigation/types';
 import { HtmlParser, IconButton } from '../../common';
 
 const ITEM_SIZE = WINDOW_WIDTH * 0.9;

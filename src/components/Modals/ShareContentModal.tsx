@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectDeckItem } from '../../redux/seclectors';
-import Share, { Options } from 'react-native-share';
+import Share from 'react-native-share';
 import Api from '../../api';
 import { editSharedOnDeck } from '../../redux/decks/actions';
 import * as Analytics from 'appcenter-analytics';
@@ -10,28 +10,26 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import AppText from '../../common/AppText';
 import Icon from '../../common/Icon';
 import PrimaryButton from '../../common/PrimaryButton';
+import { shareOptionsWithCode } from '../../config';
 
 const ShareContentModal = ({ deckId }: { deckId: string }) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
   const dispatch = useDispatch();
-  const options: Options = {
-    url: 'https://myflashcards.app',
-    message: `Check out my FlashCards.\nHere is my passcode: ${deckDetail.shareId}`,
-    title: 'title',
-    subject: 'Learn with Flashcards App',
-    saveToFiles: false,
-  };
+
   const handleSharePress = async () => {
     try {
       if (!deckDetail.sharedByYou) {
         const res = await Api.saveDeck(deckDetail);
         if (res.data) {
-          dispatch(editSharedOnDeck(deckId));
-          return Share.open(options).catch(null);
+          return Share.open(shareOptionsWithCode(deckDetail.shareId))
+            .then(() => {
+              dispatch(editSharedOnDeck(deckId));
+            })
+            .catch(null);
         }
       }
       await Analytics.trackEvent(analytics.shareDeckByUser);
-      return Share.open(options).catch(() => null);
+      return Share.open(shareOptionsWithCode(deckDetail.shareId)).catch(() => null);
     } catch (error) {
       console.log('e', error);
     }

@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Analytics from 'appcenter-analytics';
-import { RootStackParamList, Screens } from './interface';
+import { RootStackParamList, Screens } from './types';
 import QuestionModal from '../screens/QuestionModal';
 import AnswerModal from '../screens/AnswerModal';
 import Playground from '../screens/Playground';

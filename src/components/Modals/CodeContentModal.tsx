@@ -8,7 +8,7 @@ import AppText from '../../common/AppText';
 import assets from '../../assets';
 import PrimaryButton from '../../common/PrimaryButton';
 import { isIOS } from '../../utils/device';
-import { AlertScreenNavigationProp } from '../../common/AlertModal';
+import { AlertScreenNavigationProp } from '../../navigation/types';
 
 interface Props {
   navigation: AlertScreenNavigationProp;
@@ -18,7 +18,7 @@ const CodeContentModal: FC<Props> = ({ navigation }) => {
   const [code, setCode] = useState('');
   const dispatch = useDispatch();
   const handleSaveSharedDeck = async () => {
-    if (code.length === 4) {
+    if (code.length === 5) {
       dispatch(getDeckByShareId(code, null));
       setCode('');
       Analytics.trackEvent(analytics.addSharedDeck).catch(null);
@@ -33,10 +33,10 @@ const CodeContentModal: FC<Props> = ({ navigation }) => {
         style={styles.input}
         value={code}
         onChangeText={setCode}
-        placeholder="abcd"
+        placeholder="12345"
         placeholderTextColor={theme.colors.placeholder}
         selectionColor="black"
-        maxLength={4}
+        maxLength={5}
       />
       <Image source={assets.icons.strokeBlack} resizeMode="contain" style={styles.stroke} />
       <View style={styles.buttonContainer}>
@@ -44,7 +44,7 @@ const CodeContentModal: FC<Props> = ({ navigation }) => {
           buttonText="Submit"
           onPress={handleSaveSharedDeck}
           hasShadow={isIOS}
-          disabled={code.length < 4}
+          disabled={code.length < 5}
           buttonStyle={styles.buttonStyle}
           buttonTextStyle={{ color: theme.colors.border }}
         />

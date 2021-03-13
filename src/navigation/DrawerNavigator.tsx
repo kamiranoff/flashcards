@@ -5,7 +5,7 @@ import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import HomeStack from './HomeStack';
-import { DrawerStackParamList, Screens } from './interface';
+import { DrawerStackParamList, Screens } from './types';
 import DrawerContent from '../screens/Drawer/DrawerContent';
 import { IconButton } from '../common';
 import GetFreebie from '../screens/Drawer/GetFreebie';

@@ -1,15 +1,10 @@
 import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { RootStackParamList, Screens } from '../navigation/interface';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { AlertScreenNavigationProp, AlertScreenRouteProp } from '../navigation/types';
 import { getPlatformDimension, WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
-import { RouteProp } from '@react-navigation/native';
 import IconButton from './IconButton';
 import { ShareContentModal } from '../components/Modals/ShareContentModal';
 import { CodeContentModal } from '../components/Modals/CodeContentModal';
-
-export type AlertScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ALERT>;
-export type AlertScreenRouteProp = RouteProp<RootStackParamList, Screens.ALERT>;
 
 export interface Props {
   navigation: AlertScreenNavigationProp;

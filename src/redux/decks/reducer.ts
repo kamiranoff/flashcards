@@ -1,9 +1,11 @@
 import * as R from 'ramda';
 // reference https://www.npmjs.com/package/react-native-get-random-values
 import 'react-native-get-random-values';
-import { nanoid } from 'nanoid';
+import { customAlphabet } from 'nanoid';
+
 import { DecksActions, DecksActionTypes, SCORES } from './interface';
 import { shuffleArray } from '../../lib';
+const shareId = customAlphabet('1234567890', 5);
 
 export interface Card {
   question: string;
@@ -60,7 +62,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
           [action.id]: {
             title: action.title,
             owner: '',
-            shareId: nanoid(4),
+            shareId: shareId(),
             isOwner: true,
             sharedByYou: false,
             sharedWithYou: false,
