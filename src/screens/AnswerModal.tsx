@@ -1,15 +1,10 @@
 import React, { FC } from 'react';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootStackParamList, Screens } from '../navigation/interface';
+import { AddAnswerScreenNavigationProp, AddAnswerScreenRouteProp } from '../navigation/types';
 import { CloseButton, Container, Form, Title } from 'common';
 import { selectCard, selectDeckItem } from '../redux/seclectors';
 import { Card } from '../redux/decks/reducer';
 import { editAndSaveSharedDeck, saveAnswer } from '../redux/decks/actions';
-
-type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;
-type AddAnswerScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ANSWER_MODAL>;
 
 export interface Props {
   route: AddAnswerScreenRouteProp;

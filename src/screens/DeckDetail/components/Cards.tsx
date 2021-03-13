@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { Animated, StyleSheet, FlatList, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Screens } from '../../../navigation/interface';
+import { Screens } from '../../../navigation/types';
 import { Card } from '../../../redux/decks/reducer';
 import { getPlatformDimension, isIOS, isSmallDevice, WINDOW_HEIGHT } from '../../../utils/device';
 import { useDispatch } from 'react-redux';

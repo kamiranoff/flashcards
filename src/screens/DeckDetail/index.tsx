@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
 import { Animated, StyleSheet, View } from 'react-native';
-import { RootStackParamList, Screens } from '../../navigation/interface';
+import { DeckDetailScreenRouteProp, Screens } from '../../navigation/types';
 import Cards from './components/Cards';
 import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
 import IconButton from '../../common/IconButton';
@@ -15,11 +15,10 @@ import { theme } from '../../utils';
 import ActionButtons from './components/ActionButtons';
 import useOpacity from './useOpacity';
 
-type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
-
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
 
+// Note: why there is a IOS and Android content? SharedElement wasn't working on Android, this is why it is handled differently - FIXME: upgrade react-navigation-shared-element
 export interface Props {
   route: DeckDetailScreenRouteProp;
 }
@@ -42,7 +41,9 @@ const DeckDetail: FC<Props> = ({
     navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].id });
 
   const handleSortCards = () => dispatch(sortByRankCards(id));
+
   const handleShuffleCards = () => dispatch(shuffleCards(id));
+
   const handlerRefreshSharedDeck = async () => {
     if (deckDetail.sharedWithYou || deckDetail.sharedByYou) {
       dispatch(getDeckByShareId(deckDetail.shareId, id));

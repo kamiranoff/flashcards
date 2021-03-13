@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'ramda';
 import { Container, PriceButton, AppText } from '../../common';
 import assets from '../../assets';
 import { theme } from '../../utils';
-import { DrawerStackParamList, Screens } from '../../navigation/interface';
+import { Screens, ShopScreenNavigationProp } from '../../navigation/types';
 import { usePayments } from '../../modules/usePayments';
 import { Product } from 'react-native-iap';
 import { RootState } from '../../redux/store';
@@ -40,7 +39,6 @@ const data: IData[] = [
   },
 ];
 
-type ShopScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.SHOP>;
 interface Props {
   navigation: ShopScreenNavigationProp;
 }
@@ -75,6 +73,12 @@ const Shop: FC<Props> = ({ navigation }) => {
         </AppText>
         <View style={styles.textContent}>
           {data.map((item, index) => {
+            const getLocalizedPriceOrItemPrice =
+              (!isLoadingProducts &&
+                !isEmpty(productsObject) &&
+                productsObject[item.id] &&
+                productsObject[item.id].localizedPrice) ||
+              item.price;
             if (item.id === 'get_free' && user.hasSentInvite) {
               return null;
             }
@@ -88,13 +92,7 @@ const Shop: FC<Props> = ({ navigation }) => {
                     <AppText size="h2">{item.label}</AppText>
                   </View>
                   <View style={{ marginLeft: 20 }}>
-                    <AppText size="h2">
-                      {(!isLoadingProducts &&
-                        !isEmpty(productsObject) &&
-                        productsObject[item.id] &&
-                        productsObject[item.id].localizedPrice) ||
-                        item.price}
-                    </AppText>
+                    <AppText size="h2">{getLocalizedPriceOrItemPrice}</AppText>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -130,7 +128,6 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: '#fff',
-    marginTop: -60,
   },
   image: {
     aspectRatio: 0.8,

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import * as R from 'ramda';
 import DeckItem from './DeckItem';
-import { Screens } from '../../../navigation/interface';
+import { Screens } from '../../../navigation/types';
 import { getPlatformDimension, isIOS, moderateScale, SPACING, WINDOW_HEIGHT } from '../../../utils/device';
 import useDecks from '../../../hooks/useDecks';
 import AddButton from '../../../common/AddButton';

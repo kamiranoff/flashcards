@@ -7,39 +7,11 @@ import { theme } from '../../../utils';
 import Item from './Item';
 import { usePayments } from '../../../modules/usePayments';
 import { isEmpty } from 'ramda';
-import { DrawerStackParamList, Screens } from '../../../navigation/interface';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { Screens, UpgradeScreenNavigationProp } from '../../../navigation/types';
+import { TERMS } from '../../../config';
+import { data } from './data';
+import { getPlatformDimension } from '../../../utils/device';
 
-interface IData {
-  icon: 'cardsWithPen' | 'decks' | 'noAds' | 'toolbar';
-  label: string;
-  text: string;
-}
-
-const data: IData[] = [
-  {
-    icon: 'decks',
-    label: 'Unlock unlimited decks',
-    text: 'Create & study unlimited decks',
-  },
-  {
-    icon: 'cardsWithPen',
-    label: 'Unlock unlimited cards',
-    text: 'Create cards with no limits',
-  },
-  {
-    icon: 'toolbar',
-    label: 'Unlock all rich toolbar features',
-    text: 'Italic, bold, images and many more...',
-  },
-  {
-    icon: 'noAds',
-    label: 'No more ads!',
-    text: 'No more distractions by ads',
-  },
-];
-
-type UpgradeScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.UPGRADE>;
 interface Props {
   navigation: UpgradeScreenNavigationProp;
 }
@@ -94,14 +66,7 @@ const UpgradeToPro: FC<Props> = ({ navigation }) => {
           />
         </View>
         <View style={styles.info}>
-          <AppText size="p">
-            Payment will be charges to your iTunes Account at confirmation of purchase. Account will be
-            charged for renewal within 24-hours prior to the end of the current period at your chosen
-            subscription's monthly price. Subscription automatically renews unless auto-renew is turned off at
-            least 24-hours before the end of the current period. Subscriptions may be managed by the user and
-            auto-renewal may be turned off by going to the user's Account Settings after purchase. For more
-            information, see our TERMS OF USE and PRIVACY POLICY.
-          </AppText>
+          <AppText size="p">{TERMS}</AppText>
           <View style={styles.innerInfo}>
             <AppText size="p" underlined onPress={() => console.log('ADD LINK')}>
               Terms of Service
@@ -128,7 +93,7 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: '#fff',
-    marginTop: -60,
+    marginTop: getPlatformDimension(-39, -60),
   },
   image: {
     aspectRatio: 0.8,

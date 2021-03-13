@@ -1,4 +1,7 @@
 import { Card, Deck } from '../redux/decks/reducer';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 export enum Screens {
   HOME = 'Home',
@@ -48,3 +51,17 @@ export type DrawerStackParamList = {
   [Screens.IMPROVE_THE_APP]: undefined;
   [Screens.SHOP]: undefined;
 };
+
+export type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, Screens.DRAWER_SCREENS>;
+export type GetFreebieScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.UPGRADE>;
+export type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;
+export type AddAnswerScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ANSWER_MODAL>;
+export type UpgradeScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.UPGRADE>;
+export type ShopScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.SHOP>;
+export type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
+export type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
+export type AlertScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ALERT>;
+export type AlertScreenRouteProp = RouteProp<RootStackParamList, Screens.ALERT>;
+export type AddQuestionScreenRouteProp = RouteProp<RootStackParamList, Screens.QUESTION_MODAL>;
+export type AddQuestionScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.QUESTION_MODAL>;
+export type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;

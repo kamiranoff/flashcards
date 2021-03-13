@@ -1,11 +1,9 @@
 import React, { FC, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import Swiper from 'react-native-deck-swiper';
 import * as R from 'ramda';
-import { RootStackParamList, Screens } from '../../navigation/interface';
+import { PlaygroundScreenNavigationProp, PlaygroundScreenRouteProp, Screens } from '../../navigation/types';
 import { CloseButton, Container, Title } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
@@ -21,9 +19,6 @@ import { RootState } from '../../redux/store';
 import { triggerRateApp } from '../../redux/user/actions';
 import rateApp from '../../modules/rateApp';
 
-type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
-type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
-
 export interface Props {
   route: PlaygroundScreenRouteProp;
   navigation: PlaygroundScreenNavigationProp;
@@ -32,10 +27,10 @@ export interface Props {
 const STACK_SIZE = 3;
 
 const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, navigate } }) => {
+  const swiperRef = useRef<any>(null); // FIXME
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
   const [noMoreCards, setNoMoreCards] = useState(false);
-  const swiperRef = useRef<any>(null); // FIXME
   const deckDetail = useSelector(selectDeckItem(params.deckId));
   const { ratedAppAt } = useSelector((state: RootState) => state.user);
   const card = R.find(R.propEq('id', params.cardId), deckDetail.cards);

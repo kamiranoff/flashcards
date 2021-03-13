@@ -1,6 +1,6 @@
 import React from 'react';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
-import { Screens } from './interface';
+import { Screens } from './types';
 import Home from '../screens/Home';
 import DeckDetail from '../screens/DeckDetail';
 import { smoothOpacityTransition } from './utils';

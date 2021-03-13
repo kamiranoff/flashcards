@@ -12,6 +12,7 @@ const FONT_WEIGHT_BOLD = 'bold';
 // FONT SIZE
 const FONT_SIZE_30 = scaleFont(30);
 const FONT_SIZE_18 = scaleFont(18);
+const FONT_SIZE_17 = scaleFont(17);
 const FONT_SIZE_16 = scaleFont(16);
 const FONT_SIZE_14 = scaleFont(14);
 const FONT_SIZE_12 = scaleFont(12);
@@ -52,7 +53,7 @@ const typography = {
   h2: {
     fontFamily: FONT_FAMILY_HERO,
     fontWeight: FONT_WEIGHT_REGULAR,
-    fontSize: FONT_SIZE_16,
+    fontSize: FONT_SIZE_17,
   },
   h3: {
     fontFamily: FONT_FAMILY_REGULAR,

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import IconButton from './IconButton';
-import { DrawerStackParamList } from '../navigation/interface';
+import { DrawerStackParamList } from '../navigation/types';
 import { getPlatformDimension, isIOS, moderateScale } from '../utils/device';
 import Title from './Title';
 

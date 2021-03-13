@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import HTMLView from 'react-native-htmlview';
 import { SPACING, WINDOW_WIDTH } from '../utils/device';
 
@@ -46,7 +46,7 @@ const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
 
 const defaultStyle = StyleSheet.create({
   text: {
-    fontSize: 16,
+    fontSize: 18,
   },
 });
 
