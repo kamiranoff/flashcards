@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'ramda';
-import { Container, PriceButton, AppText } from '../../common';
+import { Container, PriceButton, AppText, GeneralAlert } from '../../common';
 import assets from '../../assets';
 import { theme } from '../../utils';
 import { Screens, ShopScreenNavigationProp } from '../../navigation/types';
@@ -44,7 +44,8 @@ interface Props {
 }
 
 const Shop: FC<Props> = ({ navigation }) => {
-  const onSuccess = () => console.log('success');
+  const [showSuccessInfo, setShowSuccessInfo] = useState(false);
+  const onSuccess = () => setShowSuccessInfo(true);
   const { productsObject, isLoadingProducts, onBuyPack, restorePurchase } = usePayments(onSuccess);
   const { user } = useSelector((state: RootState) => state);
 
@@ -57,6 +58,7 @@ const Shop: FC<Props> = ({ navigation }) => {
 
   return (
     <Container style={styles.container}>
+      <GeneralAlert startExecute={showSuccessInfo} />
       <View style={styles.content}>
         <View style={styles.header}>
           <Image source={assets.icons.happyFace} style={styles.image} />

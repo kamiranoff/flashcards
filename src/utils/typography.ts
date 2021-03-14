@@ -53,12 +53,12 @@ const typography = {
   h2: {
     fontFamily: FONT_FAMILY_HERO,
     fontWeight: FONT_WEIGHT_REGULAR,
-    fontSize: FONT_SIZE_17,
+    fontSize: FONT_SIZE_18,
   },
   h3: {
     fontFamily: FONT_FAMILY_REGULAR,
     fontWeight: FONT_WEIGHT_REGULAR,
-    fontSize: FONT_SIZE_14,
+    fontSize: FONT_SIZE_16,
   },
   body: {
     fontSize: FONT_SIZE_16,

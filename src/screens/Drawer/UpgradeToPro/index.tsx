@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { View, StyleSheet, Image, ScrollView } from 'react-native';
-import { Container, PriceButton } from '../../../common';
+import { Container, GeneralAlert, PriceButton } from '../../../common';
 import AppText from '../../../common/AppText';
 import assets from '../../../assets';
 import { theme } from '../../../utils';
@@ -17,7 +17,8 @@ interface Props {
 }
 
 const UpgradeToPro: FC<Props> = ({ navigation }) => {
-  const onSuccess = () => console.log('success');
+  const [showSuccessInfo, setShowSuccessInfo] = useState(false);
+  const onSuccess = () => setShowSuccessInfo(true);
   const { productsObject, isLoadingProducts, onBuyPack } = usePayments(onSuccess);
   const isProductObj = !isEmpty(productsObject) && !isLoadingProducts;
   const monthlySubsText = isProductObj
@@ -27,6 +28,7 @@ const UpgradeToPro: FC<Props> = ({ navigation }) => {
 
   return (
     <Container style={styles.container}>
+      <GeneralAlert startExecute={showSuccessInfo} />
       <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
           <View style={styles.header}>

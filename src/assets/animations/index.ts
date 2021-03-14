@@ -4,6 +4,7 @@ const animations = {
   lady: require('./happyLady.json'),
   sadLady: require('./sadLady.json'),
   mehLady: require('./mehLady.json'),
+  success: require('./success.json'),
 };
 
 export default animations;

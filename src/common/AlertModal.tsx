@@ -19,14 +19,14 @@ const AlertModal: FC<Props> = ({ navigation, route: { params } }) => {
         style={[
           styles.content,
           params.modalTemplate === 'codeModal'
-            ? { height: WINDOW_HEIGHT / 3 }
+            ? { height: WINDOW_HEIGHT / 3 + 20 }
             : { height: WINDOW_HEIGHT / getPlatformDimension(2, 2, 2.5) },
         ]}>
         <View style={styles.closeButton}>
           <IconButton onPress={handleGoBack} iconName="x" />
         </View>
         {params.modalTemplate === 'shareModal' ? (
-          <ShareContentModal deckId={params.deckId} />
+          <ShareContentModal deckId={params.deckId} handleGoBack={handleGoBack} />
         ) : (
           <CodeContentModal navigation={navigation} />
         )}

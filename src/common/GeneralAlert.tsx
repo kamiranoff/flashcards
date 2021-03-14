@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
+import LottieView from 'lottie-react-native';
 import AppText from './AppText';
 import { theme } from '../utils';
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import animations from '../assets/animations';
 
-const GeneralAlert = () => {
+const GeneralAlert = ({ startExecute }: { startExecute: boolean }) => {
   const bounceVal = useRef(new Animated.Value(-100)).current;
-  const { error } = useSelector((state: RootState) => state.decks);
   const bounceConfig = {
     velocity: 3,
     tension: 2,
@@ -22,7 +21,7 @@ const GeneralAlert = () => {
         ...bounceConfig,
       }).start();
 
-    if (error) {
+    if (startExecute) {
       runAnimation();
     }
     const timer = setTimeout(() => {
@@ -32,26 +31,48 @@ const GeneralAlert = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [error, bounceConfig, bounceVal]);
+  }, [bounceConfig, bounceVal, startExecute]);
 
-  if (!error) {
+  if (!startExecute) {
     return null;
   }
   return (
     <Animated.View style={[styles.container, { transform: [{ translateY: bounceVal }] }]}>
-      <AppText size="h2">General Alert</AppText>
+      <View style={styles.lottie}>
+        <LottieView source={animations.success} autoPlay loop style={styles.icon} />
+      </View>
+      <AppText size="h3" centered textStyle={styles.text}>
+        Thank you so so much!
+      </AppText>
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    zIndex: 999,
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     backgroundColor: theme.colors.success,
-    height: 100,
+    height: 80,
+  },
+  lottie: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  text: {
+    paddingTop: 10,
+    color: '#FF7373',
+    fontWeight: '800',
+    paddingBottom: 5,
+  },
+  icon: {
+    width: 80,
+    height: 70,
   },
 });
 export default GeneralAlert;
