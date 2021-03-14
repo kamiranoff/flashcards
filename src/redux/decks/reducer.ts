@@ -5,6 +5,7 @@ import { customAlphabet } from 'nanoid';
 
 import { DecksActions, DecksActionTypes, SCORES } from './interface';
 import { shuffleArray } from '../../lib';
+
 const shareId = customAlphabet('1234567890', 5);
 
 export interface Card {
@@ -29,11 +30,13 @@ export interface DecksState {
     [id: string]: Deck;
   };
   maxFreeDecks: number;
+  error: boolean;
 }
 
 export const initialState: DecksState = {
   decks: {},
   maxFreeDecks: 5,
+  error: false,
 };
 
 const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
@@ -45,11 +48,22 @@ const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
 
 export default function decks(state = initialState, action: DecksActions): DecksState {
   switch (action.type) {
+    case DecksActionTypes.clearDecksError:
+    case DecksActionTypes.saveSharedDeckFailure:
+    case DecksActionTypes.editDeckFailure:
+      return {
+        ...state,
+        error: action.error,
+        decks: {
+          ...state.decks,
+        },
+      };
     case DecksActionTypes.saveDeck: {
       if (action.id in state.decks) {
         // rename current deck title
         return {
           ...state,
+          error: false,
           decks: {
             ...state.decks,
             [action.id]: { ...state.decks[action.id], title: action.title },
@@ -58,6 +72,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       }
       return {
         ...state,
+        error: false,
         decks: {
           [action.id]: {
             title: action.title,
@@ -86,6 +101,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         const updatedCards: Card[] = R.map(updateCards({ id: cardId, question }), selectedDeckCards);
         return {
           ...state,
+          error: false,
           decks: {
             ...state.decks,
             [deckId]: { ...state.decks[deckId], cards: updatedCards },
@@ -101,6 +117,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       const newCards = R.prepend(newCard, selectedDeckCards); // unshift
       return {
         ...state,
+        error: false,
         decks: {
           ...state.decks,
           [deckId]: { ...state.decks[deckId], cards: newCards },
@@ -114,6 +131,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       const updatedCards: Card[] = R.map(updateCards({ id: cardId, answer }), selectedDeckCards);
       return {
         ...state,
+        error: false,
         decks: {
           ...state.decks,
           [deckId]: {

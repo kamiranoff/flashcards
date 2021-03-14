@@ -99,3 +99,18 @@ export const editAndSaveSharedDeck = (deckId: string, shareId: string) => ({
   deckId,
   shareId,
 });
+
+export const saveSharedDeckFailure = (error: boolean) => ({
+  type: DecksActionTypes.saveSharedDeckFailure,
+  error,
+});
+
+export const editDeckFailure = (error: boolean) => ({
+  type: DecksActionTypes.editDeckFailure,
+  error,
+});
+
+export const clearDecksError = (error: boolean) => ({
+  type: DecksActionTypes.clearDecksError,
+  error,
+});
