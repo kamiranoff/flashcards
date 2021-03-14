@@ -12,7 +12,7 @@ import Icon from '../../common/Icon';
 import PrimaryButton from '../../common/PrimaryButton';
 import { shareOptionsWithCode } from '../../config';
 
-const ShareContentModal = ({ deckId }: { deckId: string }) => {
+const ShareContentModal = ({ deckId, handleGoBack }: { deckId: string; handleGoBack: () => void }) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
   const dispatch = useDispatch();
 
@@ -24,12 +24,17 @@ const ShareContentModal = ({ deckId }: { deckId: string }) => {
           return Share.open(shareOptionsWithCode(deckDetail.shareId))
             .then(() => {
               dispatch(editSharedOnDeck(deckId));
+              handleGoBack();
             })
             .catch(null);
         }
       }
       await Analytics.trackEvent(analytics.shareDeckByUser);
-      return Share.open(shareOptionsWithCode(deckDetail.shareId)).catch(() => null);
+      return Share.open(shareOptionsWithCode(deckDetail.shareId))
+        .then(() => {
+          handleGoBack();
+        })
+        .catch(() => null);
     } catch (error) {
       console.log('e', error);
     }
@@ -87,11 +92,11 @@ const styles = StyleSheet.create({
     height: 60,
   },
   codeInput: {
-    fontSize: 18,
+    fontSize: 20,
     borderRadius: 4,
     marginLeft: 5,
     paddingHorizontal: 4,
-    width: 60,
+    width: 65,
     backgroundColor: theme.colors.placeholder,
   },
 });
