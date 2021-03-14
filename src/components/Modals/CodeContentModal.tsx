@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { FC, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getDeckByShareId } from '../../redux/decks/actions';
 import * as Analytics from 'appcenter-analytics';
 import { analytics, theme } from '../../utils';
@@ -9,6 +9,8 @@ import assets from '../../assets';
 import PrimaryButton from '../../common/PrimaryButton';
 import { isIOS } from '../../utils/device';
 import { AlertScreenNavigationProp } from '../../navigation/types';
+import { RootState } from '../../redux/store';
+import usePrevious from '../../hooks/usePrevious';
 
 interface Props {
   navigation: AlertScreenNavigationProp;
@@ -17,14 +19,27 @@ interface Props {
 const CodeContentModal: FC<Props> = ({ navigation }) => {
   const [code, setCode] = useState('');
   const dispatch = useDispatch();
+  const { error, decks } = useSelector((state: RootState) => state.decks);
+  const [closeModal, setCloseModal] = useState(false);
+  const decksNumber = Object.keys(decks).length;
+  const previousDecksIds = usePrevious(decksNumber);
+
+  useEffect(() => {
+    if (previousDecksIds && decksNumber > previousDecksIds) {
+      setCloseModal(true);
+    }
+  }, [decksNumber, previousDecksIds]);
   const handleSaveSharedDeck = async () => {
     if (code.length === 5) {
       dispatch(getDeckByShareId(code, null));
       setCode('');
       Analytics.trackEvent(analytics.addSharedDeck).catch(null);
-      setTimeout(() => navigation.pop(), 300);
     }
   };
+
+  if (closeModal) {
+    setTimeout(() => navigation.pop(), 200);
+  }
   return (
     <View style={styles.wrapper}>
       <AppText size="h2">Someone shared a deck with you?</AppText>
@@ -49,6 +64,11 @@ const CodeContentModal: FC<Props> = ({ navigation }) => {
           buttonTextStyle={{ color: theme.colors.border }}
         />
       </View>
+      {error ? (
+        <AppText size="h3" textStyle={styles.error}>
+          Are you sure this is the right code?
+        </AppText>
+      ) : null}
     </View>
   );
 };
@@ -79,6 +99,13 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: theme.colors.icon,
+  },
+  error: {
+    paddingTop: 10,
+    color: theme.colors.error,
+  },
+  success: {
+    color: theme.colors.success,
   },
 });
 

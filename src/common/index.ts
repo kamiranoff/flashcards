@@ -17,9 +17,11 @@ import Input from './Input';
 import Bubble from './Bubble';
 import NoContentInfo from './NoContentInfo';
 import AppText from './AppText';
+import GeneralAlert from './GeneralAlert';
 
 export {
   AppText,
+  GeneralAlert,
   PriceButton,
   PlusButton,
   Form,

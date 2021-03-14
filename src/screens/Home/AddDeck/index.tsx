@@ -1,16 +1,13 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { View, Animated, StyleSheet } from 'react-native';
 import { CloseButton } from '../../../common';
 import { saveDeck } from '../../../redux/decks/actions';
-import { RootStackParamList, Screens } from '../../../navigation/types';
 import { getPlatformDimension, isIOS } from '../../../utils/device';
 import { selectAllDecks, selectMaxFreeDecks } from '../../../redux/seclectors';
 import { AddDeckContent } from './AddDeckContent';
 import { NoMoreFreeDecksContent } from './NoMoreFreeDecksContent';
-
-type AddDeckScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ADD_DECK>;
+import { AddDeckScreenNavigationProp, Screens } from '../../../navigation/types';
 
 export interface Props {
   navigation: AddDeckScreenNavigationProp;

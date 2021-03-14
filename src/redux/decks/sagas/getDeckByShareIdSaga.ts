@@ -1,6 +1,6 @@
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import Api from '../../../api';
-import { saveSharedDeck } from '../actions';
+import { saveSharedDeck, saveSharedDeckFailure } from '../actions';
 import { DecksActionTypes, GetDeckByShareId } from '../interface';
 import { RootState } from '../../store';
 
@@ -21,10 +21,7 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
     };
     yield put(saveSharedDeck(deck, id));
   } catch (error) {
-    // yield put(saveSharedDeckFailure({ message: 'Sorry something is broken' }));
-    // FIXME:
-    // add logger
-    // add general notifications
+    yield put(saveSharedDeckFailure(true));
   }
 }
 
