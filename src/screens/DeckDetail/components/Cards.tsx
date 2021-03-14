@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { Animated, StyleSheet, FlatList, View } from 'react-native';
+import { Animated, StyleSheet, FlatList, View, RefreshControl } from 'react-native';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/types';
 import { Card } from '../../../redux/decks/reducer';
@@ -9,11 +10,14 @@ import { NativeAlert } from '../../../common';
 import { deleteCard } from '../../../redux/decks/actions';
 import CardItem from './CardItem';
 import { theme } from '../../../utils';
+import { RootState } from '../../../redux/store';
 
 export interface Props {
   cards: Card[];
   deckId: string;
   isOwner: boolean;
+  handlerRefreshSharedDeck: () => void;
+  isLoading: boolean;
 }
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const numberColumns = 2;
@@ -29,7 +33,8 @@ const formatData = (cards: Card[], numColumns: number) => {
   return data;
 };
 
-const Cards: FC<Props> = ({ cards, deckId, isOwner }) => {
+const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, isLoading }) => {
+  console.log('isLoading', isLoading);
   const yValue = useRef(new Animated.Value(WINDOW_HEIGHT)).current;
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
@@ -42,6 +47,18 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner }) => {
       delay: 0,
     }).start();
   }, [yValue]);
+
+  const renderRefreshControl = () => {
+    return (
+      <RefreshControl
+        title="Refreshing"
+        titleColor={theme.colors.border}
+        refreshing={isLoading}
+        onRefresh={handlerRefreshSharedDeck}
+        tintColor={theme.colors.border}
+      />
+    );
+  };
 
   const renderItem = ({ item }: { item: Card }) => {
     const handleDeleteCard = () => {
@@ -63,6 +80,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner }) => {
 
   return isIOS ? (
     <FlatList
+      refreshControl={renderRefreshControl()}
       showsVerticalScrollIndicator={false}
       numColumns={numberColumns}
       contentContainerStyle={styles.contentContainerStyle}
