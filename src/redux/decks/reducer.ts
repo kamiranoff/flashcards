@@ -31,12 +31,14 @@ export interface DecksState {
   };
   maxFreeDecks: number;
   error: boolean;
+  isLoading: boolean;
 }
 
 export const initialState: DecksState = {
   decks: {},
   maxFreeDecks: 5,
   error: false,
+  isLoading: false,
 };
 
 const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
@@ -48,6 +50,14 @@ const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
 
 export default function decks(state = initialState, action: DecksActions): DecksState {
   switch (action.type) {
+    case DecksActionTypes.getDeckByShareId:
+      return {
+        ...state,
+        isLoading: true,
+        decks: {
+          ...state.decks,
+        },
+      };
     case DecksActionTypes.clearDecksError:
     case DecksActionTypes.saveSharedDeckFailure:
     case DecksActionTypes.editDeckFailure:
@@ -64,6 +74,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         return {
           ...state,
           error: false,
+          isLoading: false,
           decks: {
             ...state.decks,
             [action.id]: { ...state.decks[action.id], title: action.title },
@@ -73,6 +84,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       return {
         ...state,
         error: false,
+        isLoading: false,
         decks: {
           [action.id]: {
             title: action.title,
@@ -102,6 +114,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         return {
           ...state,
           error: false,
+          isLoading: false,
           decks: {
             ...state.decks,
             [deckId]: { ...state.decks[deckId], cards: updatedCards },
@@ -118,6 +131,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       return {
         ...state,
         error: false,
+        isLoading: false,
         decks: {
           ...state.decks,
           [deckId]: { ...state.decks[deckId], cards: newCards },
@@ -132,6 +146,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       return {
         ...state,
         error: false,
+        isLoading: false,
         decks: {
           ...state.decks,
           [deckId]: {
@@ -214,6 +229,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       const { deckId } = action;
       return {
         ...state,
+        isLoading: false,
         decks: {
           ...state.decks,
           [deckId]: {
@@ -236,6 +252,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         // do I need this?
         return {
           ...state,
+          isLoading: false,
           decks: {
             ...state.decks,
             [id]: {
@@ -247,6 +264,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       }
       return {
         ...state,
+        isLoading: false,
         decks: {
           ...state.decks,
           [id]: deck,

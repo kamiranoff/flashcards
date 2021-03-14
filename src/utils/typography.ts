@@ -11,6 +11,7 @@ const FONT_WEIGHT_BOLD = 'bold';
 
 // FONT SIZE
 const FONT_SIZE_30 = scaleFont(30);
+const FONT_SIZE_19 = scaleFont(19);
 const FONT_SIZE_18 = scaleFont(18);
 const FONT_SIZE_17 = scaleFont(17);
 const FONT_SIZE_16 = scaleFont(16);
@@ -48,7 +49,7 @@ const typography = {
   h1: {
     fontFamily: FONT_FAMILY_BOLD,
     fontWeight: FONT_WEIGHT_BOLD,
-    fontSize: FONT_SIZE_18,
+    fontSize: FONT_SIZE_19,
   },
   h2: {
     fontFamily: FONT_FAMILY_HERO,

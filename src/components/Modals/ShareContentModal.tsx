@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginLeft: 5,
     paddingHorizontal: 4,
-    width: 65,
+    width: 72,
     backgroundColor: theme.colors.placeholder,
   },
 });

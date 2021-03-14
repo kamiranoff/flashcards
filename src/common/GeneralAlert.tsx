@@ -5,7 +5,7 @@ import AppText from './AppText';
 import { theme } from '../utils';
 import animations from '../assets/animations';
 
-const GeneralAlert = ({ startExecute }: { startExecute: boolean }) => {
+const GeneralAlert = ({ startExecute, hasIcon = true }: { startExecute: boolean; hasIcon?: boolean }) => {
   const bounceVal = useRef(new Animated.Value(-100)).current;
   const bounceConfig = {
     velocity: 3,
@@ -38,11 +38,13 @@ const GeneralAlert = ({ startExecute }: { startExecute: boolean }) => {
   }
   return (
     <Animated.View style={[styles.container, { transform: [{ translateY: bounceVal }] }]}>
-      <View style={styles.lottie}>
-        <LottieView source={animations.success} autoPlay loop style={styles.icon} />
-      </View>
-      <AppText size="h3" centered textStyle={styles.text}>
-        Thank you so so much!
+      {hasIcon && (
+        <View style={styles.lottie}>
+          <LottieView source={animations.success} autoPlay loop style={styles.icon} />
+        </View>
+      )}
+      <AppText size="h3" centered textStyle={hasIcon ? styles.text : styles.generic}>
+        {hasIcon ? 'Thank you so so much!' : 'Cards successfully updated'}
       </AppText>
     </Animated.View>
   );
@@ -69,6 +71,11 @@ const styles = StyleSheet.create({
     color: '#FF7373',
     fontWeight: '800',
     paddingBottom: 5,
+  },
+  generic: {
+    color: theme.colors.border,
+    fontWeight: '800',
+    paddingVertical: 20,
   },
   icon: {
     width: 80,

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,13 +7,14 @@ import { DeckDetailScreenRouteProp, Screens } from '../../navigation/types';
 import Cards from './components/Cards';
 import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
 import IconButton from '../../common/IconButton';
-import { CloseButton, Container, NoContentInfo, Title } from '../../common';
+import { CloseButton, Container, GeneralAlert, NoContentInfo, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
 import { sortByRankCards, shuffleCards, getDeckByShareId } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
 import ActionButtons from './components/ActionButtons';
 import useOpacity from './useOpacity';
+import { RootState } from '../../redux/store';
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
@@ -28,13 +29,14 @@ const DeckDetail: FC<Props> = ({
     params: { id, color },
   },
 }) => {
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const { opacityVal } = useOpacity();
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
   const deckDetail = useSelector(selectDeckItem(id));
   const badAnswers = useSelector(selectBadAnswers(id));
   const goodAnswers = useSelector(selectGoodAnswers(id));
-
+  const { isLoading } = useSelector((state: RootState) => state.decks);
   const handleOnPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
 
   const navigateToPlayground = () =>
@@ -46,12 +48,14 @@ const DeckDetail: FC<Props> = ({
 
   const handlerRefreshSharedDeck = async () => {
     if (deckDetail.sharedWithYou || deckDetail.sharedByYou) {
+      setIsRefreshing(true);
       dispatch(getDeckByShareId(deckDetail.shareId, id));
     }
   };
 
   return (
     <Container>
+      <GeneralAlert startExecute={isRefreshing && !isLoading} hasIcon={false} />
       <CloseButton onPress={goBack} />
       <View style={styles.addIcon}>
         <IconButton onPress={handleOnPress} iconName="plusCurve" />
@@ -80,7 +84,13 @@ const DeckDetail: FC<Props> = ({
               ) : (
                 <NoContentInfo text="card" style={styles.noContentInfo} iconName="prettyLady" />
               )}
-              <Cards cards={deckDetail.cards} deckId={id} isOwner={deckDetail.isOwner} />
+              <Cards
+                cards={deckDetail.cards}
+                deckId={id}
+                isOwner={deckDetail.isOwner}
+                handlerRefreshSharedDeck={handlerRefreshSharedDeck}
+                isLoading={isLoading}
+              />
             </Animated.View>
           </View>
         </SharedElement>
@@ -95,10 +105,16 @@ const DeckDetail: FC<Props> = ({
           ) : (
             <NoContentInfo text="card" style={styles.noContentInfo} iconName="prettyLady" />
           )}
-          <Cards cards={deckDetail.cards} deckId={id} isOwner={deckDetail.sharedByYou} />
+          <Cards
+            cards={deckDetail.cards}
+            deckId={id}
+            isOwner={deckDetail.sharedByYou}
+            handlerRefreshSharedDeck={handlerRefreshSharedDeck}
+            isLoading={isLoading}
+          />
         </View>
       )}
-      {deckDetail.sharedWithYou || deckDetail.sharedByYou ? (
+      {(deckDetail.sharedWithYou || deckDetail.sharedByYou) && !isLoading ? (
         <View style={styles.refresh}>
           <IconButton onPress={handlerRefreshSharedDeck} iconName="refresh" />
         </View>
