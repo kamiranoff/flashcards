@@ -1,4 +1,4 @@
-package com.flashcards;
+package app.myflashcards.myflashcards;
 
 import com.facebook.react.ReactActivity;
 
