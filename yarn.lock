@@ -1158,6 +1158,11 @@
   resolved "https://registry.npmjs.org/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
   integrity sha512-rk4sWFsmtOw8oyx8SD3KSvawwaK7gRBSEIy2TAwURyGt+3TizssXP1r8nx3zY+R7v2vYYHXZ+k2/GULAT/bcaQ==
 
+"@react-native-firebase/admob@^11.1.1":
+  version "11.1.1"
+  resolved "https://registry.npmjs.org/@react-native-firebase/admob/-/admob-11.1.1.tgz#b3a50112534d6fa08d6df1794f2cc527291e301d"
+  integrity sha512-rmDh74Hukbng10tUdkaEpAY/3qaeo4w2vgphqomtWs36mObC0hrKQGgT0TYnRIOgGlrjQsBeyuKxwWq5oBfBrQ==
+
 "@react-native-firebase/app@^11.1.1":
   version "11.1.1"
   resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-11.1.1.tgz#3817afd4a11d8da36f838c02af5d525ecf37371c"

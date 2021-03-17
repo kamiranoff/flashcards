@@ -50,7 +50,7 @@ const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
 
 export default function decks(state = initialState, action: DecksActions): DecksState {
   switch (action.type) {
-    case DecksActionTypes.getDeckByShareId:
+    case DecksActionTypes.getDeckByShareIdRequest:
       return {
         ...state,
         isLoading: true,
@@ -64,6 +64,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       return {
         ...state,
         error: action.error,
+        isLoading: false,
         decks: {
           ...state.decks,
         },

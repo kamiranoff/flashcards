@@ -36,7 +36,8 @@ const DeckDetail: FC<Props> = ({
   const deckDetail = useSelector(selectDeckItem(id));
   const badAnswers = useSelector(selectBadAnswers(id));
   const goodAnswers = useSelector(selectGoodAnswers(id));
-  const { isLoading } = useSelector((state: RootState) => state.decks);
+  const { isLoading, error } = useSelector((state: RootState) => state.decks);
+
   const handleOnPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
 
   const navigateToPlayground = () =>
@@ -55,7 +56,7 @@ const DeckDetail: FC<Props> = ({
 
   return (
     <Container>
-      <GeneralAlert startExecute={isRefreshing && !isLoading} hasIcon={false} />
+      <GeneralAlert startExecute={isRefreshing && !isLoading && !error} hasIcon={false} />
       <CloseButton onPress={goBack} />
       <View style={styles.addIcon}>
         <IconButton onPress={handleOnPress} iconName="plusCurve" />

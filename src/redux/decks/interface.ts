@@ -18,6 +18,7 @@ export enum DecksActionTypes {
   saveSharedDeckFailure = 'SAVE_SHARED_DECK_FAILURE',
   editDeckFailure = 'EDIT_DECK_FAILURE',
   clearDecksError = 'CLEAR_DECKS_ERROR',
+  getDeckByShareIdRequest = 'GET_DECK_BY_SHARE_ID_REQUEST',
 }
 
 export enum SCORES {
@@ -120,6 +121,11 @@ export interface ClearDecksError {
   type: DecksActionTypes.clearDecksError;
   error: boolean;
 }
+
+export interface GetDeckByShareIdRequest {
+  type: DecksActionTypes.getDeckByShareIdRequest;
+}
+
 export type DecksActions =
   | GetDecks
   | SaveDeck
@@ -137,4 +143,5 @@ export type DecksActions =
   | EditAndSaveSharedDeck
   | SaveSharedDeckFailure
   | EditDeckFailure
-  | ClearDecksError;
+  | ClearDecksError
+  | GetDeckByShareIdRequest;

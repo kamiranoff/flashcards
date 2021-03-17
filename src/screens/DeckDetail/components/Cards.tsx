@@ -34,7 +34,6 @@ const formatData = (cards: Card[], numColumns: number) => {
 };
 
 const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, isLoading }) => {
-  console.log('isLoading', isLoading);
   const yValue = useRef(new Animated.Value(WINDOW_HEIGHT)).current;
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
@@ -90,6 +89,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
     />
   ) : (
     <Animated.FlatList
+      refreshControl={renderRefreshControl()}
       showsVerticalScrollIndicator={false}
       numColumns={numberColumns}
       contentContainerStyle={styles.contentContainerStyle}

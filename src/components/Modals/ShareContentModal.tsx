@@ -20,6 +20,8 @@ const ShareContentModal = ({ deckId, handleGoBack }: { deckId: string; handleGoB
     try {
       if (!deckDetail.sharedByYou) {
         const res = await Api.saveDeck(deckDetail);
+        // TODO: user must be online to be able to share
+        // TODO: network notifications
         if (res.data) {
           return Share.open(shareOptionsWithCode(deckDetail.shareId))
             .then(() => {

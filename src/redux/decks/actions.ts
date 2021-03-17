@@ -114,3 +114,7 @@ export const clearDecksError = (error: boolean) => ({
   type: DecksActionTypes.clearDecksError,
   error,
 });
+
+export const getDeckByShareIdRequest = () => ({
+  type: DecksActionTypes.getDeckByShareIdRequest,
+});
