@@ -8,7 +8,7 @@ import { CloseButton, Container, Title } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
 import { Card } from '../../redux/decks/reducer';
-import { getPlatformDimension, isSmallDevice } from '../../utils/device';
+import { getPlatformDimension, isIOS, isSmallDevice } from '../../utils/device';
 import { scoreCard } from '../../redux/decks/actions';
 import { SCORES } from '../../redux/decks/interface';
 import ActionButtons from './ActionButtons';
@@ -18,6 +18,8 @@ import PrimaryButton from '../../common/PrimaryButton';
 import { RootState } from '../../redux/store';
 import { triggerRateApp } from '../../redux/user/actions';
 import rateApp from '../../modules/rateApp';
+import { useInterstitialAd } from '../../service/useInterstitialAd';
+import { AdUnitIds } from '../../service/config';
 
 export interface Props {
   route: PlaygroundScreenRouteProp;
@@ -25,6 +27,8 @@ export interface Props {
 }
 
 const STACK_SIZE = 3;
+
+const AD_ID = isIOS ? AdUnitIds.IOS_PRE_PLAYGROUND_PROMO : AdUnitIds.ANDROID_PRE_PLAYGROUND_PROMO;
 
 const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, navigate } }) => {
   const swiperRef = useRef<any>(null); // FIXME
@@ -36,6 +40,8 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   const card = R.find(R.propEq('id', params.cardId), deckDetail.cards);
   const restOfCards = R.reject(R.propEq('id', params.cardId), deckDetail.cards);
   const reOrderedCards = card ? [card, ...restOfCards] : deckDetail.cards; // First card is the one which has been clicked from deck detail
+
+  useInterstitialAd(AD_ID);
 
   const onSwiped = () => {
     setIndex((index + 1) % deckDetail.cards.length);

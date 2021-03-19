@@ -5,7 +5,9 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import Navigation from './navigation';
 import { persistor, store } from './redux/store';
+import { admobInit } from './service/adMob';
 
+admobInit();
 // enableScreens();
 const App = () => (
   <Provider store={store}>
