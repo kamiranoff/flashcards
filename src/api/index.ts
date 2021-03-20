@@ -16,11 +16,12 @@ export interface ResponseDeck {
   cards: Card[];
 }
 
-async function savePhoto(file: File): Promise<string[]> {
+async function savePhoto(file: File, onUploadProgress: any): Promise<string[]> {
   const formData = new FormData();
   formData.append('photo', file as any);
   const response = await axios.post(`${Config.API_URL}/image`, formData, {
     timeout: 15000,
+    onUploadProgress,
     headers: {
       'Content-Type': 'multipart/form-data',
     },

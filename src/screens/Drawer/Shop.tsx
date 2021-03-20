@@ -1,14 +1,15 @@
 import React, { FC, useState } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'ramda';
-import { Container, PriceButton, AppText, GeneralAlert } from '../../common';
+import { AppText, Container, GeneralAlert, PriceButton } from '../../common';
 import assets from '../../assets';
 import { theme } from '../../utils';
 import { Screens, ShopScreenNavigationProp } from '../../navigation/types';
 import { usePayments } from '../../modules/usePayments';
 import { Product } from 'react-native-iap';
 import { RootState } from '../../redux/store';
+import { NotificationMessages } from '../../common/GeneralAlert';
 
 interface IData {
   label: string;
@@ -58,7 +59,7 @@ const Shop: FC<Props> = ({ navigation }) => {
 
   return (
     <Container style={styles.container}>
-      <GeneralAlert startExecute={showSuccessInfo} />
+      <GeneralAlert startExecute={showSuccessInfo} text={NotificationMessages.THANK_YOU} />
       <View style={styles.content}>
         <View style={styles.header}>
           <Image source={assets.icons.happyFace} style={styles.image} />

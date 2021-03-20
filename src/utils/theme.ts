@@ -28,6 +28,7 @@ const palette = {
   lightGray: '#d1d2d1',
   lightMidGray: '#d9dddc',
   red: 'red',
+  warning: '#ff6666',
 };
 
 const PLAYGROUND_OVERLAY_BUTTONS = {

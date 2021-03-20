@@ -9,12 +9,13 @@ import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } fr
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, GeneralAlert, NoContentInfo, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
-import { sortByRankCards, shuffleCards, getDeckByShareId } from '../../redux/decks/actions';
+import { getDeckByShareId, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
 import ActionButtons from './components/ActionButtons';
 import useOpacity from './useOpacity';
 import { RootState } from '../../redux/store';
+import { NotificationMessages } from '../../common/GeneralAlert';
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
@@ -56,7 +57,7 @@ const DeckDetail: FC<Props> = ({
 
   return (
     <Container>
-      <GeneralAlert startExecute={isRefreshing && !isLoading && !error} hasIcon={false} />
+      <GeneralAlert startExecute={isRefreshing && !isLoading && !error} text={NotificationMessages.UPDATE} />
       <CloseButton onPress={goBack} />
       <View style={styles.addIcon}>
         <IconButton onPress={handleOnPress} iconName="plusCurve" />
