@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { View, StyleSheet, Image, ScrollView } from 'react-native';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import { Container, GeneralAlert, PriceButton } from '../../../common';
 import AppText from '../../../common/AppText';
 import assets from '../../../assets';
@@ -11,6 +11,7 @@ import { Screens, UpgradeScreenNavigationProp } from '../../../navigation/types'
 import { TERMS } from '../../../config';
 import { data } from './data';
 import { getPlatformDimension } from '../../../utils/device';
+import { NotificationMessages } from '../../../common/GeneralAlert';
 
 interface Props {
   navigation: UpgradeScreenNavigationProp;
@@ -28,7 +29,7 @@ const UpgradeToPro: FC<Props> = ({ navigation }) => {
 
   return (
     <Container style={styles.container}>
-      <GeneralAlert startExecute={showSuccessInfo} />
+      <GeneralAlert startExecute={showSuccessInfo} text={NotificationMessages.THANK_YOU} />
       <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
           <View style={styles.header}>

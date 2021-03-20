@@ -1,27 +1,20 @@
 import React, { FC, useRef, useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, TouchableOpacity, View, ScrollView, Image } from 'react-native';
+import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 import * as Analytics from 'appcenter-analytics';
-import { ImageLibraryOptions, launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import {
+  ImageLibraryOptions,
+  ImagePickerResponse,
+  launchCamera,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../utils/device';
 import assets from '../assets';
 import PrimaryButton from './PrimaryButton';
 import { analytics, theme } from '../utils';
 import Api from '../api';
-
-const getPhoto = async (uri: string) => {
-  const fileType = uri.substr(uri.lastIndexOf('.') + 1);
-  const file = {
-    uri,
-    name: `image.${fileType}?date=${Date.now()}`,
-    type: `image/${fileType}`,
-  };
-  try {
-    return await Api.savePhoto(file);
-  } catch (e) {
-    console.log('e', e); // FIXME logger
-  }
-};
+import AppText from './AppText';
+import GeneralAlert, { NotificationMessages } from './GeneralAlert';
 
 interface Props {
   initialValue: string;
@@ -46,6 +39,8 @@ const imageOptions: ImageLibraryOptions = {
 const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   const [value, setValue] = useState(initialValue);
   const richText = useRef<RichEditor>(null);
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState(false);
 
   const handleKeyboard = () => {
     const editor = richText.current!;
@@ -62,29 +57,55 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
     onSubmit(value);
   };
 
+  const handleSetProgress = (progressEvent: ProgressEvent): void => {
+    const val = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
+    setProgress(val);
+  };
+
+  const saveAndInsertPhoto = async (res: ImagePickerResponse) => {
+    if (res.uri) {
+      const uri = res.uri;
+      const fileType = uri.substr(uri.lastIndexOf('.') + 1);
+      const file = {
+        uri,
+        name: `image.${fileType}?date=${Date.now()}`,
+        type: `image/${fileType}`,
+      };
+      try {
+        const photo = await Api.savePhoto(file, handleSetProgress);
+        if (photo) {
+          richText.current?.insertImage(photo);
+        }
+      } catch (e) {
+        setError(true);
+        setProgress(0);
+      } finally {
+        setProgress(0);
+        setError(false);
+      }
+    }
+  };
   const handlePressAddImage = () => {
     Analytics.trackEvent(analytics.addImageToCard).catch(null);
     launchImageLibrary(imageOptions, async (res) => {
-      if (res.uri) {
-        const uri = res.uri;
-        const photo = await getPhoto(uri);
-        richText.current?.insertImage(photo);
-      }
+      await saveAndInsertPhoto(res);
     });
   };
 
   const handleInsertImageFromCamera = () => {
     launchCamera(imageOptions, async (res) => {
-      if (res.uri) {
-        const uri = res.uri;
-        const photo = await getPhoto(uri);
-        richText.current?.insertImage(photo);
-      }
+      await saveAndInsertPhoto(res);
     });
   };
 
   return (
     <>
+      <GeneralAlert startExecute={error} text={NotificationMessages.ERROR} />
+      {progress > 0 && (
+        <View style={styles.loadingOverlay}>
+          <AppText size="h2">{`${progress}%`}</AppText>
+        </View>
+      )}
       <View style={styles.saveButton}>
         <PrimaryButton buttonText="Save" onPress={handleSubmit} />
       </View>
@@ -156,6 +177,20 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
 };
 
 const styles = StyleSheet.create({
+  loadingOverlay: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    borderRadius: 10,
+  },
+  loadingText: {
+    color: theme.colors.border,
+    fontWeight: '600',
+  },
   scrollView: {
     marginTop: 30,
   },
