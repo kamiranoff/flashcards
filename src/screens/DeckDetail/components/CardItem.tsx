@@ -27,7 +27,7 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
       </View>
     )}
     <TouchableOpacity onPress={onPress}>
-      <View>
+      <View style={styles.touchable}>
         <View style={styles.top}>
           <AppText size="p" textStyle={styles.label}>
             Question:
@@ -36,9 +36,7 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
             <HtmlParser isSliced text={`${card.question}`} />
           </View>
         </View>
-        {card.answer.length ? (
-          <View style={styles.emptyView} />
-        ) : (
+        {!card.answer.length && (
           <View style={styles.bottom}>
             <Icon
               name="question"
@@ -58,15 +56,17 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
 
 const styles = StyleSheet.create({
   content: {
-    width: isSmallDevice() ? 130 : getPlatformDimension(150, 150, 150),
     paddingHorizontal: 5,
     paddingVertical: 10,
     justifyContent: 'space-between',
-    flexDirection: 'column',
     zIndex: 3,
   },
   top: {
     justifyContent: 'center',
+  },
+  touchable: {
+    width: getPlatformDimension(150, 170, 190),
+    minHeight: isSmallDevice() ? 150 : getPlatformDimension(155, 170, 190),
   },
   bottom: {
     marginTop: 10,
@@ -84,9 +84,6 @@ const styles = StyleSheet.create({
   },
   label: {
     color: theme.colors.p,
-  },
-  emptyView: {
-    height: 30,
   },
   trashIconContainer: {
     zIndex: 2,

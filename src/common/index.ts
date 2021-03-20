@@ -18,6 +18,7 @@ import Bubble from './Bubble';
 import NoContentInfo from './NoContentInfo';
 import AppText from './AppText';
 import GeneralAlert from './GeneralAlert';
+import ProgressLoader from './ProgressLoader';
 
 export {
   AppText,
@@ -40,4 +41,5 @@ export {
   Input,
   Bubble,
   NoContentInfo,
+  ProgressLoader,
 };

@@ -13,8 +13,8 @@ import assets from '../assets';
 import PrimaryButton from './PrimaryButton';
 import { analytics, theme } from '../utils';
 import Api from '../api';
-import AppText from './AppText';
 import GeneralAlert, { NotificationMessages } from './GeneralAlert';
+import ProgressLoader from './ProgressLoader';
 
 interface Props {
   initialValue: string;
@@ -41,6 +41,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   const richText = useRef<RichEditor>(null);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleKeyboard = () => {
     const editor = richText.current!;
@@ -74,26 +75,28 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
       try {
         const photo = await Api.savePhoto(file, handleSetProgress);
         if (photo) {
+          setIsLoading(false);
           richText.current?.insertImage(photo);
         }
       } catch (e) {
         setError(true);
-        setProgress(0);
+        setIsLoading(false);
       } finally {
         setProgress(0);
-        setError(false);
       }
     }
   };
   const handlePressAddImage = () => {
     Analytics.trackEvent(analytics.addImageToCard).catch(null);
     launchImageLibrary(imageOptions, async (res) => {
+      setIsLoading(true);
       await saveAndInsertPhoto(res);
     });
   };
 
   const handleInsertImageFromCamera = () => {
     launchCamera(imageOptions, async (res) => {
+      setIsLoading(true);
       await saveAndInsertPhoto(res);
     });
   };
@@ -101,11 +104,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   return (
     <>
       <GeneralAlert startExecute={error} text={NotificationMessages.ERROR} />
-      {progress > 0 && (
-        <View style={styles.loadingOverlay}>
-          <AppText size="h2">{`${progress}%`}</AppText>
-        </View>
-      )}
+      {isLoading && <ProgressLoader progress={progress} />}
       <View style={styles.saveButton}>
         <PrimaryButton buttonText="Save" onPress={handleSubmit} />
       </View>
@@ -177,20 +176,6 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
 };
 
 const styles = StyleSheet.create({
-  loadingOverlay: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    borderRadius: 10,
-  },
-  loadingText: {
-    color: theme.colors.border,
-    fontWeight: '600',
-  },
   scrollView: {
     marginTop: 30,
   },
