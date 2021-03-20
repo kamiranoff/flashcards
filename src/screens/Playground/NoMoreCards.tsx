@@ -7,6 +7,7 @@ import { AppText } from '../../common';
 import { selectBadAnswers, selectGoodAnswers } from '../../redux/seclectors';
 import assets from '../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';
+import { getUserScore } from '../../lib';
 
 interface Props {
   deckId: string;
@@ -15,6 +16,10 @@ interface Props {
 const NoMoreCards: FC<Props> = ({ deckId }) => {
   const badAnswers = useSelector(selectBadAnswers(deckId));
   const goodAnswers = useSelector(selectGoodAnswers(deckId));
+  const scoreInfo = getUserScore(goodAnswers, badAnswers);
+  // @ts-ignore
+  const icon = animations[`${scoreInfo.icon}Lady`];
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -25,23 +30,23 @@ const NoMoreCards: FC<Props> = ({ deckId }) => {
         imageStyle={styles.bubbleImg}>
         <View style={styles.content}>
           <AppText size="h2" centered>
-            Today:
+            Your score today is:
+          </AppText>
+          <View style={styles.spacer} />
+          <AppText size="header" centered textStyle={styles.scoreText}>
+            {scoreInfo.score}
           </AppText>
           <View style={styles.spacer} />
           <AppText size="h2" centered>
-            You have: {goodAnswers} correct
+            {scoreInfo.secondary}
           </AppText>
           <AppText size="h2" centered>
-            and {badAnswers} incorrect answers!
-          </AppText>
-          <View style={styles.spacer} />
-          <AppText size="h2" centered>
-            Keep up the good work!
+            {scoreInfo.primary}
           </AppText>
         </View>
       </ImageBackground>
       <View style={styles.animationContainer}>
-        <LottieView autoPlay loop speed={1.5} source={animations.lady} style={{ width: 120, height: 120 }} />
+        <LottieView autoPlay loop speed={1.5} source={icon} style={styles.icon} />
       </View>
     </View>
   );
@@ -76,6 +81,13 @@ const styles = StyleSheet.create({
   },
   spacer: {
     marginTop: 10,
+  },
+  icon: {
+    width: 120,
+    height: 120,
+  },
+  scoreText: {
+    fontSize: 30,
   },
 });
 

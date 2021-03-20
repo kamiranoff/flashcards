@@ -10,7 +10,7 @@ interface Props {
 
 const Img = (props: any) => {
   const imgStyle = {
-    width: props.isSliced ? 120 : WINDOW_WIDTH - SPACING * 5, // FIXME
+    width: props.isSliced ? 140 : WINDOW_WIDTH - SPACING * 5, // FIXME
     height: props.isSliced ? 80 : undefined,
     aspectRatio: 1,
   };
@@ -25,7 +25,7 @@ const Img = (props: any) => {
 };
 
 const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
-  const slicedText = text ? `${text.slice(0, 150)}...` : '';
+  const slicedText = text ? `${text.slice(0, 150)}` : '';
 
   const renderNode = (node: any, index: number) => {
     if (node.name === 'img') {

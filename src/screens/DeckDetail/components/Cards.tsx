@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { Animated, StyleSheet, FlatList, View, RefreshControl } from 'react-native';
-import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/types';
 import { Card } from '../../../redux/decks/reducer';
@@ -10,7 +9,6 @@ import { NativeAlert } from '../../../common';
 import { deleteCard } from '../../../redux/decks/actions';
 import CardItem from './CardItem';
 import { theme } from '../../../utils';
-import { RootState } from '../../../redux/store';
 
 export interface Props {
   cards: Card[];
@@ -118,10 +116,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   item: {
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingHorizontal: 5,
-    margin: 5,
+    margin: 6,
     borderRadius: 8,
     ...theme.iconButtonShadow,
     zIndex: 3,
@@ -131,7 +127,7 @@ const styles = StyleSheet.create({
     width: isSmallDevice() ? 150 : getPlatformDimension(170, 170, 190),
     borderWidth: 0,
     paddingHorizontal: 5,
-    paddingVertical: 10,
+    margin: 6,
   },
 });
 
