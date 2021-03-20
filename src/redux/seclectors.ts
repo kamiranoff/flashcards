@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import * as R from 'ramda';
 import { RootState } from './store';
 
 export const selectAllDecks = (state: RootState) => state.decks.decks;
@@ -15,10 +16,11 @@ export const selectCard = (deckId: string, id: string | undefined) =>
   );
 
 export const selectBadAnswers = (deckId: string) =>
-  createSelector([selectDeckItem(deckId)], (decks) => decks.cards.filter((c) => c.rank === 0).length);
+  createSelector([selectDeckItem(deckId)], (decks) =>
+    !R.isEmpty(decks) ? decks.cards.filter((c) => c.rank === 0).length : 0,
+  );
 
 export const selectGoodAnswers = (deckId: string) =>
-  createSelector(
-    [selectDeckItem(deckId)],
-    (decks) => decks.cards.filter((c) => c.rank !== null && c.rank > 0).length,
+  createSelector([selectDeckItem(deckId)], (decks) =>
+    !R.isEmpty(decks) ? decks.cards.filter((c) => c.rank !== null && c.rank > 0).length : 0,
   );

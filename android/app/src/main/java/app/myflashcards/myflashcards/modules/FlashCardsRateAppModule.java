@@ -1,4 +1,4 @@
-package com.flashcards.modules;
+package app.myflashcards.myflashcards.modules;
 
 import androidx.annotation.NonNull;
 
