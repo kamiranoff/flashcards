@@ -18,7 +18,7 @@ const TopContent: FC<Props> = ({ total, badAnswersTotal, goodAnswersTotal }) => 
         {goodAnswersTotal}
       </AppText>
       <AppText size="body" textStyle={styles.bodyText}>
-        {goodAnswersTotal === 1 ? 'good answer' : 'good answers'}
+        {goodAnswersTotal === 1 ? 'correct answer' : 'correct answers'}
       </AppText>
     </View>
     <View style={{ alignItems: 'center' }}>
@@ -35,7 +35,7 @@ const TopContent: FC<Props> = ({ total, badAnswersTotal, goodAnswersTotal }) => 
         {badAnswersTotal}
       </AppText>
       <AppText size="body" textStyle={styles.bodyText}>
-        {badAnswersTotal === 1 ? 'bad answer' : 'bad answers'}
+        {`incorrect answer${badAnswersTotal === 1 ? '' : 's'}`}
       </AppText>
     </View>
   </View>
