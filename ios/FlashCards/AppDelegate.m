@@ -45,7 +45,7 @@ static void InitializeFlipper(UIApplication *application) {
                                                    moduleName:@"FlashCards"
                                             initialProperties:nil];
 
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:159.0f/255.0f green:206.0f/255.0f blue:191.0f/255.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
