@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { InterstitialAd, AdEventType } from '@react-native-firebase/admob';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const showInterstitialAd = (adId: string) => {
   // Create a new instance
@@ -22,7 +24,12 @@ const showInterstitialAd = (adId: string) => {
 };
 
 const useInterstitialAd = (adId: string) => {
+  const { shop } = useSelector((state: RootState) => state);
+
   useEffect(() => {
+    if (shop.remove_ads) {
+      return;
+    }
     if (!adId) {
       return undefined;
     }

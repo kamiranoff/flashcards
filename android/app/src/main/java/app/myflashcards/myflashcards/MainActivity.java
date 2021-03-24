@@ -1,5 +1,9 @@
 package app.myflashcards.myflashcards;
 
+import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+
 import com.facebook.react.ReactActivity;
 
 public class MainActivity extends ReactActivity {
@@ -11,5 +15,11 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "FlashCards";
+  }
+
+  @Override
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
+    setTheme(R.style.SplashTheme_Launcher);
+    super.onCreate(savedInstanceState);
   }
 }
