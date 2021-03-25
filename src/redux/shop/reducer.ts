@@ -12,9 +12,9 @@ interface Product {
   expire_at: string | null;
 }
 
-export interface ShopState {
-  [id: string]: Product;
-}
+export type ShopState = {
+  [key in ProductType]?: Product;
+};
 
 const initialState: ShopState = {};
 
