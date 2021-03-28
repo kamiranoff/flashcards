@@ -32,7 +32,7 @@ export const HIT_SLOP = {
   backgroundColor: 'red',
 };
 
-function isIphoneWithNotch() {
+export function isIphoneWithNotch() {
   const dimen = Dimensions.get('window');
   return (
     Platform.OS === 'ios' &&

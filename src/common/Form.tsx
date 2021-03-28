@@ -72,6 +72,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   };
 
   const saveAndInsertPhoto = async (res: ImagePickerResponse) => {
+    setIsError(false);
     if (res.uri) {
       setIsLoading(true);
       const uri = res.uri;
