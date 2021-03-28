@@ -14,7 +14,7 @@ interface Props {
 }
 
 const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
-  <View style={styles.content}>
+  <View style={styles.container}>
     {isOwner && (
       <View style={styles.trashIconContainer}>
         <IconButton
@@ -26,8 +26,8 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
         />
       </View>
     )}
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.touchable}>
+    <TouchableOpacity onPress={onPress} style={styles.content}>
+      <View>
         <View style={styles.top}>
           <AppText size="p" textStyle={styles.label}>
             Question:
@@ -55,21 +55,20 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
 );
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   content: {
     paddingHorizontal: 5,
     paddingVertical: 10,
-    justifyContent: 'space-between',
-    zIndex: 3,
+    height: isSmallDevice() ? 150 : getPlatformDimension(155, 170, 190),
+    flex: 1,
   },
   top: {
     justifyContent: 'center',
   },
-  touchable: {
-    width: getPlatformDimension(150, 170, 190),
-    minHeight: isSmallDevice() ? 150 : getPlatformDimension(155, 170, 190),
-  },
   bottom: {
-    marginTop: 10,
+    marginTop: 5,
     alignItems: 'center',
     flexDirection: 'row',
   },
