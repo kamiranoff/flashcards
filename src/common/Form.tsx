@@ -169,7 +169,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           <TouchableOpacity onPress={handleKeyboard}>
             <Image source={assets.icons.keyboard} style={styles.keyboard} resizeMode="contain" />
           </TouchableOpacity>
-          {!false && <IconButton onPress={handleGoToShop} iconName="basket" style={styles.basketIcon} />}
+          {!isPro && <IconButton onPress={handleGoToShop} iconName="basket" style={styles.basketIcon} />}
         </View>
         <RichToolbar
           getEditor={() => richText.current!}
