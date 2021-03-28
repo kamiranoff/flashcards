@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
+import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import { DrawerScreenNavigationProp, Screens } from '../../navigation/types';
+import { Screens } from '../../navigation/types';
 import { StyleSheet } from 'react-native';
 import { Icon } from '../../common';
 import { theme, typography } from '../../utils';
@@ -9,7 +10,7 @@ import { isIOS } from '../../utils/device';
 import useAppVersion from '../../modules/AppVersion';
 
 export interface Props {
-  navigation: DrawerScreenNavigationProp;
+  navigation: DrawerNavigationHelpers; // TODO - investigate why DrawerScreenNavigationProp cause error
 }
 
 const DrawerContent: FC<Props> = ({ navigation }) => {
@@ -28,7 +29,7 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
           labelStyle={styles.labelStyle}
           label="Help improve the app"
           icon={() => <Icon name="speedometer" bgColor={theme.colors.drawerItem.improve} />}
-          onPress={() => navigation.navigate(Screens.IMPROVE_THE_APP)}
+          onPress={() => navigation.navigate(Screens.IMPROVE_APP)}
         />
         <DrawerItem
           label="Request feature"
@@ -45,7 +46,7 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
         />
         <DrawerItem
           labelStyle={styles.labelStyle}
-          style={[styles.base, styles.bottom]}
+          style={[styles.base, styles.middle]}
           icon={() => <Icon name="sale" bgColor={theme.colors.drawerItem.shop} />}
           label="Shop"
           onPress={() => navigation.navigate(Screens.SHOP)}
@@ -62,12 +63,12 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
           labelStyle={styles.labelStyle}
           icon={() => <Icon name="heartCupid" bgColor={theme.colors.drawerItem.share} />}
           label="Share App"
-          onPress={() => navigation.navigate(Screens.SHARE_THE_APP)}
+          onPress={() => navigation.navigate(Screens.SHARE_APP)}
         />
         <DrawerItem
           label="Rate the App"
           labelStyle={styles.labelStyle}
-          onPress={() => navigation.navigate(Screens.RATE_THE_APP)}
+          onPress={() => navigation.navigate(Screens.RATE_APP)}
           icon={() => <Icon name="star" bgColor={theme.colors.drawerItem.rate} />}
         />
         <DrawerItem
@@ -115,6 +116,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
+  },
+  middle: {
+    backgroundColor: 'white',
+    borderBottomColor: 'gray',
+    borderRadius: 0,
   },
   bottom: {
     backgroundColor: 'white',
