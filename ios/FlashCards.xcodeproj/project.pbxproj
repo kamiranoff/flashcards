@@ -24,6 +24,9 @@
 		44D82DA6630F437D31E8E10A /* libPods-FlashCards.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26781000F84436C9F8286345 /* libPods-FlashCards.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A7E9AFEB5AB206D065E28A23 /* libPods-FlashCards-FlashCardsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B152AFC04AC5A81F39D74E8 /* libPods-FlashCards-FlashCardsTests.a */; };
+		B9CDC8662610BA15007E6E7A /* icon-no-bg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9CDC8632610BA15007E6E7A /* icon-no-bg@3x.png */; };
+		B9CDC8672610BA15007E6E7A /* icon-no-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9CDC8642610BA15007E6E7A /* icon-no-bg@2x.png */; };
+		B9CDC8682610BA15007E6E7A /* icon-no-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = B9CDC8652610BA15007E6E7A /* icon-no-bg.png */; };
 		BE4F1287757C61458D59D734 /* libPods-FlashCards-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6727D37F5D705AD1C166299C /* libPods-FlashCards-tvOSTests.a */; };
 		E332B8268544E6015648982E /* libPods-FlashCards-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CFC16B772B1D5F0E028E60A /* libPods-FlashCards-tvOS.a */; };
 /* End PBXBuildFile section */
@@ -79,6 +82,9 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = FlashCards/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B152AFC04AC5A81F39D74E8 /* libPods-FlashCards-FlashCardsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlashCards-FlashCardsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		923B5EE736D488370A35D865 /* Pods-FlashCards-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlashCards-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-FlashCards-tvOSTests/Pods-FlashCards-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B9CDC8632610BA15007E6E7A /* icon-no-bg@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-no-bg@3x.png"; path = "FlashCards/Images.xcassets/splash.imageset/icon-no-bg@3x.png"; sourceTree = "<group>"; };
+		B9CDC8642610BA15007E6E7A /* icon-no-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-no-bg@2x.png"; path = "FlashCards/Images.xcassets/splash.imageset/icon-no-bg@2x.png"; sourceTree = "<group>"; };
+		B9CDC8652610BA15007E6E7A /* icon-no-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-no-bg.png"; path = "FlashCards/Images.xcassets/splash.imageset/icon-no-bg.png"; sourceTree = "<group>"; };
 		BE1F3C174535AEFD4F108F43 /* Pods-FlashCards.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlashCards.debug.xcconfig"; path = "Target Support Files/Pods-FlashCards/Pods-FlashCards.debug.xcconfig"; sourceTree = "<group>"; };
 		DFE3A6B4F64EDB5470501454 /* Pods-FlashCards-FlashCardsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlashCards-FlashCardsTests.release.xcconfig"; path = "Target Support Files/Pods-FlashCards-FlashCardsTests/Pods-FlashCards-FlashCardsTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -161,6 +167,7 @@
 		13B07FAE1A68108700A75B9A /* FlashCards */ = {
 			isa = PBXGroup;
 			children = (
+				B9CDC8622610BA02007E6E7A /* splash */,
 				0881A712260167AF001DBAC6 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -238,6 +245,16 @@
 				2D02E4901E0B4A5D006451C7 /* FlashCards-tvOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B9CDC8622610BA02007E6E7A /* splash */ = {
+			isa = PBXGroup;
+			children = (
+				B9CDC8652610BA15007E6E7A /* icon-no-bg.png */,
+				B9CDC8642610BA15007E6E7A /* icon-no-bg@2x.png */,
+				B9CDC8632610BA15007E6E7A /* icon-no-bg@3x.png */,
+			);
+			name = splash;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -387,7 +404,10 @@
 			files = (
 				08FA889425B9BD790085EE81 /* YuseiMagic-Regular.ttf in Resources */,
 				08858B0B25DF2F9500438BB4 /* AppCenter-Config.plist in Resources */,
+				B9CDC8682610BA15007E6E7A /* icon-no-bg.png in Resources */,
+				B9CDC8662610BA15007E6E7A /* icon-no-bg@3x.png in Resources */,
 				0881A713260167AF001DBAC6 /* GoogleService-Info.plist in Resources */,
+				B9CDC8672610BA15007E6E7A /* icon-no-bg@2x.png in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
