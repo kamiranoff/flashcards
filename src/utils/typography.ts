@@ -1,4 +1,5 @@
 import { isIOS, scaleFont } from './device';
+import { TextStyle } from 'react-native';
 
 // FONT FAMILY
 const FONT_FAMILY_REGULAR = isIOS ? 'Avenir-Medium' : 'Roboto';
@@ -34,7 +35,9 @@ export const FONT_BOLD = {
   fontWeight: FONT_WEIGHT_BOLD,
 };
 
-const typography = {
+type Typography = 'hero' | 'header' | 'h1' | 'h2' | 'h3' | 'body' | 'p' | 'button' | 'drawerLabel';
+
+const typography: Record<Typography, TextStyle> = {
   hero: {
     fontSize: FONT_SIZE_30,
     fontFamily: FONT_FAMILY_HERO,

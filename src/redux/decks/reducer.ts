@@ -245,6 +245,9 @@ export default function decks(state = initialState, action: DecksActions): Decks
       return {
         ...state,
         maxFreeDecks: state.maxFreeDecks + quantity,
+        decks: {
+          ...state.decks,
+        },
       };
     }
     case DecksActionTypes.saveSharedDeck: {

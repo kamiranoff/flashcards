@@ -36,7 +36,8 @@ export interface IconButtonProps {
     | 'sort'
     | 'share'
     | 'refresh'
-    | 'codebar';
+    | 'codebar'
+    | 'basket';
   imgStyle?: ImageStyle;
   style?: ViewStyle;
   hasShadow?: boolean;

@@ -31,8 +31,8 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
   const [isProcessingPurchase, setIsProcessingPurchase] = useState<boolean>(false);
 
   const handleBuyPack = (item: Product): void => {
-    requestPurchase(item.productId).catch((e) => {
-      console.warn(`could not requestPurchase ${e}`);
+    requestPurchase(item.productId).catch(() => {
+      return null;
     });
     setIsProcessingPurchase(true);
   };

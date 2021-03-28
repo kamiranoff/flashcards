@@ -6,13 +6,14 @@ import {
   ViewStyle,
   TextStyle,
   GestureResponderEvent,
+  StyleProp,
 } from 'react-native';
 import { theme, typography } from '../utils';
 
 interface Props {
   onPress: (e: GestureResponderEvent) => void;
   buttonStyle?: ViewStyle;
-  buttonTextStyle?: TextStyle;
+  buttonTextStyle?: StyleProp<TextStyle>;
   buttonText: string;
   disabled?: boolean;
   hasShadow?: boolean;
@@ -36,7 +37,7 @@ const PrimaryButton = ({
       disabled ? styles.disabled : {},
     ]}
     onPress={onPress}>
-    <Text style={[styles.text, { ...buttonTextStyle }, disabled ? { color: '#fff' } : {}]}>{buttonText}</Text>
+    <Text style={[styles.text, buttonTextStyle, disabled ? { color: '#fff' } : {}]}>{buttonText}</Text>
   </TouchableOpacity>
 );
 
