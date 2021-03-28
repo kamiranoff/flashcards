@@ -4,7 +4,6 @@ import LottieView from 'lottie-react-native';
 import { theme } from '../../utils';
 import animations from '../../assets/animations';
 import AppText from '../AppText';
-import { getPlatformDimension, isIphoneWithNotch } from "../../utils/device";
 
 export enum NotificationMessages {
   UPDATE = 'Successfully updated',
@@ -37,7 +36,7 @@ const GeneralAlert: FC<Props> = ({ isExecuting, text, onAnimationFinish }) => {
         ...bounceConfig,
       }),
       Animated.spring(bounceVal, {
-        toValue: isIphoneWithNotch() ? -134 : -100,
+        toValue: -100,
         ...bounceConfig,
       }),
     ]).start(() => {
@@ -86,6 +85,9 @@ const GeneralAlert: FC<Props> = ({ isExecuting, text, onAnimationFinish }) => {
     );
   };
 
+  if (!isExecuting) {
+    return null;
+  }
   return (
     <Animated.View
       style={[
@@ -106,8 +108,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: theme.colors.success,
-    height: getPlatformDimension(80, 80, 114),
-    paddingTop: getPlatformDimension(0, 0, 34),
+    height: 80,
   },
   lottie: {
     flex: 1,
