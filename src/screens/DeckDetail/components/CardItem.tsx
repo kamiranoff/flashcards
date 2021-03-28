@@ -27,7 +27,7 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
       </View>
     )}
     <TouchableOpacity onPress={onPress} style={styles.content}>
-      <View>
+      <View style={styles.innerContent}>
         <View style={styles.top}>
           <AppText size="p" textStyle={styles.label}>
             Question:
@@ -65,7 +65,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   top: {
-    justifyContent: 'center',
+    flex: 1,
+  },
+  innerContent: {
+    flex: 1,
   },
   bottom: {
     marginTop: 5,
