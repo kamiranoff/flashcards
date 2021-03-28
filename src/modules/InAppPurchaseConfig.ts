@@ -44,12 +44,12 @@ export const dispatchShopActions = (productId: string, dispatch: any) => {
       return dispatch(removeAds('removeAds'));
     case ProductsIds.MONTHLY_SUBSCRIPTION: {
       dispatch(setMonthlySubscription('monthlySubscription'));
-      dispatch(addFreeDeck(Infinity));
+      dispatch(addFreeDeck(9999)); // Infinity is not supported by redux-persist, sets back to null https://github.com/rt2zz/redux-persist/issues/290
       break;
     }
     case ProductsIds.YEARLY_SUBSCRIPTION: {
       dispatch(setYearlySubscription('yearlySubscription'));
-      dispatch(addFreeDeck(Infinity));
+      dispatch(addFreeDeck(9999));
       break;
     }
     default:

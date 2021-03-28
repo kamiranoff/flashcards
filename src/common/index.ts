@@ -19,6 +19,7 @@ import NoContentInfo from './NoContentInfo';
 import AppText from './AppText';
 import GeneralAlert from './GeneralAlert';
 import ProgressLoader from './ProgressLoader';
+import BackButton from './BackButton';
 
 export {
   AppText,
@@ -42,4 +43,5 @@ export {
   Bubble,
   NoContentInfo,
   ProgressLoader,
+  BackButton,
 };

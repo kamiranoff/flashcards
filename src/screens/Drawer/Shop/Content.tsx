@@ -2,49 +2,21 @@ import React, { FC, useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'ramda';
-import { AppText, Container, GeneralAlert, PriceButton } from '../../common';
-import assets from '../../assets';
-import { theme } from '../../utils';
-import { Screens, ShopScreenNavigationProp } from '../../navigation/types';
-import { usePayments } from '../../modules/usePayments';
+import { AppText, GeneralAlert, PriceButton } from '../../../common';
+import assets from '../../../assets';
+import { theme } from '../../../utils';
+import { usePayments } from '../../../modules/usePayments';
 import { Product } from 'react-native-iap';
-import { RootState } from '../../redux/store';
-import { NotificationMessages } from '../../common/GeneralAlert';
-
-interface IData {
-  label: string;
-  id: Product['productId'];
-  price: string;
-}
-
-const data: IData[] = [
-  {
-    label: '1 Unlimited deck',
-    id: 'one_unlimited_deck',
-    price: '£0.99',
-  },
-  {
-    label: '3 Unlimited decks',
-    id: 'three_unlimited_decks',
-    price: '£1.99',
-  },
-  {
-    label: 'Remove ads',
-    id: 'remove_ads',
-    price: '£1.99',
-  },
-  {
-    label: 'Get free deck',
-    id: 'get_free',
-    price: '0',
-  },
-];
+import { RootState } from '../../../redux/store';
+import { NotificationMessages } from '../../../common/GeneralAlert';
+import { data } from './data';
 
 interface Props {
-  navigation: ShopScreenNavigationProp;
+  onNavigateToUpgrade: () => void;
+  onNavigateToFreebie: () => void;
 }
 
-const Shop: FC<Props> = ({ navigation }) => {
+const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
   const [showSuccessInfo, setShowSuccessInfo] = useState(false);
   const onSuccess = () => setShowSuccessInfo(true);
   const { productsObject, isLoadingProducts, onBuyPack, restorePurchase } = usePayments(onSuccess);
@@ -52,14 +24,14 @@ const Shop: FC<Props> = ({ navigation }) => {
 
   const handleBuyProduct = (itemId: string, productId: Product) => {
     if (itemId === 'get_free') {
-      return navigation.navigate(Screens.GET_FREEBIE);
+      return onNavigateToFreebie();
     }
     return onBuyPack(productId);
   };
 
   return (
-    <Container style={styles.container}>
-      <GeneralAlert startExecute={showSuccessInfo} text={NotificationMessages.THANK_YOU} />
+    <>
+      <GeneralAlert isExecuting={showSuccessInfo} text={NotificationMessages.THANK_YOU} />
       <View style={styles.content}>
         <View style={styles.header}>
           <Image source={assets.icons.happyFace} style={styles.image} />
@@ -105,7 +77,7 @@ const Shop: FC<Props> = ({ navigation }) => {
         <View style={styles.buttonContainer}>
           <PriceButton
             primaryText="UPGRADE TO PRO"
-            onPress={() => navigation.navigate(Screens.UPGRADE)}
+            onPress={onNavigateToUpgrade}
             style={{ paddingHorizontal: 16 }}
           />
           <View style={styles.arrowContainer}>
@@ -119,7 +91,7 @@ const Shop: FC<Props> = ({ navigation }) => {
           Restore Purchase
         </AppText>
       </View>
-    </Container>
+    </>
   );
 };
 
@@ -175,4 +147,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Shop;
+export default Content;

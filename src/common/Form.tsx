@@ -8,6 +8,7 @@ import {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import { useNavigation } from '@react-navigation/native';
 import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../utils/device';
 import assets from '../assets';
 import PrimaryButton from './PrimaryButton';
@@ -15,6 +16,10 @@ import { analytics, theme } from '../utils';
 import Api from '../api';
 import GeneralAlert, { NotificationMessages } from './GeneralAlert';
 import ProgressLoader from './ProgressLoader';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import IconButton from './IconButton';
+import { Screens } from '../navigation/types';
 
 interface Props {
   initialValue: string;
@@ -37,11 +42,14 @@ const imageOptions: ImageLibraryOptions = {
 };
 
 const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
+  const navigation = useNavigation();
+  const { shop } = useSelector((state: RootState) => state);
   const [value, setValue] = useState(initialValue);
   const richText = useRef<RichEditor>(null);
   const [progress, setProgress] = useState(0);
-  const [error, setError] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const isPro = shop.monthlySubscription || shop.yearlySubscription;
 
   const handleKeyboard = () => {
     const editor = richText.current!;
@@ -65,6 +73,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
 
   const saveAndInsertPhoto = async (res: ImagePickerResponse) => {
     if (res.uri) {
+      setIsLoading(true);
       const uri = res.uri;
       const fileType = uri.substr(uri.lastIndexOf('.') + 1);
       const file = {
@@ -79,7 +88,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           richText.current?.insertImage(photo);
         }
       } catch (e) {
-        setError(true);
+        setIsError(true);
         setIsLoading(false);
       } finally {
         setProgress(0);
@@ -89,21 +98,51 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   const handlePressAddImage = () => {
     Analytics.trackEvent(analytics.addImageToCard).catch(null);
     launchImageLibrary(imageOptions, async (res) => {
-      setIsLoading(true);
       await saveAndInsertPhoto(res);
     });
   };
 
   const handleInsertImageFromCamera = () => {
     launchCamera(imageOptions, async (res) => {
-      setIsLoading(true);
       await saveAndInsertPhoto(res);
     });
   };
 
+  const handleRenderActions = () => {
+    const defaultActions = [
+      actions.insertImage,
+      actions.setBold,
+      actions.setItalic,
+      actions.insertBulletsList,
+      actions.insertOrderedList,
+      actions.undo,
+      actions.redo,
+    ];
+    const proActions = [
+      actions.setStrikethrough,
+      actions.setUnderline,
+      actions.blockquote,
+      actions.heading1,
+      actions.heading4,
+      actions.code,
+    ];
+    if (isPro) {
+      return [...defaultActions, 'insertImageFromCamera', ...proActions];
+    }
+    return defaultActions;
+  };
+
+  const handleAnimationFinish = () => setIsError(false);
+
+  const handleGoToShop = () => navigation.navigate(Screens.UPGRADE_TO_PRO_MODAL);
+
   return (
     <>
-      <GeneralAlert startExecute={error} text={NotificationMessages.ERROR} />
+      <GeneralAlert
+        isExecuting={isError}
+        text={NotificationMessages.ERROR}
+        onAnimationFinish={handleAnimationFinish}
+      />
       {isLoading && <ProgressLoader progress={progress} />}
       <View style={styles.saveButton}>
         <PrimaryButton buttonText="Save" onPress={handleSubmit} />
@@ -126,9 +165,12 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
         />
       </ScrollView>
       <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={isIOS ? 0 : 25}>
-        <TouchableOpacity onPress={handleKeyboard}>
-          <Image source={assets.icons.keyboard} style={styles.keyboard} resizeMode="contain" />
-        </TouchableOpacity>
+        <View style={styles.row}>
+          <TouchableOpacity onPress={handleKeyboard}>
+            <Image source={assets.icons.keyboard} style={styles.keyboard} resizeMode="contain" />
+          </TouchableOpacity>
+          {!isPro && <IconButton onPress={handleGoToShop} iconName="basket" style={styles.basketIcon} />}
+        </View>
         <RichToolbar
           getEditor={() => richText.current!}
           iconTint="#282828"
@@ -136,22 +178,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           /* @ts-ignore FIXME at some point */
           insertImageFromCamera={handleInsertImageFromCamera}
           selectedIconTint="#2095F2"
-          actions={[
-            actions.insertImage,
-            'insertImageFromCamera',
-            actions.setBold,
-            actions.setItalic,
-            actions.insertBulletsList,
-            actions.insertOrderedList,
-            actions.setStrikethrough,
-            actions.setUnderline,
-            actions.undo,
-            actions.redo,
-            actions.blockquote,
-            actions.heading1,
-            actions.heading4,
-            actions.code,
-          ]}
+          actions={handleRenderActions()}
           iconMap={{
             [actions.setStrikethrough]: () => (
               <Image source={assets.icons.strikethrough} resizeMode="contain" style={styles.toolbarIcon} />
@@ -196,9 +223,22 @@ const styles = StyleSheet.create({
     width: 60,
     height: 40,
   },
+  basket: {
+    width: 50,
+    height: 25,
+  },
   toolbarIcon: {
     width: 24,
     height: 24,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  basketIcon: {
+    backgroundColor: theme.colors.success,
+    marginRight: 10,
+    marginBottom: 10,
   },
 });
 

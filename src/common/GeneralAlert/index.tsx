@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { theme } from '../../utils';
@@ -12,11 +12,12 @@ export enum NotificationMessages {
 }
 
 interface Props {
-  startExecute: boolean;
+  isExecuting: boolean;
   text: NotificationMessages;
+  onAnimationFinish?: () => void;
 }
 
-const GeneralAlert: FC<Props> = ({ startExecute, text }) => {
+const GeneralAlert: FC<Props> = ({ isExecuting, text, onAnimationFinish }) => {
   const bounceVal = useRef(new Animated.Value(-100)).current;
   const isThankYou = text === NotificationMessages.THANK_YOU;
   const isError = text === NotificationMessages.ERROR;
@@ -28,24 +29,28 @@ const GeneralAlert: FC<Props> = ({ startExecute, text }) => {
     useNativeDriver: true,
   };
 
-  useEffect(() => {
-    const runAnimation = (value = 0) =>
+  const runAnimation = useCallback(() => {
+    Animated.sequence([
       Animated.spring(bounceVal, {
-        toValue: value,
+        toValue: 0,
         ...bounceConfig,
-      }).start();
+      }),
+      Animated.spring(bounceVal, {
+        toValue: -100,
+        ...bounceConfig,
+      }),
+    ]).start(() => {
+      if (onAnimationFinish) {
+        onAnimationFinish();
+      }
+    });
+  }, [bounceConfig, bounceVal, onAnimationFinish]);
 
-    if (startExecute) {
+  useEffect(() => {
+    if (isExecuting) {
       runAnimation();
     }
-    const timer = setTimeout(() => {
-      runAnimation(-100);
-    }, 5000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [bounceConfig, bounceVal, startExecute]);
+  }, [isExecuting, runAnimation]);
 
   const renderContent = (message: NotificationMessages) => {
     if (message === NotificationMessages.ERROR) {
@@ -80,7 +85,7 @@ const GeneralAlert: FC<Props> = ({ startExecute, text }) => {
     );
   };
 
-  if (!startExecute) {
+  if (!isExecuting) {
     return null;
   }
   return (

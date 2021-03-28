@@ -1,15 +1,15 @@
 import { ShopActions, ShopActionsTypes } from './interface';
 
 type ProductType =
-  | 'one_unlimited_deck'
-  | 'three_unlimited_decks'
-  | 'remove_ads'
-  | 'monthly_subscription'
-  | 'yearly_subscription';
+  | 'oneUnlimitedDeck'
+  | 'threeUnlimitedDecks'
+  | 'removeAds'
+  | 'monthlySubscription'
+  | 'yearlySubscription';
 
 interface Product {
   date: number;
-  expire_at: string | null;
+  expireAt: string | null;
 }
 
 export type ShopState = {
@@ -27,7 +27,7 @@ export const shop = (state = initialState, action: ShopActions): ShopState => {
     case ShopActionsTypes.YEARLY_SUBSCRIPTION: {
       return {
         ...state,
-        [action.id]: { date: Date.now(), expire_at: null },
+        [action.id]: { date: Date.now(), expireAt: null },
       };
     }
     default:

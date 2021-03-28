@@ -57,7 +57,7 @@ const DeckDetail: FC<Props> = ({
 
   return (
     <Container>
-      <GeneralAlert startExecute={isRefreshing && !isLoading && !error} text={NotificationMessages.UPDATE} />
+      <GeneralAlert isExecuting={isRefreshing && !isLoading && !error} text={NotificationMessages.UPDATE} />
       <CloseButton onPress={goBack} />
       <View style={styles.addIcon}>
         <IconButton onPress={handleOnPress} iconName="plusCurve" />

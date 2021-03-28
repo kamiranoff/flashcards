@@ -27,7 +27,7 @@ const useInterstitialAd = (adId: string) => {
   const { shop } = useSelector((state: RootState) => state);
 
   useEffect(() => {
-    if (shop.remove_ads) {
+    if (shop.removeAds || shop.yearlySubscription || shop.monthlySubscription) {
       return;
     }
     if (!adId) {
@@ -35,7 +35,7 @@ const useInterstitialAd = (adId: string) => {
     }
 
     showInterstitialAd(adId);
-  }, [adId]);
+  }, [adId, shop.removeAds, shop.monthlySubscription, shop.yearlySubscription]);
 };
 
 export { useInterstitialAd };

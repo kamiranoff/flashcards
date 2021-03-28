@@ -8,20 +8,21 @@ export enum Screens {
   DECK_DETAIL = 'DeckDetails',
   QUESTION_MODAL = 'QuestionModal',
   ANSWER_MODAL = 'AnswerModal',
-  SETTINGS = 'Settings',
   PLAYGROUND = 'Playground',
   ALERT = 'Alert',
   DRAWER = 'Drawer',
   GET_FREEBIE = 'GetFreebie',
-  RATE_THE_APP = 'RateTheApp',
+  RATE_APP = 'RateApp',
   ADD_DECK = 'AddDeck',
-  SHARE_THE_APP = 'ShareTheApp',
+  SHARE_APP = 'ShareApp',
   UPGRADE = 'Upgrade',
   REQUEST_FEATURE = 'RequestFeature',
   CONTACT = 'Contact',
-  DRAWER_SCREENS = 'DrawerScreens',
-  IMPROVE_THE_APP = 'ImproveTheApp',
+  IMPROVE_APP = 'ImproveApp',
   SHOP = 'Shop',
+  UPGRADE_TO_PRO_MODAL = 'UpgradeToProModal',
+  SHOP_MODAL = 'ShopModal',
+  GET_FREEBIE_MODAL = 'GetFreebieModal',
 }
 
 export type ModalTemplate = 'shareModal' | 'alertModal' | 'codeModal';
@@ -32,31 +33,41 @@ export type RootStackParamList = {
   [Screens.ANSWER_MODAL]: { title: Deck['title']; deckId: string; cardId: Card['id'] };
   [Screens.DECK_DETAIL]: { id: string; color: string };
   [Screens.PLAYGROUND]: { deckId: string; cardId: Card['id'] };
-  [Screens.SETTINGS]: undefined;
   [Screens.ALERT]: { modalTemplate: ModalTemplate; deckId: string };
-  [Screens.DRAWER]: undefined;
   [Screens.ADD_DECK]: undefined;
-  [Screens.SHOP]: undefined;
+  [Screens.UPGRADE_TO_PRO_MODAL]: undefined;
+};
+
+export type HomeStackParams = {
+  [Screens.HOME]: undefined;
+  [Screens.DECK_DETAIL]: { id: string; color: string };
 };
 
 export type DrawerStackParamList = {
+  [Screens.DRAWER]: undefined;
   [Screens.HOME]: undefined;
-  [Screens.DRAWER_SCREENS]: undefined;
   [Screens.GET_FREEBIE]: undefined;
-  [Screens.RATE_THE_APP]: undefined;
-  [Screens.SHARE_THE_APP]: undefined;
+  [Screens.RATE_APP]: undefined;
+  [Screens.SHARE_APP]: undefined;
   [Screens.UPGRADE]: undefined;
   [Screens.REQUEST_FEATURE]: undefined;
   [Screens.CONTACT]: undefined;
-  [Screens.IMPROVE_THE_APP]: undefined;
+  [Screens.IMPROVE_APP]: undefined;
   [Screens.SHOP]: undefined;
 };
 
-export type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, Screens.DRAWER_SCREENS>;
+export type ShopStackParamList = {
+  [Screens.UPGRADE_TO_PRO_MODAL]: undefined;
+  [Screens.SHOP_MODAL]: undefined;
+  [Screens.GET_FREEBIE_MODAL]: undefined;
+};
+
+export type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, Screens.DRAWER>;
 export type GetFreebieScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.UPGRADE>;
 export type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;
 export type AddAnswerScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ANSWER_MODAL>;
 export type UpgradeScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.UPGRADE>;
+export type ShopStackNavigationProp = StackNavigationProp<ShopStackParamList, Screens.UPGRADE_TO_PRO_MODAL>;
 export type ShopScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.SHOP>;
 export type PlaygroundScreenRouteProp = RouteProp<RootStackParamList, Screens.PLAYGROUND>;
 export type PlaygroundScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.PLAYGROUND>;
