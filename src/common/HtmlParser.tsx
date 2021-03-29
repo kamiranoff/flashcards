@@ -10,8 +10,8 @@ interface Props {
 
 const Img = (props: any) => {
   const imgStyle = {
-    width: props.isSliced ? 140 : WINDOW_WIDTH - SPACING * 5, // FIXME
-    height: props.isSliced ? 80 : undefined,
+    width: undefined,
+    height: props.isSliced ? 60 : undefined,
     aspectRatio: 1,
   };
 
@@ -21,7 +21,7 @@ const Img = (props: any) => {
     height: imgStyle.height,
   };
 
-  return <Image source={source} style={imgStyle} resizeMode="cover" />;
+  return <Image source={source} style={imgStyle} resizeMode="contain" />;
 };
 
 const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
