@@ -3,7 +3,7 @@ import { Animated, StyleSheet, FlatList, View, RefreshControl } from 'react-nati
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/types';
 import { Card } from '../../../redux/decks/reducer';
-import { getPlatformDimension, isIOS, isSmallDevice, WINDOW_HEIGHT } from '../../../utils/device';
+import { isIOS, WINDOW_HEIGHT } from '../../../utils/device';
 import { useDispatch } from 'react-redux';
 import { NativeAlert } from '../../../common';
 import { deleteCard } from '../../../redux/decks/actions';
@@ -17,6 +17,7 @@ export interface Props {
   handlerRefreshSharedDeck: () => void;
   isLoading: boolean;
 }
+
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const numberColumns = 2;
 
@@ -102,7 +103,6 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
 const styles = StyleSheet.create({
   contentContainerStyle: {
     paddingBottom: TOP_HEADER_HEIGHT + 60,
-    alignItems: 'center',
     marginTop: 10,
   },
   flatListStyle: {
@@ -120,14 +120,15 @@ const styles = StyleSheet.create({
     margin: 6,
     borderRadius: 8,
     ...theme.iconButtonShadow,
-    zIndex: 3,
+    flex: 1,
+    flexDirection: 'row'
   },
   itemInvisible: {
     backgroundColor: 'transparent',
-    width: isSmallDevice() ? 150 : getPlatformDimension(170, 170, 190),
     borderWidth: 0,
     paddingHorizontal: 5,
     margin: 6,
+    flex: 1,
   },
 });
 
