@@ -8,7 +8,7 @@ import { StyleSheet } from 'react-native';
 
 const ShopModal = () => {
   const navigation = useNavigation<ShopStackNavigationProp>();
-  const handleGoBack = () => navigation.pop();
+  const handleGoBack = () => navigation.goBack();
   const handleNavigateToShop = () => navigation.navigate(Screens.UPGRADE_TO_PRO_MODAL);
   const handleNavigateToFreebie = () => navigation.navigate(Screens.GET_FREEBIE_MODAL); // TODO this screen doesnt exist yet
   return (
