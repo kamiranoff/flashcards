@@ -1,22 +1,23 @@
 import React, { FC } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import HTMLView from 'react-native-htmlview';
-import { SPACING, WINDOW_WIDTH } from '../utils/device';
+import { isSmallDevice, SPACING, WINDOW_WIDTH } from '../utils/device';
 
 interface Props {
   text: string | undefined;
   isSliced?: boolean;
 }
 
-const Img = (props: any) => {
+const Img = ({ isSliced, attribs }: { isSliced?: boolean, attribs: { src: string } }) => {
+  const photoSlicedHeight = isSmallDevice() ? 40 : 50;
   const imgStyle = {
-    width: props.isSliced ? 140 : WINDOW_WIDTH - SPACING * 5, // FIXME
-    height: props.isSliced ? 80 : undefined,
+    width: isSliced ? undefined : WINDOW_WIDTH - SPACING * 5,
+    height: isSliced ? photoSlicedHeight : undefined,
     aspectRatio: 1,
   };
 
   const source = {
-    uri: props.attribs.src,
+    uri: attribs.src,
     width: imgStyle.width,
     height: imgStyle.height,
   };
