@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'ramda';
@@ -8,7 +8,7 @@ import { theme } from '../../../utils';
 import { usePayments } from '../../../modules/usePayments';
 import { Product } from 'react-native-iap';
 import { RootState } from '../../../redux/store';
-import { NotificationMessages } from '../../../common/GeneralAlert';
+import { GeneralAlertRef, NotificationMessages } from '../../../common/GeneralAlert';
 import { data } from './data';
 
 interface Props {
@@ -17,8 +17,12 @@ interface Props {
 }
 
 const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
-  const [showSuccessInfo, setShowSuccessInfo] = useState(false);
-  const onSuccess = () => setShowSuccessInfo(true);
+  const alertRef = useRef<GeneralAlertRef>(null);
+
+  const onSuccess = () => {
+    alertRef?.current?.startAnimation();
+  };
+
   const { productsObject, isLoadingProducts, onBuyPack, restorePurchase } = usePayments(onSuccess);
   const { user } = useSelector((state: RootState) => state);
 
@@ -31,7 +35,7 @@ const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
 
   return (
     <>
-      <GeneralAlert isExecuting={showSuccessInfo} text={NotificationMessages.THANK_YOU} />
+      <GeneralAlert text={NotificationMessages.THANK_YOU} ref={alertRef} />
       <View style={styles.content}>
         <View style={styles.header}>
           <Image source={assets.icons.happyFace} style={styles.image} />

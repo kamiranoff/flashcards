@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { createRef, FC, useCallback, useRef, useState } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import { GeneralAlert, PriceButton } from '../../../common';
 import AppText from '../../../common/AppText';
@@ -10,15 +10,20 @@ import { isEmpty } from 'ramda';
 import { TERMS } from '../../../config';
 import { data } from './data';
 import { getPlatformDimension } from '../../../utils/device';
-import { NotificationMessages } from '../../../common/GeneralAlert';
+import { GeneralAlertRef, NotificationMessages } from '../../../common/GeneralAlert';
 
 interface Props {
   onNavigateToShop: () => void;
 }
 
 const Content: FC<Props> = ({ onNavigateToShop }) => {
-  const [showSuccessInfo, setShowSuccessInfo] = useState(false);
-  const onSuccess = () => setShowSuccessInfo(true);
+
+  const alertRef = useRef<GeneralAlertRef>(null);
+
+  const onSuccess = () => {
+    alertRef?.current?.startAnimation();
+  }
+
   const { productsObject, isLoadingProducts, onBuyPack } = usePayments(onSuccess);
   const isProductObj = !isEmpty(productsObject) && !isLoadingProducts;
   const monthlySubsText = isProductObj
@@ -26,14 +31,12 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
     : 'N/A';
   const yearlySubsText = isProductObj ? `${productsObject.yearly_subscription.localizedPrice} / year` : 'N/A';
 
-  const handleAnimationFinish = useCallback(() => setShowSuccessInfo(false), []);
 
   return (
     <>
       <GeneralAlert
-        isExecuting={showSuccessInfo}
         text={NotificationMessages.THANK_YOU}
-        onAnimationFinish={handleAnimationFinish}
+        ref={alertRef}
       />
       <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
