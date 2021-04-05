@@ -29,6 +29,7 @@ const palette = {
   lightMidGray: '#d9dddc',
   red: 'red',
   warning: '#ff6666',
+  linkColor: '#FF3366',
 };
 
 const PLAYGROUND_OVERLAY_BUTTONS = {
@@ -114,6 +115,8 @@ const theme = {
       contact: palette.blue,
       shop: palette.yellow,
     },
+    linkColor: palette.linkColor,
+    quoteBorder: palette.lightGray,
   },
   spacing: {
     s: 8,
