@@ -9,9 +9,9 @@ interface Props {
 }
 
 const Img = ({ isSliced, attribs }: { isSliced?: boolean, attribs: { src: string } }) => {
-  const photoSlicedHeight = isSmallDevice() ? 40 : 50;
+  const photoSlicedHeight = isSmallDevice() ? 50 : 60;
   const imgStyle = {
-    width: isSliced ? undefined : WINDOW_WIDTH - SPACING * 5,
+    width: isSliced ? WINDOW_WIDTH / 2 - SPACING * 5 : WINDOW_WIDTH - SPACING * 5,
     height: isSliced ? photoSlicedHeight : undefined,
     aspectRatio: 1,
   };
