@@ -9,9 +9,46 @@ interface Props {
   isSliced?: boolean;
 }
 
+interface HtmlParserLiProps {
+  node: HTMLViewNodeWithMissingProps,
+  index: number,
+  siblings: HTMLViewNode,
+  parent: HTMLViewNode,
+  defaultRenderer: (node: HTMLViewNode, parent: HTMLViewNode) => ReactNode
+}
+
+
 interface HTMLViewNodeWithMissingProps extends HTMLViewNode {
   children?: HTMLViewNode;
+  parent?: HTMLViewNode;
 }
+
+const Li = ({
+              node,
+              index,
+              siblings,
+              parent,
+              defaultRenderer
+            }: HtmlParserLiProps) => {
+
+  if (!node.children) {
+    return null;
+  }
+
+  const bullet = node.parent?.name === 'ol' ? `${index + 1}.` : '\u2022';
+  return (
+    <View key={index} style={{ paddingTop: index === 0 ? 10 : 0 }}>
+      <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'column', marginLeft: 20, width: 20 }}>
+          <Text>{bullet}</Text>
+        </View>
+        <View style={{ flexDirection: 'column', width: '90%' }}>
+          <Text>{defaultRenderer(node.children, parent)}</Text>
+        </View>
+      </View>
+    </View>
+  )
+};
 
 const Img = ({ isSliced, attribs }: { isSliced?: boolean, attribs: HTMLViewNode['attribs'] }) => {
   const photoSlicedHeight = isSmallDevice() ? 50 : 60;
@@ -37,6 +74,23 @@ const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
     switch (node.name) {
       case 'img': {
         return <Img key={index} attribs={node.attribs} isSliced={isSliced} />;
+      }
+      case 'ul': {
+        if (!node.children) {
+          return undefined;
+        }
+        return (
+          <View>
+            {defaultRenderer(node.children, parent)}
+          </View>
+        );
+      }
+      case 'li': {
+        if (!node.children) {
+          return undefined;
+        }
+
+        return <Li node={node} index={index} siblings={siblings} parent={parent} defaultRenderer={defaultRenderer} />
       }
       case 'blockquote': {
         if (!node.children) {
@@ -107,6 +161,7 @@ const htmlStyles = StyleSheet.create({
     paddingLeft: 10,
     borderLeftWidth: 4,
     borderLeftColor: theme.colors.quoteBorder,
+    marginVertical: 10,
   }
 });
 
