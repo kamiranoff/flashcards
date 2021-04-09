@@ -14,7 +14,7 @@ import assets from '../assets';
 import PrimaryButton from './PrimaryButton';
 import { analytics, theme } from '../utils';
 import Api from '../api';
-import GeneralAlert, { NotificationMessages } from './GeneralAlert';
+import GeneralAlert, { GeneralAlertRef, NotificationMessages } from './GeneralAlert';
 import ProgressLoader from './ProgressLoader';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
@@ -47,8 +47,8 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   const [value, setValue] = useState(initialValue);
   const richText = useRef<RichEditor>(null);
   const [progress, setProgress] = useState(0);
-  const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const alertRef = useRef<GeneralAlertRef>(null);
   const isPro = shop.monthlySubscription || shop.yearlySubscription;
 
   const handleKeyboard = () => {
@@ -88,7 +88,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           richText.current?.insertImage(photo);
         }
       } catch (e) {
-        setIsError(true);
+        alertRef?.current?.startAnimation();
         setIsLoading(false);
       } finally {
         setProgress(0);
@@ -132,16 +132,13 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
     return defaultActions;
   };
 
-  const handleAnimationFinish = () => setIsError(false);
-
   const handleGoToShop = () => navigation.navigate(Screens.UPGRADE_TO_PRO_MODAL);
 
   return (
     <>
       <GeneralAlert
-        isExecuting={isError}
         text={NotificationMessages.ERROR}
-        onAnimationFinish={handleAnimationFinish}
+        ref={alertRef}
       />
       {isLoading && <ProgressLoader progress={progress} />}
       <View style={styles.saveButton}>

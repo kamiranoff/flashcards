@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +15,8 @@ import { theme } from '../../utils';
 import ActionButtons from './components/ActionButtons';
 import useOpacity from './useOpacity';
 import { RootState } from '../../redux/store';
-import { NotificationMessages } from '../../common/GeneralAlert';
+import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
+import { useIsMount } from "../../utils/useIsMount";
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
@@ -30,7 +31,7 @@ const DeckDetail: FC<Props> = ({
     params: { id, color },
   },
 }) => {
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const isMount = useIsMount();
   const { opacityVal } = useOpacity();
   const dispatch = useDispatch();
   const { navigate, goBack } = useNavigation();
@@ -38,6 +39,19 @@ const DeckDetail: FC<Props> = ({
   const badAnswers = useSelector(selectBadAnswers(id));
   const goodAnswers = useSelector(selectGoodAnswers(id));
   const { isLoading, error } = useSelector((state: RootState) => state.decks);
+
+  const alertRef = useRef<GeneralAlertRef>(null);
+
+  useEffect(() => {
+    if(isLoading || isMount) {
+      return;
+    }
+
+    if (error || !isLoading) {
+      alertRef.current?.startAnimation()
+    }
+
+  }, [isLoading, error])
 
   const handleOnPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
 
@@ -48,16 +62,15 @@ const DeckDetail: FC<Props> = ({
 
   const handleShuffleCards = () => dispatch(shuffleCards(id));
 
-  const handlerRefreshSharedDeck = async () => {
+  const handlerRefreshSharedDeck = () => {
     if (deckDetail.sharedWithYou || deckDetail.sharedByYou) {
-      setIsRefreshing(true);
       dispatch(getDeckByShareId(deckDetail.shareId, id));
     }
   };
 
   return (
     <Container>
-      <GeneralAlert isExecuting={isRefreshing && !isLoading && !error} text={NotificationMessages.UPDATE} />
+      <GeneralAlert text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE} ref={alertRef} />
       <CloseButton onPress={goBack} />
       <View style={styles.addIcon}>
         <IconButton onPress={handleOnPress} iconName="plusCurve" />

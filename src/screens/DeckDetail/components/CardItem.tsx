@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   },
   top: {
     flex: 1,
+    overflow: 'hidden',
   },
   innerContent: {
     flex: 1,

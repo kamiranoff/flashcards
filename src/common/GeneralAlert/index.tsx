@@ -1,9 +1,10 @@
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { theme } from '../../utils';
 import animations from '../../assets/animations';
 import AppText from '../AppText';
+import { isIphoneWithNotch } from "../../utils/device";
 
 export enum NotificationMessages {
   UPDATE = 'Successfully updated',
@@ -12,93 +13,97 @@ export enum NotificationMessages {
 }
 
 interface Props {
-  isExecuting: boolean;
   text: NotificationMessages;
   onAnimationFinish?: () => void;
 }
 
-const GeneralAlert: FC<Props> = ({ isExecuting, text, onAnimationFinish }) => {
-  const bounceVal = useRef(new Animated.Value(-100)).current;
-  const isThankYou = text === NotificationMessages.THANK_YOU;
-  const isError = text === NotificationMessages.ERROR;
+export interface GeneralAlertRef {
+  startAnimation: () => void;
+}
 
-  const bounceConfig = {
-    velocity: 3,
-    tension: 2,
-    friction: 8,
-    useNativeDriver: true,
-  };
+const GeneralAlert = forwardRef<GeneralAlertRef, Props>(
+  ({ text, onAnimationFinish },
+   ref) => {
+    const bounceVal = useRef(new Animated.Value(isIphoneWithNotch() ? -144 : -100)).current;
+    const isThankYou = text === NotificationMessages.THANK_YOU;
+    const isError = text === NotificationMessages.ERROR;
 
-  const runAnimation = useCallback(() => {
-    Animated.sequence([
-      Animated.spring(bounceVal, {
-        toValue: 0,
-        ...bounceConfig,
-      }),
-      Animated.spring(bounceVal, {
-        toValue: -100,
-        ...bounceConfig,
-      }),
-    ]).start(() => {
-      if (onAnimationFinish) {
-        onAnimationFinish();
+    const bounceConfig = {
+      velocity: 3,
+      tension: 2,
+      friction: 8,
+      useNativeDriver: true,
+    };
+
+    // The component instance will be extended
+    // with whatever you return from the callback passed
+    // as the second argument
+    useImperativeHandle(ref, () => ({
+      startAnimation() {
+        console.log('runAnimation');
+        runAnimation();
       }
-    });
-  }, [bounceConfig, bounceVal, onAnimationFinish]);
+    }));
 
-  useEffect(() => {
-    if (isExecuting) {
-      runAnimation();
-    }
-  }, [isExecuting, runAnimation]);
+    const runAnimation = () => {
+      Animated.sequence([
+        Animated.spring(bounceVal, {
+          toValue: 0,
+          ...bounceConfig,
+        }),
+        Animated.spring(bounceVal, {
+          delay: 3000,
+          toValue: isIphoneWithNotch() ? -144 : -100,
+          ...bounceConfig,
+        }),
+      ]).start(onAnimationFinish);
+    };
 
-  const renderContent = (message: NotificationMessages) => {
-    if (message === NotificationMessages.ERROR) {
+    const renderContent = (message: NotificationMessages) => {
+      if (message === NotificationMessages.ERROR) {
+        return (
+          <>
+            <View style={styles.lottie}>
+              <LottieView source={animations.thumbsDown} autoPlay loop style={styles.errorIcon} />
+            </View>
+            <AppText size="p" centered textStyle={[styles.text]}>
+              {message}
+            </AppText>
+          </>
+        );
+      }
       return (
         <>
           <View style={styles.lottie}>
-            <LottieView source={animations.thumbsDown} autoPlay loop style={styles.errorIcon} />
+            <LottieView
+              source={isThankYou ? animations.success : animations.thumbsUp}
+              autoPlay
+              loop
+              style={styles.icon}
+            />
           </View>
-          <AppText size="p" centered textStyle={[styles.text]}>
-            {message}
+          <AppText
+            size="p"
+            centered
+            textStyle={[styles.text, { color: isThankYou ? '#FF7373' : theme.colors.border }]}>
+            {text}
           </AppText>
         </>
       );
-    }
-    return (
-      <>
-        <View style={styles.lottie}>
-          <LottieView
-            source={isThankYou ? animations.success : animations.thumbsUp}
-            autoPlay
-            loop
-            style={styles.icon}
-          />
-        </View>
-        <AppText
-          size="p"
-          centered
-          textStyle={[styles.text, { color: isThankYou ? '#FF7373' : theme.colors.border }]}>
-          {text}
-        </AppText>
-      </>
-    );
-  };
+    };
 
-  if (!isExecuting) {
-    return null;
+    return (
+      <Animated.View
+        style={[
+          styles.container,
+          { transform: [{ translateY: bounceVal }] },
+          isError && { backgroundColor: theme.colors.warning },
+        ]}>
+        {renderContent(text)}
+      </Animated.View>
+    );
   }
-  return (
-    <Animated.View
-      style={[
-        styles.container,
-        { transform: [{ translateY: bounceVal }] },
-        isError && { backgroundColor: theme.colors.warning },
-      ]}>
-      {renderContent(text)}
-    </Animated.View>
-  );
-};
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: theme.colors.success,
-    height: 80,
+    height: isIphoneWithNotch() ? 114 : 80,
   },
   lottie: {
     flex: 1,
