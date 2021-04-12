@@ -1,5 +1,5 @@
 import React, { FC, useRef } from 'react';
-import { StyleSheet, View, Animated } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import * as R from 'ramda';
@@ -11,6 +11,7 @@ import AddButton from '../../../common/AddButton';
 import { theme } from '../../../utils';
 import IconButton from '../../../common/IconButton';
 import NoContentInfo from '../../../common/NoContentInfo';
+import { useKeyboard } from "../../../hooks/useKeyboard";
 
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
 const colors = theme.colors.list;
@@ -22,6 +23,8 @@ const DecksList: FC = () => {
   });
   const { navigate } = useNavigation();
   const { decks, decksIds, handleRemoveDeck } = useDecks();
+  const [keyboardHeight] = useKeyboard();
+
 
   const handleOpenModal = () => navigate(Screens.ADD_DECK);
 
@@ -62,7 +65,7 @@ const DecksList: FC = () => {
       ) : (
         <>
           <Animated.FlatList
-            contentContainerStyle={styles.flatListContainer}
+            contentContainerStyle={[styles.flatListContainer, { paddingBottom: keyboardHeight }]}
             scrollEventThrottle={16}
             data={decksIds}
             renderItem={renderItem}
