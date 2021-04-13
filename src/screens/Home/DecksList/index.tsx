@@ -23,7 +23,7 @@ const DecksList: FC = () => {
   });
   const { navigate } = useNavigation();
   const { decks, decksIds, handleRemoveDeck } = useDecks();
-  const [keyboardHeight] = useKeyboard();
+  const { keyboardHeight } = useKeyboard();
 
 
   const handleOpenModal = () => navigate(Screens.ADD_DECK);
