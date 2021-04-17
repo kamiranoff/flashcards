@@ -1,7 +1,9 @@
 import { Linking, NativeModules } from 'react-native';
+import { captureException } from '@sentry/react-native';
 import * as Analytics from 'appcenter-analytics';
 import { analytics } from '../utils';
 import { isIOS } from '../utils/device';
+import { Logger } from '../service/Logger';
 
 const IOS_STORE_URL = 'itms-apps://itunes.apple.com/app/id1496618544?action=write-review';
 const ANDROID_STORE_URL = 'market://details?id=com.brainsandbrawns.forkflick';
@@ -15,9 +17,10 @@ const rateAndroidOnDemand = async () => {
     await FlashCardsRateApp.requestReview();
   } catch (e) {
     // redirect user to the play store
-    Linking.openURL(ANDROID_STORE_URL).catch((err) =>
-      console.error(err, 'triggerRateAppModal error android'),
-    );
+    Linking.openURL(ANDROID_STORE_URL).catch((err) => {
+      Logger.sendLocalError(err, 'Android - triggerRateAppModal');
+      captureException(err);
+    });
   }
 };
 
@@ -27,8 +30,8 @@ const rateIOS = () => {
     return FlashCardsRateApp.requestReview();
   }
   return Linking.openURL(IOS_STORE_URL).catch((error) => {
-    // TODO: implement error logger
-    console.error('Some error', error);
+    Logger.sendLocalError(error, 'iOS - triggerRateApp');
+    captureException(error);
   });
 };
 
@@ -42,9 +45,10 @@ const rateApp = (onDemand: boolean) => {
   if (onDemand) {
     return rateAndroidOnDemand();
   }
-  return Linking.openURL(ANDROID_STORE_URL).catch((err) =>
-    console.error(err, 'triggerRateAppModal error android'),
-  );
+  return Linking.openURL(ANDROID_STORE_URL).catch((err) => {
+    Logger.sendLocalError(err, 'Android - triggerRateAppModal');
+    captureException(err);
+  });
 };
 
 export default rateApp;

@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "copy-keys": "sh appcenter-key.sh && sh firebase-keys.sh"
+    "copy-keys": "sh appcenter-key.sh && sh firebase-keys.sh && sh sentry-keys.sh"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.14.1",
@@ -20,6 +20,7 @@
     "@react-navigation/drawer": "^5.11.4",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
+    "@sentry/react-native": "^2.4.0",
     "appcenter": "4.0.2",
     "appcenter-analytics": "4.0.2",
     "axios": "^0.21.1",

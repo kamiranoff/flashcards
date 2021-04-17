@@ -1,16 +1,18 @@
 import React from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectDeckItem } from '../../redux/seclectors';
 import Share from 'react-native-share';
+import { captureException } from '@sentry/react-native';
+import * as Analytics from 'appcenter-analytics';
+import { selectDeckItem } from '../../redux/seclectors';
 import Api from '../../api';
 import { editSharedOnDeck } from '../../redux/decks/actions';
-import * as Analytics from 'appcenter-analytics';
 import { analytics, theme } from '../../utils';
-import { StyleSheet, TextInput, View } from 'react-native';
 import AppText from '../../common/AppText';
 import Icon from '../../common/Icon';
 import PrimaryButton from '../../common/PrimaryButton';
 import { shareOptionsWithCode } from '../../config';
+import { Logger } from '../../service/Logger';
 
 const ShareContentModal = ({ deckId, handleGoBack }: { deckId: string; handleGoBack: () => void }) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
@@ -28,7 +30,7 @@ const ShareContentModal = ({ deckId, handleGoBack }: { deckId: string; handleGoB
               dispatch(editSharedOnDeck(deckId));
               handleGoBack();
             })
-            .catch(null);
+            .catch(() => null);
         }
       }
       await Analytics.trackEvent(analytics.shareDeckByUser);
@@ -38,7 +40,8 @@ const ShareContentModal = ({ deckId, handleGoBack }: { deckId: string; handleGoB
         })
         .catch(() => null);
     } catch (error) {
-      console.log('e', error);
+      Logger.sendLocalError(error, 'ShareContentModal');
+      captureException(error);
     }
   };
 

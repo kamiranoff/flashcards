@@ -8,3 +8,4 @@ printf "\n.env created with contents:\n\n"
 printf "\n create app center key"
 sh ./appcenter-key.sh
 sh ./firebase-keys.sh
+sh ./sentry-keys.sh

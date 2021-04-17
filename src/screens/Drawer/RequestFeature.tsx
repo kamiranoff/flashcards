@@ -1,16 +1,23 @@
 import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
 import LottieView from 'lottie-react-native';
+import { captureException } from '@sentry/react-native';
 import { Container, PrimaryButton, AppText } from '../../common';
 import { sendEmail } from '../../lib';
 import animations from '../../assets/animations';
 import { getPlatformDimension } from '../../utils/device';
+import { Logger } from '../../service/Logger';
 
 const RequestFeature: FC = () => {
   const handleRequestFeature = () => {
-    sendEmail('czaplaanita@gmail.com', 'Request a feature!').then(() => {
-      console.log('Our email successful provided to device mail ');
-    });
+    sendEmail('hello@brainsandbrawn.studio', 'Request a feature!')
+      .then(() => {
+        Logger.sendMessage('Email is sent');
+      })
+      .catch((error) => {
+        Logger.sendLocalError(error, 'sendEmail');
+        captureException(error);
+      });
   };
 
   return (
