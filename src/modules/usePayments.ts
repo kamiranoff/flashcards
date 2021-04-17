@@ -14,10 +14,11 @@ import {
   requestPurchase,
 } from 'react-native-iap';
 import { Alert, EmitterSubscription } from 'react-native';
-
+import { captureException } from '@sentry/react-native';
 import { useDispatch } from 'react-redux';
 import { isAndroid, isIOS } from '../utils/device';
 import { dispatchShopActions, itemSkus, ProductsIds } from './InAppPurchaseConfig';
+import { Logger } from '../service/Logger';
 
 let purchaseUpdateSubscription: EmitterSubscription;
 let purchaseErrorSubscription: EmitterSubscription;
@@ -56,7 +57,8 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
         }
       });
     } catch (err) {
-      console.warn(err); // standardized err.code and err.message available
+      Logger.sendLocalError(err, 'Payment failed');
+      captureException(err);
       Alert.alert(err.message);
     }
   };
@@ -72,7 +74,8 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
           await flushFailedPurchasesCachedAsPendingAndroid();
         }
       } catch (err) {
-        console.warn(`${err.code}:${err.message}`);
+        Logger.sendLocalError(err, 'getInAppsProducts');
+        captureException(err);
       }
 
       purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase: InAppPurchase) => {
@@ -81,7 +84,8 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
           try {
             await finishTransaction(purchase);
           } catch (ackErr) {
-            console.warn(`ackErr ${ackErr}`, 'Error');
+            Logger.sendLocalError(ackErr, 'purchaseUpdateSubscription');
+            captureException(ackErr);
           }
           setIsProcessingPurchase(false);
           dispatchShopActions(purchase.productId, dispatch);
@@ -94,7 +98,8 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
         if (error.code !== 'E_USER_CANCELLED') {
           const errorTitle = isIOS ? 'Shop.appStoreError' : 'Shop.googlePlayError';
           Alert.alert(errorTitle, error.message);
-          console.warn(`Purchase not completed: ${error.message}`);
+          Logger.sendLocalError(new Error('Purchase Error'));
+          captureException(error);
         }
       });
 
@@ -110,12 +115,14 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
         setProductsObject(mappedProducts);
         setIsLoadingProducts(false);
       } catch (e) {
-        console.warn('Error on getProducts', e);
+        Logger.sendLocalError(e, 'getProducts - usePayments');
+        captureException(e);
       }
     };
 
     getInAppsProducts().catch((e) => {
-      console.warn('Error', e);
+      Logger.sendLocalError(e, 'getInAppsProducts');
+      captureException(e);
     });
 
     return (): void => {

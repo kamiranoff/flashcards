@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
+import { captureException } from '@sentry/react-native';
 import { InterstitialAd, AdEventType } from '@react-native-firebase/admob';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { Logger } from './Logger';
 
 const showInterstitialAd = (adId: string) => {
   // Create a new instance
@@ -10,8 +12,8 @@ const showInterstitialAd = (adId: string) => {
   // Add event handlers
   interstitialAd.onAdEvent((type, error) => {
     if (error) {
-      // TODO: sentry
-      console.log('error', error);
+      Logger.sendLocalError(error, 'showInterstitialAd');
+      captureException(error);
       return undefined;
     }
     if (type === AdEventType.LOADED) {

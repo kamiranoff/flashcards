@@ -396,10 +396,16 @@ PODS:
     - React-Core
   - RNScreens (2.15.0):
     - React-Core
+  - RNSentry (2.4.0):
+    - React-Core
+    - Sentry (= 6.1.4)
   - RNShare (5.1.1):
     - React-Core
   - RNSharedElement (0.7.0):
     - React
+  - Sentry (6.1.4):
+    - Sentry/Core (= 6.1.4)
+  - Sentry/Core (6.1.4)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -468,6 +474,7 @@ DEPENDENCIES:
   - RNIap (from `../node_modules/react-native-iap`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNShare (from `../node_modules/react-native-share`)
   - RNSharedElement (from `../node_modules/react-native-shared-element`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -498,6 +505,7 @@ SPEC REPOS:
     - OpenSSL-Universal
     - PersonalizedAdConsent
     - PromisesObjC
+    - Sentry
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -585,6 +593,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNShare:
     :path: "../node_modules/react-native-share"
   RNSharedElement:
@@ -659,8 +669,10 @@ SPEC CHECKSUMS:
   RNIap: 339516d965769d84f43522bbca25bc8ecfea8d1d
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: 2ad555d4d9fa10b91bb765ca07fe9b29d59573f0
+  RNSentry: b0d55027200c96f52e26b9bfb20296d47fc5051d
   RNShare: 6779fdd48e6246a8c79276a5b5e74a0f0d61a1ec
   RNSharedElement: 00b1a1420d213a34459bb9a5aacabb38107d7948
+  Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

@@ -11,7 +11,7 @@ import AddButton from '../../../common/AddButton';
 import { theme } from '../../../utils';
 import IconButton from '../../../common/IconButton';
 import NoContentInfo from '../../../common/NoContentInfo';
-import { useKeyboard } from "../../../hooks/useKeyboard";
+import { useKeyboard } from '../../../hooks/useKeyboard';
 
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
 const colors = theme.colors.list;
@@ -24,7 +24,6 @@ const DecksList: FC = () => {
   const { navigate } = useNavigation();
   const { decks, decksIds, handleRemoveDeck } = useDecks();
   const { keyboardHeight } = useKeyboard();
-
 
   const handleOpenModal = () => navigate(Screens.ADD_DECK);
 
