@@ -136,10 +136,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
 
   return (
     <>
-      <GeneralAlert
-        text={NotificationMessages.ERROR}
-        ref={alertRef}
-      />
+      <GeneralAlert text={NotificationMessages.ERROR} ref={alertRef} />
       {isLoading && <ProgressLoader progress={progress} />}
       <View style={styles.saveButton}>
         <PrimaryButton buttonText="Save" onPress={handleSubmit} />
@@ -202,12 +199,14 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
 const styles = StyleSheet.create({
   scrollView: {
     marginTop: 30,
+    marginBottom: 10,
   },
   richEditorContainer: {
     marginHorizontal: 10,
     borderWidth: 0.5,
     borderColor: theme.colors.border,
     borderRadius: theme.borderRadius.m,
+    marginVertical: 30,
   },
   saveButton: {
     width: 60,

@@ -10,14 +10,14 @@ export const selectDecks = createSelector([selectAllDecks], (decks) => decks);
 
 export const selectDeckItem = (id: string) => createSelector([selectDecks], (decks) => decks[id]);
 
-export const selectCard = (deckId: string, id: string | undefined) =>
+export const selectCard = (deckId: string, id: number | undefined) =>
   createSelector([selectDecks], (decks) =>
-    id ? decks[deckId].cards.find((card) => card.id === id) : undefined,
+    id ? decks[deckId].cards.find((card) => card.frontEndId === id) : undefined,
   );
 
 export const selectBadAnswers = (deckId: string) =>
   createSelector([selectDeckItem(deckId)], (decks) =>
-    !R.isEmpty(decks) ? decks.cards.filter((c) => c.rank === 0).length : 0,
+    !R.isEmpty(decks) && decks.cards.length ? decks.cards.filter((c) => c.rank === 0).length : 0,
   );
 
 export const selectGoodAnswers = (deckId: string) =>

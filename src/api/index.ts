@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Config from 'react-native-config';
+import { captureException } from '@sentry/react-native';
 import { Card } from '../redux/decks/reducer';
+import { Logger } from '../service/Logger';
 
 interface File {
   uri: string;
@@ -37,7 +39,8 @@ async function contact(data: {}): Promise<{ data: boolean }> {
     const response = await axios.post(`${Config.API_URL}/contact`, data);
     return response.data;
   } catch (error) {
-    // FIXME add logger
+    Logger.sendLocalError(error, 'contact');
+    captureException(error);
     return error;
   }
 }
@@ -47,17 +50,8 @@ async function saveDeck(data: {}): Promise<{ data: boolean }> {
     const response = await axios.post(`${Config.API_URL}/deck`, data);
     return response.data;
   } catch (error) {
-    // FIXME add logger
-    return error;
-  }
-}
-
-async function editDeckByShareId(data: {}, shareId: string): Promise<{ data: boolean }> {
-  try {
-    const response = await axios.post(`${Config.API_URL}/deck/${shareId}`, data);
-    return response.data;
-  } catch (error) {
-    // FIXME add logger
+    Logger.sendLocalError(error, 'saveDeck');
+    captureException(error);
     return error;
   }
 }
@@ -67,7 +61,33 @@ async function getSharedDeckBySharedId(sharedId: string): Promise<{ data: Respon
     const response = await axios.get(`${Config.API_URL}/deck/${sharedId}`);
     return response.data;
   } catch (error) {
-    // FIXME add logger
+    Logger.sendLocalError(error, 'getSharedDeckBySharedId');
+    captureException(error);
+    return error;
+  }
+}
+
+async function saveOrUpdateCard(data: {
+  deckId: number;
+  question: string;
+  answer: string;
+  fontEndId: number;
+  id: number | null;
+  isEdit: boolean;
+}): Promise<{ data: { fontEndId: number; cardId: number; question: string; answer: string; rank: null } }> {
+  try {
+    let response;
+    if (data.isEdit && data.id) {
+      // update card
+      response = await axios.put(`${Config.API_URL}/card/${data.id}`, data);
+      return response.data;
+    }
+    // save new card
+    response = await axios.post(`${Config.API_URL}/card`, data);
+    return response.data;
+  } catch (error) {
+    Logger.sendLocalError(error, 'saveOrUpdateCard');
+    captureException(error);
     return error;
   }
 }
@@ -77,7 +97,7 @@ const Api = {
   contact,
   saveDeck,
   getSharedDeckBySharedId,
-  editDeckByShareId,
+  saveOrUpdateCard,
 };
 
 export default Api;

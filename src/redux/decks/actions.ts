@@ -8,11 +8,15 @@ import {
   ScoreCard,
   ReorderCards,
   ShuffleCards,
-  EditSharedOnDeck,
-  SaveSharedDeck,
   GetDeckByShareId,
+  SaveDeckToDB,
+  SaveDeckToDBFailure,
+  SaveNewCard,
+  UpdateCardById,
+  UpdateDeck,
+  SaveOrUpdateCardToDBFailure,
 } from './interface';
-import { Deck } from './reducer';
+import { Card } from './reducer';
 
 export const getDecks = (): GetDecks => ({
   type: DecksActionTypes.getDecks,
@@ -24,6 +28,33 @@ export const saveDeck = (id: string, title: string): SaveDeck => ({
   title,
 });
 
+export const saveDeckToDB = (deckId: string): SaveDeckToDB => ({
+  type: DecksActionTypes.saveDeckToDB,
+  deckId,
+});
+
+export const saveDeckToDBFailure = (error: boolean): SaveDeckToDBFailure => ({
+  type: DecksActionTypes.saveDeckToDBFailure,
+  error,
+});
+
+export const saveOrUpdateCardToDBFailure = (error: boolean): SaveOrUpdateCardToDBFailure => ({
+  type: DecksActionTypes.saveOrUpdateCardToDBFailure,
+  error,
+});
+
+export const updateDeck = (deckId: string, data: any): UpdateDeck => ({
+  type: DecksActionTypes.updateDeck,
+  deckId,
+  data,
+});
+
+export const updateCardById = (deckId: string, data: Card): UpdateCardById => ({
+  type: DecksActionTypes.updateCardById,
+  deckId,
+  data,
+});
+
 export const deleteDeck = (id: string): DeleteDeck => ({
   type: DecksActionTypes.deleteDeck,
   id,
@@ -31,31 +62,31 @@ export const deleteDeck = (id: string): DeleteDeck => ({
 
 export const saveQuestion = (
   deckId: string,
-  cardId: string,
+  frontEndId: number,
   question: string,
   isEdit: boolean,
 ): SaveQuestion => ({
   type: DecksActionTypes.saveQuestion,
   deckId,
-  cardId,
+  frontEndId,
   question,
   isEdit,
 });
 
-export const saveAnswer = (deckId: string, cardId: string, answer: string): SaveAnswer => ({
+export const saveAnswer = (deckId: string, cardId: number, answer: string): SaveAnswer => ({
   type: DecksActionTypes.saveAnswer,
   deckId,
   cardId,
   answer,
 });
 
-export const deleteCard = (deckId: string, cardId: string) => ({
+export const deleteCard = (deckId: string, cardId: number) => ({
   type: DecksActionTypes.deleteCard,
   deckId,
   cardId,
 });
 
-export const scoreCard = (deckId: string, cardId: string, score: number): ScoreCard => ({
+export const scoreCard = (deckId: string, cardId: number, score: number): ScoreCard => ({
   type: DecksActionTypes.scoreCard,
   deckId,
   cardId,
@@ -72,17 +103,6 @@ export const shuffleCards = (deckId: string): ShuffleCards => ({
   deckId,
 });
 
-export const editSharedOnDeck = (deckId: string): EditSharedOnDeck => ({
-  type: DecksActionTypes.editSharedOnDeck,
-  deckId,
-});
-
-export const saveSharedDeck = (deck: Deck, id: string): SaveSharedDeck => ({
-  type: DecksActionTypes.saveSharedDeck,
-  deck,
-  id,
-});
-
 export const getDeckByShareId = (code: string, deckId: string | null): GetDeckByShareId => ({
   type: DecksActionTypes.getDeckByShareId,
   code,
@@ -94,19 +114,15 @@ export const addFreeDeck = (quantity: number) => ({
   quantity,
 });
 
-export const editAndSaveSharedDeck = (deckId: string, shareId: string) => ({
-  type: DecksActionTypes.editAndSaveSharedDeck,
+export const saveNewCard = (deckId: string, frontEndId: number, isEdit: boolean): SaveNewCard => ({
+  type: DecksActionTypes.saveNewCard,
   deckId,
-  shareId,
+  frontEndId,
+  isEdit,
 });
 
 export const saveSharedDeckFailure = (error: boolean) => ({
   type: DecksActionTypes.saveSharedDeckFailure,
-  error,
-});
-
-export const editDeckFailure = (error: boolean) => ({
-  type: DecksActionTypes.editDeckFailure,
   error,
 });
 
