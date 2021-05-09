@@ -1,10 +1,14 @@
 import Pusher from 'pusher-js/react-native';
+import Config from 'react-native-config';
 
-// Enable pusher logging - don't include this in production
-Pusher.logToConsole = true;
+if (__DEV__) {
+  // Enable socket logging - don't include this in production
+  Pusher.logToConsole = true;
+}
 
-const pusher = new Pusher('3cf78c17b3903fecd948', {
+// TODO: add variable to sh
+const socket = new Pusher(Config.PUSHER_ID, {
   cluster: 'eu',
 });
 
-export { pusher };
+export { socket };

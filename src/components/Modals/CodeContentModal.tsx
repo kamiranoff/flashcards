@@ -11,12 +11,14 @@ import { isIOS } from '../../utils/device';
 import { AlertScreenNavigationProp } from '../../navigation/types';
 import { RootState } from '../../redux/store';
 import usePrevious from '../../hooks/usePrevious';
+import useNetInfo from '../../hooks/useNetInfo';
 
 interface Props {
   navigation: AlertScreenNavigationProp;
 }
 
 const CodeContentModal: FC<Props> = ({ navigation }) => {
+  const isConnected = useNetInfo();
   const [code, setCode] = useState('');
   const dispatch = useDispatch();
   const { error, decks } = useSelector((state: RootState) => state.decks);
@@ -31,9 +33,12 @@ const CodeContentModal: FC<Props> = ({ navigation }) => {
   }, [decksNumber, previousDecksIds]);
   const handleSaveSharedDeck = async () => {
     if (code.length === 5) {
-      dispatch(getDeckByShareId(code, null));
-      setCode('');
-      Analytics.trackEvent(analytics.addSharedDeck).catch(null);
+      if (isConnected) {
+        dispatch(getDeckByShareId(code, null));
+        setCode('');
+        Analytics.trackEvent(analytics.addSharedDeck).catch(null);
+      }
+      // FIXME: show notification if offline
     }
   };
 

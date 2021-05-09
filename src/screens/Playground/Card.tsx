@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { WINDOW_WIDTH } from '../../utils/device';
 import { Card } from '../../redux/decks/reducer';
 import { Screens } from '../../navigation/types';
-import { HtmlParser, IconButton } from '../../common';
+import { AppText, HtmlParser, IconButton } from '../../common';
 
 const ITEM_SIZE = WINDOW_WIDTH * 0.9;
 
@@ -51,8 +51,8 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
 
   const handleEdit = () =>
     v <= 90
-      ? navigation.navigate(Screens.QUESTION_MODAL, { title, deckId, cardId: card.id })
-      : navigation.navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: card.id });
+      ? navigation.navigate(Screens.QUESTION_MODAL, { title, deckId, cardId: card.frontEndId })
+      : navigation.navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: card.frontEndId });
 
   return (
     <>
@@ -64,10 +64,16 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
           <TouchableWithoutFeedback onPress={flipCard}>
             <View>
               <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }] }]}>
+                <View style={styles.label}>
+                  <AppText size="h1">Question</AppText>
+                </View>
                 <HtmlParser text={card.question} />
               </Animated.View>
               <Animated.View
                 style={[styles.card, styles.cardBack, { transform: [{ rotateY: backInterpolate }] }]}>
+                <View style={styles.label}>
+                  <AppText size="h1">Answer</AppText>
+                </View>
                 <HtmlParser text={card.answer} />
               </Animated.View>
             </View>
@@ -91,6 +97,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 8,
+  },
+  label: {
+    position: 'absolute',
+    top: 10,
   },
   cardBack: {
     position: 'absolute',

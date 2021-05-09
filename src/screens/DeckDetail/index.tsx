@@ -16,7 +16,8 @@ import ActionButtons from './components/ActionButtons';
 import useOpacity from './useOpacity';
 import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
-import { useIsMount } from "../../utils/useIsMount";
+import { useIsMount } from '../../utils/useIsMount';
+// import { socket } from '../../service/socket';
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
@@ -42,28 +43,35 @@ const DeckDetail: FC<Props> = ({
 
   const alertRef = useRef<GeneralAlertRef>(null);
 
+  // useEffect(() => {
+  //   const channel = socket.subscribe('my-channel');
+  //   channel.bind('my-event', function (data) {
+  //     console.log('here', data);
+  //     console.log(JSON.stringify(data));
+  //   });
+  // }, []);
+
   useEffect(() => {
-    if(isLoading || isMount) {
+    if (isLoading || isMount) {
       return;
     }
 
     if (error || !isLoading) {
-      alertRef.current?.startAnimation()
+      alertRef.current?.startAnimation();
     }
+  }, [isLoading, error]);
 
-  }, [isLoading, error])
-
-  const handleOnPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
+  const handleOnPlusPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
 
   const navigateToPlayground = () =>
-    navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].id });
+    navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].frontEndId });
 
   const handleSortCards = () => dispatch(sortByRankCards(id));
 
   const handleShuffleCards = () => dispatch(shuffleCards(id));
 
   const handlerRefreshSharedDeck = () => {
-    if (deckDetail.sharedWithYou || deckDetail.sharedByYou) {
+    if (deckDetail.shareId) {
       dispatch(getDeckByShareId(deckDetail.shareId, id));
     }
   };
@@ -73,7 +81,7 @@ const DeckDetail: FC<Props> = ({
       <GeneralAlert text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE} ref={alertRef} />
       <CloseButton onPress={goBack} />
       <View style={styles.addIcon}>
-        <IconButton onPress={handleOnPress} iconName="plusCurve" />
+        <IconButton onPress={handleOnPlusPress} iconName="plusCurve" />
       </View>
       <SharedElement id={`item.${id}`} style={StyleSheet.absoluteFillObject}>
         <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: color }]} />
@@ -102,7 +110,7 @@ const DeckDetail: FC<Props> = ({
               <Cards
                 cards={deckDetail.cards}
                 deckId={id}
-                isOwner={deckDetail.isOwner}
+                isOwner={true} // FIXME
                 handlerRefreshSharedDeck={handlerRefreshSharedDeck}
                 isLoading={isLoading}
               />
@@ -123,13 +131,13 @@ const DeckDetail: FC<Props> = ({
           <Cards
             cards={deckDetail.cards}
             deckId={id}
-            isOwner={deckDetail.sharedByYou}
+            isOwner={true} // FIXME
             handlerRefreshSharedDeck={handlerRefreshSharedDeck}
             isLoading={isLoading}
           />
         </View>
       )}
-      {(deckDetail.sharedWithYou || deckDetail.sharedByYou) && !isLoading ? (
+      {deckDetail.cards.length && deckDetail.shareId && !isLoading ? (
         <View style={styles.refresh}>
           <IconButton onPress={handlerRefreshSharedDeck} iconName="refresh" />
         </View>

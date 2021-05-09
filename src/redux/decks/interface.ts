@@ -1,24 +1,26 @@
-import { Deck } from './reducer';
+import { Card } from './reducer';
 
 export enum DecksActionTypes {
   getDecks = 'GET_DECKS',
   deleteDeck = 'DELETE_DECK',
   saveDeck = 'SAVE_DECK',
+  updateDeck = 'UPDATE_DECK',
+  saveDeckToDB = 'SAVE_DECK_TO_DB',
+  saveDeckToDBFailure = 'SAVE_DECK_TO_DB_FAILURE',
   saveQuestion = 'SAVE_QUESTION',
   saveAnswer = 'SAVE_ANSWER',
   deleteCard = 'DELETE_CARD',
   scoreCard = 'SCORE_CARD',
   reorderCards = 'REORDER_CARDS',
   shuffleCards = 'SHUFFLE_CARDS',
-  editSharedOnDeck = 'EDIT_SHARED_ON_DECK',
-  saveSharedDeck = 'SAVE_SHARED_DECK',
   getDeckByShareId = 'GET_DECK_BY_SHARE_ID',
   addFreeDeck = 'ADD_FREE_DECK',
-  editAndSaveSharedDeck = 'EDIT_AND_SAVE_SHARED_DECK',
   saveSharedDeckFailure = 'SAVE_SHARED_DECK_FAILURE',
-  editDeckFailure = 'EDIT_DECK_FAILURE',
   clearDecksError = 'CLEAR_DECKS_ERROR',
   getDeckByShareIdRequest = 'GET_DECK_BY_SHARE_ID_REQUEST',
+  saveNewCard = 'SAVE_NEW_CARD',
+  updateCardById = 'UPDATE_CARD_BY_ID',
+  saveOrUpdateCardToDBFailure = 'SAVE_OR_UPDATE_CARD_TO_DB_FAILURE',
 }
 
 export enum SCORES {
@@ -36,6 +38,33 @@ export interface SaveDeck {
   title: string;
 }
 
+export interface SaveDeckToDB {
+  type: DecksActionTypes.saveDeckToDB;
+  deckId: string;
+}
+
+export interface SaveDeckToDBFailure {
+  type: DecksActionTypes.saveDeckToDBFailure;
+  error: boolean;
+}
+
+export interface SaveOrUpdateCardToDBFailure {
+  type: DecksActionTypes.saveOrUpdateCardToDBFailure;
+  error: boolean;
+}
+
+export interface UpdateDeck {
+  type: DecksActionTypes.updateDeck;
+  deckId: string;
+  data: any;
+}
+
+export interface UpdateCardById {
+  type: DecksActionTypes.updateCardById;
+  deckId: string;
+  data: Card;
+}
+
 export interface DeleteDeck {
   type: DecksActionTypes.deleteDeck;
   id: string;
@@ -44,7 +73,7 @@ export interface DeleteDeck {
 export interface SaveQuestion {
   type: DecksActionTypes.saveQuestion;
   deckId: string;
-  cardId: string;
+  frontEndId: number;
   question: string;
   isEdit: boolean;
 }
@@ -52,20 +81,27 @@ export interface SaveQuestion {
 export interface SaveAnswer {
   type: DecksActionTypes.saveAnswer;
   deckId: string;
-  cardId: string;
+  cardId: number;
   answer: string;
+}
+
+export interface SaveNewCard {
+  type: DecksActionTypes.saveNewCard;
+  deckId: string;
+  frontEndId: number;
+  isEdit: boolean;
 }
 
 export interface DeleteCard {
   type: DecksActionTypes.deleteCard;
   deckId: string;
-  cardId: string;
+  cardId: number;
 }
 
 export interface ScoreCard {
   type: DecksActionTypes.scoreCard;
   deckId: string;
-  cardId: string;
+  cardId: number;
   score: number;
 }
 
@@ -79,17 +115,6 @@ export interface ShuffleCards {
   deckId: string;
 }
 
-export interface EditSharedOnDeck {
-  type: DecksActionTypes.editSharedOnDeck;
-  deckId: string;
-}
-
-export interface SaveSharedDeck {
-  type: DecksActionTypes.saveSharedDeck;
-  deck: Deck;
-  id: string;
-}
-
 export interface GetDeckByShareId {
   type: DecksActionTypes.getDeckByShareId;
   code: string;
@@ -101,19 +126,8 @@ export interface AddFreeDeck {
   quantity: number;
 }
 
-export interface EditAndSaveSharedDeck {
-  type: DecksActionTypes.editAndSaveSharedDeck;
-  deckId: string;
-  shareId: string;
-}
-
 export interface SaveSharedDeckFailure {
   type: DecksActionTypes.saveSharedDeckFailure;
-  error: boolean;
-}
-
-export interface EditDeckFailure {
-  type: DecksActionTypes.editDeckFailure;
   error: boolean;
 }
 
@@ -136,12 +150,11 @@ export type DecksActions =
   | ScoreCard
   | ReorderCards
   | ShuffleCards
-  | EditSharedOnDeck
-  | SaveSharedDeck
   | GetDeckByShareId
   | AddFreeDeck
-  | EditAndSaveSharedDeck
   | SaveSharedDeckFailure
-  | EditDeckFailure
   | ClearDecksError
-  | GetDeckByShareIdRequest;
+  | GetDeckByShareIdRequest
+  | SaveDeckToDBFailure
+  | UpdateDeck
+  | UpdateCardById;

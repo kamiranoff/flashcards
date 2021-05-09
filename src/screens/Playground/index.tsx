@@ -9,7 +9,7 @@ import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
 import { Card } from '../../redux/decks/reducer';
 import { getPlatformDimension, isIOS, isSmallDevice } from '../../utils/device';
-import { scoreCard } from '../../redux/decks/actions';
+import { saveDeckToDB, scoreCard } from '../../redux/decks/actions';
 import { SCORES } from '../../redux/decks/interface';
 import ActionButtons from './ActionButtons';
 import NoMoreCards from './NoMoreCards';
@@ -37,8 +37,8 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   const [noMoreCards, setNoMoreCards] = useState(false);
   const deckDetail = useSelector(selectDeckItem(params.deckId));
   const { ratedAppAt } = useSelector((state: RootState) => state.user);
-  const card = R.find(R.propEq('id', params.cardId), deckDetail.cards);
-  const restOfCards = R.reject(R.propEq('id', params.cardId), deckDetail.cards);
+  const card = R.find(R.propEq('frontEndId', params.cardId), deckDetail.cards);
+  const restOfCards = R.reject(R.propEq('frontEndId', params.cardId), deckDetail.cards);
   const reOrderedCards = card ? [card, ...restOfCards] : deckDetail.cards; // First card is the one which has been clicked from deck detail
 
   useInterstitialAd(AD_ID);
@@ -47,19 +47,24 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
     setIndex((index + 1) % deckDetail.cards.length);
   };
 
-  const handleShareDeck = () =>
+  const handleShareDeck = async () => {
+    if (deckDetail.isOwner && !deckDetail.shareId) {
+      // SAVE DECK to DB
+      dispatch(saveDeckToDB(params.deckId));
+    }
     navigate(Screens.ALERT, { modalTemplate: 'shareModal', deckId: params.deckId });
+  };
 
   const renderCard = (item: Card) => <CardItem card={item} title={deckDetail.title} deckId={params.deckId} />;
 
   const scoreGoodAnswer = (i: number) => {
     const currentCard = deckDetail.cards[i];
-    dispatch(scoreCard(params.deckId, currentCard.id, SCORES.GOOD));
+    dispatch(scoreCard(params.deckId, currentCard.frontEndId, SCORES.GOOD));
   };
 
   const scoreBadAnswer = (i: number) => {
     const currentCard = deckDetail.cards[i];
-    dispatch(scoreCard(params.deckId, currentCard.id, SCORES.BAD));
+    dispatch(scoreCard(params.deckId, currentCard.frontEndId, SCORES.BAD));
   };
 
   const handlePressRight = () => {
@@ -118,11 +123,9 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
     <Container style={styles.container}>
       <CloseButton onPress={handleGoBack} />
       <Title title={deckDetail.title} />
-      {deckDetail.isOwner && (
-        <View style={styles.shareButtonContainer}>
-          <PrimaryButton buttonText="Share" onPress={handleShareDeck} />
-        </View>
-      )}
+      <View style={styles.shareButtonContainer}>
+        <PrimaryButton buttonText="Share" onPress={handleShareDeck} />
+      </View>
       <View style={styles.swiperContainer}>
         {renderCards()}
         {!noMoreCards ? (
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
     width: 60,
     right: 10,
     position: 'absolute',
-    top: getPlatformDimension(20, 15, 40, 20),
+    top: getPlatformDimension(20, 15, 45, 20),
     zIndex: 999,
   },
 });

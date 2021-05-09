@@ -4,7 +4,7 @@ import { AddAnswerScreenNavigationProp, AddAnswerScreenRouteProp } from '../navi
 import { CloseButton, Container, Form, Title } from 'common';
 import { selectCard, selectDeckItem } from '../redux/seclectors';
 import { Card } from '../redux/decks/reducer';
-import { editAndSaveSharedDeck, saveAnswer } from '../redux/decks/actions';
+import { saveAnswer, saveNewCard } from '../redux/decks/actions';
 
 export interface Props {
   route: AddAnswerScreenRouteProp;
@@ -19,8 +19,8 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
 
   const handleSave = async (answer: Card['answer']) => {
     dispatch(saveAnswer(deckId, cardId, answer));
-    if (deckDetail.sharedByYou || deckDetail.sharedWithYou || deckDetail.owner) {
-      dispatch(editAndSaveSharedDeck(deckId, deckDetail.shareId));
+    if (deckDetail.shareId) {
+      dispatch(saveNewCard(deckId, cardId, true));
     }
     navigation.popToTop();
   };

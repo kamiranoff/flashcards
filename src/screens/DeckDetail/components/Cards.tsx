@@ -26,7 +26,7 @@ const formatData = (cards: Card[], numColumns: number) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);
   let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
   while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
-    data.push({ key: `blank-${numberOfElementsLastRow}`, id: 'empty' });
+    data.push({ key: `blank-${numberOfElementsLastRow}`, frontEndId: 'empty' });
     numberOfElementsLastRow += 1;
   }
   return data;
@@ -60,11 +60,13 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
 
   const renderItem = ({ item }: { item: Card }) => {
     const handleDeleteCard = () => {
-      NativeAlert('Are you sure you want to delete this card?', () => dispatch(deleteCard(deckId, item.id)));
+      NativeAlert('Are you sure you want to delete this card?', () =>
+        dispatch(deleteCard(deckId, item.frontEndId)),
+      );
     };
-    const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id });
+    const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.frontEndId });
 
-    if (item.id === 'empty') {
+    if (item.frontEndId.toString() === 'empty') {
       return <View style={styles.itemInvisible} />;
     }
 
@@ -84,7 +86,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
       contentContainerStyle={styles.contentContainerStyle}
       data={formatData(cards, numberColumns)}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item.frontEndId.toString()}
     />
   ) : (
     <Animated.FlatList
@@ -94,7 +96,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
       contentContainerStyle={styles.contentContainerStyle}
       data={formatData(cards, numberColumns)}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item.frontEndId.toString()}
       style={{ ...styles.flatListStyle, transform: [{ translateY: yValue }] }}
     />
   );
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     ...theme.iconButtonShadow,
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   itemInvisible: {
     backgroundColor: 'transparent',

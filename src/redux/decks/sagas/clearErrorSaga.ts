@@ -1,4 +1,4 @@
-import { put, takeLatest, select, delay } from 'redux-saga/effects';
+import { delay, put, select, takeLatest } from 'redux-saga/effects';
 import { clearDecksError } from '../actions';
 import { DecksActionTypes } from '../interface';
 
@@ -12,5 +12,12 @@ function* clearError() {
 }
 
 export default function* clearErrorSaga() {
-  yield takeLatest([DecksActionTypes.saveSharedDeckFailure, DecksActionTypes.editDeckFailure], clearError);
+  yield takeLatest(
+    [
+      DecksActionTypes.saveSharedDeckFailure,
+      DecksActionTypes.saveDeckToDBFailure,
+      DecksActionTypes.saveOrUpdateCardToDBFailure,
+    ],
+    clearError,
+  );
 }
