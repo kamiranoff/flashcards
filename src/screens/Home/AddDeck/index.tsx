@@ -43,7 +43,7 @@ const AddDeck: FC<Props> = ({ navigation }) => {
     }
   };
 
-  const handleGoToShop = () => navigation.navigate(Screens.SHOP);
+  const handleGoToShop = () => navigation.navigate(Screens.UPGRADE_TO_PRO_MODAL);
 
   return (
     <View style={styles.container}>
