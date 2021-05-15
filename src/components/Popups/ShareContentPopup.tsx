@@ -9,8 +9,10 @@ import AppText from '../../common/AppText';
 import Icon from '../../common/Icon';
 import PrimaryButton from '../../common/PrimaryButton';
 import { shareOptionsWithCode } from '../../config';
+import useNetInfo from '../../hooks/useNetInfo';
 
 const ShareContentPopup = ({ deckId, handleGoBack }: { deckId: string; handleGoBack: () => void }) => {
+  const isConnected = useNetInfo();
   const deckDetail = useSelector(selectDeckItem(deckId));
 
   const handleSharePress = () => {
@@ -27,7 +29,7 @@ const ShareContentPopup = ({ deckId, handleGoBack }: { deckId: string; handleGoB
         <Icon name="happyFace2" imgStyle={styles.icon} />
       </View>
       <View style={styles.shareButtonContainer}>
-        <PrimaryButton buttonText="Share your deck" onPress={handleSharePress} />
+        <PrimaryButton buttonText="Share your deck" onPress={handleSharePress} disabled={!isConnected} />
       </View>
       <View style={styles.textContent}>
         <AppText size="body" centered>

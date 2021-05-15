@@ -3,6 +3,8 @@ import Config from 'react-native-config';
 import { captureException } from '@sentry/react-native';
 import { Card } from '../redux/decks/reducer';
 import { Logger } from '../service/Logger';
+import { CreateResponse, GetDeckBySharedIdResponse } from './types';
+import { CreateDeckResponse } from '../../../flashcards-api/src/db/types';
 
 interface File {
   uri: string;
@@ -34,37 +36,50 @@ async function savePhoto(
   return response.data.photo;
 }
 
-async function contact(data: {}): Promise<{ data: boolean }> {
+export interface ContactResponse {
+  data?: boolean;
+  error?: string;
+}
+
+async function contact(data: {}): Promise<ContactResponse> {
   try {
     const response = await axios.post(`${Config.API_URL}/contact`, data);
     return response.data;
   } catch (error) {
     Logger.sendLocalError(error, 'contact');
     captureException(error);
-    return error;
+    throw error;
   }
 }
 
-async function saveDeck(data: {}): Promise<{ data: boolean }> {
+async function saveDeck(data: {}): Promise<CreateResponse> {
   try {
-    const response = await axios.post(`${Config.API_URL}/deck`, data);
-    return response.data;
+    const response: CreateDeckResponse = await axios.post(`${Config.API_URL}/deck`, data);
+    if (!response.data) {
+      throw new Error('no data found');
+    }
+    return response;
   } catch (error) {
-    Logger.sendLocalError(error, 'saveDeck');
+    Logger.sendLocalError(error, error.message);
     captureException(error);
-    return error;
+    throw error;
   }
 }
 
-async function getSharedDeckBySharedId(sharedId: string): Promise<{ data: ResponseDeck }> {
+async function getSharedDeckBySharedId(sharedId: string): Promise<GetDeckBySharedIdResponse> {
   try {
     const response = await axios.get(`${Config.API_URL}/deck/${sharedId}`);
     return response.data;
   } catch (error) {
     Logger.sendLocalError(error, 'getSharedDeckBySharedId');
     captureException(error);
-    return error;
+    throw error;
   }
+}
+
+export interface SaveOrUpdateCardResponse {
+  data?: { fontEndId: number; cardId: number; question: string; answer: string; rank: null };
+  error?: string;
 }
 
 async function saveOrUpdateCard(data: {
@@ -74,7 +89,7 @@ async function saveOrUpdateCard(data: {
   fontEndId: number;
   id: number | null;
   isEdit: boolean;
-}): Promise<{ data: { fontEndId: number; cardId: number; question: string; answer: string; rank: null } }> {
+}): Promise<SaveOrUpdateCardResponse> {
   try {
     let response;
     if (data.isEdit && data.id) {
@@ -88,7 +103,7 @@ async function saveOrUpdateCard(data: {
   } catch (error) {
     Logger.sendLocalError(error, 'saveOrUpdateCard');
     captureException(error);
-    return error;
+    throw error;
   }
 }
 

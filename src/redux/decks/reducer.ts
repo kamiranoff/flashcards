@@ -28,14 +28,14 @@ export interface DecksState {
     [id: string]: Deck;
   };
   maxFreeDecks: number;
-  error: boolean;
+  error: string | null;
   isLoading: boolean;
 }
 
 export const initialState: DecksState = {
   decks: {},
   maxFreeDecks: 5,
-  error: false,
+  error: null,
   isLoading: false,
 };
 
@@ -73,7 +73,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         // rename current deck title
         return {
           ...state,
-          error: false,
+          error: null,
           isLoading: false,
           decks: {
             ...state.decks,
@@ -83,7 +83,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       }
       return {
         ...state,
-        error: false,
+        error: null,
         isLoading: false,
         decks: {
           [action.id]: {
@@ -107,7 +107,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         const deckId = action.deckId.toString();
         return {
           ...state,
-          error: false,
+          error: null,
           isLoading: false,
           decks: {
             [deckId]: action.data,
@@ -116,7 +116,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       }
       return {
         ...state,
-        error: false,
+        error: null,
         isLoading: false,
         decks: {
           ...state.decks,
@@ -137,7 +137,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       const updatedCards: Card[] = R.map(updateCards({ ...data }), selectedDeckCards);
       return {
         ...state,
-        error: false,
+        error: null,
         isLoading: false,
         decks: {
           ...state.decks,
@@ -153,7 +153,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         const updatedCards: Card[] = R.map(updateCards({ frontEndId, question }), selectedDeckCards);
         return {
           ...state,
-          error: false,
+          error: null,
           isLoading: false,
           decks: {
             ...state.decks,
@@ -172,7 +172,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       const newCards = R.prepend(newCard, selectedDeckCards); // unshift
       return {
         ...state,
-        error: false,
+        error: null,
         isLoading: false,
         decks: {
           ...state.decks,
@@ -187,7 +187,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       const updatedCards: Card[] = R.map(updateCards({ frontEndId: cardId, answer }), selectedDeckCards);
       return {
         ...state,
-        error: false,
+        error: null,
         isLoading: false,
         decks: {
           ...state.decks,

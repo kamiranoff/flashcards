@@ -12,6 +12,9 @@ import { theme } from '../../../utils';
 import IconButton from '../../../common/IconButton';
 import NoContentInfo from '../../../common/NoContentInfo';
 import { useKeyboard } from '../../../hooks/useKeyboard';
+import { GeneralAlertRef, NotificationMessages } from '../../../common/GeneralAlert';
+import useNetInfo from '../../../hooks/useNetInfo';
+import { GeneralAlert } from '../../../common';
 
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
 const colors = theme.colors.list;
@@ -24,10 +27,18 @@ const DecksList: FC = () => {
   const { navigate } = useNavigation();
   const { decks, decksIds, handleRemoveDeck } = useDecks();
   const { keyboardHeight } = useKeyboard();
+  const isConnected = useNetInfo();
+  const alertRef = useRef<GeneralAlertRef>(null);
 
   const handleOpenModal = () => navigate(Screens.ADD_DECK);
 
-  const handleOpenCodeModal = () => navigate(Screens.ALERT, { modalTemplate: 'codeModal' });
+  const handleOpenCodeModal = () => {
+    if (isConnected) {
+      return alertRef.current?.startAnimation(NotificationMessages.NETWORK_ERROR);
+    }
+
+    navigate(Screens.ALERT, { modalTemplate: 'codeModal' });
+  }
 
   const renderItem = ({ item, index }: { item: string; index: number }) => {
     const { title, cards, sharedWithYou } = decks[item];
@@ -53,6 +64,7 @@ const DecksList: FC = () => {
 
   return (
     <>
+      <GeneralAlert ref={alertRef} />
       <View style={styles.buttonContainer}>
         <View style={styles.row}>
           <IconButton onPress={handleOpenCodeModal} iconName="codebar" style={{ marginRight: 10 }} />

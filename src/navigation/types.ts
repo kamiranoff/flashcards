@@ -36,6 +36,7 @@ export type RootStackParamList = {
   [Screens.ALERT]: { modalTemplate: ModalTemplate; deckId: string };
   [Screens.ADD_DECK]: undefined;
   [Screens.UPGRADE_TO_PRO_MODAL]: undefined;
+  [Screens.SHOP]: undefined;
 };
 
 export type HomeStackParams = {

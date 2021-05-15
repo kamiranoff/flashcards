@@ -59,7 +59,7 @@ const DeckDetail: FC<Props> = ({
     if (error || !isLoading) {
       alertRef.current?.startAnimation();
     }
-  }, [isLoading, error]);
+  }, [isLoading, error, isMount]);
 
   const handleOnPlusPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
 

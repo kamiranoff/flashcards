@@ -45,12 +45,12 @@ export interface SaveDeckToDB {
 
 export interface SaveDeckToDBFailure {
   type: DecksActionTypes.saveDeckToDBFailure;
-  error: boolean;
+  error: string;
 }
 
 export interface SaveOrUpdateCardToDBFailure {
   type: DecksActionTypes.saveOrUpdateCardToDBFailure;
-  error: boolean;
+  error: string;
 }
 
 export interface UpdateDeck {
@@ -128,12 +128,12 @@ export interface AddFreeDeck {
 
 export interface SaveSharedDeckFailure {
   type: DecksActionTypes.saveSharedDeckFailure;
-  error: boolean;
+  error: string;
 }
 
 export interface ClearDecksError {
   type: DecksActionTypes.clearDecksError;
-  error: boolean;
+  error: string;
 }
 
 export interface GetDeckByShareIdRequest {

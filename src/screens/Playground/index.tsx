@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swiper from 'react-native-deck-swiper';
 import * as R from 'ramda';
 import { PlaygroundScreenNavigationProp, PlaygroundScreenRouteProp, Screens } from '../../navigation/types';
-import { CloseButton, Container, Title } from '../../common';
+import { CloseButton, Container, GeneralAlert, Title } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
 import { Card } from '../../redux/decks/reducer';
@@ -20,6 +20,8 @@ import { triggerRateApp } from '../../redux/user/actions';
 import rateApp from '../../modules/rateApp';
 import { useInterstitialAd } from '../../service/useInterstitialAd';
 import { AdUnitIds } from '../../service/config';
+import useNetInfo from '../../hooks/useNetInfo';
+import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
 
 export interface Props {
   route: PlaygroundScreenRouteProp;
@@ -32,6 +34,7 @@ const AD_ID = isIOS ? AdUnitIds.IOS_PRE_PLAYGROUND_PROMO : AdUnitIds.ANDROID_PRE
 
 const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, navigate } }) => {
   const swiperRef = useRef<any>(null); // FIXME
+  const alertRef = useRef<GeneralAlertRef>(null);
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
   const [noMoreCards, setNoMoreCards] = useState(false);
@@ -40,6 +43,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   const card = R.find(R.propEq('frontEndId', params.cardId), deckDetail.cards);
   const restOfCards = R.reject(R.propEq('frontEndId', params.cardId), deckDetail.cards);
   const reOrderedCards = card ? [card, ...restOfCards] : deckDetail.cards; // First card is the one which has been clicked from deck detail
+  const isConnected = useNetInfo();
 
   useInterstitialAd(AD_ID);
 
@@ -48,8 +52,10 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   };
 
   const handleShareDeck = async () => {
+    if (!isConnected) {
+      return alertRef.current?.startAnimation(NotificationMessages.NETWORK_ERROR);
+    }
     if (deckDetail.isOwner && !deckDetail.shareId) {
-      // SAVE DECK to DB
       dispatch(saveDeckToDB(params.deckId));
     }
     navigate(Screens.ALERT, { modalTemplate: 'shareModal', deckId: params.deckId });
@@ -121,10 +127,11 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   };
   return (
     <Container style={styles.container}>
+      <GeneralAlert ref={alertRef} />
       <CloseButton onPress={handleGoBack} />
       <Title title={deckDetail.title} />
       <View style={styles.shareButtonContainer}>
-        <PrimaryButton buttonText="Share" onPress={handleShareDeck} />
+        <PrimaryButton buttonText='Share' onPress={handleShareDeck} />
       </View>
       <View style={styles.swiperContainer}>
         {renderCards()}

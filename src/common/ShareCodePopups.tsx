@@ -1,10 +1,14 @@
-import React, { FC } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { FC, useEffect, useRef } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { AlertScreenNavigationProp, AlertScreenRouteProp } from '../navigation/types';
 import { getPlatformDimension, WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
 import IconButton from './IconButton';
 import { ShareContentPopup } from '../components/Popups/ShareContentPopup';
 import { CodeContentPopup } from '../components/Popups/CodeContentPopup';
+import { GeneralAlert } from './index';
+import { GeneralAlertRef, NotificationMessages } from './GeneralAlert';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 export interface Props {
   navigation: AlertScreenNavigationProp;
@@ -13,8 +17,21 @@ export interface Props {
 
 const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
   const handleGoBack = () => navigation.pop();
+  const alertRef = useRef<GeneralAlertRef>(null);
+  const error = useSelector((state: RootState) => state.decks.error);
+
+  useEffect(() => {
+    if (error) {
+      const message =
+        error === 'Network Error' ? NotificationMessages.NETWORK_ERROR : NotificationMessages.ERROR;
+      alertRef.current?.startAnimation(message);
+    }
+  }, [error]);
+
+  alertRef.current?.startAnimation();
   return (
     <View style={styles.container}>
+      <GeneralAlert text={NotificationMessages.ERROR} ref={alertRef} />
       <View
         style={[
           styles.content,
