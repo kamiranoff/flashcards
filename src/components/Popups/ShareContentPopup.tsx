@@ -10,8 +10,9 @@ import Icon from '../../common/Icon';
 import PrimaryButton from '../../common/PrimaryButton';
 import { shareOptionsWithCode } from '../../config';
 
-const ShareContentModal = ({ deckId, handleGoBack }: { deckId: string; handleGoBack: () => void }) => {
+const ShareContentPopup = ({ deckId, handleGoBack }: { deckId: string; handleGoBack: () => void }) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
+
   const handleSharePress = () => {
     Analytics.trackEvent(analytics.shareDeckByUser);
     return Share.open(shareOptionsWithCode(deckDetail.shareId))
@@ -71,13 +72,13 @@ const styles = StyleSheet.create({
     height: 60,
   },
   codeInput: {
-    fontSize: 20,
+    fontSize: 22,
     borderRadius: 4,
     marginLeft: 5,
-    paddingHorizontal: 4,
-    width: 72,
-    backgroundColor: theme.colors.placeholder,
+    width: 78,
+    textAlign: 'center',
+    backgroundColor: theme.colors.good,
   },
 });
 
-export { ShareContentModal };
+export { ShareContentPopup };
