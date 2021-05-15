@@ -1,70 +1,31 @@
-import { StyleSheet, View, GestureResponderEvent, Platform } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { PrimaryButton } from '../../../common';
 import { theme } from '../../../utils';
-import IconButton from '../../../common/IconButton';
 import React, { FC } from 'react';
 
 interface Props {
   navigate: () => void;
-  sort: (event: GestureResponderEvent) => void;
-  shuffle: (event: GestureResponderEvent) => void;
 }
-const ActionButtons: FC<Props> = ({ navigate, sort, shuffle }) => (
+const ActionButtons: FC<Props> = ({ navigate }) => (
   <View style={styles.container}>
-    <View style={styles.center}>
-      <PrimaryButton
-        onPress={navigate}
-        buttonText="Play"
-        buttonStyle={styles.play}
-        buttonTextStyle={styles.buttonText}
-      />
-    </View>
-    <View style={styles.sortContainer}>
-      <IconButton onPress={sort} iconName="sort" />
-    </View>
-    <View style={styles.shuffleContainer}>
-      <IconButton onPress={shuffle} iconName="shuffle" />
-    </View>
+    <PrimaryButton
+      onPress={navigate}
+      buttonText="Play"
+      buttonStyle={styles.play}
+      buttonTextStyle={styles.buttonText}
+    />
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     marginBottom: 10,
-  },
-  center: {
-    flex: 1,
-    alignItems: 'center',
   },
   play: {
     width: 80,
     backgroundColor: theme.colors.icon,
-  },
-  sortContainer: {
-    position: 'absolute',
-    ...Platform.select({
-      android: {
-        left: 16,
-      },
-      ios: {
-        left: 5,
-      },
-    }),
-    top: 3,
-  },
-  shuffleContainer: {
-    position: 'absolute',
-    ...Platform.select({
-      android: {
-        right: 16,
-      },
-      ios: {
-        right: 5,
-      },
-    }),
-    top: 3,
   },
   buttonText: {
     color: theme.colors.border,
