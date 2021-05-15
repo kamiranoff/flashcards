@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   flatListStyle: {
+    zIndex: 9,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',

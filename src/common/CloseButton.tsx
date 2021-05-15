@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     left: 10,
     position: 'absolute',
     top: getPlatformDimension(20, 20, 50), // Dont like this
-    zIndex: 9,
+    zIndex: 1,
   },
 });
 
