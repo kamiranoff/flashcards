@@ -3,15 +3,15 @@ import { View, StyleSheet } from 'react-native';
 import { AlertScreenNavigationProp, AlertScreenRouteProp } from '../navigation/types';
 import { getPlatformDimension, WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
 import IconButton from './IconButton';
-import { ShareContentModal } from '../components/Modals/ShareContentModal';
-import { CodeContentModal } from '../components/Modals/CodeContentModal';
+import { ShareContentPopup } from '../components/Popups/ShareContentPopup';
+import { CodeContentPopup } from '../components/Popups/CodeContentPopup';
 
 export interface Props {
   navigation: AlertScreenNavigationProp;
   route: AlertScreenRouteProp;
 }
 
-const AlertModal: FC<Props> = ({ navigation, route: { params } }) => {
+const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
   const handleGoBack = () => navigation.pop();
   return (
     <View style={styles.container}>
@@ -19,16 +19,16 @@ const AlertModal: FC<Props> = ({ navigation, route: { params } }) => {
         style={[
           styles.content,
           params.modalTemplate === 'codeModal'
-            ? { height: WINDOW_HEIGHT / 3 + 20 }
+            ? { height: 250 }
             : { height: WINDOW_HEIGHT / getPlatformDimension(2, 2, 2.5) },
         ]}>
         <View style={styles.closeButton}>
           <IconButton onPress={handleGoBack} iconName="x" />
         </View>
         {params.modalTemplate === 'shareModal' ? (
-          <ShareContentModal deckId={params.deckId} handleGoBack={handleGoBack} />
+          <ShareContentPopup deckId={params.deckId} handleGoBack={handleGoBack} />
         ) : (
-          <CodeContentModal navigation={navigation} />
+          <CodeContentPopup navigation={navigation} />
         )}
       </View>
     </View>
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AlertModal;
+export default ShareCodePopups;

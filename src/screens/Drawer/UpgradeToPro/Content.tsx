@@ -1,4 +1,4 @@
-import React, { createRef, FC, useCallback, useRef, useState } from 'react';
+import React, { FC, useRef } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import { GeneralAlert, PriceButton } from '../../../common';
 import AppText from '../../../common/AppText';
@@ -17,12 +17,11 @@ interface Props {
 }
 
 const Content: FC<Props> = ({ onNavigateToShop }) => {
-
   const alertRef = useRef<GeneralAlertRef>(null);
 
   const onSuccess = () => {
     alertRef?.current?.startAnimation();
-  }
+  };
 
   const { productsObject, isLoadingProducts, onBuyPack } = usePayments(onSuccess);
   const isProductObj = !isEmpty(productsObject) && !isLoadingProducts;
@@ -31,13 +30,9 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
     : 'N/A';
   const yearlySubsText = isProductObj ? `${productsObject.yearly_subscription.localizedPrice} / year` : 'N/A';
 
-
   return (
     <>
-      <GeneralAlert
-        text={NotificationMessages.THANK_YOU}
-        ref={alertRef}
-      />
+      <GeneralAlert text={NotificationMessages.THANK_YOU} ref={alertRef} />
       <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
           <View style={styles.header}>

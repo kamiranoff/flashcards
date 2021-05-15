@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useRef } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'ramda';
@@ -100,11 +100,6 @@ const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
-  },
   content: {
     backgroundColor: '#fff',
   },

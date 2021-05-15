@@ -17,7 +17,7 @@ interface Props {
   navigation: AlertScreenNavigationProp;
 }
 
-const CodeContentModal: FC<Props> = ({ navigation }) => {
+const CodeContentPopup: FC<Props> = ({ navigation }) => {
   const isConnected = useNetInfo();
   const [code, setCode] = useState('');
   const dispatch = useDispatch();
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { CodeContentModal };
+export { CodeContentPopup };

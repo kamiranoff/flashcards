@@ -21,7 +21,7 @@ const TopContent: FC<Props> = ({ total, badAnswersTotal, goodAnswersTotal }) => 
         {goodAnswersTotal === 1 ? 'correct answer' : 'correct answers'}
       </AppText>
     </View>
-    <View style={{ alignItems: 'center' }}>
+    <View style={styles.center}>
       <AppText size="hero" textStyle={styles.heroText}>
         {total}
       </AppText>
@@ -43,7 +43,7 @@ const TopContent: FC<Props> = ({ total, badAnswersTotal, goodAnswersTotal }) => 
 
 const styles = StyleSheet.create({
   row: {
-    marginVertical: isSmallDevice() ? 15 : getPlatformDimension(25, 30, 40),
+    marginVertical: isSmallDevice() ? 15 : getPlatformDimension(25, 30, 30),
     marginHorizontal: SPACING,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -57,14 +57,12 @@ const styles = StyleSheet.create({
     color: theme.colors.border,
     paddingTop: -20,
   },
+  center: {
+    alignItems: 'center',
+  },
   bodyText: {
     marginTop: -5,
     color: theme.colors.border,
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: isSmallDevice() ? 15 : getPlatformDimension(20, 20, 40),
   },
   iconImage: {
     width: 50,
