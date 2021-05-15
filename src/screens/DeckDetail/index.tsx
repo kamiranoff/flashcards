@@ -9,7 +9,7 @@ import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } fr
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, GeneralAlert, NoContentInfo, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
-import { getDeckByShareId, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
+import { getDeckByShareId, saveDeckToDB, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
 import ActionButtons from './components/ActionButtons';
@@ -17,6 +17,7 @@ import useOpacity from './useOpacity';
 import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
 import { useIsMount } from '../../utils/useIsMount';
+import { Menu } from './components/Menu';
 // import { socket } from '../../service/socket';
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
@@ -70,6 +71,14 @@ const DeckDetail: FC<Props> = ({
 
   const handleShuffleCards = () => dispatch(shuffleCards(id));
 
+  const handleShareDeck = async () => {
+    if (deckDetail.isOwner && !deckDetail.shareId) {
+      // SAVE DECK to DB
+      dispatch(saveDeckToDB(id));
+    }
+    navigate(Screens.ALERT, { modalTemplate: 'shareModal', deckId: id });
+  };
+
   const handlerRefreshSharedDeck = () => {
     if (deckDetail.shareId) {
       dispatch(getDeckByShareId(deckDetail.shareId, id));
@@ -77,7 +86,7 @@ const DeckDetail: FC<Props> = ({
   };
 
   return (
-    <Container>
+    <Container style={{ zIndex: 9}}>
       <GeneralAlert text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE} ref={alertRef} />
       <CloseButton onPress={goBack} />
       <View style={styles.addIcon}>
@@ -99,11 +108,7 @@ const DeckDetail: FC<Props> = ({
           <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
             <Animated.View style={{ opacity: opacityVal }}>
               {deckDetail.cards.length ? (
-                <ActionButtons
-                  navigate={navigateToPlayground}
-                  shuffle={handleShuffleCards}
-                  sort={handleSortCards}
-                />
+                <ActionButtons navigate={navigateToPlayground} />
               ) : (
                 <NoContentInfo text="card" style={styles.noContentInfo} iconName="prettyLady" />
               )}
@@ -120,11 +125,7 @@ const DeckDetail: FC<Props> = ({
       ) : (
         <View style={styles.androidList}>
           {deckDetail.cards.length ? (
-            <ActionButtons
-              navigate={navigateToPlayground}
-              shuffle={handleShuffleCards}
-              sort={handleSortCards}
-            />
+            <ActionButtons navigate={navigateToPlayground} />
           ) : (
             <NoContentInfo text="card" style={styles.noContentInfo} iconName="prettyLady" />
           )}
@@ -140,6 +141,15 @@ const DeckDetail: FC<Props> = ({
       {deckDetail.cards.length && deckDetail.shareId && !isLoading ? (
         <View style={styles.refresh}>
           <IconButton onPress={handlerRefreshSharedDeck} iconName="refresh" />
+        </View>
+      ) : null}
+      {deckDetail.cards.length ? (
+        <View style={styles.menu}>
+          <Menu
+            onShufflePress={handleShuffleCards}
+            onSortPress={handleSortCards}
+            onSharePress={handleShareDeck}
+          />
         </View>
       ) : null}
     </Container>
@@ -169,6 +179,7 @@ const styles = StyleSheet.create({
     paddingTop: SPACING,
     paddingHorizontal: 5,
     paddingBottom: SPACING + 10,
+    zIndex: 9
   },
   androidList: {
     flex: 1,
@@ -176,6 +187,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     paddingTop: SPACING,
     backgroundColor: 'white',
+  },
+  menu: {
+    position: 'absolute',
+    bottom: getPlatformDimension(10, 10, 20),
+    right: 5,
   },
   refresh: {
     position: 'absolute',
