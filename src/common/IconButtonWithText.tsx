@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
   img: {
     width: 20,
     height: 20,
-    zIndex: 9,
   },
   label: {
     width: 150,

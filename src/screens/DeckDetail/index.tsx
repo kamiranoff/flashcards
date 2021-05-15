@@ -86,7 +86,7 @@ const DeckDetail: FC<Props> = ({
   };
 
   return (
-    <Container style={{ zIndex: 9}}>
+    <Container>
       <GeneralAlert text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE} ref={alertRef} />
       <CloseButton onPress={goBack} />
       <View style={styles.addIcon}>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     paddingTop: SPACING,
     paddingHorizontal: 5,
     paddingBottom: SPACING + 10,
-    zIndex: 9
+    zIndex: 9,
   },
   androidList: {
     flex: 1,
@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: getPlatformDimension(10, 10, 20),
     right: 5,
+    zIndex: 99,
   },
   refresh: {
     position: 'absolute',
