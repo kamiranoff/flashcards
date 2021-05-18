@@ -3,7 +3,7 @@ import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navig
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { DrawerScreenNavigationProp, DrawerStackParamList, Screens } from './types';
+import { DrawerScreenNavigationProp, DrawerStackParamList, Screens, ShopDrawerStackParamList } from './types';
 import DrawerContent from '../screens/Drawer/DrawerContent';
 import { IconButton } from '../common';
 import GetFreebie from '../screens/Drawer/GetFreebie';
@@ -17,9 +17,11 @@ import UpgradeToPro from '../screens/Drawer/UpgradeToPro';
 import ImproveTheApp from '../screens/Drawer/ImproveTheApp';
 import Shop from '../screens/Drawer/Shop';
 import { RootStack } from './RootStack';
+import GetFreebieModal from '../screens/Modals/GetFreebieModal';
 
 const Drawer = createDrawerNavigator<DrawerStackParamList>();
 const Stack = createStackNavigator<DrawerStackParamList>();
+const ShopDrawerStack = createStackNavigator<ShopDrawerStackParamList>();
 
 const setOptions = (navigation: DrawerScreenNavigationProp) => ({
   headerTransparent: true,
@@ -40,6 +42,25 @@ export interface Props {
   navigation: DrawerScreenNavigationProp;
 }
 
+const shopFlowOptions = {
+  headerTransparent: true,
+  headerTitle: '',
+  gestureEnabled: false,
+  headerBackTitle: '',
+  headerLeft: () => null,
+};
+
+const ShopDrawerStackFlow = ({ navigation }: { navigation: DrawerScreenNavigationProp }) => (
+  <ShopDrawerStack.Navigator screenOptions={setOptions(navigation)}>
+    <ShopDrawerStack.Screen name={Screens.SHOP} component={Shop} options={setOptions(navigation)} />
+    <ShopDrawerStack.Screen
+      name={Screens.GET_FREEBIE_MODAL}
+      component={GetFreebieModal}
+      options={{ headerShown: false, gestureEnabled: false, headerLeft: () => null }}
+    />
+  </ShopDrawerStack.Navigator>
+);
+
 const DrawerScreensStack: FC<Props> = ({ navigation, style }) => {
   return (
     <Animated.View style={StyleSheet.flatten([styles.scene, style])}>
@@ -56,7 +77,7 @@ const DrawerScreensStack: FC<Props> = ({ navigation, style }) => {
           options={setOptions(navigation)}
         />
         <Stack.Screen name={Screens.CONTACT} component={Contact} options={setOptions(navigation)} />
-        <Stack.Screen name={Screens.SHOP} component={Shop} options={setOptions(navigation)} />
+        <Stack.Screen name={Screens.SHOP} component={ShopDrawerStackFlow} options={shopFlowOptions} />
       </Stack.Navigator>
     </Animated.View>
   );
