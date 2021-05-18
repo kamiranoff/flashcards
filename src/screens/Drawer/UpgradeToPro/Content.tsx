@@ -19,9 +19,7 @@ interface Props {
 const Content: FC<Props> = ({ onNavigateToShop }) => {
   const alertRef = useRef<GeneralAlertRef>(null);
 
-  const onSuccess = () => {
-    alertRef?.current?.startAnimation();
-  };
+  const onSuccess = () => alertRef?.current?.startAnimation();
 
   const { productsObject, isLoadingProducts, onBuyPack } = usePayments(onSuccess);
   const isProductObj = !isEmpty(productsObject) && !isLoadingProducts;
@@ -66,7 +64,7 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
           </View>
           <PriceButton
             isSecondaryText={false}
-            primaryText="Shop"
+            primaryText="More"
             onPress={onNavigateToShop}
             style={styles.shopButton}
           />

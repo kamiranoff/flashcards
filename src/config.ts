@@ -2,7 +2,7 @@ import { Options } from 'react-native-share';
 
 export const shareOptions: Options = {
   url: 'https://myflashcards.app',
-  message: 'Check out a new app called MyFlashCards.\nIt is a great tool to learn faster!',
+  message: 'Check out a new app called MyFlashCards.\nStudy smarter not harder :)',
   title: '',
   subject: 'Learn with MyFlashcards',
   saveToFiles: false,
@@ -10,7 +10,7 @@ export const shareOptions: Options = {
 
 export const shareOptionsWithCode = (code: string): Options => ({
   url: 'https://myflashcards.app',
-  message: `Install MyFlashCards App.\n Learn with me! \nUse this passcode: ${code} to get access to my deck`,
+  message: `Learn with me :) \nUse this code: ${code} to get access to my deck`,
   title: '',
   subject: 'Learn with MyFlashCards',
   saveToFiles: false,

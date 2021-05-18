@@ -54,11 +54,17 @@ export type DrawerStackParamList = {
   [Screens.CONTACT]: undefined;
   [Screens.IMPROVE_APP]: undefined;
   [Screens.SHOP]: undefined;
+  [Screens.GET_FREEBIE_MODAL]: undefined;
 };
 
 export type ShopStackParamList = {
   [Screens.UPGRADE_TO_PRO_MODAL]: undefined;
   [Screens.SHOP_MODAL]: undefined;
+  [Screens.GET_FREEBIE_MODAL]: undefined;
+};
+
+export type ShopDrawerStackParamList = {
+  [Screens.SHOP]: undefined;
   [Screens.GET_FREEBIE_MODAL]: undefined;
 };
 
