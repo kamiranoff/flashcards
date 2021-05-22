@@ -29,7 +29,7 @@ export interface CreateResponse {
       id: CardsTable['id'];
       question: CardsTable['question'];
       answer: CardsTable['question'];
-      frontend_id: CardsTable['frontend_id'];
+      frontendId: CardsTable['frontend_id'];
       isPublic: CardsTable['is_public'];
     }[];
     deckId: number;

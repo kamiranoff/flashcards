@@ -12,7 +12,7 @@ export const selectDeckItem = (id: string) => createSelector([selectDecks], (dec
 
 export const selectCard = (deckId: string, id: number | undefined) =>
   createSelector([selectDecks], (decks) =>
-    id ? decks[deckId].cards.find((card) => card.frontEndId === id) : undefined,
+    id ? decks[deckId].cards.find((card) => card.frontendId === id) : undefined,
   );
 
 export const selectBadAnswers = (deckId: string) =>

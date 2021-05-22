@@ -65,7 +65,7 @@ const DeckDetail: FC<Props> = ({
   const handleOnPlusPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
 
   const navigateToPlayground = () =>
-    navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].frontEndId });
+    navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].frontendId });
 
   const handleSortCards = () => dispatch(sortByRankCards(id));
 

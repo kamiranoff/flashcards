@@ -29,10 +29,10 @@ export type ModalTemplate = 'shareModal' | 'alertModal' | 'codeModal';
 
 export type RootStackParamList = {
   [Screens.HOME]: undefined;
-  [Screens.QUESTION_MODAL]: { title: Deck['title']; deckId: string; cardId?: Card['frontEndId'] };
-  [Screens.ANSWER_MODAL]: { title: Deck['title']; deckId: string; cardId: Card['frontEndId'] };
+  [Screens.QUESTION_MODAL]: { title: Deck['title']; deckId: string; cardId?: Card['frontendId'] };
+  [Screens.ANSWER_MODAL]: { title: Deck['title']; deckId: string; cardId: Card['frontendId'] };
   [Screens.DECK_DETAIL]: { id: string; color: string };
-  [Screens.PLAYGROUND]: { deckId: string; cardId: Card['frontEndId'] };
+  [Screens.PLAYGROUND]: { deckId: string; cardId: Card['frontendId'] };
   [Screens.ALERT]: { modalTemplate: ModalTemplate; deckId: string };
   [Screens.ADD_DECK]: undefined;
   [Screens.UPGRADE_TO_PRO_MODAL]: undefined;

@@ -61,12 +61,12 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
   const renderItem = ({ item }: { item: Card }) => {
     const handleDeleteCard = () => {
       NativeAlert('Are you sure you want to delete this card?', () =>
-        dispatch(deleteCard(deckId, item.frontEndId)),
+        dispatch(deleteCard(deckId, item.frontendId)),
       );
     };
-    const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.frontEndId });
+    const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.frontendId });
 
-    if (item.frontEndId.toString() === 'empty') {
+    if (item.frontendId.toString() === 'empty') {
       return <View style={styles.itemInvisible} />;
     }
 
@@ -86,7 +86,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
       contentContainerStyle={styles.contentContainerStyle}
       data={formatData(cards, numberColumns)}
       renderItem={renderItem}
-      keyExtractor={(item) => item.frontEndId.toString()}
+      keyExtractor={(item) => item.frontendId.toString()}
     />
   ) : (
     <Animated.FlatList
@@ -96,7 +96,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
       contentContainerStyle={styles.contentContainerStyle}
       data={formatData(cards, numberColumns)}
       renderItem={renderItem}
-      keyExtractor={(item) => item.frontEndId.toString()}
+      keyExtractor={(item) => item.frontendId.toString()}
       style={{ ...styles.flatListStyle, transform: [{ translateY: yValue }] }}
     />
   );
