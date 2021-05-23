@@ -23,17 +23,17 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
 
   const handleSave = async (question: Card['question']) => {
     const generateId = customAlphabet('1234567890', 5);
-    const frontEndId = cardId || parseInt(generateId());
+    const frontendId = cardId || parseInt(generateId());
     const isEdit = !!cardId;
 
-    dispatch(saveQuestion(deckId, frontEndId, question, isEdit));
+    dispatch(saveQuestion(deckId, frontendId, question, isEdit));
 
     if (deckDetail.shareId) {
       // update card in db because the deck has been shared
-      dispatch(saveNewCard(deckId, frontEndId, isEdit));
+      dispatch(saveNewCard(deckId, frontendId, isEdit));
     }
 
-    return navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: frontEndId });
+    return navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: frontendId });
   };
 
   return (

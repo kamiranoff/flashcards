@@ -37,8 +37,8 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   const [noMoreCards, setNoMoreCards] = useState(false);
   const deckDetail = useSelector(selectDeckItem(params.deckId));
   const { ratedAppAt } = useSelector((state: RootState) => state.user);
-  const card = R.find(R.propEq('frontEndId', params.cardId), deckDetail.cards);
-  const restOfCards = R.reject(R.propEq('frontEndId', params.cardId), deckDetail.cards);
+  const card = R.find(R.propEq('frontendId', params.cardId), deckDetail.cards);
+  const restOfCards = R.reject(R.propEq('frontendId', params.cardId), deckDetail.cards);
   const reOrderedCards = card ? [card, ...restOfCards] : deckDetail.cards; // First card is the one which has been clicked from deck detail
 
   useInterstitialAd(AD_ID);
@@ -59,12 +59,12 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
 
   const scoreGoodAnswer = (i: number) => {
     const currentCard = deckDetail.cards[i];
-    dispatch(scoreCard(params.deckId, currentCard.frontEndId, SCORES.GOOD));
+    dispatch(scoreCard(params.deckId, currentCard.frontendId, SCORES.GOOD));
   };
 
   const scoreBadAnswer = (i: number) => {
     const currentCard = deckDetail.cards[i];
-    dispatch(scoreCard(params.deckId, currentCard.frontEndId, SCORES.BAD));
+    dispatch(scoreCard(params.deckId, currentCard.frontendId, SCORES.BAD));
   };
 
   const handlePressRight = () => {

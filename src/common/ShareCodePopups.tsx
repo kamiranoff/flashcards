@@ -1,10 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { AlertScreenNavigationProp, AlertScreenRouteProp } from '../navigation/types';
+import { AlertScreenNavigationProp, AlertScreenRouteProp, Screens } from '../navigation/types';
 import { getPlatformDimension, WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
 import IconButton from './IconButton';
 import { ShareContentPopup } from '../components/Popups/ShareContentPopup';
 import { CodeContentPopup } from '../components/Popups/CodeContentPopup';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectDeckItem } from '../redux/seclectors';
+import { saveDeckToDB } from '../redux/decks/actions';
+import { RootState } from '../redux/store';
 
 export interface Props {
   navigation: AlertScreenNavigationProp;
@@ -13,6 +17,23 @@ export interface Props {
 
 const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
   const handleGoBack = () => navigation.pop();
+  const deckDetail = useSelector(selectDeckItem(params.deckId));
+  const { sub } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (params.modalTemplate === 'shareModal') {
+      if (!sub) {
+        navigation.navigate(Screens.LOGIN_OR_SIGNUP);
+        return;
+      }
+      if (deckDetail.isOwner && !deckDetail.shareId) {
+        dispatch(saveDeckToDB(params.deckId));
+        return;
+      }
+    }
+  }, [sub]);
+
   return (
     <View style={styles.container}>
       <View

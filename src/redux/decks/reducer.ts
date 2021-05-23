@@ -6,14 +6,15 @@ export interface Card {
   question: string;
   answer: string;
   id: number | null;
-  frontEndId: number;
+  frontendId: number;
   rank: number | null;
   isPublic: boolean;
+  owner: string | null;
 }
 
 export interface Deck {
   title: string;
-  owner: string;
+  author: string;
   shareId: string;
   isOwner: boolean;
   deckId: string | null;
@@ -40,7 +41,7 @@ export const initialState: DecksState = {
 };
 
 const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
-  if (newCard.frontEndId === card.frontEndId || newCard.id === card.id) {
+  if (newCard.frontendId === card.frontendId || newCard.id === card.id) {
     return { ...card, ...newCard };
   }
   return card;
@@ -48,15 +49,12 @@ const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
 
 export default function decks(state = initialState, action: DecksActions): DecksState {
   switch (action.type) {
-    case DecksActionTypes.getDeckByShareIdRequest: {
+    case DecksActionTypes.getDeckByShareIdRequest:
+    case DecksActionTypes.saveDeckToDB:
       return {
         ...state,
         isLoading: true,
-        decks: {
-          ...state.decks,
-        },
       };
-    }
     case DecksActionTypes.clearDecksError:
     case DecksActionTypes.saveSharedDeckFailure:
     case DecksActionTypes.saveDeckToDBFailure:
@@ -88,7 +86,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         decks: {
           [action.id]: {
             title: action.title,
-            owner: '',
+            author: '',
             shareId: '',
             deckId: null,
             isOwner: true,
@@ -147,10 +145,10 @@ export default function decks(state = initialState, action: DecksActions): Decks
     }
 
     case DecksActionTypes.saveQuestion: {
-      const { frontEndId, question, deckId, isEdit } = action;
+      const { frontendId, question, deckId, isEdit } = action;
       const selectedDeckCards = state.decks[deckId].cards;
       if (isEdit) {
-        const updatedCards: Card[] = R.map(updateCards({ frontEndId, question }), selectedDeckCards);
+        const updatedCards: Card[] = R.map(updateCards({ frontendId, question }), selectedDeckCards);
         return {
           ...state,
           error: false,
@@ -162,9 +160,10 @@ export default function decks(state = initialState, action: DecksActions): Decks
         };
       }
       const newCard = {
-        frontEndId,
+        frontendId,
         question,
         answer: '',
+        owner: null,
         rank: null,
         isPublic: false,
         id: null, //db id
@@ -184,7 +183,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
     case DecksActionTypes.saveAnswer: {
       const { cardId, deckId, answer } = action;
       const selectedDeckCards = state.decks[deckId].cards;
-      const updatedCards: Card[] = R.map(updateCards({ frontEndId: cardId, answer }), selectedDeckCards);
+      const updatedCards: Card[] = R.map(updateCards({ frontendId: cardId, answer }), selectedDeckCards);
       return {
         ...state,
         error: false,
@@ -201,7 +200,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
     case DecksActionTypes.deleteCard: {
       const { cardId, deckId } = action;
       const selectedDeckCards = state.decks[deckId].cards;
-      const updatedCards = R.reject(R.propEq('frontEndId', cardId), selectedDeckCards);
+      const updatedCards = R.reject(R.propEq('frontendId', cardId), selectedDeckCards);
       return {
         ...state,
         decks: {
@@ -216,7 +215,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
     case DecksActionTypes.scoreCard: {
       const { cardId, deckId, score } = action;
       const selectedDeckCards = state.decks[deckId].cards;
-      const card = R.find(R.propEq('frontEndId', cardId), selectedDeckCards);
+      const card = R.find(R.propEq('frontendId', cardId), selectedDeckCards);
 
       const rankScore = R.cond([
         [R.propEq('score', SCORES.BAD), R.always(0)],
@@ -224,7 +223,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       ])({ score, rank: card!.rank });
 
       const updatedCards: Card[] = R.map(
-        updateCards({ frontEndId: cardId, rank: rankScore }),
+        updateCards({ frontendId: cardId, rank: rankScore }),
         selectedDeckCards,
       );
       return {

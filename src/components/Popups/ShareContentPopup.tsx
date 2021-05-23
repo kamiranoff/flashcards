@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import Share from 'react-native-share';
 import * as Analytics from 'appcenter-analytics';
-import { selectDeckItem } from '../../redux/seclectors';
+import { selectDeckItem, selectIsLoading } from '../../redux/seclectors';
 import { analytics, theme } from '../../utils';
 import AppText from '../../common/AppText';
 import Icon from '../../common/Icon';
@@ -12,6 +12,7 @@ import { shareOptionsWithCode } from '../../config';
 
 const ShareContentPopup = ({ deckId, handleGoBack }: { deckId: string; handleGoBack: () => void }) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
+  const isLoading = useSelector(selectIsLoading);
 
   const handleSharePress = () => {
     Analytics.trackEvent(analytics.shareDeckByUser);
@@ -19,6 +20,10 @@ const ShareContentPopup = ({ deckId, handleGoBack }: { deckId: string; handleGoB
       .then(handleGoBack)
       .catch(() => null);
   };
+
+  if (isLoading) {
+    return <ActivityIndicator animating={isLoading} size="large" />;
+  }
 
   return (
     <View style={styles.wrapper}>

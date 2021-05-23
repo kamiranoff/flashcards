@@ -5,10 +5,10 @@ import { RootState } from '../../store';
 import { saveOrUpdateCardToDBFailure, updateCardById } from '../actions';
 import { Card } from '../reducer';
 
-function* saveOrUpdateCard({ deckId, frontEndId, isEdit }: SaveNewCard) {
+function* saveOrUpdateCard({ deckId, frontendId, isEdit }: SaveNewCard) {
   const { decks } = yield select((state: RootState) => state.decks);
   const selectedDeck = deckId ? decks[deckId] : null;
-  const card = selectedDeck.cards.find((card: Card) => card.frontEndId === frontEndId);
+  const card = selectedDeck.cards.find((card: Card) => card.frontendId === frontendId);
   const data = {
     ...card,
     deckId: selectedDeck.deckId,
