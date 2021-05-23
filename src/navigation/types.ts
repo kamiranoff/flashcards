@@ -23,19 +23,21 @@ export enum Screens {
   UPGRADE_TO_PRO_MODAL = 'UpgradeToProModal',
   SHOP_MODAL = 'ShopModal',
   GET_FREEBIE_MODAL = 'GetFreebieModal',
+  LOGIN_OR_SIGNUP = 'LoginOrSignup',
 }
 
 export type ModalTemplate = 'shareModal' | 'alertModal' | 'codeModal';
 
 export type RootStackParamList = {
   [Screens.HOME]: undefined;
-  [Screens.QUESTION_MODAL]: { title: Deck['title']; deckId: string; cardId?: Card['frontEndId'] };
-  [Screens.ANSWER_MODAL]: { title: Deck['title']; deckId: string; cardId: Card['frontEndId'] };
+  [Screens.QUESTION_MODAL]: { title: Deck['title']; deckId: string; cardId?: Card['frontendId'] };
+  [Screens.ANSWER_MODAL]: { title: Deck['title']; deckId: string; cardId: Card['frontendId'] };
   [Screens.DECK_DETAIL]: { id: string; color: string };
-  [Screens.PLAYGROUND]: { deckId: string; cardId: Card['frontEndId'] };
+  [Screens.PLAYGROUND]: { deckId: string; cardId: Card['frontendId'] };
   [Screens.ALERT]: { modalTemplate: ModalTemplate; deckId: string };
   [Screens.ADD_DECK]: undefined;
   [Screens.UPGRADE_TO_PRO_MODAL]: undefined;
+  [Screens.LOGIN_OR_SIGNUP]: undefined;
 };
 
 export type HomeStackParams = {
@@ -68,6 +70,10 @@ export type ShopDrawerStackParamList = {
   [Screens.GET_FREEBIE_MODAL]: undefined;
 };
 
+export type AuthStackParamList = {
+  [Screens.LOGIN_OR_SIGNUP]: undefined;
+};
+
 export type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, Screens.DRAWER>;
 export type GetFreebieScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.UPGRADE>;
 export type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;
@@ -83,3 +89,7 @@ export type AddQuestionScreenRouteProp = RouteProp<RootStackParamList, Screens.Q
 export type AddQuestionScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.QUESTION_MODAL>;
 export type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DECK_DETAIL>;
 export type AddDeckScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ADD_DECK>;
+export type LoginOrSignupStackNavigationProp = StackNavigationProp<
+  AuthStackParamList,
+  Screens.LOGIN_OR_SIGNUP
+>;

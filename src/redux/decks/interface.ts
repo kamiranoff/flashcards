@@ -73,7 +73,7 @@ export interface DeleteDeck {
 export interface SaveQuestion {
   type: DecksActionTypes.saveQuestion;
   deckId: string;
-  frontEndId: number;
+  frontendId: number;
   question: string;
   isEdit: boolean;
 }
@@ -88,7 +88,7 @@ export interface SaveAnswer {
 export interface SaveNewCard {
   type: DecksActionTypes.saveNewCard;
   deckId: string;
-  frontEndId: number;
+  frontendId: number;
   isEdit: boolean;
 }
 
@@ -157,4 +157,5 @@ export type DecksActions =
   | GetDeckByShareIdRequest
   | SaveDeckToDBFailure
   | UpdateDeck
-  | UpdateCardById;
+  | UpdateCardById
+  | SaveDeckToDB;

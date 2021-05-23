@@ -62,13 +62,13 @@ export const deleteDeck = (id: string): DeleteDeck => ({
 
 export const saveQuestion = (
   deckId: string,
-  frontEndId: number,
+  frontendId: number,
   question: string,
   isEdit: boolean,
 ): SaveQuestion => ({
   type: DecksActionTypes.saveQuestion,
   deckId,
-  frontEndId,
+  frontendId,
   question,
   isEdit,
 });
@@ -114,10 +114,10 @@ export const addFreeDeck = (quantity: number) => ({
   quantity,
 });
 
-export const saveNewCard = (deckId: string, frontEndId: number, isEdit: boolean): SaveNewCard => ({
+export const saveNewCard = (deckId: string, frontendId: number, isEdit: boolean): SaveNewCard => ({
   type: DecksActionTypes.saveNewCard,
   deckId,
-  frontEndId,
+  frontendId,
   isEdit,
 });
 

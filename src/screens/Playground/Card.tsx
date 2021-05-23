@@ -51,8 +51,8 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
 
   const handleEdit = () =>
     v <= 90
-      ? navigation.navigate(Screens.QUESTION_MODAL, { title, deckId, cardId: card.frontEndId })
-      : navigation.navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: card.frontEndId });
+      ? navigation.navigate(Screens.QUESTION_MODAL, { title, deckId, cardId: card.frontendId })
+      : navigation.navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: card.frontendId });
 
   return (
     <>

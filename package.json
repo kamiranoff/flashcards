@@ -11,6 +11,7 @@
     "copy-keys": "sh appcenter-key.sh && sh firebase-keys.sh && sh sentry-keys.sh"
   },
   "dependencies": {
+    "@invertase/react-native-apple-authentication": "^2.1.2",
     "@react-native-async-storage/async-storage": "^1.14.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^6.0.0",
@@ -32,6 +33,7 @@
     "ramda": "^0.27.1",
     "react": "16.13.1",
     "react-native": "0.63.3",
+    "react-native-auth0": "^2.8.3",
     "react-native-config": "^1.4.2",
     "react-native-deck-swiper": "^2.0.5",
     "react-native-gesture-handler": "1.8.0",
@@ -43,6 +45,7 @@
     "react-native-reanimated": "^1.13.2",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^2.15.0",
+    "react-native-sensitive-info": "^6.0.0-alpha.9",
     "react-native-share": "^5.1.1",
     "react-native-shared-element": "^0.7.0",
     "react-native-webview": "^11.0.2",
@@ -61,6 +64,7 @@
     "@types/jest": "^25.2.3",
     "@types/ramda": "^0.27.32",
     "@types/react-native": "^0.63.2",
+    "@types/react-native-auth0": "^2.5.6",
     "@types/react-native-htmlview": "^0.12.2",
     "@types/react-native-share": "^3.3.1",
     "@types/react-redux": "^7.1.11",

@@ -9,7 +9,7 @@ import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } fr
 import IconButton from '../../common/IconButton';
 import { CloseButton, Container, GeneralAlert, NoContentInfo, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
-import { getDeckByShareId, saveDeckToDB, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
+import { getDeckByShareId, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
 import ActionButtons from './components/ActionButtons';
@@ -18,7 +18,9 @@ import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
 import { useIsMount } from '../../utils/useIsMount';
 import { Menu } from './components/Menu';
-// import { socket } from '../../service/socket';
+import { Cache } from '../../utils/Cache';
+import { Logout } from '../../modules/Auth';
+import { deleteUser } from '../../redux/user/actions';
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
@@ -44,14 +46,6 @@ const DeckDetail: FC<Props> = ({
 
   const alertRef = useRef<GeneralAlertRef>(null);
 
-  // useEffect(() => {
-  //   const channel = socket.subscribe('my-channel');
-  //   channel.bind('my-event', function (data) {
-  //     console.log('here', data);
-  //     console.log(JSON.stringify(data));
-  //   });
-  // }, []);
-
   useEffect(() => {
     if (isLoading || isMount) {
       return;
@@ -65,18 +59,14 @@ const DeckDetail: FC<Props> = ({
   const handleOnPlusPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
 
   const navigateToPlayground = () =>
-    navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].frontEndId });
+    navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].frontendId });
 
   const handleSortCards = () => dispatch(sortByRankCards(id));
 
   const handleShuffleCards = () => dispatch(shuffleCards(id));
 
   const handleShareDeck = async () => {
-    if (deckDetail.isOwner && !deckDetail.shareId) {
-      // SAVE DECK to DB
-      dispatch(saveDeckToDB(id));
-    }
-    navigate(Screens.ALERT, { modalTemplate: 'shareModal', deckId: id });
+    return navigate(Screens.ALERT, { modalTemplate: 'shareModal', deckId: id });
   };
 
   const handlerRefreshSharedDeck = () => {
@@ -84,7 +74,10 @@ const DeckDetail: FC<Props> = ({
       dispatch(getDeckByShareId(deckDetail.shareId, id));
     }
   };
-
+  const handleLogoutSuccess = async () => {
+    dispatch(deleteUser());
+    await Cache.deleteTokens();
+  };
   return (
     <Container>
       <GeneralAlert text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE} ref={alertRef} />
@@ -143,6 +136,7 @@ const DeckDetail: FC<Props> = ({
           <IconButton onPress={handlerRefreshSharedDeck} iconName="refresh" />
         </View>
       ) : null}
+      <Logout onSuccess={handleLogoutSuccess} onError={() => null} />
       {deckDetail.cards.length ? (
         <View style={styles.menu}>
           <Menu

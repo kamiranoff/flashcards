@@ -14,7 +14,7 @@ const Carousel = ({ deckDetail, deckId, cardId }: { deckDetail: Deck; deckId: st
   // const card = R.find(R.propEq('id', cardId), deckDetail.cards);
   // const restOfCards = R.reject(R.propEq('id', cardId), deckDetail.cards);
   // const reOrderedCards = card ? [card, ...restOfCards] : deckDetail.cards;
-  const index = deckDetail.cards.findIndex((c) => c.frontEndId.toString() === cardId);
+  const index = deckDetail.cards.findIndex((c) => c.frontendId.toString() === cardId);
   const data: (Card | { id: string })[] = [{ id: 'empty-left' }, ...deckDetail.cards, { id: 'empty-right' }];
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
@@ -32,7 +32,7 @@ const Carousel = ({ deckDetail, deckId, cardId }: { deckDetail: Deck; deckId: st
         showsHorizontalScrollIndicator={false}
         data={data as any}
         getItemLayout={getItemLayout}
-        keyExtractor={(item) => item.frontEndId.toString()}
+        keyExtractor={(item) => item.frontendId.toString()}
         horizontal
         bounces={false}
         decelerationRate={isIOS ? 0 : 0.98}
@@ -45,7 +45,7 @@ const Carousel = ({ deckDetail, deckId, cardId }: { deckDetail: Deck; deckId: st
         })}
         scrollEventThrottle={16}
         renderItem={({ item, index }: { item: Card; index: number }) => {
-          if (item.frontEndId.toString() === 'empty-left' || item.frontEndId.toString() === 'empty-right') {
+          if (item.frontendId.toString() === 'empty-left' || item.frontendId.toString() === 'empty-right') {
             return <View style={styles.emptyItem} />;
           }
           const inputRange = [(index - 2) * ITEM_SIZE, (index - 1) * ITEM_SIZE, index * ITEM_SIZE];

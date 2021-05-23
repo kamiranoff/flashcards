@@ -9,6 +9,7 @@ import AddDeck from '../screens/Home/AddDeck';
 import { opacityTransition, verticalTopToBottomTransition } from './utils';
 import ShareCodePopups from '../common/ShareCodePopups';
 import ShopStack from './ShopStack';
+import { LoginOrSignup } from '../screens/LoginOrSignup';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -21,5 +22,6 @@ export const RootStack = () => (
     <Stack.Screen name={Screens.ADD_DECK} component={AddDeck} options={verticalTopToBottomTransition} />
     <Stack.Screen name={Screens.ALERT} component={ShareCodePopups} options={opacityTransition} />
     <Stack.Screen name={Screens.UPGRADE_TO_PRO_MODAL} component={ShopStack} />
+    <Stack.Screen name={Screens.LOGIN_OR_SIGNUP} component={LoginOrSignup} />
   </Stack.Navigator>
 );

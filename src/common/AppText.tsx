@@ -53,7 +53,7 @@ const AppText: FC<Props> = ({
   ...rest
 }) => {
   const customStyle = getStyles(size);
-  const style = [
+  const style: StyleProp<TextStyle> = [
     { textAlign: centered ? 'center' : ('left' as TTextAlign) },
     { textDecorationLine: underlined ? 'underline' : 'none' },
     customStyle,
