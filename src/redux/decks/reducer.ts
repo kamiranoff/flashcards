@@ -14,7 +14,7 @@ export interface Card {
 
 export interface Deck {
   title: string;
-  author: string;
+  owner: string;
   shareId: string;
   isOwner: boolean;
   deckId: string | null;
@@ -86,7 +86,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         decks: {
           [action.id]: {
             title: action.title,
-            author: '',
+            owner: '',
             shareId: '',
             deckId: null,
             isOwner: true,
