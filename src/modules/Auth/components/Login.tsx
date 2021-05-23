@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { login, LoginProvider } from '../services/Auth0';
 import { Credentials } from 'react-native-auth0';
+import { login, LoginProvider } from '../services/Auth0';
 import { SocialButton } from './SocialButton';
 
 interface Props {

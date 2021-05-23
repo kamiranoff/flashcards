@@ -16,7 +16,7 @@ export interface Props {
 }
 
 const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
-  const handleGoBack = () => navigation.pop();
+  const handleGoBack = () => navigation.goBack();
   const deckDetail = useSelector(selectDeckItem(params.deckId));
   const { sub } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
         navigation.navigate(Screens.LOGIN_OR_SIGNUP);
         return;
       }
-      if (deckDetail.isOwner && !deckDetail.shareId) {
+      if (sub && deckDetail.isOwner && !deckDetail.shareId) {
         dispatch(saveDeckToDB(params.deckId));
         return;
       }
