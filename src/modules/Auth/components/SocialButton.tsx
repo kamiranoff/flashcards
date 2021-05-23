@@ -1,12 +1,6 @@
-import { AppleButton } from '@invertase/react-native-apple-authentication';
+// import { AppleButton } from '@invertase/react-native-apple-authentication';
 import React, { FC } from 'react';
-import {
-  GestureResponderEvent,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { GestureResponderEvent, Image, Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { LoginProvider } from '../services/Auth0';
 
 interface Props {
@@ -17,33 +11,31 @@ interface Props {
 const getLogo = (provider: LoginProvider) => {
   switch (provider) {
     case LoginProvider.FACEBOOK:
-      return require('./../assets/facebook.png');
+      return require('./../assets/facebook-logo.png');
     case LoginProvider.GOOGLE:
-      return require('./../assets/google-logo.png');
+      return require('./../assets/google-plus-logo.png');
+    case LoginProvider.APPLE:
+      return require('./../assets/apple-logo.png');
     default:
       return null;
   }
 };
 
 const SocialButton: FC<Props> = ({ onPress, provider }) => {
-  if (provider === LoginProvider.APPLE) {
-    return (
-      <AppleButton
-        onPress={onPress}
-        buttonStyle={AppleButton.Style.BLACK}
-        buttonType={AppleButton.Type.SIGN_IN}
-        style={styles.appleButton}
-      />
-    );
-  }
+  // if (provider === LoginProvider.APPLE) {
+  //   return (
+  //     <AppleButton
+  //       onPress={onPress}
+  //       buttonStyle={AppleButton.Style.BLACK}
+  //       buttonType={AppleButton.Type.SIGN_IN}
+  //       style={styles.appleButton}
+  //     />
+  //   );
+  // }
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={getLogo(provider)}
-          resizeMode="contain"
-        />
+        <Image style={styles.logo} source={getLogo(provider)} resizeMode="contain" />
       </View>
     </TouchableOpacity>
   );
@@ -56,12 +48,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.3,
-    shadowRadius: 1,
-    shadowColor: '#333',
-    elevation: 3,
+    borderRadius: 8,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0,0,0, 0.4)',
+        shadowOffset: { height: 1, width: 1 },
+        shadowOpacity: 1,
+        shadowRadius: 1,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   logo: {
     position: 'absolute',
@@ -82,12 +80,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     height: 50,
     justifyContent: 'center',
-    borderRadius: 6,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1,
-    shadowColor: '#333',
-    elevation: 3,
+    borderRadius: 8,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0,0,0, 0.4)',
+        shadowOffset: { height: 1, width: 1 },
+        shadowOpacity: 1,
+        shadowRadius: 1,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
 });
 

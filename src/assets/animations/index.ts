@@ -8,6 +8,7 @@ const animations = {
   success: require('./success.json'),
   thumbsUp: require('./thumbUp.json'),
   thumbsDown: require('./thumbsDown.json'),
+  security: require('./security.json'),
 };
 
 export default animations;
