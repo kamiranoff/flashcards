@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { Animated, StyleSheet, FlatList, View, RefreshControl } from 'react-native';
+import { Animated, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/types';
 import { Card } from '../../../redux/decks/reducer';
@@ -66,7 +66,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
     };
     const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.frontendId });
 
-    if (item.frontendId.toString() === 'empty') {
+    if (item.frontendId && item.frontendId.toString() === 'empty') {
       return <View style={styles.itemInvisible} />;
     }
 
@@ -78,6 +78,13 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
     );
   };
 
+  const getItemKey = (item: Card) => {
+    if (item.frontendId) {
+      return item.frontendId.toString();
+    }
+    return Math.random().toString();
+  };
+
   return isIOS ? (
     <FlatList
       refreshControl={renderRefreshControl()}
@@ -86,7 +93,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
       contentContainerStyle={styles.contentContainerStyle}
       data={formatData(cards, numberColumns)}
       renderItem={renderItem}
-      keyExtractor={(item) => item.frontendId.toString()}
+      keyExtractor={getItemKey}
     />
   ) : (
     <Animated.FlatList
@@ -96,7 +103,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
       contentContainerStyle={styles.contentContainerStyle}
       data={formatData(cards, numberColumns)}
       renderItem={renderItem}
-      keyExtractor={(item) => item.frontendId.toString()}
+      keyExtractor={getItemKey}
       style={{ ...styles.flatListStyle, transform: [{ translateY: yValue }] }}
     />
   );
