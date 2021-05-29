@@ -2,20 +2,30 @@ import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppText } from '../../../common';
 
-const Title: FC = () => (
+type Props = {
+  primaryText: string;
+  secondaryText: string;
+};
+
+const Title: FC<Props> = ({ primaryText, secondaryText}) => (
   <View style={styles.container}>
-    <AppText size="header" centered>
-      Login to save your flashcards.
+    <AppText size="hero" centered textStyle={styles.color}>
+      {primaryText}
     </AppText>
-    <AppText size="header" centered>
-      Share freely.
-    </AppText>
+    {secondaryText ? (
+      <AppText size="h2" centered>
+        {secondaryText}
+      </AppText>
+    ) : null}
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
+  },
+  color: {
+    color: '#000',
   },
 });
 

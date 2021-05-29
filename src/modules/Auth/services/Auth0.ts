@@ -34,11 +34,29 @@ export const login = (provider: LoginProvider, onSuccess: OnLoggedIn, onError: O
     .catch(onError);
 };
 
+export const sendSMS = (phoneNumber: string, onSuccess: OnLoggedIn, onError: OnError) =>
+  auth0?.auth
+    .passwordlessWithSMS({
+      phoneNumber,
+    })
+    .then(onSuccess)
+    .catch(onError);
+
+export const verifyCode = (phoneNumber: string, code: string, onSuccess: OnLoggedIn, onError: OnError) =>
+  auth0?.auth
+    .loginWithSMS({
+      phoneNumber,
+      code,
+      audience,
+      scope: 'offline_access profile phone openid',
+    })
+    .then(onSuccess)
+    .catch(onError);
+
 export const logout = (onSuccess: OnLoggedOut, onError: OnError) =>
   auth0?.webAuth.clearSession().then(onSuccess).catch(onError);
 
-export const refreshAccessToken = (refreshToken: string) => auth0?.auth
-  .refreshToken({ refreshToken });
+export const refreshAccessToken = (refreshToken: string) => auth0?.auth.refreshToken({ refreshToken });
 
 export const getUserInfo = (
   token: string,

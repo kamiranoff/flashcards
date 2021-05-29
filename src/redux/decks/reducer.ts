@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 import { DecksActions, DecksActionTypes, SCORES } from './interface';
-import { shuffleArray } from '../../lib';
+import { shuffleArray } from '../../utils';
 
 export interface Card {
   question: string;

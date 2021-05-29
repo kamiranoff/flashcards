@@ -2,6 +2,8 @@ import { createSelector } from 'reselect';
 import * as R from 'ramda';
 import { RootState } from './store';
 
+export const selectUserState = (state: RootState) => state.user;
+export const selectUser = createSelector([selectUserState], (user) => user);
 export const selectAllDecks = (state: RootState) => state.decks.decks;
 
 export const selectDecksState = (state: RootState) => state.decks;
