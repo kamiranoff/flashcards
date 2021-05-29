@@ -12,9 +12,7 @@ interface Props {
 const Login: FC<Props> = ({ provider, onSuccess, onError }) => {
   const handleLogin = (p: LoginProvider) => login(p, onSuccess, onError);
 
-  return (
-    <SocialButton onPress={() => handleLogin(provider)} provider={provider} />
-  );
+  return <SocialButton onPress={() => handleLogin(provider)} provider={provider} />;
 };
 
 export { Login };

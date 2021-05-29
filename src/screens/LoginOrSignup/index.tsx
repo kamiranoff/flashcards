@@ -1,50 +1,51 @@
+import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useDispatch } from 'react-redux';
 import LottieView from 'lottie-react-native';
-import React, { FC, useState } from 'react';
-import { CloseButton, Container } from '../../common';
-import { Auth0Credentials, Auth0UserInfo, getUserInfo } from '../../modules/Auth';
+import { AppText, CloseButton, Container, PrimaryButton } from '../../common';
 import { LoginButtons } from './components/LoginButtons';
-import { saveUser, saveUserToDB } from '../../redux/user/actions';
-import { Cache } from '../../utils/Cache';
 import { Title } from './components/Title';
-import { LoginOrSignupStackNavigationProp } from '../../navigation/types';
+import { LoginOrSignupStackNavigationProp, Screens } from '../../navigation/types';
 import animations from '../../assets/animations';
+import { useUserCredentials } from './hooks/useUserCredentials';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/seclectors';
 
 interface Props {
   navigation: LoginOrSignupStackNavigationProp;
 }
 
 const LoginOrSignup: FC<Props> = ({ navigation }) => {
-  const [user, setUser] = useState<Auth0UserInfo | null>(null);
-  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const { handleLoginSuccess, handleError } = useUserCredentials(navigation);
 
-  const handleLoginSuccess = async (credentials: Auth0Credentials) => {
-    if (credentials) {
-      await Cache.setAccessToken(credentials.accessToken);
-      await getUserInfo(credentials.accessToken, handleUserInfoSuccess, handleError);
-    }
+  const navigateToLoginViaSms = () => {
+    navigation.navigate(Screens.LOGIN_VIA_SMS);
   };
-
-  const handleUserInfoSuccess = async (u: Auth0UserInfo) => {
-    dispatch(saveUser(u.name, u.givenName, u.picture, u.sub));
-    dispatch(saveUserToDB());
-    setUser(u);
-    return navigation.goBack();
-  };
-
-  // TODO: handle errors
-  const handleError = (error: Error) => console.log('error', error);
 
   return (
     <Container style={styles.container}>
       <CloseButton onPress={() => navigation.goBack()} />
-      <Title />
+      <Title primaryText="Let's sign you in." secondaryText="Save your flashcards. Share freely." />
       <View style={styles.animationContainer}>
         <LottieView autoPlay loop speed={1.5} source={animations.security} />
       </View>
       <View style={styles.subContainer}>
-        <LoginButtons user={user} onSuccess={handleLoginSuccess} onError={handleError} />
+        <PrimaryButton
+          hasShadow={false}
+          onPress={navigateToLoginViaSms}
+          buttonText="Login via SMS"
+          buttonStyle={styles.buttonStyle}
+          buttonTextStyle={styles.buttonText}
+        />
+        <AppText size="h2" centered>
+          or
+        </AppText>
+        <LoginButtons onSuccess={handleLoginSuccess} onError={handleError} />
+        {user.loginMethod ? (
+          <AppText size="body" centered>
+            You've signed in with {user.loginMethod} previously.
+          </AppText>
+        ) : null}
       </View>
     </Container>
   );
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFF',
     justifyContent: 'center',
+    paddingHorizontal: 8,
   },
   subContainer: {
     alignSelf: 'center',
@@ -63,8 +65,19 @@ const styles = StyleSheet.create({
   },
   animationContainer: {
     marginTop: 30,
-    flex: 0.6,
+    flex: 0.7,
     alignItems: 'center',
+  },
+  buttonStyle: {
+    width: 180,
+    alignSelf: 'center',
+    marginBottom: 10,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  buttonText: {
+    color: '#000',
   },
 });
 

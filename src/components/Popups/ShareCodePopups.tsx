@@ -1,14 +1,14 @@
 import React, { FC, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { AlertScreenNavigationProp, AlertScreenRouteProp, Screens } from '../navigation/types';
-import { getPlatformDimension, WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
-import IconButton from './IconButton';
-import { ShareContentPopup } from '../components/Popups/ShareContentPopup';
-import { CodeContentPopup } from '../components/Popups/CodeContentPopup';
+import { AlertScreenNavigationProp, AlertScreenRouteProp, Screens } from '../../navigation/types';
+import { getPlatformDimension, WINDOW_HEIGHT, WINDOW_WIDTH } from '../../utils/device';
+import IconButton from '../../common/IconButton';
+import { ShareContentPopup } from './ShareContentPopup';
+import { CodeContentPopup } from './CodeContentPopup';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectDeckItem } from '../redux/seclectors';
-import { saveDeckToDB } from '../redux/decks/actions';
-import { RootState } from '../redux/store';
+import { selectDeckItem } from '../../redux/seclectors';
+import { saveDeckToDB } from '../../redux/decks/actions';
+import { RootState } from '../../redux/store';
 
 export interface Props {
   navigation: AlertScreenNavigationProp;

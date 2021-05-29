@@ -24,6 +24,7 @@ export enum Screens {
   SHOP_MODAL = 'ShopModal',
   GET_FREEBIE_MODAL = 'GetFreebieModal',
   LOGIN_OR_SIGNUP = 'LoginOrSignup',
+  LOGIN_VIA_SMS = 'LoginViaSms',
 }
 
 export type ModalTemplate = 'shareModal' | 'alertModal' | 'codeModal';
@@ -38,6 +39,7 @@ export type RootStackParamList = {
   [Screens.ADD_DECK]: undefined;
   [Screens.UPGRADE_TO_PRO_MODAL]: undefined;
   [Screens.LOGIN_OR_SIGNUP]: undefined;
+  [Screens.LOGIN_VIA_SMS]: undefined;
 };
 
 export type HomeStackParams = {
@@ -72,6 +74,7 @@ export type ShopDrawerStackParamList = {
 
 export type AuthStackParamList = {
   [Screens.LOGIN_OR_SIGNUP]: undefined;
+  [Screens.LOGIN_VIA_SMS]: undefined;
 };
 
 export type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, Screens.DRAWER>;
@@ -91,5 +94,7 @@ export type DeckDetailScreenRouteProp = RouteProp<RootStackParamList, Screens.DE
 export type AddDeckScreenNavigationProp = StackNavigationProp<RootStackParamList, Screens.ADD_DECK>;
 export type LoginOrSignupStackNavigationProp = StackNavigationProp<
   AuthStackParamList,
-  Screens.LOGIN_OR_SIGNUP
+  Screens.LOGIN_OR_SIGNUP | Screens.LOGIN_VIA_SMS
 >;
+
+export type LoginViaSmsStackNavigationProp = StackNavigationProp<AuthStackParamList, Screens.LOGIN_VIA_SMS>;

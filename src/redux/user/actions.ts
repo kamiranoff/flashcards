@@ -6,10 +6,10 @@ export const sentInviteToFriends = () => ({ type: UserActionsTypes.SENT_INVITE }
 
 export const saveUser = (sub: string, name: string, givenName: string, picture: string): SaveUser => ({
   type: UserActionsTypes.SAVE_USER,
+  sub,
   name,
   givenName,
   picture,
-  sub,
 });
 
 export const saveUserToDB = () => ({
@@ -18,4 +18,16 @@ export const saveUserToDB = () => ({
 
 export const deleteUser = (): DeleteUser => ({
   type: UserActionsTypes.DELETE_USER,
+});
+
+export const saveUserAuth0Error = () => ({
+  type: UserActionsTypes.SAVE_USER_AUTH0_ERROR,
+});
+
+export const clearUserError = () => ({
+  type: UserActionsTypes.CLEAR_USER_ERROR,
+});
+
+export const saveUserDBError = () => ({
+  type: UserActionsTypes.SAVE_USER_DB_ERROR,
 });

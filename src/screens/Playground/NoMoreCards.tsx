@@ -7,7 +7,7 @@ import { AppText } from '../../common';
 import { selectBadAnswers, selectGoodAnswers } from '../../redux/seclectors';
 import assets from '../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';
-import { getUserScore } from '../../lib';
+import { getUserScore } from '../../utils';
 
 interface Props {
   deckId: string;

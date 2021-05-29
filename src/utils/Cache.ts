@@ -39,9 +39,11 @@ class Cache {
     }
   };
 
-  static setRefreshToken = async (token: string) => {
+  static setRefreshToken = async (token: string | undefined) => {
     try {
-      await Cache.set(CacheConstants.REFRESH_TOKEN, token);
+      if (token) {
+        await Cache.set(CacheConstants.REFRESH_TOKEN, token);
+      }
     } catch (e) {
       console.warn('Cannot set access token', e);
     }
