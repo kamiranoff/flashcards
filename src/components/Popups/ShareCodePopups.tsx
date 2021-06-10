@@ -1,14 +1,16 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { AlertScreenNavigationProp, AlertScreenRouteProp } from '../navigation/types';
-import { getPlatformDimension, WINDOW_HEIGHT, WINDOW_WIDTH } from '../utils/device';
-import IconButton from './IconButton';
-import { ShareContentPopup } from '../components/Popups/ShareContentPopup';
-import { CodeContentPopup } from '../components/Popups/CodeContentPopup';
-import { GeneralAlert } from './index';
-import { GeneralAlertRef, NotificationMessages } from './GeneralAlert';
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { AlertScreenNavigationProp, AlertScreenRouteProp, Screens } from '../../navigation/types';
+import { getPlatformDimension, WINDOW_HEIGHT, WINDOW_WIDTH } from '../../utils/device';
+import IconButton from '../../common/IconButton';
+import { ShareContentPopup } from './ShareContentPopup';
+import { CodeContentPopup } from './CodeContentPopup';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectDeckItem } from '../../redux/seclectors';
+import { saveDeckToDB } from '../../redux/decks/actions';
+import { RootState } from '../../redux/store';
+import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
+import { GeneralAlert } from '../../common';
 
 export interface Props {
   navigation: AlertScreenNavigationProp;
@@ -16,9 +18,26 @@ export interface Props {
 }
 
 const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
-  const handleGoBack = () => navigation.pop();
+  const handleGoBack = () => navigation.goBack();
   const alertRef = useRef<GeneralAlertRef>(null);
   const error = useSelector((state: RootState) => state.decks.error);
+
+  const deckDetail = useSelector(selectDeckItem(params.deckId));
+  const { sub } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (params.modalTemplate === 'shareModal') {
+      if (!sub) {
+        navigation.navigate(Screens.LOGIN_OR_SIGNUP);
+        return;
+      }
+      if (sub && deckDetail.isOwner && !deckDetail.shareId) {
+        dispatch(saveDeckToDB(params.deckId));
+        return;
+      }
+    }
+  }, [sub]);
 
   useEffect(() => {
     if (error) {

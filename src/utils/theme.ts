@@ -89,6 +89,7 @@ const theme = {
     icon: palette.softWhite,
     p: palette.midGray,
     placeholder: palette.lightMidGray,
+    green: palette.green,
     border: palette.gray,
     lightBorder: palette.lightGray,
     background: palette.fadeGray,

@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   background: {
-    backgroundColor: 'rgba(0,0,0,.6)',
+    backgroundColor: 'rgba(0,0,0,.8)',
     position: 'absolute',
     width: 50,
     height: 50,

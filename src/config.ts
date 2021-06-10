@@ -1,8 +1,9 @@
 import { Options } from 'react-native-share';
+import Config from 'react-native-config';
 
 export const shareOptions: Options = {
   url: 'https://myflashcards.app',
-  message: 'Check out a new app called MyFlashCards.\nIt is a great tool to learn faster!',
+  message: 'Check out a new app called MyFlashCards.\nStudy smarter not harder :)',
   title: '',
   subject: 'Learn with MyFlashcards',
   saveToFiles: false,
@@ -10,7 +11,7 @@ export const shareOptions: Options = {
 
 export const shareOptionsWithCode = (code: string): Options => ({
   url: 'https://myflashcards.app',
-  message: `Install MyFlashCards App.\n Learn with me! \nUse this passcode: ${code} to get access to my deck`,
+  message: `Learn with me :) \nUse this code: ${code} to get access to my deck`,
   title: '',
   subject: 'Learn with MyFlashCards',
   saveToFiles: false,
@@ -23,3 +24,9 @@ export const TERMS =
   'least 24-hours before the end of the current period. Subscriptions may be managed by the user and ' +
   "auto-renewal may be turned off by going to the user's Account Settings after purchase. For more " +
   'information, see our TERMS OF USE and PRIVACY POLICY.';
+
+export const authConfig = {
+  domain: Config.AUTH0_DOMAIN,
+  clientId: Config.AUTH0_CLIENT_ID,
+  audience: Config.AUTH0_AUDIENCE,
+};

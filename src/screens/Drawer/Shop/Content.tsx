@@ -18,10 +18,7 @@ interface Props {
 
 const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
   const alertRef = useRef<GeneralAlertRef>(null);
-
-  const onSuccess = () => {
-    alertRef?.current?.startAnimation();
-  };
+  const onSuccess = () => alertRef?.current?.startAnimation();
 
   const { productsObject, isLoadingProducts, onBuyPack, restorePurchase } = usePayments(onSuccess);
   const { user } = useSelector((state: RootState) => state);

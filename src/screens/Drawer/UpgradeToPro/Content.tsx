@@ -3,7 +3,7 @@ import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import { GeneralAlert, PriceButton } from '../../../common';
 import AppText from '../../../common/AppText';
 import assets from '../../../assets';
-import { theme } from '../../../utils';
+import { openLink, theme } from '../../../utils';
 import Item from './Item';
 import { usePayments } from '../../../modules/usePayments';
 import { isEmpty } from 'ramda';
@@ -19,9 +19,7 @@ interface Props {
 const Content: FC<Props> = ({ onNavigateToShop }) => {
   const alertRef = useRef<GeneralAlertRef>(null);
 
-  const onSuccess = () => {
-    alertRef?.current?.startAnimation();
-  };
+  const onSuccess = () => alertRef?.current?.startAnimation();
 
   const { productsObject, isLoadingProducts, onBuyPack } = usePayments(onSuccess);
   const isProductObj = !isEmpty(productsObject) && !isLoadingProducts;
@@ -66,7 +64,7 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
           </View>
           <PriceButton
             isSecondaryText={false}
-            primaryText="Shop"
+            primaryText="More"
             onPress={onNavigateToShop}
             style={styles.shopButton}
           />
@@ -74,10 +72,10 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
         <View style={styles.info}>
           <AppText size="p">{TERMS}</AppText>
           <View style={styles.innerInfo}>
-            <AppText size="p" underlined onPress={() => console.log('ADD LINK')}>
+            <AppText size="p" underlined onPress={() => openLink('https://myflashcards.app/terms.html')}>
               Terms of Service
             </AppText>
-            <AppText size="p" underlined onPress={() => console.log('ADD LInk')}>
+            <AppText size="p" underlined onPress={() => openLink('https://myflashcards.app/privacy.html')}>
               Privacy Policy
             </AppText>
           </View>

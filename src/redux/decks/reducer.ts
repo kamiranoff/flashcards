@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 import { DecksActions, DecksActionTypes, SCORES } from './interface';
-import { shuffleArray } from '../../lib';
+import { shuffleArray } from '../../utils';
 
 export interface Card {
   question: string;
@@ -9,6 +9,7 @@ export interface Card {
   frontendId: number;
   rank: number | null;
   isPublic: boolean;
+  owner: string | null;
 }
 
 export interface Deck {
@@ -48,15 +49,12 @@ const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
 
 export default function decks(state = initialState, action: DecksActions): DecksState {
   switch (action.type) {
-    case DecksActionTypes.getDeckByShareIdRequest: {
+    case DecksActionTypes.getDeckByShareIdRequest:
+    case DecksActionTypes.saveDeckToDB:
       return {
         ...state,
         isLoading: true,
-        decks: {
-          ...state.decks,
-        },
       };
-    }
     case DecksActionTypes.clearDecksError:
     case DecksActionTypes.saveSharedDeckFailure:
     case DecksActionTypes.saveDeckToDBFailure:
@@ -165,6 +163,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         frontendId,
         question,
         answer: '',
+        owner: null,
         rank: null,
         isPublic: false,
         id: null, //db id

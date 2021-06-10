@@ -1,10 +1,12 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import Config from 'react-native-config';
 import { captureException } from '@sentry/react-native';
 import { Card } from '../redux/decks/reducer';
 import { Logger } from '../service/Logger';
 import { CreateResponse, GetDeckBySharedIdResponse } from './types';
 import { CreateDeckResponse } from '../../../flashcards-api/src/db/types';
+import { Cache } from '../utils/Cache';
+import { refreshAccessToken } from '../modules/Auth/services/Auth0';
 
 interface File {
   uri: string;
@@ -18,6 +20,52 @@ export interface ResponseDeck {
   owner: string;
   share_id: string;
   cards: Card[];
+}
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    const errorResponse = error.response;
+    if (errorResponse && errorResponse.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const refreshToken = await Cache.getRefreshToken();
+        if (typeof refreshToken === 'string') {
+          const response = await refreshAccessToken(refreshToken);
+          if (!response) {
+            throw new Error('could not refresh access token');
+          }
+          await Cache.setAccessToken(response.accessToken);
+
+          originalRequest.headers.Authorization = `Bearer ${response.accessToken}`;
+          return axios(originalRequest);
+        }
+        Logger.sendLocalError(error, 'interceptor error');
+        captureException(error);
+        return Promise.reject(error);
+      } catch (e) {
+        Logger.sendLocalError(e, 'interceptor error');
+        captureException(e);
+        return Promise.reject(e);
+      }
+    }
+    return Promise.reject(error);
+  },
+);
+
+const getHeaders = async () => {
+  const token = await Cache.getAccessToken();
+  const headers: AxiosRequestConfig = {
+    headers: {
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache',
+    },
+  };
+  return headers;
 }
 
 async function savePhoto(
@@ -54,7 +102,8 @@ async function contact(data: {}): Promise<ContactResponse> {
 
 async function saveDeck(data: {}): Promise<CreateResponse> {
   try {
-    const response: CreateDeckResponse = await axios.post(`${Config.API_URL}/deck`, data);
+    const headers = await getHeaders();
+    const response: CreateDeckResponse = await axios.post(`${Config.API_URL}/deck`, data, headers);
     if (!response.data) {
       throw new Error('no data found');
     }
@@ -107,12 +156,25 @@ async function saveOrUpdateCard(data: {
   }
 }
 
+async function saveUser(): Promise<{ data: boolean }> {
+  try {
+    const headers = await getHeaders();
+    const response = await axios.post(`${Config.API_URL}/users`, null, headers);
+    return response.data;
+  } catch (error) {
+    Logger.sendLocalError(error, 'saveUser');
+    captureException(error);
+    return error;
+  }
+}
+
 const Api = {
   savePhoto,
   contact,
   saveDeck,
   getSharedDeckBySharedId,
   saveOrUpdateCard,
+  saveUser,
 };
 
 export default Api;

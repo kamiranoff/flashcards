@@ -3,11 +3,10 @@ import { View, StyleSheet } from 'react-native';
 import { captureException } from '@sentry/react-native';
 import LottieView from 'lottie-react-native';
 import { Container, PrimaryButton, AppText } from '../../common';
-import { sendEmail } from '../../lib';
 import animations from '../../assets/animations';
 import { getPlatformDimension } from '../../utils/device';
 import * as Analytics from 'appcenter-analytics';
-import { analytics } from '../../utils';
+import { analytics, sendEmail } from '../../utils';
 import { Logger } from '../../service/Logger';
 
 const Contact: FC = () => {

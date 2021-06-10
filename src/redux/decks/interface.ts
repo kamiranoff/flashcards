@@ -157,4 +157,5 @@ export type DecksActions =
   | GetDeckByShareIdRequest
   | SaveDeckToDBFailure
   | UpdateDeck
-  | UpdateCardById;
+  | UpdateCardById
+  | SaveDeckToDB;
