@@ -3,6 +3,7 @@ import { Animated, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import * as R from 'ramda';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DeckItem, { CARD_HEIGHT } from './DeckItem';
 import { Screens } from '../../../navigation/types';
 import { getPlatformDimension, isIOS, moderateScale, SPACING, WINDOW_HEIGHT } from '../../../utils/device';
@@ -11,7 +12,6 @@ import AddButton from '../../../common/AddButton';
 import { theme } from '../../../utils';
 import IconButton from '../../../common/IconButton';
 import NoContentInfo from '../../../common/NoContentInfo';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
 const colors = theme.colors.list;
@@ -54,16 +54,14 @@ const DecksList: FC = () => {
     <>
       <View style={styles.buttonContainer}>
         <View style={styles.row}>
-          <IconButton onPress={handleOpenCodeModal} iconName="codebar" style={{ marginRight: 10 }} />
+          <IconButton onPress={handleOpenCodeModal} iconName="codebar" style={styles.icon} />
           <AddButton onOpenModal={handleOpenModal} />
         </View>
       </View>
       {R.isEmpty(decks) ? (
         <NoContentInfo text="flashcard" style={styles.noContentInfo} />
       ) : (
-        <KeyboardAwareScrollView
-          extraScrollHeight={CARD_HEIGHT}
-        >
+        <KeyboardAwareScrollView extraScrollHeight={CARD_HEIGHT}>
           <Animated.FlatList
             contentContainerStyle={styles.flatListContainer}
             scrollEventThrottle={16}
@@ -76,7 +74,10 @@ const DecksList: FC = () => {
           {isIOS ? (
             <SharedElement
               id="general.bg"
-              style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT + CARD_HEIGHT }] }]}>
+              style={[
+                StyleSheet.absoluteFillObject,
+                { transform: [{ translateY: WINDOW_HEIGHT + CARD_HEIGHT }] },
+              ]}>
               <View style={[StyleSheet.absoluteFillObject, styles.dummy]} />
             </SharedElement>
           ) : null}
@@ -90,6 +91,9 @@ const styles = StyleSheet.create({
   flatListContainer: {
     padding: SPACING,
     marginTop: 5,
+  },
+  icon: {
+    marginRight: 10,
   },
   buttonContainer: {
     zIndex: 9,
