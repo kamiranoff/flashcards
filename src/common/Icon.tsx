@@ -37,7 +37,8 @@ export interface IconButtonProps {
     | 'noAds'
     | 'toolbar'
     | 'starBadge'
-    | 'happyFace2';
+    | 'happyFace2'
+    | 'login';
   style?: ViewStyle;
   bgColor?: string;
   imgStyle?: ImageStyle;

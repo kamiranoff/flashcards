@@ -123,7 +123,7 @@ const Input: FC<Props> = ({ onSuccess, onError, onSmsSuccess, success }) => {
           {!success && (
             <Animated.View style={[StyleSheet.absoluteFill, styles.inputWrap, inputWrapStyle]}>
               <TextInput
-                keyboardType="numeric"
+                keyboardType="phone-pad"
                 onChangeText={onChangeNumber}
                 value={number}
                 placeholder="+447977777777"
@@ -146,7 +146,7 @@ const Input: FC<Props> = ({ onSuccess, onError, onSmsSuccess, success }) => {
         </Animated.View>
       </TouchableWithoutFeedback>
       {errorMessage ? (
-        <View style={{ marginTop: 10 }}>
+        <View style={styles.spacer}>
           <AppText size="body">Please try again</AppText>
         </View>
       ) : null}
@@ -205,6 +205,9 @@ const styles = StyleSheet.create({
   sendText: {
     color: '#FFF',
   },
+  spacer: {
+    marginTop: 10,
+  }
 });
 
 export { Input };

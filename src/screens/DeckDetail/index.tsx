@@ -18,9 +18,6 @@ import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
 import { useIsMount } from '../../utils/useIsMount';
 import { Menu } from './components/Menu';
-import { Cache } from '../../utils/Cache';
-import { Logout } from '../../modules/Auth';
-import { deleteUser } from '../../redux/user/actions';
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
@@ -74,10 +71,7 @@ const DeckDetail: FC<Props> = ({
       dispatch(getDeckByShareId(deckDetail.shareId, id));
     }
   };
-  const handleLogoutSuccess = async () => {
-    dispatch(deleteUser());
-    await Cache.deleteTokens();
-  };
+
   return (
     <Container>
       <GeneralAlert text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE} ref={alertRef} />
@@ -136,7 +130,6 @@ const DeckDetail: FC<Props> = ({
           <IconButton onPress={handlerRefreshSharedDeck} iconName="refresh" />
         </View>
       ) : null}
-      <Logout onSuccess={handleLogoutSuccess} onError={() => null} />
       {deckDetail.cards.length ? (
         <View style={styles.menu}>
           <Menu

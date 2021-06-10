@@ -8,6 +8,10 @@ import { Icon } from '../../common';
 import { theme, typography } from '../../utils';
 import { isIOS } from '../../utils/device';
 import useAppVersion from '../../modules/AppVersion';
+import { deleteUser } from '../../redux/user/actions';
+import { Cache } from '../../utils/Cache';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 export interface Props {
   navigation: DrawerNavigationHelpers; // TODO - investigate why DrawerScreenNavigationProp cause error
@@ -15,6 +19,13 @@ export interface Props {
 
 const DrawerContent: FC<Props> = ({ navigation }) => {
   const { appVersion } = useAppVersion();
+  const dispatch = useDispatch();
+  const { sub } = useSelector((state: RootState) => state.user);
+
+  const handleLogoutSuccess = async () => {
+    dispatch(deleteUser());
+    await Cache.deleteTokens();
+  };
 
   return (
     <DrawerContentScrollView contentContainerStyle={styles.scrollView} scrollEnabled={false}>
@@ -66,7 +77,7 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
           onPress={() => navigation.navigate(Screens.SHARE_APP)}
         />
         <DrawerItem
-          label="Rate the App"
+          label="Rate MyFlashCards"
           labelStyle={styles.labelStyle}
           onPress={() => navigation.navigate(Screens.RATE_APP)}
           icon={() => <Icon name="star" bgColor={theme.colors.drawerItem.rate} />}
@@ -77,6 +88,16 @@ const DrawerContent: FC<Props> = ({ navigation }) => {
           onPress={() => navigation.navigate(Screens.CONTACT)}
           icon={() => <Icon name="chat" bgColor={theme.colors.drawerItem.contact} />}
         />
+        {sub ? (
+          <DrawerItem labelStyle={styles.logoutStyle} label="Logout" onPress={handleLogoutSuccess} />
+        ) : (
+          <DrawerItem
+            label="Login"
+            labelStyle={styles.labelStyle}
+            onPress={() => navigation.navigate(Screens.LOGIN_OR_SIGNUP)}
+            icon={() => <Icon name="login" bgColor={theme.colors.drawerItem.shop} />}
+          />
+        )}
       </View>
       <View>
         <DrawerItem labelStyle={styles.bottomLabelStyle} label={appVersion} onPress={() => null} />
@@ -113,22 +134,28 @@ const styles = StyleSheet.create({
   top: {
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-    backgroundColor: 'white',
+    backgroundColor: '#FEF9E7',
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
   },
   middle: {
-    backgroundColor: 'white',
+    backgroundColor: '#FEF9E7',
     borderBottomColor: 'gray',
     borderRadius: 0,
   },
   bottom: {
-    backgroundColor: 'white',
+    backgroundColor: '#FEF9E7',
     borderBottomColor: 'gray',
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
+  },
+  logoutStyle: {
+    ...typography.body,
+    marginLeft: 10,
+    textDecorationLine: 'underline',
+    color: 'black',
   },
 });
 

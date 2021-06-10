@@ -2,7 +2,7 @@ import React, { FC, ReactNode, ReactNodeArray } from 'react';
 import { StyleProp, Text, TextStyle, TextProps } from 'react-native';
 import { typography } from '../utils';
 
-interface Props extends TextProps {
+interface Props extends Omit<TextProps, 'style'> {
   children: string | ReactNode | ReactNodeArray;
   centered?: boolean;
   underlined?: boolean;

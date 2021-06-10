@@ -7,7 +7,7 @@ type Props = {
   secondaryText: string;
 };
 
-const Title: FC<Props> = ({ primaryText, secondaryText}) => (
+const Title: FC<Props> = ({ primaryText, secondaryText }) => (
   <View style={styles.container}>
     <AppText size="hero" centered textStyle={styles.color}>
       {primaryText}

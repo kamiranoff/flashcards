@@ -16,7 +16,7 @@ type Props = {
 
 const CodeFieldInput: FC<Props> = ({ verificationCode, setVerificationCode }) => {
   const ref = useBlurOnFulfill({ value: verificationCode, cellCount: CELL_COUNT });
-  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+  const [_, getCellOnLayoutHandler] = useClearByFocusCell({
     value: verificationCode,
     setValue: setVerificationCode,
   });
@@ -24,7 +24,6 @@ const CodeFieldInput: FC<Props> = ({ verificationCode, setVerificationCode }) =>
   return (
     <CodeField
       ref={ref}
-      {...props}
       value={verificationCode}
       onChangeText={setVerificationCode}
       cellCount={CELL_COUNT}
