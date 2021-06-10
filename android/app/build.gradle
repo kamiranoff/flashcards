@@ -84,6 +84,7 @@ project.ext.react = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -189,6 +190,7 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'com.google.android.play:core:1.9.0'
+    implementation project(':react-native-config')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

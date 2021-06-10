@@ -79,7 +79,7 @@ export const usePayments = (onPurchaseSuccessful: () => void) => {
       }
 
       purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase: InAppPurchase) => {
-        const receipt = purchase.transactionReceipt;
+        const receipt = purchase?.transactionReceipt;
         if (receipt) {
           try {
             await finishTransaction(purchase);

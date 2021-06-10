@@ -39,7 +39,7 @@ export interface IconButtonProps {
     | 'codebar'
     | 'basket';
   imgStyle?: ImageStyle;
-  style?: ViewStyle;
+  style?: ViewStyle | ViewStyle[];
   hasShadow?: boolean;
 }
 
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 99,
+    zIndex: 1,
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useRef } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'ramda';
@@ -18,10 +18,7 @@ interface Props {
 
 const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
   const alertRef = useRef<GeneralAlertRef>(null);
-
-  const onSuccess = () => {
-    alertRef?.current?.startAnimation();
-  };
+  const onSuccess = () => alertRef?.current?.startAnimation();
 
   const { productsObject, isLoadingProducts, onBuyPack, restorePurchase } = usePayments(onSuccess);
   const { user } = useSelector((state: RootState) => state);
@@ -100,11 +97,6 @@ const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
-  },
   content: {
     backgroundColor: '#fff',
   },

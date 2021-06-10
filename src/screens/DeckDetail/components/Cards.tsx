@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { Animated, StyleSheet, FlatList, View, RefreshControl } from 'react-native';
+import { Animated, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/types';
 import { Card } from '../../../redux/decks/reducer';
@@ -26,7 +26,7 @@ const formatData = (cards: Card[], numColumns: number) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);
   let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
   while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
-    data.push({ key: `blank-${numberOfElementsLastRow}`, id: 'empty' });
+    data.push({ key: `blank-${numberOfElementsLastRow}`, frontendId: 'empty' });
     numberOfElementsLastRow += 1;
   }
   return data;
@@ -60,11 +60,13 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
 
   const renderItem = ({ item }: { item: Card }) => {
     const handleDeleteCard = () => {
-      NativeAlert('Are you sure you want to delete this card?', () => dispatch(deleteCard(deckId, item.id)));
+      NativeAlert('Are you sure you want to delete this card?', () =>
+        dispatch(deleteCard(deckId, item.frontendId)),
+      );
     };
-    const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.id });
+    const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.frontendId });
 
-    if (item.id === 'empty') {
+    if (item.frontendId && item.frontendId.toString() === 'empty') {
       return <View style={styles.itemInvisible} />;
     }
 
@@ -76,6 +78,13 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
     );
   };
 
+  const getItemKey = (item: Card) => {
+    if (item.frontendId) {
+      return item.frontendId.toString();
+    }
+    return Math.random().toString();
+  };
+
   return isIOS ? (
     <FlatList
       refreshControl={renderRefreshControl()}
@@ -84,7 +93,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
       contentContainerStyle={styles.contentContainerStyle}
       data={formatData(cards, numberColumns)}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={getItemKey}
     />
   ) : (
     <Animated.FlatList
@@ -94,7 +103,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
       contentContainerStyle={styles.contentContainerStyle}
       data={formatData(cards, numberColumns)}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={getItemKey}
       style={{ ...styles.flatListStyle, transform: [{ translateY: yValue }] }}
     />
   );
@@ -106,6 +115,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   flatListStyle: {
+    zIndex: 9,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
@@ -121,7 +131,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     ...theme.iconButtonShadow,
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   itemInvisible: {
     backgroundColor: 'transparent',

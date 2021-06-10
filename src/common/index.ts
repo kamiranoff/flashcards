@@ -20,6 +20,7 @@ import AppText from './AppText';
 import GeneralAlert from './GeneralAlert';
 import ProgressLoader from './ProgressLoader';
 import BackButton from './BackButton';
+import IconButtonWithText from './IconButtonWithText';
 
 export {
   AppText,
@@ -44,4 +45,5 @@ export {
   NoContentInfo,
   ProgressLoader,
   BackButton,
+  IconButtonWithText,
 };

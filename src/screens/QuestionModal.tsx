@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import 'react-native-get-random-values';
+import { customAlphabet } from 'nanoid';
 import { AddQuestionScreenNavigationProp, AddQuestionScreenRouteProp, Screens } from '../navigation/types';
 import { CloseButton, Container, Form, Title } from 'common';
 import { selectCard, selectDeckItem } from '../redux/seclectors';
 import { Card } from '../redux/decks/reducer';
-import { editAndSaveSharedDeck, saveQuestion } from '../redux/decks/actions';
+import { saveNewCard, saveQuestion } from '../redux/decks/actions';
 
 export interface Props {
   route: AddQuestionScreenRouteProp;
@@ -20,14 +22,18 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
   const handleCloseModal = () => goBack();
 
   const handleSave = async (question: Card['question']) => {
-    const id = cardId || Date.now().toString(); // Timestamp as id
+    const generateId = customAlphabet('1234567890', 5);
+    const frontendId = cardId || parseInt(generateId());
     const isEdit = !!cardId;
-    dispatch(saveQuestion(deckId, id, question, isEdit));
 
-    if (deckDetail.sharedByYou || deckDetail.sharedWithYou) {
-      dispatch(editAndSaveSharedDeck(deckId, deckDetail.shareId));
+    dispatch(saveQuestion(deckId, frontendId, question, isEdit));
+
+    if (deckDetail.shareId) {
+      // update card in db because the deck has been shared
+      dispatch(saveNewCard(deckId, frontendId, isEdit));
     }
-    return navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: id });
+
+    return navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: frontendId });
   };
 
   return (

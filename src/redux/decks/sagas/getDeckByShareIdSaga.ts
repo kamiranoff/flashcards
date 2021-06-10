@@ -1,6 +1,6 @@
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import Api from '../../../api';
-import { getDeckByShareIdRequest, saveSharedDeck, saveSharedDeckFailure } from '../actions';
+import { getDeckByShareIdRequest, saveSharedDeckFailure, updateDeck } from '../actions';
 import { DecksActionTypes, GetDeckByShareId } from '../interface';
 import { RootState } from '../../store';
 
@@ -10,17 +10,15 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
   try {
     yield put(getDeckByShareIdRequest());
     const response = yield call(Api.getSharedDeckBySharedId, code);
-    const id = deckId || response.data.id;
-    const deck = {
-      owner: response.data.owner,
-      title: response.data.title,
-      cards: response.data.cards,
-      shareId: response.data.share_id,
-      sharedByYou: selectedDeck ? selectedDeck.isOwner : false,
-      sharedWithYou: selectedDeck ? !selectedDeck.isOwner : true,
-      isOwner: selectedDeck ? selectedDeck.isOwner : false,
-    };
-    yield put(saveSharedDeck(deck, id));
+    const id = deckId || response.data.deckId;
+    if (response.data.shareId) {
+      const deck = {
+        ...response.data,
+        sharedByYou: selectedDeck ? selectedDeck.owner : false, // FIXME - add auth
+        sharedWithYou: selectedDeck ? !selectedDeck.owner : true, // FIXME - add auth
+      };
+      yield put(updateDeck(id, deck));
+    }
   } catch (error) {
     yield put(saveSharedDeckFailure(true));
   }

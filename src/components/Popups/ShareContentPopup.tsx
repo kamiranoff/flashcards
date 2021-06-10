@@ -1,49 +1,29 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { ActivityIndicator, StyleSheet, TextInput, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import Share from 'react-native-share';
-import { captureException } from '@sentry/react-native';
 import * as Analytics from 'appcenter-analytics';
-import { selectDeckItem } from '../../redux/seclectors';
-import Api from '../../api';
-import { editSharedOnDeck } from '../../redux/decks/actions';
+import { selectDeckItem, selectIsLoading } from '../../redux/seclectors';
 import { analytics, theme } from '../../utils';
 import AppText from '../../common/AppText';
 import Icon from '../../common/Icon';
 import PrimaryButton from '../../common/PrimaryButton';
 import { shareOptionsWithCode } from '../../config';
-import { Logger } from '../../service/Logger';
 
-const ShareContentModal = ({ deckId, handleGoBack }: { deckId: string; handleGoBack: () => void }) => {
+const ShareContentPopup = ({ deckId, handleGoBack }: { deckId: string; handleGoBack: () => void }) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
-  const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
 
-  const handleSharePress = async () => {
-    try {
-      if (!deckDetail.sharedByYou) {
-        const res = await Api.saveDeck(deckDetail);
-        // TODO: user must be online to be able to share
-        // TODO: network notifications
-        if (res.data) {
-          return Share.open(shareOptionsWithCode(deckDetail.shareId))
-            .then(() => {
-              dispatch(editSharedOnDeck(deckId));
-              handleGoBack();
-            })
-            .catch(() => null);
-        }
-      }
-      await Analytics.trackEvent(analytics.shareDeckByUser);
-      return Share.open(shareOptionsWithCode(deckDetail.shareId))
-        .then(() => {
-          handleGoBack();
-        })
-        .catch(() => null);
-    } catch (error) {
-      Logger.sendLocalError(error, 'ShareContentModal');
-      captureException(error);
-    }
+  const handleSharePress = () => {
+    Analytics.trackEvent(analytics.shareDeckByUser);
+    return Share.open(shareOptionsWithCode(deckDetail.shareId))
+      .then(handleGoBack)
+      .catch(() => null);
   };
+
+  if (isLoading) {
+    return <ActivityIndicator animating={isLoading} size="large" />;
+  }
 
   return (
     <View style={styles.wrapper}>
@@ -97,13 +77,13 @@ const styles = StyleSheet.create({
     height: 60,
   },
   codeInput: {
-    fontSize: 20,
+    fontSize: 22,
     borderRadius: 4,
     marginLeft: 5,
-    paddingHorizontal: 4,
-    width: 72,
-    backgroundColor: theme.colors.placeholder,
+    width: 78,
+    textAlign: 'center',
+    backgroundColor: theme.colors.good,
   },
 });
 
-export { ShareContentModal };
+export { ShareContentPopup };
