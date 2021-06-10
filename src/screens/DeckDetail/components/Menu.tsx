@@ -1,13 +1,13 @@
 import React, { FC, useRef, useState } from 'react';
-import { StyleSheet, View, Animated, GestureResponderEvent } from 'react-native';
+import { StyleSheet, View, Animated } from 'react-native';
 import useAnimatedPress from '../../../hooks/useAnimatedPress';
 import { IconButton, IconButtonWithText } from '../../../common';
 import { theme } from '../../../utils';
 
 interface Props {
-  onShufflePress: (event: GestureResponderEvent) => void;
-  onSortPress: (event: GestureResponderEvent) => void;
-  onSharePress: (event: GestureResponderEvent) => void;
+  onShufflePress: () => void;
+  onSortPress: () => void;
+  onSharePress: () => void;
 }
 
 const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
@@ -115,6 +115,27 @@ const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
     ],
   };
 
+  const closeMenu = () => {
+    setTimeout(() => {
+      toggleOpen();
+    }, 400);
+  };
+
+  const handleShufflePress = () => {
+    onShufflePress();
+    closeMenu();
+  };
+
+  const handleSortPress = () => {
+    onSortPress();
+    closeMenu();
+  };
+
+  const handleSharePress = () => {
+    onSharePress();
+    closeMenu();
+  };
+
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.background, bgStyle]} />
@@ -125,7 +146,7 @@ const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
         text="Share deck"
         labelAnimatedStyle={labelStyle}
         viewAnimatedStyle={shareStyle}
-        onPress={onSharePress}
+        onPress={handleSharePress}
       />
       <IconButtonWithText
         handlePressIn={handlePressIn2}
@@ -134,7 +155,7 @@ const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
         text="Shuffle cards"
         labelAnimatedStyle={labelStyle}
         viewAnimatedStyle={shuffleStyle}
-        onPress={onShufflePress}
+        onPress={handleShufflePress}
       />
       <IconButtonWithText
         handlePressIn={handlePressIn3}
@@ -143,9 +164,9 @@ const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
         text="Sort cards by incorrect first"
         labelAnimatedStyle={labelStyle}
         viewAnimatedStyle={sortStyle}
-        onPress={onSortPress}
+        onPress={handleSortPress}
       />
-      <IconButton onPress={toggleOpen} iconName="menuCurve" style={styles.button} />
+      <IconButton onPress={toggleOpen} iconName={isOpen ? 'x' : 'menuCurve'} style={styles.button} />
     </View>
   );
 };
