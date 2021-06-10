@@ -31,6 +31,7 @@ const CodeContentPopup: FC<Props> = ({ navigation }) => {
       setCloseModal(true);
     }
   }, [decksNumber, previousDecksIds]);
+
   const handleSaveSharedDeck = async () => {
     if (code.length === 5) {
       if (isConnected) {

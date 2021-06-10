@@ -62,7 +62,7 @@ const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
           <IconButton onPress={handleGoBack} iconName="x" />
         </View>
         {params.modalTemplate === 'shareModal' ? (
-          <ShareContentPopup deckId={params.deckId} handleGoBack={handleGoBack} />
+          <ShareContentPopup deckId={params.deckId} handleGoBack={handleGoBack} sub={sub} />
         ) : (
           <CodeContentPopup navigation={navigation} />
         )}

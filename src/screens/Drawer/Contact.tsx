@@ -29,10 +29,10 @@ const Contact: FC = () => {
       </View>
       <View style={styles.content}>
         <AppText centered size="h2">
-          Any issues?
+          Wanna say hi?
         </AppText>
         <AppText centered size="h2">
-          Please contact us
+          Please do
         </AppText>
         <View style={styles.buttonContainer}>
           <PrimaryButton buttonText="Contact us" onPress={handleContact} />

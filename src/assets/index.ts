@@ -63,6 +63,7 @@ export interface IAssets {
     shopIsOpen: number;
     shopOpen: number;
     basket: number;
+    login: number;
   };
 }
 
@@ -131,6 +132,7 @@ const assets: IAssets = {
     shopIsOpen: require('./images/shopIsOpen.png'),
     shopOpen: require('./images/shopOpen.png'),
     basket: require('./images/basket.png'),
+    login: require('./images/login.png'),
   },
 };
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import Share from 'react-native-share';
+import { useNavigation } from '@react-navigation/native';
 import * as Analytics from 'appcenter-analytics';
 import { selectDeckItem, selectIsLoading } from '../../redux/seclectors';
 import { analytics, theme } from '../../utils';
@@ -9,18 +10,22 @@ import AppText from '../../common/AppText';
 import Icon from '../../common/Icon';
 import PrimaryButton from '../../common/PrimaryButton';
 import { shareOptionsWithCode } from '../../config';
-import useNetInfo from '../../hooks/useNetInfo';
+import { Screens } from '../../navigation/types';
 
-const ShareContentPopup = ({ deckId, handleGoBack }: { deckId: string; handleGoBack: () => void }) => {
-  const isConnected = useNetInfo();
+const ShareContentPopup = ({ deckId, handleGoBack, sub }: { deckId: string; handleGoBack: () => void, sub: string | null }) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
   const isLoading = useSelector(selectIsLoading);
+  const navigation = useNavigation();
 
   const handleSharePress = () => {
-    Analytics.trackEvent(analytics.shareDeckByUser);
-    return Share.open(shareOptionsWithCode(deckDetail.shareId))
-      .then(handleGoBack)
-      .catch(() => null);
+    if (sub) {
+      Analytics.trackEvent(analytics.shareDeckByUser);
+      return Share.open(shareOptionsWithCode(deckDetail.shareId))
+        .then(handleGoBack)
+        .catch(() => null);
+    } else {
+      return navigation.navigate(Screens.LOGIN_OR_SIGNUP);
+    }
   };
 
   if (isLoading) {
@@ -33,23 +38,30 @@ const ShareContentPopup = ({ deckId, handleGoBack }: { deckId: string; handleGoB
       <View style={styles.iconContainer}>
         <Icon name="happyFace2" imgStyle={styles.icon} />
       </View>
-      <View style={styles.shareButtonContainer}>
-        <PrimaryButton buttonText="Share your deck" onPress={handleSharePress} disabled={!isConnected} />
-      </View>
-      <View style={styles.textContent}>
-        <AppText size="body" centered>
-          Click the button
+      {!sub && (
+        <AppText size="h2" centered textStyle={{ paddingBottom: 10 }}>
+          Login to share your deck
         </AppText>
-        <View style={styles.row}>
-          <AppText size="body">or share this code:</AppText>
-          <TextInput
-            editable={false}
-            keyboardType={undefined}
-            value={deckDetail.shareId}
-            style={styles.codeInput}
-          />
-        </View>
+      )}
+      <View style={styles.shareButtonContainer}>
+        <PrimaryButton buttonText={sub ? 'Share your deck' : 'Login'} onPress={handleSharePress} />
       </View>
+      {sub && (
+        <View style={styles.textContent}>
+          <AppText size="body" centered>
+            Click the button
+          </AppText>
+          <View style={styles.row}>
+            <AppText size="body">or share this code:</AppText>
+            <TextInput
+              editable={false}
+              keyboardType={undefined}
+              value={deckDetail.shareId}
+              style={styles.codeInput}
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 };
