@@ -5,7 +5,7 @@ import Share from 'react-native-share';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Analytics from 'appcenter-analytics';
 import { AppText, PrimaryButton } from '../../../common';
-import { getPlatformDimension, WINDOW_WIDTH } from '../../../utils/device';
+import { getPlatformDimension, isLargeDevice, WINDOW_WIDTH } from '../../../utils/device';
 import assets from '../../../assets';
 import animations from '../../../assets/animations';
 import { analytics } from '../../../utils';
@@ -84,7 +84,7 @@ const Content: FC<Props> = ({ handleGoToShop }) => {
 const halfWindow = WINDOW_WIDTH / 2;
 const styles = StyleSheet.create({
   content: {
-    top: getPlatformDimension(halfWindow, halfWindow, halfWindow, halfWindow),
+    top: halfWindow + (isLargeDevice() ? 80 : 30),
   },
   spacer: {
     marginTop: 10,

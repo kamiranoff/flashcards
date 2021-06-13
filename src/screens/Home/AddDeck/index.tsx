@@ -34,7 +34,6 @@ const AddDeck: FC<Props> = ({ navigation }) => {
       useNativeDriver: true,
     }).start();
   }, [opacityVal]);
-
   const handleSaveDeck = () => {
     const newId = String(Date.now());
     if (newTitle) {
@@ -52,7 +51,12 @@ const AddDeck: FC<Props> = ({ navigation }) => {
       </View>
       <Animated.View style={[{ opacity: isIOS ? opacityVal : 1 }, styles.content]}>
         {canAddDeck ? (
-          <AddDeckContent newTitle={newTitle} setNewTitle={setNewTitle} onSave={handleSaveDeck} />
+          <AddDeckContent
+            newTitle={newTitle}
+            setNewTitle={setNewTitle}
+            onSave={handleSaveDeck}
+            nbDecks={maxFreeDecks - numberOfDecksNotShared}
+          />
         ) : (
           <NoMoreFreeDecksContent onNavigate={handleGoToShop} />
         )}
