@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { Transition, Transitioning } from 'react-native-reanimated';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { theme } from '../../../utils';
 import CardItem from './CardItem';
@@ -10,6 +10,7 @@ import { Screens } from '../../../navigation/types';
 import { NativeAlert } from '../../../common';
 import { deleteCard } from '../../../redux/decks/actions';
 import { Card } from '../../../redux/decks/reducer';
+import { RootState } from '../../../redux/store';
 
 interface Props {
   items: Card[];
@@ -24,6 +25,7 @@ export interface Ref {
 
 const TransitionedCards = forwardRef<Ref, Props>(({ items, deckId, handlerRefresh, isLoading }, ref) => {
   const { navigate } = useNavigation();
+  const { sub } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   const transition = (
@@ -39,7 +41,6 @@ const TransitionedCards = forwardRef<Ref, Props>(({ items, deckId, handlerRefres
         titleColor={theme.colors.border}
         refreshing={isLoading}
         onRefresh={handlerRefresh}
-        tintColor={theme.colors.border}
       />
     );
   };
@@ -54,7 +55,12 @@ const TransitionedCards = forwardRef<Ref, Props>(({ items, deckId, handlerRefres
       <View
         key={item.question}
         style={[styles.item, { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon }]}>
-        <CardItem onPress={handleNavigate} onTrashPress={handleDeleteCard} card={item} isOwner={true} />
+        <CardItem
+          onPress={handleNavigate}
+          onTrashPress={handleDeleteCard}
+          card={item}
+          isOwner={sub === item.owner}
+        />
       </View>
     );
   });

@@ -1,11 +1,11 @@
 import React, { FC, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { AlertScreenNavigationProp, AlertScreenRouteProp, Screens } from '../../navigation/types';
 import { getPlatformDimension, WINDOW_HEIGHT, WINDOW_WIDTH } from '../../utils/device';
 import IconButton from '../../common/IconButton';
 import { ShareContentPopup } from './ShareContentPopup';
 import { CodeContentPopup } from './CodeContentPopup';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectDeckItem } from '../../redux/seclectors';
 import { saveDeckToDB } from '../../redux/decks/actions';
 import { RootState } from '../../redux/store';
@@ -49,7 +49,7 @@ const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
         {params.modalTemplate === 'shareModal' ? (
           <ShareContentPopup deckId={params.deckId} handleGoBack={handleGoBack} sub={sub} />
         ) : (
-          <CodeContentPopup navigation={navigation} />
+          <CodeContentPopup handleGoBack={handleGoBack} />
         )}
       </View>
     </View>

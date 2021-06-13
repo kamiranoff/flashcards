@@ -126,7 +126,6 @@ const DeckDetail: FC<Props> = ({
           <Cards
             cards={deckDetail.cards}
             deckId={id}
-            isOwner={true} // FIXME
             handlerRefreshSharedDeck={handlerRefreshSharedDeck}
             isLoading={isLoading}
           />
