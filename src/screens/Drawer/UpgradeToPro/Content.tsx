@@ -86,11 +86,6 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
-  },
   scrollView: {
     backgroundColor: 'white',
     paddingTop: 80,

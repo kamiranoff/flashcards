@@ -9,9 +9,10 @@ interface Props {
   newTitle: string;
   setNewTitle: (text: string) => void;
   onSave: () => void;
+  nbDecks: number;
 }
 
-const AddDeckContent: FC<Props> = ({ newTitle, setNewTitle, onSave }) => (
+const AddDeckContent: FC<Props> = ({ newTitle, setNewTitle, onSave, nbDecks }) => (
   <>
     <AppText size="hero" centered>
       Your new deck name
@@ -35,6 +36,9 @@ const AddDeckContent: FC<Props> = ({ newTitle, setNewTitle, onSave }) => (
         buttonTextStyle={{ color: theme.colors.border }}
       />
     </View>
+    <AppText size="header" centered textStyle={{ color: 'white'}}>
+      You have {nbDecks} free decks.
+    </AppText>
   </>
 );
 
@@ -52,6 +56,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 140,
     alignSelf: 'center',
+    marginBottom: 40,
   },
   buttonStyle: {
     backgroundColor: theme.colors.icon,
