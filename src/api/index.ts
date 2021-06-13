@@ -13,11 +13,12 @@ interface File {
 }
 
 export interface ResponseDeck {
-  id: string;
   title: string;
   owner: string;
-  share_id: string;
+  shareId: string;
   cards: Card[];
+  isPublic: boolean;
+  deckId: number;
 }
 
 axios.interceptors.response.use(
@@ -93,7 +94,7 @@ async function contact(data: {}): Promise<{ data: boolean }> {
   }
 }
 
-async function saveDeck(data: {}): Promise<{ data: boolean }> {
+async function saveDeck(data: {}): Promise<{ data: ResponseDeck }> {
   try {
     const headers = await getHeaders();
     const response = await axios.post(`${Config.API_URL}/deck`, data, headers);

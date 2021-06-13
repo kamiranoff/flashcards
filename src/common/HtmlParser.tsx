@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import { Image, StyleSheet, View, Text } from 'react-native';
 import HTMLView, { HTMLViewNode } from 'react-native-htmlview';
 import { isSmallDevice, SPACING, WINDOW_WIDTH } from '../utils/device';
-import { theme } from "../utils";
+import { theme } from '../utils';
 
 interface Props {
   text: string | undefined;
@@ -24,12 +24,12 @@ interface HTMLViewNodeWithMissingProps extends HTMLViewNode {
 }
 
 const Li = ({
-              node,
-              index,
-              siblings,
-              parent,
-              defaultRenderer
-            }: HtmlParserLiProps) => {
+  node,
+  index,
+  siblings,
+  parent,
+  defaultRenderer
+}: HtmlParserLiProps) => {
 
   if (!node.children) {
     return null;
@@ -117,6 +117,7 @@ const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
 const defaultStyle = StyleSheet.create({
   text: {
     fontSize: 18,
+    color: '#000',
   },
 });
 
@@ -162,7 +163,7 @@ const htmlStyles = StyleSheet.create({
     borderLeftWidth: 4,
     borderLeftColor: theme.colors.quoteBorder,
     marginVertical: 10,
-  }
+  },
 });
 
 export default HtmlParser;

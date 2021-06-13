@@ -1,5 +1,6 @@
 import { isIOS, scaleFont } from './device';
 import { TextStyle } from 'react-native';
+import theme from './theme';
 
 // FONT FAMILY
 const FONT_FAMILY_REGULAR = isIOS ? 'Avenir-Medium' : 'Roboto';
@@ -48,30 +49,36 @@ const typography: Record<Typography, TextStyle> = {
     fontSize: FONT_SIZE_18,
     fontFamily: FONT_FAMILY_HERO,
     letterSpacing: 1,
+    color: '#000',
   },
   h1: {
     fontFamily: FONT_FAMILY_BOLD,
     fontWeight: FONT_WEIGHT_BOLD,
     fontSize: FONT_SIZE_19,
+    color: '#000',
   },
   h2: {
     fontFamily: FONT_FAMILY_HERO,
     fontWeight: FONT_WEIGHT_REGULAR,
     fontSize: FONT_SIZE_18,
+    color: '#000',
   },
   h3: {
     fontFamily: FONT_FAMILY_REGULAR,
     fontWeight: FONT_WEIGHT_REGULAR,
     fontSize: FONT_SIZE_16,
+    color: '#000',
   },
   body: {
     fontSize: FONT_SIZE_16,
     lineHeight: LINE_HEIGHT_24,
     fontFamily: FONT_FAMILY_REGULAR,
+    color: '#000',
   },
   p: {
     fontSize: FONT_SIZE_14,
     fontFamily: FONT_FAMILY_REGULAR,
+    color: '#000',
   },
   button: {
     fontFamily: FONT_FAMILY_REGULAR,
