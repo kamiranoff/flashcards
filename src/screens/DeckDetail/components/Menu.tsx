@@ -43,7 +43,7 @@ const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
 
   const scaleInterpolate = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 40],
+    outputRange: [0, 12],
   });
 
   const bgStyle = {

@@ -23,9 +23,9 @@ import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
 import { useIsMount } from '../../utils/useIsMount';
 import { Menu } from './components/Menu';
-import { TransitionedCards } from './components/TransitionedCards';
 import Cards from './components/Cards';
 import { NoContentOrPlay } from './components/NoContent';
+import { TransitionedCards } from './components/TransitionedCards';
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
@@ -189,8 +189,8 @@ const styles = StyleSheet.create({
   },
   refresh: {
     position: 'absolute',
-    bottom: getPlatformDimension(10, 10, 30),
-    left: 10,
+    bottom: isLargeDevice() ? 40 : 20,
+    left: 16,
   },
 });
 
