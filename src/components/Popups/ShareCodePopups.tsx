@@ -40,7 +40,7 @@ const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
         style={[
           styles.content,
           params.modalTemplate === 'codeModal'
-            ? { height: 250 }
+            ? { height: 280 }
             : { height: WINDOW_HEIGHT / getPlatformDimension(2, 2, 2.5) },
         ]}>
         <View style={styles.closeButton}>

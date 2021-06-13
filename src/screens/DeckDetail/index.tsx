@@ -4,20 +4,28 @@ import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
 import { Animated, StyleSheet, View } from 'react-native';
 import { DeckDetailScreenRouteProp, Screens } from '../../navigation/types';
-import Cards from './components/Cards';
-import { getPlatformDimension, isIOS, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
+import {
+  getPlatformDimension,
+  isIOS,
+  isLargeDevice,
+  isSmallDevice,
+  SPACING,
+  WINDOW_HEIGHT,
+} from '../../utils/device';
 import IconButton from '../../common/IconButton';
-import { CloseButton, Container, GeneralAlert, NoContentInfo, Title } from '../../common';
+import { CloseButton, Container, GeneralAlert, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
 import { getDeckByShareId, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
-import ActionButtons from './components/ActionButtons';
 import useOpacity from './useOpacity';
 import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
 import { useIsMount } from '../../utils/useIsMount';
 import { Menu } from './components/Menu';
+import { TransitionedCards } from './components/TransitionedCards';
+import Cards from './components/Cards';
+import { NoContentOrPlay } from './components/NoContent';
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
@@ -32,6 +40,7 @@ const DeckDetail: FC<Props> = ({
     params: { id, color },
   },
 }) => {
+  const ref = useRef<any | null | undefined>(); // TODO: fix type
   const isMount = useIsMount();
   const { opacityVal } = useOpacity();
   const dispatch = useDispatch();
@@ -58,9 +67,15 @@ const DeckDetail: FC<Props> = ({
   const navigateToPlayground = () =>
     navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].frontendId });
 
-  const handleSortCards = () => dispatch(sortByRankCards(id));
+  const handleSortCards = () => {
+    ref.current?.animateNextTransition();
+    dispatch(sortByRankCards(id));
+  };
 
-  const handleShuffleCards = () => dispatch(shuffleCards(id));
+  const handleShuffleCards = () => {
+    ref.current?.animateNextTransition();
+    dispatch(shuffleCards(id));
+  };
 
   const handleShareDeck = async () => {
     return navigate(Screens.ALERT, { modalTemplate: 'shareModal', deckId: id });
@@ -94,28 +109,20 @@ const DeckDetail: FC<Props> = ({
           style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT + 30 }] }]}>
           <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
             <Animated.View style={{ opacity: opacityVal }}>
-              {deckDetail.cards.length ? (
-                <ActionButtons navigate={navigateToPlayground} />
-              ) : (
-                <NoContentInfo text="card" style={styles.noContentInfo} iconName="prettyLady" />
-              )}
-              <Cards
-                cards={deckDetail.cards}
+              <NoContentOrPlay hasCards={!!deckDetail.cards.length} onPress={navigateToPlayground} />
+              <TransitionedCards
+                ref={ref}
+                items={deckDetail.cards}
                 deckId={id}
-                isOwner={true} // FIXME
-                handlerRefreshSharedDeck={handlerRefreshSharedDeck}
                 isLoading={isLoading}
+                handlerRefresh={handlerRefreshSharedDeck}
               />
             </Animated.View>
           </View>
         </SharedElement>
       ) : (
         <View style={styles.androidList}>
-          {deckDetail.cards.length ? (
-            <ActionButtons navigate={navigateToPlayground} />
-          ) : (
-            <NoContentInfo text="card" style={styles.noContentInfo} iconName="prettyLady" />
-          )}
+          <NoContentOrPlay hasCards={!!deckDetail.cards.length} onPress={navigateToPlayground} />
           <Cards
             cards={deckDetail.cards}
             deckId={id}
@@ -177,17 +184,14 @@ const styles = StyleSheet.create({
   },
   menu: {
     position: 'absolute',
-    bottom: getPlatformDimension(10, 10, 20),
-    right: 5,
+    bottom: isLargeDevice() ? 40 : 20,
+    right: 16,
     zIndex: 99,
   },
   refresh: {
     position: 'absolute',
-    bottom: getPlatformDimension(10, 10, 20),
+    bottom: getPlatformDimension(10, 10, 30),
     left: 10,
-  },
-  noContentInfo: {
-    marginTop: WINDOW_HEIGHT / 6,
   },
 });
 

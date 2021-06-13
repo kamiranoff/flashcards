@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { Animated, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
+import { Animated, RefreshControl, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/types';
 import { Card } from '../../../redux/decks/reducer';
-import { isIOS, WINDOW_HEIGHT } from '../../../utils/device';
+import { WINDOW_HEIGHT } from '../../../utils/device';
 import { useDispatch } from 'react-redux';
 import { NativeAlert } from '../../../common';
 import { deleteCard } from '../../../redux/decks/actions';
@@ -71,10 +71,10 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
     }
 
     return (
-      <Animated.View
+      <View
         style={[styles.item, { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon }]}>
         <CardItem onPress={handleNavigate} onTrashPress={handleDeleteCard} card={item} isOwner={isOwner} />
-      </Animated.View>
+      </View>
     );
   };
 
@@ -85,17 +85,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
     return Math.random().toString();
   };
 
-  return isIOS ? (
-    <FlatList
-      refreshControl={renderRefreshControl()}
-      showsVerticalScrollIndicator={false}
-      numColumns={numberColumns}
-      contentContainerStyle={styles.contentContainerStyle}
-      data={formatData(cards, numberColumns)}
-      renderItem={renderItem}
-      keyExtractor={getItemKey}
-    />
-  ) : (
+  return (
     <Animated.FlatList
       refreshControl={renderRefreshControl()}
       showsVerticalScrollIndicator={false}
@@ -119,11 +109,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 10,
   },
   item: {
     paddingHorizontal: 5,
