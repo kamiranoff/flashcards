@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Swiper from 'react-native-deck-swiper';
 import * as R from 'ramda';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import { PlaygroundScreenNavigationProp, PlaygroundScreenRouteProp, Screens } from '../../navigation/types';
 import { CloseButton, Container, Title } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
@@ -20,6 +21,9 @@ import { triggerRateApp } from '../../redux/user/actions';
 import rateApp from '../../modules/rateApp';
 import { useInterstitialAd } from '../../service/useInterstitialAd';
 import { AdUnitIds } from '../../service/config';
+import { ShareContentPopup } from '../../components/Popups/ShareContentPopup';
+import { BottomSheetModal } from '../../common/BottomSheetModal';
+import { useShareDeck } from '../../hooks/useShareDeck';
 
 export interface Props {
   route: PlaygroundScreenRouteProp;
@@ -32,27 +36,41 @@ const AD_ID = isIOS ? AdUnitIds.IOS_PRE_PLAYGROUND_PROMO : AdUnitIds.ANDROID_PRE
 
 const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, navigate } }) => {
   const swiperRef = useRef<any>(null); // FIXME
+  const refRBSheet = useRef<RBSheet>(null);
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
   const [noMoreCards, setNoMoreCards] = useState(false);
   const deckDetail = useSelector(selectDeckItem(params.deckId));
-  const { ratedAppAt } = useSelector((state: RootState) => state.user);
+  const { ratedAppAt, sub } = useSelector((state: RootState) => state.user);
   const card = R.find(R.propEq('frontendId', params.cardId), deckDetail.cards);
   const restOfCards = R.reject(R.propEq('frontendId', params.cardId), deckDetail.cards);
   const reOrderedCards = card ? [card, ...restOfCards] : deckDetail.cards; // First card is the one which has been clicked from deck detail
-
+  const [isShareOpen, setIsShareOpen] = useState(false);
   useInterstitialAd(AD_ID);
+
+  useShareDeck(isShareOpen, deckDetail.shareId, params.deckId, () => {
+    refRBSheet.current?.open();
+    setIsShareOpen(false);
+  });
 
   const onSwiped = () => {
     setIndex((index + 1) % deckDetail.cards.length);
   };
 
   const handleShareDeck = async () => {
-    if (deckDetail.isOwner && !deckDetail.shareId) {
-      // SAVE DECK to DB
+    refRBSheet.current?.open();
+    if (!sub) {
+      setIsShareOpen(true);
+      navigate(Screens.LOGIN_OR_SIGNUP);
+      return;
+    }
+    if (sub && deckDetail.isOwner && !deckDetail.shareId) {
       dispatch(saveDeckToDB(params.deckId));
     }
-    navigate(Screens.ALERT, { modalTemplate: 'shareModal', deckId: params.deckId });
+  };
+
+  const handleCloseShare = () => {
+    refRBSheet.current?.close();
   };
 
   const renderCard = (item: Card) => <CardItem card={item} title={deckDetail.title} deckId={params.deckId} />;
@@ -132,6 +150,14 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
           <ActionButtons onPressLeft={handlePressLeft} onPressRight={handlePressRight} />
         ) : null}
       </View>
+      <BottomSheetModal ref={refRBSheet} height={360}>
+        <ShareContentPopup
+          deckId={params.deckId}
+          handleGoBack={handleCloseShare}
+          sub={sub}
+          handleDismissBottomSheet={handleCloseShare}
+        />
+      </BottomSheetModal>
     </Container>
   );
 };

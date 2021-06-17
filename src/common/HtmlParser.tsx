@@ -10,27 +10,19 @@ interface Props {
 }
 
 interface HtmlParserLiProps {
-  node: HTMLViewNodeWithMissingProps,
-  index: number,
-  siblings: HTMLViewNode,
-  parent: HTMLViewNode,
-  defaultRenderer: (node: HTMLViewNode, parent: HTMLViewNode) => ReactNode
+  node: HTMLViewNodeWithMissingProps;
+  index: number;
+  siblings: HTMLViewNode;
+  parent: HTMLViewNode;
+  defaultRenderer: (node: HTMLViewNode, parent: HTMLViewNode) => ReactNode;
 }
-
 
 interface HTMLViewNodeWithMissingProps extends HTMLViewNode {
   children?: HTMLViewNode;
   parent?: HTMLViewNode;
 }
 
-const Li = ({
-  node,
-  index,
-  siblings,
-  parent,
-  defaultRenderer
-}: HtmlParserLiProps) => {
-
+const Li = ({ node, index, siblings, parent, defaultRenderer }: HtmlParserLiProps) => {
   if (!node.children) {
     return null;
   }
@@ -47,10 +39,10 @@ const Li = ({
         </View>
       </View>
     </View>
-  )
+  );
 };
 
-const Img = ({ isSliced, attribs }: { isSliced?: boolean, attribs: HTMLViewNode['attribs'] }) => {
+const Img = ({ isSliced, attribs }: { isSliced?: boolean; attribs: HTMLViewNode['attribs'] }) => {
   const photoSlicedHeight = isSmallDevice() ? 50 : 60;
   const imgStyle = {
     width: isSliced ? WINDOW_WIDTH / 2 - SPACING * 5 : WINDOW_WIDTH - SPACING * 5,
@@ -126,7 +118,7 @@ const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
 
 const defaultStyle = StyleSheet.create({
   text: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#000',
   },
 });
@@ -148,7 +140,7 @@ const htmlStyles = StyleSheet.create({
     marginVertical: 0,
   },
   list: {
-    marginVertical: 5,
+    marginVertical: 8,
   },
   h1: {
     fontSize: 22,
