@@ -36,8 +36,8 @@ const AddDeckContent: FC<Props> = ({ newTitle, setNewTitle, onSave, nbDecks }) =
         buttonTextStyle={{ color: theme.colors.border }}
       />
     </View>
-    <AppText size="header" centered textStyle={{ color: 'white'}}>
-      You have {nbDecks} free decks.
+    <AppText size="header" centered textStyle={{ color: 'white' }}>
+      You have {nbDecks} free {nbDecks === 1 ? 'deck.' : 'decks.'}
     </AppText>
   </>
 );

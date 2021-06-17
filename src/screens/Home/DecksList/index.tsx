@@ -3,6 +3,7 @@ import { Animated, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import * as R from 'ramda';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import DeckItem from './DeckItem';
 import { Screens } from '../../../navigation/types';
 import { getPlatformDimension, isIOS, moderateScale, SPACING, WINDOW_HEIGHT } from '../../../utils/device';
@@ -12,6 +13,8 @@ import { theme } from '../../../utils';
 import IconButton from '../../../common/IconButton';
 import NoContentInfo from '../../../common/NoContentInfo';
 import { useKeyboard } from '../../../hooks/useKeyboard';
+import { BottomSheetModal } from '../../../common/BottomSheetModal';
+import { CodeContentPopup } from '../../../components/Popups/CodeContentPopup';
 
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
 const colors = theme.colors.list;
@@ -24,10 +27,12 @@ const DecksList: FC = () => {
   const { navigate } = useNavigation();
   const { decks, decksIds, handleRemoveDeck } = useDecks();
   const { keyboardHeight } = useKeyboard();
+  const refRBSheet = useRef<RBSheet>(null);
 
   const handleOpenModal = () => navigate(Screens.ADD_DECK);
 
-  const handleOpenCodeModal = () => navigate(Screens.ALERT, { modalTemplate: 'codeModal' });
+  const handleOpenBottomModal = () => refRBSheet.current?.open();
+  const handleCloseBottomModal = () => refRBSheet.current?.close();
 
   const renderItem = ({ item, index }: { item: string; index: number }) => {
     const { title, cards, sharedWithYou } = decks[item];
@@ -55,7 +60,7 @@ const DecksList: FC = () => {
     <>
       <View style={styles.buttonContainer}>
         <View style={styles.row}>
-          <IconButton onPress={handleOpenCodeModal} iconName="codebar" style={{ marginRight: 10 }} />
+          <IconButton onPress={handleOpenBottomModal} iconName="codebar" style={{ marginRight: 10 }} />
           <AddButton onOpenModal={handleOpenModal} />
         </View>
       </View>
@@ -79,6 +84,9 @@ const DecksList: FC = () => {
               <View style={[StyleSheet.absoluteFillObject, styles.dummy]} />
             </SharedElement>
           ) : null}
+          <BottomSheetModal ref={refRBSheet} height={310}>
+            <CodeContentPopup handleGoBack={handleCloseBottomModal} />
+          </BottomSheetModal>
         </>
       )}
     </>

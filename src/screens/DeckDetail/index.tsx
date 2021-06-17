@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,9 +13,10 @@ import {
   WINDOW_HEIGHT,
 } from '../../utils/device';
 import IconButton from '../../common/IconButton';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import { CloseButton, Container, GeneralAlert, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
-import { getDeckByShareId, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
+import { getDeckByShareId, saveDeckToDB, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
 import useOpacity from './useOpacity';
@@ -26,6 +27,9 @@ import { Menu } from './components/Menu';
 import Cards from './components/Cards';
 import { NoContentOrPlay } from './components/NoContent';
 import { TransitionedCards } from './components/TransitionedCards';
+import { BottomSheetModal } from '../../common/BottomSheetModal';
+import { ShareContentPopup } from '../../components/Popups/ShareContentPopup';
+import { useShareDeck } from '../../hooks/useShareDeck';
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
@@ -41,14 +45,17 @@ const DeckDetail: FC<Props> = ({
   },
 }) => {
   const ref = useRef<any | null | undefined>(); // TODO: fix type
+  const refRBSheet = useRef<RBSheet>(null);
   const isMount = useIsMount();
   const { opacityVal } = useOpacity();
   const dispatch = useDispatch();
+  const { sub } = useSelector((state: RootState) => state.user);
   const { navigate, goBack } = useNavigation();
   const deckDetail = useSelector(selectDeckItem(id));
   const badAnswers = useSelector(selectBadAnswers(id));
   const goodAnswers = useSelector(selectGoodAnswers(id));
   const { isLoading, error } = useSelector((state: RootState) => state.decks);
+  const [isShareOpen, setIsShareOpen] = useState(false);
 
   const alertRef = useRef<GeneralAlertRef>(null);
 
@@ -57,10 +64,15 @@ const DeckDetail: FC<Props> = ({
       return;
     }
 
-    if (error || !isLoading) {
+    if (error && !isLoading) {
       alertRef.current?.startAnimation();
     }
   }, [isLoading, error]);
+
+  useShareDeck(isShareOpen, deckDetail.shareId, id, () => {
+    refRBSheet.current?.open();
+    setIsShareOpen(false);
+  });
 
   const handleOnPlusPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
 
@@ -78,7 +90,19 @@ const DeckDetail: FC<Props> = ({
   };
 
   const handleShareDeck = async () => {
-    return navigate(Screens.ALERT, { modalTemplate: 'shareModal', deckId: id });
+    refRBSheet.current?.open();
+    if (!sub) {
+      setIsShareOpen(true);
+      navigate(Screens.LOGIN_OR_SIGNUP);
+      return;
+    }
+    if (sub && deckDetail.isOwner && !deckDetail.shareId) {
+      dispatch(saveDeckToDB(id));
+    }
+  };
+
+  const handleCloseShare = () => {
+    refRBSheet.current?.close();
   };
 
   const handlerRefreshSharedDeck = () => {
@@ -145,6 +169,14 @@ const DeckDetail: FC<Props> = ({
           />
         </View>
       ) : null}
+      <BottomSheetModal ref={refRBSheet} height={360}>
+        <ShareContentPopup
+          deckId={id}
+          handleGoBack={handleCloseShare}
+          sub={sub}
+          handleDismissBottomSheet={handleCloseShare}
+        />
+      </BottomSheetModal>
     </Container>
   );
 };
