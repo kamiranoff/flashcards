@@ -40,6 +40,7 @@ export type RootStackParamList = {
   [Screens.UPGRADE_TO_PRO_MODAL]: undefined;
   [Screens.LOGIN_OR_SIGNUP]: undefined;
   [Screens.LOGIN_VIA_SMS]: undefined;
+  [Screens.SHOP]: undefined;
 };
 
 export type HomeStackParams = {

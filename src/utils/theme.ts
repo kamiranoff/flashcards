@@ -85,6 +85,7 @@ const theme = {
     good: palette.yellow,
     bad: palette.orange,
     warning: palette.orange,
+    offline: palette.lightGray,
     icon: palette.softWhite,
     p: palette.midGray,
     placeholder: palette.lightMidGray,

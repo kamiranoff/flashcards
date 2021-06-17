@@ -33,12 +33,12 @@ export const saveDeckToDB = (deckId: string): SaveDeckToDB => ({
   deckId,
 });
 
-export const saveDeckToDBFailure = (error: boolean): SaveDeckToDBFailure => ({
+export const saveDeckToDBFailure = (error: string): SaveDeckToDBFailure => ({
   type: DecksActionTypes.saveDeckToDBFailure,
   error,
 });
 
-export const saveOrUpdateCardToDBFailure = (error: boolean): SaveOrUpdateCardToDBFailure => ({
+export const saveOrUpdateCardToDBFailure = (error: string): SaveOrUpdateCardToDBFailure => ({
   type: DecksActionTypes.saveOrUpdateCardToDBFailure,
   error,
 });
@@ -121,7 +121,7 @@ export const saveNewCard = (deckId: string, frontendId: number, isEdit: boolean)
   isEdit,
 });
 
-export const saveSharedDeckFailure = (error: boolean) => ({
+export const saveSharedDeckFailure = (error: string) => ({
   type: DecksActionTypes.saveSharedDeckFailure,
   error,
 });

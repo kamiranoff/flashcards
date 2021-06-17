@@ -5,7 +5,7 @@ import Swiper from 'react-native-deck-swiper';
 import * as R from 'ramda';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { PlaygroundScreenNavigationProp, PlaygroundScreenRouteProp, Screens } from '../../navigation/types';
-import { CloseButton, Container, Title } from '../../common';
+import { CloseButton, Container, GeneralAlert, Title } from '../../common';
 import { selectDeckItem } from '../../redux/seclectors';
 import CardItem from './Card';
 import { Card } from '../../redux/decks/reducer';
@@ -24,6 +24,9 @@ import { AdUnitIds } from '../../service/config';
 import { ShareContentPopup } from '../../components/Popups/ShareContentPopup';
 import { BottomSheetModal } from '../../common/BottomSheetModal';
 import { useShareDeck } from '../../hooks/useShareDeck';
+import useNetInfo from '../../hooks/useNetInfo';
+import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
+
 
 export interface Props {
   route: PlaygroundScreenRouteProp;
@@ -37,6 +40,7 @@ const AD_ID = isIOS ? AdUnitIds.IOS_PRE_PLAYGROUND_PROMO : AdUnitIds.ANDROID_PRE
 const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, navigate } }) => {
   const swiperRef = useRef<any>(null); // FIXME
   const refRBSheet = useRef<RBSheet>(null);
+  const alertRef = useRef<GeneralAlertRef>(null);
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
   const [noMoreCards, setNoMoreCards] = useState(false);
@@ -46,6 +50,8 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   const restOfCards = R.reject(R.propEq('frontendId', params.cardId), deckDetail.cards);
   const reOrderedCards = card ? [card, ...restOfCards] : deckDetail.cards; // First card is the one which has been clicked from deck detail
   const [isShareOpen, setIsShareOpen] = useState(false);
+  const isConnected = useNetInfo();
+
   useInterstitialAd(AD_ID);
 
   useShareDeck(isShareOpen, deckDetail.shareId, params.deckId, () => {
@@ -58,6 +64,10 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   };
 
   const handleShareDeck = async () => {
+    if (!isConnected) {
+      return alertRef.current?.startAnimation(NotificationMessages.NETWORK_ERROR);
+    }
+
     refRBSheet.current?.open();
     if (!sub) {
       setIsShareOpen(true);
@@ -139,6 +149,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   };
   return (
     <Container style={styles.container}>
+      <GeneralAlert ref={alertRef} />
       <CloseButton onPress={handleGoBack} />
       <Title title={deckDetail.title} />
       <View style={styles.shareButtonContainer}>

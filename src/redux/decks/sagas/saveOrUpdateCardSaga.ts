@@ -8,7 +8,7 @@ import { Card } from '../reducer';
 function* saveOrUpdateCard({ deckId, frontendId, isEdit }: SaveNewCard) {
   const { decks } = yield select((state: RootState) => state.decks);
   const selectedDeck = deckId ? decks[deckId] : null;
-  const card = selectedDeck.cards.find((card: Card) => card.frontendId === frontendId);
+  const card = selectedDeck.cards.find((c: Card) => c.frontendId === frontendId);
   const data = {
     ...card,
     deckId: selectedDeck.deckId,
@@ -20,7 +20,7 @@ function* saveOrUpdateCard({ deckId, frontendId, isEdit }: SaveNewCard) {
       yield put(updateCardById(deckId, response.data));
     }
   } catch (error) {
-    yield put(saveOrUpdateCardToDBFailure(true));
+    yield put(saveOrUpdateCardToDBFailure('true'));
   }
 }
 

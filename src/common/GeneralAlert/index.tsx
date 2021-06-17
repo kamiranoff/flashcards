@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { theme } from '../../utils';
@@ -10,21 +10,26 @@ export enum NotificationMessages {
   UPDATE = 'Successfully updated',
   THANK_YOU = 'Thank you so so much!',
   ERROR = 'Something went wrong. Please try again.',
+  NETWORK_ERROR = 'It seems you are offline',
 }
 
 interface Props {
-  text: NotificationMessages;
+  text?: NotificationMessages;
   onAnimationFinish?: () => void;
 }
 
 export interface GeneralAlertRef {
-  startAnimation: () => void;
+  startAnimation: (notificationMessage?: NotificationMessages) => void;
 }
 
 const GeneralAlert = forwardRef<GeneralAlertRef, Props>(({ text, onAnimationFinish }, ref) => {
+  const [message, setMessage] = useState(text || NotificationMessages.ERROR);
+
   const bounceVal = useRef(new Animated.Value(isIphoneWithNotch() ? -144 : -100)).current;
-  const isThankYou = text === NotificationMessages.THANK_YOU;
-  const isError = text === NotificationMessages.ERROR;
+
+  const isThankYou = message === NotificationMessages.THANK_YOU;
+  const isError = message === NotificationMessages.ERROR;
+  const isNetworkError = message === NotificationMessages.NETWORK_ERROR;
 
   const bounceConfig = {
     velocity: 3,
@@ -37,7 +42,10 @@ const GeneralAlert = forwardRef<GeneralAlertRef, Props>(({ text, onAnimationFini
   // with whatever you return from the callback passed
   // as the second argument
   useImperativeHandle(ref, () => ({
-    startAnimation() {
+    startAnimation(notificationMessage?: NotificationMessages) {
+      if (notificationMessage) {
+        setMessage(notificationMessage);
+      }
       runAnimation();
     },
   }));
@@ -56,15 +64,20 @@ const GeneralAlert = forwardRef<GeneralAlertRef, Props>(({ text, onAnimationFini
     ]).start(onAnimationFinish);
   };
 
-  const renderContent = (message: NotificationMessages) => {
-    if (message === NotificationMessages.ERROR) {
+  const renderContent = (m: NotificationMessages) => {
+    if (isError || isNetworkError) {
       return (
         <>
           <View style={styles.lottie}>
-            <LottieView source={animations.thumbsDown} autoPlay loop style={styles.errorIcon} />
+            <LottieView
+              source={isError ? animations.thumbsDown : animations.dish}
+              autoPlay
+              loop
+              style={isError ? styles.errorIcon : styles.networkErrorIcon}
+            />
           </View>
           <AppText size="p" centered textStyle={[styles.text]}>
-            {message}
+            {m}
           </AppText>
         </>
       );
@@ -83,7 +96,7 @@ const GeneralAlert = forwardRef<GeneralAlertRef, Props>(({ text, onAnimationFini
           size="p"
           centered
           textStyle={[styles.text, { color: isThankYou ? '#FF7373' : theme.colors.border }]}>
-          {text}
+          {message}
         </AppText>
       </>
     );
@@ -94,9 +107,10 @@ const GeneralAlert = forwardRef<GeneralAlertRef, Props>(({ text, onAnimationFini
       style={[
         styles.container,
         { transform: [{ translateY: bounceVal }] },
+        isNetworkError && { backgroundColor: theme.colors.offline },
         isError && { backgroundColor: theme.colors.warning },
       ]}>
-      {renderContent(text)}
+      {renderContent(message)}
     </Animated.View>
   );
 });
@@ -125,6 +139,9 @@ const styles = StyleSheet.create({
   },
   errorIcon: {
     height: 200,
+  },
+  networkErrorIcon: {
+    height: 80,
   },
   icon: {
     width: 80,

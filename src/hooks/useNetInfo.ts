@@ -5,7 +5,7 @@ import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
 import { captureException } from '@sentry/react-native';
 import { Logger } from '../service/Logger';
 
-export default () => {
+const useNetInfo = () => {
   const [netInfo, setNetInfo] = useState<boolean | null>(null);
 
   const onChange = (state: NetInfoState) => {
@@ -36,3 +36,5 @@ export default () => {
 
   return netInfo;
 };
+
+export default useNetInfo;

@@ -27,6 +27,7 @@ import { Menu } from './components/Menu';
 import Cards from './components/Cards';
 import { NoContentOrPlay } from './components/NoContent';
 import { TransitionedCards } from './components/TransitionedCards';
+import useNetInfo from '../../hooks/useNetInfo';
 import { BottomSheetModal } from '../../common/BottomSheetModal';
 import { ShareContentPopup } from '../../components/Popups/ShareContentPopup';
 import { useShareDeck } from '../../hooks/useShareDeck';
@@ -56,7 +57,7 @@ const DeckDetail: FC<Props> = ({
   const goodAnswers = useSelector(selectGoodAnswers(id));
   const { isLoading, error } = useSelector((state: RootState) => state.decks);
   const [isShareOpen, setIsShareOpen] = useState(false);
-
+  const isConnected = useNetInfo();
   const alertRef = useRef<GeneralAlertRef>(null);
 
   useEffect(() => {
@@ -65,9 +66,10 @@ const DeckDetail: FC<Props> = ({
     }
 
     if (error && !isLoading) {
-      alertRef.current?.startAnimation();
+      const message = isConnected ? NotificationMessages.ERROR : NotificationMessages.NETWORK_ERROR;
+      alertRef.current?.startAnimation(message);
     }
-  }, [isLoading, error]);
+  }, [isLoading, error, isMount]);
 
   useShareDeck(isShareOpen, deckDetail.shareId, id, () => {
     refRBSheet.current?.open();
