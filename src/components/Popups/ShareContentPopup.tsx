@@ -2,7 +2,6 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import Share from 'react-native-share';
-import { useNavigation } from '@react-navigation/native';
 import * as Analytics from 'appcenter-analytics';
 import { selectDeckItem, selectIsLoading } from '../../redux/seclectors';
 import { analytics, theme } from '../../utils';
@@ -10,20 +9,20 @@ import AppText from '../../common/AppText';
 import Icon from '../../common/Icon';
 import PrimaryButton from '../../common/PrimaryButton';
 import { shareOptionsWithCode } from '../../config';
-import { Screens } from '../../navigation/types';
 
 const ShareContentPopup = ({
   deckId,
   handleGoBack,
   sub,
+  handleDismissBottomSheet,
 }: {
   deckId: string;
   handleGoBack: () => void;
   sub: string | null;
+  handleDismissBottomSheet: () => void;
 }) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
   const isLoading = useSelector(selectIsLoading);
-  const navigation = useNavigation();
 
   const handleSharePress = () => {
     if (sub) {
@@ -32,7 +31,7 @@ const ShareContentPopup = ({
         .then(handleGoBack)
         .catch(() => null);
     } else {
-      return navigation.navigate(Screens.LOGIN_OR_SIGNUP);
+      return handleDismissBottomSheet();
     }
   };
 
@@ -77,7 +76,7 @@ const ShareContentPopup = ({
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    marginTop: 40,
+    marginTop: 10,
     alignItems: 'center',
   },
   row: {
@@ -88,6 +87,7 @@ const styles = StyleSheet.create({
   },
   shareButtonContainer: {
     width: 180,
+    marginTop: 10,
     alignSelf: 'center',
   },
   iconContainer: {

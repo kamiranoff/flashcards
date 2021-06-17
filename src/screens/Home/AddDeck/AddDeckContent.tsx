@@ -13,7 +13,7 @@ interface Props {
 }
 
 const AddDeckContent: FC<Props> = ({ newTitle, setNewTitle, onSave, nbDecks }) => {
-  const message = nbDecks > 1000 ? 'You have unlimited decks' : 'You have {nbDecks} free decks.';
+  const message = nbDecks > 1000 ? 'You have unlimited decks' : `You have ${nbDecks} free ${nbDecks === 1 ? 'deck.' : 'decks.'}`;
   return (
     <>
       <AppText size="hero" centered>
