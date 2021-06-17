@@ -12,7 +12,15 @@ import PrimaryButton from '../../common/PrimaryButton';
 import { shareOptionsWithCode } from '../../config';
 import { Screens } from '../../navigation/types';
 
-const ShareContentPopup = ({ deckId, handleGoBack, sub }: { deckId: string; handleGoBack: () => void, sub: string | null }) => {
+const ShareContentPopup = ({
+  deckId,
+  handleGoBack,
+  sub,
+}: {
+  deckId: string;
+  handleGoBack: () => void;
+  sub: string | null;
+}) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
   const isLoading = useSelector(selectIsLoading);
   const navigation = useNavigation();

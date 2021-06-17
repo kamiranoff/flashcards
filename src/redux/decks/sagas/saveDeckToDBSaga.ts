@@ -13,8 +13,13 @@ function* saveDeckToDB({ deckId }: SaveDeckToDB) {
     if (!response.data) {
       throw new Error('no data found');
     }
+
+    console.log(response.data);
+    console.log(response.data.shareId);
     if (response.data.shareId) {
       yield put(updateDeck(deckId, response.data));
+    } else {
+      throw new Error('could not update deck');
     }
   } catch (error) {
     yield put(saveDeckToDBFailure(error.message));

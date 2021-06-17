@@ -1,19 +1,19 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { Animated, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
+import { Animated, RefreshControl, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '../../../navigation/types';
 import { Card } from '../../../redux/decks/reducer';
-import { isIOS, WINDOW_HEIGHT } from '../../../utils/device';
-import { useDispatch } from 'react-redux';
+import { WINDOW_HEIGHT } from '../../../utils/device';
+import { useDispatch, useSelector } from 'react-redux';
 import { NativeAlert } from '../../../common';
 import { deleteCard } from '../../../redux/decks/actions';
 import CardItem from './CardItem';
 import { theme } from '../../../utils';
+import { RootState } from '../../../redux/store';
 
 export interface Props {
   cards: Card[];
   deckId: string;
-  isOwner: boolean;
   handlerRefreshSharedDeck: () => void;
   isLoading: boolean;
 }
@@ -32,8 +32,9 @@ const formatData = (cards: Card[], numColumns: number) => {
   return data;
 };
 
-const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, isLoading }) => {
+const Cards: FC<Props> = ({ cards, deckId, handlerRefreshSharedDeck, isLoading }) => {
   const yValue = useRef(new Animated.Value(WINDOW_HEIGHT)).current;
+  const { sub } = useSelector((state: RootState) => state.user);
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
 
@@ -53,7 +54,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
         titleColor={theme.colors.border}
         refreshing={isLoading}
         onRefresh={handlerRefreshSharedDeck}
-        tintColor={theme.colors.border}
+        // tintColor={theme.colors.border}
       />
     );
   };
@@ -71,10 +72,15 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
     }
 
     return (
-      <Animated.View
+      <View
         style={[styles.item, { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon }]}>
-        <CardItem onPress={handleNavigate} onTrashPress={handleDeleteCard} card={item} isOwner={isOwner} />
-      </Animated.View>
+        <CardItem
+          onPress={handleNavigate}
+          onTrashPress={handleDeleteCard}
+          card={item}
+          isOwner={sub === item.owner}
+        />
+      </View>
     );
   };
 
@@ -85,17 +91,7 @@ const Cards: FC<Props> = ({ cards, deckId, isOwner, handlerRefreshSharedDeck, is
     return Math.random().toString();
   };
 
-  return isIOS ? (
-    <FlatList
-      refreshControl={renderRefreshControl()}
-      showsVerticalScrollIndicator={false}
-      numColumns={numberColumns}
-      contentContainerStyle={styles.contentContainerStyle}
-      data={formatData(cards, numberColumns)}
-      renderItem={renderItem}
-      keyExtractor={getItemKey}
-    />
-  ) : (
+  return (
     <Animated.FlatList
       refreshControl={renderRefreshControl()}
       showsVerticalScrollIndicator={false}
@@ -119,11 +115,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'white',
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 10,
   },
   item: {
     paddingHorizontal: 5,

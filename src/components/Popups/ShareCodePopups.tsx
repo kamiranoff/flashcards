@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { AlertScreenNavigationProp, AlertScreenRouteProp, Screens } from '../../navigation/types';
 import { getPlatformDimension, WINDOW_HEIGHT, WINDOW_WIDTH } from '../../utils/device';
 import IconButton from '../../common/IconButton';
 import { ShareContentPopup } from './ShareContentPopup';
 import { CodeContentPopup } from './CodeContentPopup';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectDeckItem } from '../../redux/seclectors';
 import { saveDeckToDB } from '../../redux/decks/actions';
 import { RootState } from '../../redux/store';
@@ -55,7 +55,7 @@ const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
         style={[
           styles.content,
           params.modalTemplate === 'codeModal'
-            ? { height: 250 }
+            ? { height: 280 }
             : { height: WINDOW_HEIGHT / getPlatformDimension(2, 2, 2.5) },
         ]}>
         <View style={styles.closeButton}>
@@ -64,7 +64,7 @@ const ShareCodePopups: FC<Props> = ({ navigation, route: { params } }) => {
         {params.modalTemplate === 'shareModal' ? (
           <ShareContentPopup deckId={params.deckId} handleGoBack={handleGoBack} sub={sub} />
         ) : (
-          <CodeContentPopup navigation={navigation} />
+          <CodeContentPopup handleGoBack={handleGoBack} />
         )}
       </View>
     </View>

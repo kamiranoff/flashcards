@@ -1,23 +1,22 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDeckByShareId } from '../../redux/decks/actions';
-import * as Analytics from 'appcenter-analytics';
-import { analytics, theme } from '../../utils';
 import { Image, StyleSheet, TextInput, View } from 'react-native';
+import * as Analytics from 'appcenter-analytics';
+import { getDeckByShareId } from '../../redux/decks/actions';
+import { analytics, theme } from '../../utils';
 import AppText from '../../common/AppText';
 import assets from '../../assets';
 import PrimaryButton from '../../common/PrimaryButton';
 import { isIOS } from '../../utils/device';
-import { AlertScreenNavigationProp } from '../../navigation/types';
 import { RootState } from '../../redux/store';
 import usePrevious from '../../hooks/usePrevious';
 import useNetInfo from '../../hooks/useNetInfo';
 
 interface Props {
-  navigation: AlertScreenNavigationProp;
+  handleGoBack: () => void;
 }
 
-const CodeContentPopup: FC<Props> = ({ navigation }) => {
+const CodeContentPopup: FC<Props> = ({ handleGoBack }) => {
   const isConnected = useNetInfo();
   const [code, setCode] = useState('');
   const dispatch = useDispatch();
@@ -44,7 +43,7 @@ const CodeContentPopup: FC<Props> = ({ navigation }) => {
   };
 
   if (closeModal) {
-    setTimeout(() => navigation.pop(), 200);
+    setTimeout(() => handleGoBack(), 200);
   }
   return (
     <View style={styles.wrapper}>

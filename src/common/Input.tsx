@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { StyleSheet, TextInput, TextInputChangeEventData, TextInputProps } from 'react-native';
+import { StyleSheet, TextInput, TextInputProps } from 'react-native';
 import { theme } from '../utils';
 
 interface Props extends TextInputProps {}
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     borderColor: theme.colors.border,
+    fontSize: 20,
   },
 });
 

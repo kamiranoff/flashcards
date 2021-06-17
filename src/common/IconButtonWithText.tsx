@@ -1,5 +1,12 @@
 import React, { FC } from 'react';
-import { Animated, GestureResponderEvent, Image, StyleSheet, TouchableWithoutFeedback, ViewStyle } from 'react-native';
+import {
+  Animated,
+  GestureResponderEvent,
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  ViewStyle,
+} from 'react-native';
 import assets from '../assets';
 import { theme, typography } from '../utils';
 
@@ -39,10 +46,10 @@ const styles = StyleSheet.create({
   },
   label: {
     width: 150,
-    color: '#FFF',
     position: 'absolute',
     ...typography.h2,
     backgroundColor: 'transparent',
+    color: '#FFF',
   },
   button: {
     backgroundColor: theme.colors.icon,

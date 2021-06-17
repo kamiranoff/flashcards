@@ -33,12 +33,12 @@ const DecksList: FC = () => {
   const handleOpenModal = () => navigate(Screens.ADD_DECK);
 
   const handleOpenCodeModal = () => {
-    if (isConnected) {
+    if (!isConnected) {
       return alertRef.current?.startAnimation(NotificationMessages.NETWORK_ERROR);
     }
 
     navigate(Screens.ALERT, { modalTemplate: 'codeModal' });
-  }
+  };
 
   const renderItem = ({ item, index }: { item: string; index: number }) => {
     const { title, cards, sharedWithYou } = decks[item];

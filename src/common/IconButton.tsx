@@ -55,8 +55,8 @@ const IconButton: FC<IconButtonProps> = memo(({ onPress, iconName, style, imgSty
         style={[
           styles.container,
           style,
-          hasShadow ? theme.iconButtonShadow : {},
           { transform: [{ scale }] },
+          hasShadow ? theme.iconButtonShadow : {},
         ]}>
         <Image source={assets.icons[iconName]} resizeMode="contain" style={[styles.img, imgStyle]} />
       </Animated.View>

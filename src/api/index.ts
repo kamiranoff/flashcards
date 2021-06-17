@@ -18,8 +18,10 @@ export interface ResponseDeck {
   id: string;
   title: string;
   owner: string;
-  share_id: string;
+  shareId: string;
   cards: Card[];
+  isPublic: boolean;
+  deckId: number;
 }
 
 axios.interceptors.response.use(

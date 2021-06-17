@@ -99,6 +99,8 @@ const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
 const styles = StyleSheet.create({
   content: {
     backgroundColor: '#fff',
+    flex: 1,
+    justifyContent: 'center',
   },
   image: {
     aspectRatio: 0.8,

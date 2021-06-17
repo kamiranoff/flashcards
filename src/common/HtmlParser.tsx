@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import { Image, StyleSheet, View, Text } from 'react-native';
 import HTMLView, { HTMLViewNode } from 'react-native-htmlview';
 import { isSmallDevice, SPACING, WINDOW_WIDTH } from '../utils/device';
-import { theme } from "../utils";
+import { theme } from '../utils';
 
 interface Props {
   text: string | undefined;
@@ -24,12 +24,12 @@ interface HTMLViewNodeWithMissingProps extends HTMLViewNode {
 }
 
 const Li = ({
-              node,
-              index,
-              siblings,
-              parent,
-              defaultRenderer
-            }: HtmlParserLiProps) => {
+  node,
+  index,
+  siblings,
+  parent,
+  defaultRenderer
+}: HtmlParserLiProps) => {
 
   if (!node.children) {
     return null;
@@ -70,7 +70,13 @@ const Img = ({ isSliced, attribs }: { isSliced?: boolean, attribs: HTMLViewNode[
 const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
   const slicedText = text ? `${text.slice(0, 150)}` : '';
 
-  const renderNode = (node: HTMLViewNodeWithMissingProps, index: number, siblings: HTMLViewNode, parent: HTMLViewNode, defaultRenderer: (node: HTMLViewNode, parent: HTMLViewNode) => ReactNode) => {
+  const renderNode = (
+    node: HTMLViewNodeWithMissingProps,
+    index: number,
+    siblings: HTMLViewNode,
+    parent: HTMLViewNode,
+    defaultRenderer: (node: HTMLViewNode, parent: HTMLViewNode) => ReactNode,
+  ) => {
     switch (node.name) {
       case 'img': {
         return <Img key={index} attribs={node.attribs} isSliced={isSliced} />;
@@ -79,18 +85,22 @@ const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
         if (!node.children) {
           return undefined;
         }
-        return (
-          <View>
-            {defaultRenderer(node.children, parent)}
-          </View>
-        );
+        return <View>{defaultRenderer(node.children, parent)}</View>;
       }
       case 'li': {
         if (!node.children) {
           return undefined;
         }
 
-        return <Li node={node} index={index} siblings={siblings} parent={parent} defaultRenderer={defaultRenderer} />
+        return (
+          <Li
+            node={node}
+            index={index}
+            siblings={siblings}
+            parent={parent}
+            defaultRenderer={defaultRenderer}
+          />
+        );
       }
       case 'blockquote': {
         if (!node.children) {
@@ -116,7 +126,8 @@ const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
 
 const defaultStyle = StyleSheet.create({
   text: {
-    fontSize: 18,
+    fontSize: 20,
+    color: '#000',
   },
 });
 
@@ -126,11 +137,11 @@ const htmlStyles = StyleSheet.create({
     color: theme.colors.linkColor, // links color
   },
   text: {
-    fontSize: 18,
-    lineHeight: 18 * 1.2,
+    fontSize: 20,
+    lineHeight: 20 * 1.2,
   },
   paragraph: {
-    fontSize: 16,
+    fontSize: 18,
     marginVertical: 10,
   },
   image: {
@@ -140,20 +151,20 @@ const htmlStyles = StyleSheet.create({
     marginVertical: 5,
   },
   h1: {
-    fontSize: 20,
-    lineHeight: 18 * 1.4,
+    fontSize: 22,
+    lineHeight: 22 * 1.4,
     marginVertical: 10,
     fontWeight: '500',
   },
   h2: {
-    fontSize: 18,
-    lineHeight: 18 * 1.4,
+    fontSize: 20,
+    lineHeight: 20 * 1.4,
     marginTop: 10,
     fontWeight: '500',
   },
   h3: {
-    fontSize: 16,
-    lineHeight: 16 * 1.4,
+    fontSize: 18,
+    lineHeight: 18 * 1.4,
     marginTop: 10,
     fontWeight: '500',
   },
@@ -162,7 +173,7 @@ const htmlStyles = StyleSheet.create({
     borderLeftWidth: 4,
     borderLeftColor: theme.colors.quoteBorder,
     marginVertical: 10,
-  }
+  },
 });
 
 export default HtmlParser;
