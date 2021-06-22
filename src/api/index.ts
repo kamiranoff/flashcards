@@ -68,7 +68,7 @@ const getHeaders = async () => {
     },
   };
   return headers;
-}
+};
 
 async function savePhoto(
   file: File,
@@ -142,14 +142,15 @@ async function saveOrUpdateCard(data: {
   isEdit: boolean;
 }): Promise<SaveOrUpdateCardResponse> {
   try {
+    const headers = await getHeaders();
     let response;
     if (data.isEdit && data.id) {
       // update card
-      response = await axios.put(`${Config.API_URL}/card/${data.id}`, data);
+      response = await axios.put(`${Config.API_URL}/card/${data.id}`, data, headers);
       return response.data;
     }
     // save new card
-    response = await axios.post(`${Config.API_URL}/card`, data);
+    response = await axios.post(`${Config.API_URL}/card`, data, headers);
     return response.data;
   } catch (error) {
     Logger.sendLocalError(error, 'saveOrUpdateCard');

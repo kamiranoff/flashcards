@@ -8,13 +8,16 @@ import { persistor, store } from './redux/store';
 import { admobInit } from './service/adMob';
 import { initLogger } from './service/Logger';
 import { initAuth0 } from './modules/Auth/services/Auth0';
-import { authConfig } from './config';
+import { authConfig, PusherConfig } from './config';
+import { initPusher } from './service/pusher';
 
 admobInit();
 initLogger();
 initAuth0(authConfig.domain, authConfig.clientId, authConfig.audience);
+initPusher(PusherConfig.apiKey);
 
 // enableScreens();
+
 const App = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>

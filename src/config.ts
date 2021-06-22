@@ -30,3 +30,7 @@ export const authConfig = {
   clientId: Config.AUTH0_CLIENT_ID,
   audience: Config.AUTH0_AUDIENCE,
 };
+
+export const PusherConfig = {
+  apiKey: Config.PUSHER_API_KEY,
+};

@@ -31,6 +31,7 @@ import useNetInfo from '../../hooks/useNetInfo';
 import { BottomSheetModal } from '../../common/BottomSheetModal';
 import { ShareContentPopup } from '../../components/Popups/ShareContentPopup';
 import { useShareDeck } from '../../hooks/useShareDeck';
+import { useDeckPusher } from './useDeckPusher';
 
 const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
 const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
@@ -69,7 +70,15 @@ const DeckDetail: FC<Props> = ({
       const message = isConnected ? NotificationMessages.ERROR : NotificationMessages.NETWORK_ERROR;
       alertRef.current?.startAnimation(message);
     }
-  }, [isLoading, error, isMount]);
+  }, [isLoading, error, isMount, isConnected]);
+
+  const handlerRefreshSharedDeck = () => {
+    if (deckDetail.shareId) {
+      dispatch(getDeckByShareId(deckDetail.shareId, id));
+    }
+  };
+
+  useDeckPusher(deckDetail.deckId, handlerRefreshSharedDeck);
 
   useShareDeck(isShareOpen, deckDetail.shareId, id, () => {
     refRBSheet.current?.open();
@@ -105,12 +114,6 @@ const DeckDetail: FC<Props> = ({
 
   const handleCloseShare = () => {
     refRBSheet.current?.close();
-  };
-
-  const handlerRefreshSharedDeck = () => {
-    if (deckDetail.shareId) {
-      dispatch(getDeckByShareId(deckDetail.shareId, id));
-    }
   };
 
   return (

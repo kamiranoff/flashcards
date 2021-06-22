@@ -6597,7 +6597,7 @@ react-native-pell-rich-editor@1.6.3:
   resolved "https://registry.yarnpkg.com/react-native-pell-rich-editor/-/react-native-pell-rich-editor-1.6.3.tgz#6abe72c12b939a68205f63bbf19dda23e111a9cf"
   integrity sha512-O5wNugh9XJAghh1UdSGoQH1Wlf4PSD6vncR64OrEXAqoCR/fixZBJwpO+6zNVPhkHaj8JHuwmm4u8JF6avTQVg==
 
-react-native-raw-bottom-sheet@^2.2.0:
+react-native-raw-bottom-sheet@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-native-raw-bottom-sheet/-/react-native-raw-bottom-sheet-2.2.0.tgz#d11dabb86aadb014273767ef7b554924b13633c5"
   integrity sha512-qL4JKIqvbcVxbkKzeh51hjV7suoJN3ouxzvLmOg0FBUV1yiJAfEbacjQdtRCI6+OU5pyGFBIifLsTXcFDwHggg==
