@@ -1,6 +1,6 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import { GeneralAlert, PriceButton } from '../../../common';
+import { PriceButton } from '../../../common';
 import AppText from '../../../common/AppText';
 import assets from '../../../assets';
 import { openLink, theme } from '../../../utils';
@@ -10,16 +10,16 @@ import { isEmpty } from 'ramda';
 import { TERMS } from '../../../config';
 import { data } from './data';
 import { getPlatformDimension } from '../../../utils/device';
-import { GeneralAlertRef, NotificationMessages } from '../../../common/GeneralAlert';
+import { AnimatedReaction } from '../../../common/AnimatedReaction';
 
 interface Props {
   onNavigateToShop: () => void;
 }
 
 const Content: FC<Props> = ({ onNavigateToShop }) => {
-  const alertRef = useRef<GeneralAlertRef>(null);
+  const [startSuccessAnimation, setStartSuccessAnimation] = useState(false);
 
-  const onSuccess = () => alertRef?.current?.startAnimation();
+  const onSuccess = () => setStartSuccessAnimation(true);
 
   const { productsObject, isLoadingProducts, onBuyPack } = usePayments(onSuccess);
   const isProductObj = !isEmpty(productsObject) && !isLoadingProducts;
@@ -30,7 +30,6 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
 
   return (
     <>
-      <GeneralAlert text={NotificationMessages.THANK_YOU} ref={alertRef} />
       <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
           <View style={styles.header}>
@@ -80,6 +79,10 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
             </AppText>
           </View>
         </View>
+        <AnimatedReaction
+          startAnimation={startSuccessAnimation}
+          onAnimationFinish={() => setStartSuccessAnimation(false)}
+        />
       </ScrollView>
     </>
   );

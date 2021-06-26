@@ -1,15 +1,15 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'ramda';
-import { AppText, GeneralAlert, PriceButton } from '../../../common';
+import { AppText, PriceButton } from '../../../common';
 import assets from '../../../assets';
 import { theme } from '../../../utils';
 import { usePayments } from '../../../modules/usePayments';
 import { Product } from 'react-native-iap';
 import { RootState } from '../../../redux/store';
-import { GeneralAlertRef, NotificationMessages } from '../../../common/GeneralAlert';
 import { data } from './data';
+import { AnimatedReaction } from '../../../common/AnimatedReaction';
 
 interface Props {
   onNavigateToUpgrade: () => void;
@@ -17,8 +17,8 @@ interface Props {
 }
 
 const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
-  const alertRef = useRef<GeneralAlertRef>(null);
-  const onSuccess = () => alertRef?.current?.startAnimation();
+  const [startSuccessAnimation, setStartSuccessAnimation] = useState(false);
+  const onSuccess = () => setStartSuccessAnimation(true);
 
   const { productsObject, isLoadingProducts, onBuyPack, restorePurchase } = usePayments(onSuccess);
   const { user } = useSelector((state: RootState) => state);
@@ -32,7 +32,6 @@ const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
 
   return (
     <>
-      <GeneralAlert text={NotificationMessages.THANK_YOU} ref={alertRef} />
       <View style={styles.content}>
         <View style={styles.header}>
           <Image source={assets.icons.happyFace} style={styles.image} />
@@ -92,6 +91,10 @@ const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
           Restore Purchase
         </AppText>
       </View>
+      <AnimatedReaction
+        startAnimation={startSuccessAnimation}
+        onAnimationFinish={() => setStartSuccessAnimation(false)}
+      />
     </>
   );
 };
