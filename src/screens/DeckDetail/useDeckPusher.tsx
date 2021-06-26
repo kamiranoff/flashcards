@@ -17,9 +17,9 @@ interface UpdateCardResponse {
   rank: number | null;
 }
 
-const useDeckPusher = (deckId: string | null, callback: () => void) => {
+const useDeckPusher = (deckId: string | null, shareId: string | null, callback: () => void) => {
   useEffect(() => {
-    if (pusher && deckId) {
+    if (pusher && deckId && shareId) {
       const channel = pusher.subscribe(`deck-${deckId}`);
       channel.bind('card-created', (_: CreateCardResponse) => {
         callback();
@@ -28,7 +28,7 @@ const useDeckPusher = (deckId: string | null, callback: () => void) => {
         callback();
       });
     }
-  }, [deckId]);
+  }, [shareId]);
 };
 
 export { useDeckPusher };

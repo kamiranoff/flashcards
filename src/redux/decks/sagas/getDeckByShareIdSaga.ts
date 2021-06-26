@@ -6,7 +6,7 @@ import { DecksActionTypes, GetDeckByShareId } from '../interface';
 import { RootState } from '../../store';
 
 function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
-  const { decks } = yield select((state: RootState) => state.decks);
+  const { decks, user } = yield select((state: RootState) => state);
   const selectedDeck = deckId ? decks[deckId] : null;
   try {
     yield put(getDeckByShareIdRequest());
@@ -19,13 +19,14 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
     if (response.data.shareId) {
       const deck = {
         ...response.data,
-        sharedByYou: selectedDeck ? selectedDeck.owner : false, // FIXME - add auth
-        sharedWithYou: selectedDeck ? !selectedDeck.owner : true, // FIXME - add auth
+        isOwner: user.sub === response.data.owner,
+        sharedByYou: selectedDeck ? selectedDeck.owner : user.sub === response.data.owner,
+        sharedWithYou: selectedDeck ? !selectedDeck.owner : user.sub !== response.data.owner,
       };
       yield put(updateDeck(id.toString(), deck));
     }
   } catch (error) {
-    yield put(saveSharedDeckFailure('true'));
+    yield put(saveSharedDeckFailure('true')); // TODO: create getDeckByShareIdError
   }
 }
 
