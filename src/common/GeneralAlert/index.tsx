@@ -76,7 +76,7 @@ const GeneralAlert = forwardRef<GeneralAlertRef, Props>(({ text, onAnimationFini
               style={isError ? styles.errorIcon : styles.networkErrorIcon}
             />
           </View>
-          <AppText size="p" centered textStyle={[styles.text]}>
+          <AppText size="h3" centered textStyle={[styles.text, isNetworkError && { color: '#FFF' }]}>
             {m}
           </AppText>
         </>
@@ -92,10 +92,7 @@ const GeneralAlert = forwardRef<GeneralAlertRef, Props>(({ text, onAnimationFini
             style={styles.icon}
           />
         </View>
-        <AppText
-          size="p"
-          centered
-          textStyle={[styles.text, { color: isThankYou ? '#FF7373' : theme.colors.border }]}>
+        <AppText size="p" centered textStyle={[styles.text, { color: theme.colors.border }]}>
           {message}
         </AppText>
       </>
@@ -107,7 +104,7 @@ const GeneralAlert = forwardRef<GeneralAlertRef, Props>(({ text, onAnimationFini
       style={[
         styles.container,
         { transform: [{ translateY: bounceVal }] },
-        isNetworkError && { backgroundColor: theme.colors.offline },
+        isNetworkError && { backgroundColor: 'black' },
         isError && { backgroundColor: theme.colors.warning },
       ]}>
       {renderContent(message)}
@@ -134,7 +131,7 @@ const styles = StyleSheet.create({
   text: {
     paddingTop: 10,
     color: theme.colors.border,
-    fontWeight: '600',
+    fontWeight: '800',
     paddingBottom: 2,
   },
   errorIcon: {

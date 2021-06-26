@@ -7,7 +7,8 @@ const RB_SHEET_STYLE = {
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   container: {
-    borderRadius: 16,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
   draggableIcon: {
     backgroundColor: theme.colors.lightBorder,
