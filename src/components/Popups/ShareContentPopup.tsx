@@ -11,11 +11,13 @@ import PrimaryButton from '../../common/PrimaryButton';
 import { shareOptionsWithCode } from '../../config';
 
 const ShareContentPopup = ({
+  error,
   deckId,
   handleGoBack,
   sub,
   handleDismissBottomSheet,
 }: {
+  error: string | null;
   deckId: string;
   handleGoBack: () => void;
   sub: string | null;
@@ -51,7 +53,11 @@ const ShareContentPopup = ({
         </AppText>
       )}
       <View style={styles.shareButtonContainer}>
-        <PrimaryButton buttonText={sub ? 'Share your deck' : 'Login'} onPress={handleSharePress} />
+        <PrimaryButton
+          disabled={!!error}
+          buttonText={sub ? 'Share your deck' : 'Login'}
+          onPress={handleSharePress}
+        />
       </View>
       {sub && (
         <View style={styles.textContent}>

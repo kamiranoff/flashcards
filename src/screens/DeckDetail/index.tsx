@@ -78,7 +78,7 @@ const DeckDetail: FC<Props> = ({
     }
   };
 
-  useDeckPusher(deckDetail.deckId, handlerRefreshSharedDeck);
+  useDeckPusher(deckDetail.deckId, deckDetail.shareId, handlerRefreshSharedDeck);
 
   useShareDeck(isShareOpen, deckDetail.shareId, id, () => {
     refRBSheet.current?.open();
@@ -143,6 +143,7 @@ const DeckDetail: FC<Props> = ({
                 ref={ref}
                 items={deckDetail.cards}
                 deckId={id}
+                isOwner={deckDetail.owner === sub || deckDetail.isOwner}
                 isLoading={isLoading}
                 handlerRefresh={handlerRefreshSharedDeck}
               />
@@ -155,6 +156,7 @@ const DeckDetail: FC<Props> = ({
           <Cards
             cards={deckDetail.cards}
             deckId={id}
+            isOwner={deckDetail.owner === sub || deckDetail.isOwner}
             handlerRefreshSharedDeck={handlerRefreshSharedDeck}
             isLoading={isLoading}
           />
@@ -176,6 +178,7 @@ const DeckDetail: FC<Props> = ({
       ) : null}
       <BottomSheetModal ref={refRBSheet} height={360}>
         <ShareContentPopup
+          error={error}
           deckId={id}
           handleGoBack={handleCloseShare}
           sub={sub}
