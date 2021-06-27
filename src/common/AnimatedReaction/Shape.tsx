@@ -11,6 +11,7 @@ export enum Shapes {
   GREEN_HEART = 'green_heart',
   PURPLE_HEART = 'purple_heart',
   SPARKLING_HEART = 'sparkling_heart',
+  STAR = 'star',
 }
 
 export enum ShapesExtra {
@@ -37,6 +38,7 @@ const Shape: FC<Props> = ({ type }) => {
     case Shapes.GREEN_HEART:
     case Shapes.PURPLE_HEART:
     case Shapes.SPARKLING_HEART:
+    case Shapes.STAR:
       return <Emoji name={type} style={styles.text} />;
     case ShapesExtra.RANDOM:
       if (isShapeValue(type)) {

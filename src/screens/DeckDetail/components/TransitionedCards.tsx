@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
-import { Transition, Transitioning } from 'react-native-reanimated';
+import { Transition, Transitioning, TransitioningView } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { theme } from '../../../utils';
@@ -19,11 +19,7 @@ interface Props {
   isOwner: boolean;
 }
 
-export interface Ref {
-  ref: any;
-}
-
-const TransitionedCards = forwardRef<Ref, Props>(
+const TransitionedCards = forwardRef<TransitioningView, Props>(
   ({ items, deckId, handlerRefresh, isLoading, isOwner }, ref) => {
     const { navigate } = useNavigation();
     const dispatch = useDispatch();

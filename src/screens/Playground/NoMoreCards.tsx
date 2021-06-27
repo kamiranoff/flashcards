@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
@@ -8,17 +8,26 @@ import { selectBadAnswers, selectGoodAnswers } from '../../redux/seclectors';
 import assets from '../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';
 import { getUserScore } from '../../utils';
+import { AnimatedReaction } from '../../common/AnimatedReaction';
+import { Shapes } from '../../common/AnimatedReaction/Shape';
 
 interface Props {
   deckId: string;
 }
 
 const NoMoreCards: FC<Props> = ({ deckId }) => {
+  const [startSuccessAnimation, setStartSuccessAnimation] = useState(false);
   const badAnswers = useSelector(selectBadAnswers(deckId));
   const goodAnswers = useSelector(selectGoodAnswers(deckId));
   const scoreInfo = getUserScore(goodAnswers, badAnswers);
   // @ts-ignore
   const icon = animations[`${scoreInfo.icon}Lady`];
+
+  useEffect(() => {
+    if (scoreInfo.score === '100%') {
+      setStartSuccessAnimation(true);
+    }
+  }, [scoreInfo.score]);
 
   return (
     <View style={styles.container}>
@@ -48,6 +57,11 @@ const NoMoreCards: FC<Props> = ({ deckId }) => {
       <View style={styles.animationContainer}>
         <LottieView autoPlay loop speed={1.5} source={icon} style={styles.icon} />
       </View>
+      <AnimatedReaction
+        shapeType={Shapes.STAR}
+        startAnimation={startSuccessAnimation}
+        onAnimationFinish={() => setStartSuccessAnimation(false)}
+      />
     </View>
   );
 };

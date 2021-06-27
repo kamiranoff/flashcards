@@ -82,7 +82,6 @@ const ShareContentPopup = ({
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    marginTop: 10,
     alignItems: 'center',
   },
   row: {
