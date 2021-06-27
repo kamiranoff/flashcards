@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import { PriceButton } from '../../../common';
 import AppText from '../../../common/AppText';

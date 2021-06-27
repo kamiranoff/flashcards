@@ -81,7 +81,7 @@ const CodeContentPopup: FC<Props> = ({ handleGoBack }) => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 0,
     alignItems: 'center',
   },
   stroke: {

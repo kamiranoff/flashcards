@@ -31,7 +31,7 @@ const getShapeType = (shape: ShapeType) => {
 const AnimatedReaction: FC<Props> = ({
   startAnimation,
   onAnimationFinish,
-  shapeType = Shapes.SPARKLING_HEART,
+  shapeType = ShapesExtra.RANDOM,
   shapeNumbers = 50,
 }) => {
   const [shape] = useState<ShapeType | Shapes>(getShapeType(shapeType));
@@ -60,7 +60,7 @@ const AnimatedReaction: FC<Props> = ({
 
   if (!start) return null;
   return (
-    <View style={[styles.container]} pointerEvents="none">
+    <View style={styles.container} pointerEvents="none">
       {shapes.map(({ id, right, startingHeight }) => (
         <AnimatedShape
           key={id}
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     position: 'absolute',
+    zIndex: 9999,
   },
 });
 

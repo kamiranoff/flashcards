@@ -176,7 +176,7 @@ const DeckDetail: FC<Props> = ({
           />
         </View>
       ) : null}
-      <BottomSheetModal ref={refRBSheet} height={360}>
+      <BottomSheetModal ref={refRBSheet} height={320}>
         <ShareContentPopup
           error={error}
           deckId={id}

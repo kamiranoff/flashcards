@@ -73,7 +73,7 @@ const DecksList: FC = () => {
       <GeneralAlert ref={alertRef} />
       <View style={styles.buttonContainer}>
         <View style={styles.row}>
-          <IconButton onPress={handleOpenBottomModal} iconName="codebar" style={{ marginRight: 10 }} />
+          <IconButton onPress={handleOpenBottomModal} iconName="codebar" style={styles.codeIcon} />
           <AddButton onOpenModal={handleOpenModal} />
         </View>
       </View>
@@ -97,11 +97,11 @@ const DecksList: FC = () => {
               <View style={[StyleSheet.absoluteFillObject, styles.dummy]} />
             </SharedElement>
           ) : null}
-          <BottomSheetModal ref={refRBSheet} height={310}>
-            <CodeContentPopup handleGoBack={handleCloseBottomModal} />
-          </BottomSheetModal>
         </>
       )}
+      <BottomSheetModal ref={refRBSheet} height={260}>
+        <CodeContentPopup handleGoBack={handleCloseBottomModal} />
+      </BottomSheetModal>
     </>
   );
 };
@@ -129,6 +129,9 @@ const styles = StyleSheet.create({
   noContentInfo: {
     flex: 1,
     marginTop: -50,
+  },
+  codeIcon: {
+    marginRight: 10,
   },
 });
 
