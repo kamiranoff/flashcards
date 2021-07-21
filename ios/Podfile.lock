@@ -412,13 +412,13 @@ PODS:
   - RNFBApp (11.1.1):
     - Firebase/CoreOnly (= 7.8.1)
     - React-Core
-  - RNGestureHandler (1.8.0):
-    - React
+  - RNGestureHandler (1.10.3):
+    - React-Core
   - RNIap (5.2.13):
     - React-Core
   - RNReanimated (1.13.2):
     - React-Core
-  - RNScreens (2.15.0):
+  - RNScreens (3.1.1):
     - React-Core
   - RNSentry (2.4.0):
     - React-Core
@@ -705,10 +705,10 @@ SPEC CHECKSUMS:
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNFBAdMob: 99ce0ddb217ee60eb4e4f03a974d96f61fd2f1aa
   RNFBApp: 27bb6551d41886fb7352c66174defc26d2c298b4
-  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNIap: 339516d965769d84f43522bbca25bc8ecfea8d1d
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
-  RNScreens: 2ad555d4d9fa10b91bb765ca07fe9b29d59573f0
+  RNScreens: bd1523c3bde7069b8e958e5a16e1fc7722ad0bdd
   RNSentry: b0d55027200c96f52e26b9bfb20296d47fc5051d
   RNShare: 6779fdd48e6246a8c79276a5b5e74a0f0d61a1ec
   RNSharedElement: 00b1a1420d213a34459bb9a5aacabb38107d7948
