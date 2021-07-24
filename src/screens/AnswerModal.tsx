@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddAnswerScreenNavigationProp, AddAnswerScreenRouteProp } from '../navigation/types';
-import { CloseButton, Container, Form, Title } from 'common';
 import { selectCard, selectDeckItem } from '../redux/seclectors';
 import { Card } from '../redux/decks/reducer';
 import { saveAnswer, saveNewCard } from '../redux/decks/actions';
+import { CloseButton, Container, Form, Title } from '../common';
 
 export interface Props {
   route: AddAnswerScreenRouteProp;

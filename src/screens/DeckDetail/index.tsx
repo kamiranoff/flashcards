@@ -2,16 +2,16 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
-import { Animated, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { DeckDetailScreenRouteProp, Screens } from '../../navigation/types';
-import { isLargeDevice, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
+import { isIOS, isLargeDevice, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { Container, GeneralAlert, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
 import { getDeckByShareId, saveDeckToDB, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
-import useOpacity from './useOpacity';
+// import useOpacity from './useOpacity';
 import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
 import { useIsMount } from '../../utils/useIsMount';
@@ -41,7 +41,7 @@ const DeckDetail: FC<Props> = ({
   const ref = useRef<any | null | undefined>(); // TODO: fix type
   const refRBSheet = useRef<RBSheet>(null);
   const isMount = useIsMount();
-  const { opacityVal } = useOpacity();
+  // const { opacityVal } = useOpacity();
   const dispatch = useDispatch();
   const { sub } = useSelector((state: RootState) => state.user);
   const { navigate } = useNavigation();
@@ -118,21 +118,17 @@ const DeckDetail: FC<Props> = ({
         badAnswersTotal={badAnswers}
         goodAnswersTotal={goodAnswers}
       />
-      <SharedElement
-        id="general.bg"
-        style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT + 30 }] }]}>
-        <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
-          <Animated.View style={{ opacity: opacityVal }}>
-            <NoContentOrPlay hasCards={!!deckDetail.cards.length} onPress={navigateToPlayground} />
-            <TransitionedCards
-              ref={ref}
-              items={deckDetail.cards}
-              deckId={id}
-              isOwner={deckDetail.owner === sub || deckDetail.isOwner}
-              isLoading={isLoading}
-              handlerRefresh={handlerRefreshSharedDeck}
-            />
-          </Animated.View>
+      <SharedElement id="general.bg" style={[isIOS ? styles.sharedStyle : styles.androidList]}>
+        <View style={[isIOS ? styles.dummy : styles.androidList]}>
+          <NoContentOrPlay hasCards={!!deckDetail.cards.length} onPress={navigateToPlayground} />
+          <TransitionedCards
+            ref={ref}
+            items={deckDetail.cards}
+            deckId={id}
+            isOwner={deckDetail.owner === sub || deckDetail.isOwner}
+            isLoading={isLoading}
+            handlerRefresh={handlerRefreshSharedDeck}
+          />
         </View>
       </SharedElement>
       <RefreshIcon isVisible={showRefresh} onPress={handlerRefreshSharedDeck} />
@@ -163,7 +159,12 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     height: TOP_HEADER_HEIGHT + 60,
   },
+  sharedStyle: {
+    ...StyleSheet.absoluteFillObject,
+    transform: [{ translateY: WINDOW_HEIGHT + 30 }],
+  },
   dummy: {
+    ...StyleSheet.absoluteFillObject,
     flex: 1,
     position: 'relative',
     backgroundColor: 'white',

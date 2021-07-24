@@ -10,7 +10,7 @@ import useNetInfo from '../../hooks/useNetInfo';
 import { Header } from './Header';
 import { BottomSheetModal } from '../../common/BottomSheetModal';
 import { CodeContentPopup } from '../../components/Popups/CodeContentPopup';
-import { WINDOW_HEIGHT } from '../../utils/device';
+import { isIOS, WINDOW_HEIGHT } from '../../utils/device';
 
 type Props = {
   navigation: HomeScreenNavigationProp;
@@ -40,9 +40,11 @@ const Home: FC<Props> = ({ navigation }) => {
         handleOpenBottomModal={handleOpenBottomModal}
       />
       <DecksList />
-      <SharedElement id="general.bg" style={styles.sharedElementStyle}>
-        <View style={styles.dummy} />
-      </SharedElement>
+      {isIOS ? (
+        <SharedElement id="general.bg" style={styles.sharedElementStyle}>
+          <View style={styles.dummy} />
+        </SharedElement>
+      ) : null}
       <BottomSheetModal ref={refRBSheet} height={260}>
         <CodeContentPopup handleGoBack={handleCloseBottomModal} />
       </BottomSheetModal>

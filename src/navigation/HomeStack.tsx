@@ -13,9 +13,9 @@ const SharedHomeStack = createSharedElementStackNavigator();
 export const iosTransitionSpec: TransitionSpec = {
   animation: 'spring',
   config: {
-    stiffness: 1000,
-    damping: 500,
-    mass: 3,
+    stiffness: 600,
+    damping: 100,
+    mass: 1,
     overshootClamping: true,
     restDisplacementThreshold: 10,
     restSpeedThreshold: 10,
@@ -34,7 +34,10 @@ const HomeStackScreen = () => (
       ...TransitionPresets.ModalSlideFromBottomIOS,
       transitionSpec: {
         open: iosTransitionSpec,
-        close: iosTransitionSpec,
+        close: {
+          animation: 'timing',
+          config: {},
+        },
       },
       cardStyleInterpolator: ({ current: { progress } }) => {
         return {
@@ -53,8 +56,8 @@ const HomeStackScreen = () => (
       sharedElementsConfig={(route) => {
         const { id } = route.params;
         return [
-          { id: `item.${id}`, animation: isAndroid ? 'fade-out' : undefined },
-          { id: 'general.bg', animation: 'fade-out' },
+          { id: `item.${id}`, animation: isAndroid ? 'fade-out' : 'move' },
+          { id: 'general.bg', animation: isAndroid ? undefined : 'fade-out' },
         ];
       }}
     />
