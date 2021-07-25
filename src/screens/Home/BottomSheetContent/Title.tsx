@@ -41,7 +41,7 @@ const Title: FC<Props> = ({ handleGoBack, deckId }) => {
           buttonText="Save"
           onPress={handleSaveDeck}
           hasShadow={isIOS}
-          disabled={!newTitle}
+          disabled={newTitle === deckDetail.title}
           buttonStyle={styles.buttonStyle}
           buttonTextStyle={{ color: theme.colors.border }}
         />

@@ -49,12 +49,13 @@ const updateCards = R.curry((newCard: Partial<Card>, card: Card) => {
 
 export default function decks(state = initialState, action: DecksActions): DecksState {
   switch (action.type) {
-    case DecksActionTypes.getDeckByShareIdRequest:
+    case DecksActionTypes.getDeckByShareId:
     case DecksActionTypes.saveDeckToDB:
       return {
         ...state,
         isLoading: true,
       };
+    case DecksActionTypes.getDeckByShareIdError:
     case DecksActionTypes.clearDecksError:
     case DecksActionTypes.saveSharedDeckFailure:
     case DecksActionTypes.saveDeckToDBFailure:
@@ -126,6 +127,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
       const updatedDecks = R.omit([action.id], state.decks);
       return {
         ...state,
+        error: null,
         decks: updatedDecks,
       };
     }

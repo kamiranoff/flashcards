@@ -27,7 +27,7 @@ const ShareContentPopup = ({
   const isLoading = useSelector(selectIsLoading);
 
   const handleSharePress = () => {
-    if (sub) {
+    if (sub && !error) {
       Analytics.trackEvent(analytics.shareDeckByUser);
       return Share.open(shareOptionsWithCode(deckDetail.shareId))
         .then(handleGoBack)
@@ -47,19 +47,15 @@ const ShareContentPopup = ({
       <View style={styles.iconContainer}>
         <Icon name="happyFace2" imgStyle={styles.icon} />
       </View>
-      {!sub && (
+      {(!sub || error) && (
         <AppText size="h2" centered textStyle={{ paddingBottom: 10 }}>
           Login to share your deck
         </AppText>
       )}
       <View style={styles.shareButtonContainer}>
-        <PrimaryButton
-          disabled={!!error}
-          buttonText={sub ? 'Share your deck' : 'Login'}
-          onPress={handleSharePress}
-        />
+        <PrimaryButton buttonText={sub && !error ? 'Share your deck' : 'Login'} onPress={handleSharePress} />
       </View>
-      {sub && (
+      {sub && !error && (
         <View style={styles.textContent}>
           <AppText size="body" centered>
             Click the button

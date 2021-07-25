@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import Api from '../../../api';
 import { GetDeckBySharedIdResponse } from '../../../api/types';
-import { getDeckByShareIdRequest, saveSharedDeckFailure, updateDeck } from '../actions';
+import { getDeckByShareIdError, updateDeck } from '../actions';
 import { DecksActionTypes, GetDeckByShareId } from '../interface';
 import { RootState } from '../../store';
 
@@ -9,7 +9,6 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
   const { decks, user } = yield select((state: RootState) => state);
   const selectedDeck = deckId ? decks[deckId] : null;
   try {
-    yield put(getDeckByShareIdRequest());
     const response: GetDeckBySharedIdResponse = yield call(Api.getSharedDeckBySharedId, code);
     if (!response.data) {
       throw new Error(response.error || 'Unknown error');
@@ -26,7 +25,7 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
       yield put(updateDeck(id.toString(), deck));
     }
   } catch (error) {
-    yield put(saveSharedDeckFailure('true')); // TODO: create getDeckByShareIdError
+    yield put(getDeckByShareIdError('Something went wrong'));
   }
 }
 

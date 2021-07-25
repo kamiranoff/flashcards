@@ -21,6 +21,7 @@ export enum DecksActionTypes {
   saveNewCard = 'SAVE_NEW_CARD',
   updateCardById = 'UPDATE_CARD_BY_ID',
   saveOrUpdateCardToDBFailure = 'SAVE_OR_UPDATE_CARD_TO_DB_FAILURE',
+  getDeckByShareIdError = 'GET_DECK_BY_SHARE_ID_ERROR',
 }
 
 export enum SCORES {
@@ -136,8 +137,9 @@ export interface ClearDecksError {
   error: string;
 }
 
-export interface GetDeckByShareIdRequest {
-  type: DecksActionTypes.getDeckByShareIdRequest;
+export interface GetDeckByShareIdError {
+  type: DecksActionTypes.getDeckByShareIdError;
+  error: string;
 }
 
 export type DecksActions =
@@ -154,8 +156,8 @@ export type DecksActions =
   | AddFreeDeck
   | SaveSharedDeckFailure
   | ClearDecksError
-  | GetDeckByShareIdRequest
   | SaveDeckToDBFailure
   | UpdateDeck
   | UpdateCardById
+  | GetDeckByShareIdError
   | SaveDeckToDB;

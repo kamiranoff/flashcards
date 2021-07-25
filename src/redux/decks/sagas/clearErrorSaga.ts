@@ -12,12 +12,5 @@ function* clearError() {
 }
 
 export default function* clearErrorSaga() {
-  yield takeLatest(
-    [
-      DecksActionTypes.saveSharedDeckFailure,
-      DecksActionTypes.saveDeckToDBFailure,
-      DecksActionTypes.saveOrUpdateCardToDBFailure,
-    ],
-    clearError,
-  );
+  yield takeLatest([DecksActionTypes.getDeckByShareIdError], clearError);
 }

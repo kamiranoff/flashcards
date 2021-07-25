@@ -87,7 +87,7 @@ const DeckDetail: FC<Props> = ({
 
   const handleShareDeck = async () => {
     refRBSheet.current?.open();
-    if (!sub) {
+    if (!sub || error) {
       setIsShareOpen(true);
       navigate(Screens.LOGIN_OR_SIGNUP);
       return;

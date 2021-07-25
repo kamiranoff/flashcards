@@ -17,7 +17,7 @@ function* saveDeckToDB({ deckId }: SaveDeckToDB) {
     if (response.data.shareId) {
       yield put(updateDeck(deckId, response.data));
     } else {
-      throw new Error('could not update deck');
+      yield put(saveDeckToDBFailure('error'));
     }
   } catch (error) {
     yield put(saveDeckToDBFailure(error.message));

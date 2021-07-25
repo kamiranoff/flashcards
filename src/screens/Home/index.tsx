@@ -52,7 +52,7 @@ const Home: FC<Props> = ({ navigation }) => {
         handleOpenBottomModal={handleOpenBottomModal}
       />
       <DecksList onChangeTitle={handleTitleEdit} />
-      <BottomSheetModal ref={refRBSheet} height={isCodeBottomSheet ? 260 : 200}>
+      <BottomSheetModal ref={refRBSheet} height={240}>
         {isCodeBottomSheet ? (
           <CodeContentPopup handleGoBack={handleCloseBottomModal} />
         ) : (
