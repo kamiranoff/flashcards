@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
-    paddingBottom: 100, // TODO: dynamic padding bottom
+    paddingBottom: 400, // TODO: dynamic padding bottom
   },
 });
 

@@ -13,7 +13,10 @@ import { useKeyboard } from '../../../hooks/useKeyboard';
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
 const colors = theme.colors.list;
 
-const DecksList: FC = () => {
+type Props = {
+  onChangeTitle: (title: string) => void;
+};
+const DecksList: FC<Props> = ({ onChangeTitle }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
     useNativeDriver: true,
@@ -31,11 +34,12 @@ const DecksList: FC = () => {
 
     return (
       <DeckItem
-        item={item}
+        id={item}
         index={index}
         title={title}
         scrollY={scrollY}
         onDelete={handleRemoveDeck(item)}
+        onChangeTitle={() => onChangeTitle(item)}
         onNavigate={handleNavigate}
         totalCards={cards.length}
         goodAnswers={goodAnswers}

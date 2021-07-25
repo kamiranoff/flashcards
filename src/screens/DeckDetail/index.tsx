@@ -4,14 +4,13 @@ import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 import { DeckDetailScreenRouteProp, Screens } from '../../navigation/types';
-import { isIOS, isLargeDevice, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
+import { isLargeDevice, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { Container, GeneralAlert, Title } from '../../common';
+import { AnimatedView, Container, GeneralAlert, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
 import { getDeckByShareId, saveDeckToDB, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { theme } from '../../utils';
-// import useOpacity from './useOpacity';
 import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
 import { useIsMount } from '../../utils/useIsMount';
@@ -106,20 +105,21 @@ const DeckDetail: FC<Props> = ({
   const handleCloseShare = () => refRBSheet.current?.close();
 
   return (
-    <Container>
+    <Container style={{ backgroundColor: color }}>
       <GeneralAlert text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE} ref={alertRef} />
       <Header title={deckDetail.title} deckId={id} />
-      <SharedElement id={`item.${id}`} style={StyleSheet.absoluteFillObject}>
-        <View style={[styles.topView, { backgroundColor: color }]} />
-      </SharedElement>
-      <Title title={deckDetail.title} />
-      <TopContent
-        total={deckDetail.cards.length}
-        badAnswersTotal={badAnswers}
-        goodAnswersTotal={goodAnswers}
-      />
-      <SharedElement id="general.bg" style={[isIOS ? styles.sharedStyle : styles.androidList]}>
-        <View style={[isIOS ? styles.iosList : styles.androidList]}>
+      <View style={[styles.topView, { backgroundColor: color }]}>
+        <SharedElement id={`item.${id}`}>
+          <Title title={deckDetail.title} />
+        </SharedElement>
+        <TopContent
+          total={deckDetail.cards.length}
+          badAnswersTotal={badAnswers}
+          goodAnswersTotal={goodAnswers}
+        />
+      </View>
+      <AnimatedView top={500} scaleRatio={0.9} duration={500}>
+        <View style={styles.list}>
           <NoContentOrPlay hasCards={!!deckDetail.cards.length} onPress={navigateToPlayground} />
           <TransitionedCards
             ref={ref}
@@ -130,7 +130,7 @@ const DeckDetail: FC<Props> = ({
             handlerRefresh={handlerRefreshSharedDeck}
           />
         </View>
-      </SharedElement>
+      </AnimatedView>
       <RefreshIcon isVisible={showRefresh} onPress={handlerRefreshSharedDeck} />
       {deckDetail.cards.length ? (
         <View style={styles.menu}>
@@ -156,16 +156,12 @@ const DeckDetail: FC<Props> = ({
 
 const styles = StyleSheet.create({
   topView: {
-    ...StyleSheet.absoluteFillObject,
     borderRadius: 0,
-    height: TOP_HEADER_HEIGHT + 60,
   },
   sharedStyle: {
-    ...StyleSheet.absoluteFillObject,
     transform: [{ translateY: WINDOW_HEIGHT + 30 }],
   },
   iosList: {
-    ...StyleSheet.absoluteFillObject,
     flex: 1,
     backgroundColor: 'white',
     transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT_SPACING }],
@@ -178,8 +174,8 @@ const styles = StyleSheet.create({
     paddingBottom: SPACING + 10,
     zIndex: 9,
   },
-  androidList: {
-    flex: 1,
+  list: {
+    flexGrow: 1,
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     paddingTop: SPACING,

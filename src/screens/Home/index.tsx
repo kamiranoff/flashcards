@@ -1,6 +1,4 @@
-import React, { FC, useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { SharedElement } from 'react-navigation-shared-element';
+import React, { FC, useCallback, useRef, useState } from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { Container, GeneralAlert } from '../../common';
 import DecksList from './DecksList';
@@ -10,27 +8,41 @@ import useNetInfo from '../../hooks/useNetInfo';
 import { Header } from './Header';
 import { BottomSheetModal } from '../../common/BottomSheetModal';
 import { CodeContentPopup } from '../../components/Popups/CodeContentPopup';
-import { isIOS, WINDOW_HEIGHT } from '../../utils/device';
+import { Title } from './BottomSheetContent/Title';
 
 type Props = {
   navigation: HomeScreenNavigationProp;
 };
 
+export enum BottomSheetType {
+  CODE,
+  EDIT_TITLE,
+}
+
 const Home: FC<Props> = ({ navigation }) => {
   const refRBSheet = useRef<RBSheet>(null);
   const isConnected = useNetInfo();
   const alertRef = useRef<GeneralAlertRef>(null);
+  const [currentDeckId, setCurrentDeckId] = useState('');
+  const [bottomSheetContent, setBottomSheetContent] = useState<null | BottomSheetType>(null);
   const handleNavigateToAddDeck = () => navigation.navigate(Screens.ADD_DECK);
+  const isCodeBottomSheet = bottomSheetContent === BottomSheetType.CODE;
 
   const handleOpenBottomModal = () => {
     if (!isConnected) {
       return alertRef.current?.startAnimation(NotificationMessages.NETWORK_ERROR);
     }
-
+    setBottomSheetContent(BottomSheetType.CODE);
     refRBSheet.current?.open();
   };
 
   const handleCloseBottomModal = () => refRBSheet.current?.close();
+
+  const handleTitleEdit = useCallback((id) => {
+    setBottomSheetContent(BottomSheetType.EDIT_TITLE);
+    setCurrentDeckId(id);
+    refRBSheet.current?.open();
+  }, []);
 
   return (
     <Container>
@@ -39,31 +51,16 @@ const Home: FC<Props> = ({ navigation }) => {
         handleNavigateToAddDeck={handleNavigateToAddDeck}
         handleOpenBottomModal={handleOpenBottomModal}
       />
-      <DecksList />
-      {isIOS ? (
-        <SharedElement id="general.bg" style={styles.sharedElementStyle}>
-          <View style={styles.dummy} />
-        </SharedElement>
-      ) : null}
-      <BottomSheetModal ref={refRBSheet} height={260}>
-        <CodeContentPopup handleGoBack={handleCloseBottomModal} />
+      <DecksList onChangeTitle={handleTitleEdit} />
+      <BottomSheetModal ref={refRBSheet} height={isCodeBottomSheet ? 260 : 200}>
+        {isCodeBottomSheet ? (
+          <CodeContentPopup handleGoBack={handleCloseBottomModal} />
+        ) : (
+          <Title handleGoBack={handleCloseBottomModal} deckId={currentDeckId} />
+        )}
       </BottomSheetModal>
     </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  sharedElementStyle: {
-    ...StyleSheet.absoluteFillObject,
-    transform: [{ translateY: WINDOW_HEIGHT }],
-  },
-  dummy: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'white',
-    transform: [{ translateY: 0 }],
-    borderTopLeftRadius: 48,
-    borderTopRightRadius: 48,
-  },
-});
 
 export default Home;

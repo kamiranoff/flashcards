@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     top: 5,
     right: 10,
     alignSelf: 'flex-end',
+    zIndex: 9,
   },
   transparentIcon: {
     ...transparentIcon,

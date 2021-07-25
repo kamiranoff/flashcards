@@ -6,7 +6,6 @@ import { Screens } from './types';
 import Home from '../screens/Home';
 import DeckDetail from '../screens/DeckDetail';
 import { smoothOpacityTransition } from './utils';
-import { isAndroid } from '../utils/device';
 
 const SharedHomeStack = createSharedElementStackNavigator();
 
@@ -55,10 +54,7 @@ const HomeStackScreen = () => (
       options={() => smoothOpacityTransition}
       sharedElementsConfig={(route) => {
         const { id } = route.params;
-        return [
-          { id: `item.${id}`, animation: isAndroid ? 'fade-out' : 'move' },
-          { id: 'general.bg', animation: isAndroid ? undefined : 'fade-out' },
-        ];
+        return [{ id: `item.${id}`, animation: 'fade-in' }];
       }}
     />
   </SharedHomeStack.Navigator>
