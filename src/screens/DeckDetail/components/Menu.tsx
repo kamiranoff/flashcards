@@ -31,14 +31,13 @@ const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
 
   const toggleOpen = () => {
     const toValue = isOpen ? 0 : 1;
-
     Animated.timing(animation, {
       toValue,
       useNativeDriver: true,
       duration: 200,
-    }).start();
-
-    setIsOpen(!isOpen);
+    }).start(() => {
+      setIsOpen(!isOpen);
+    });
   };
 
   const scaleInterpolate = animation.interpolate({

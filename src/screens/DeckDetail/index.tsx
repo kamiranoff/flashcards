@@ -4,13 +4,12 @@ import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 import { DeckDetailScreenRouteProp, Screens } from '../../navigation/types';
-import { isLargeDevice, isSmallDevice, SPACING, WINDOW_HEIGHT } from '../../utils/device';
+import { isLargeDevice, SPACING } from '../../utils/device';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { AnimatedView, Container, GeneralAlert, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
 import { getDeckByShareId, saveDeckToDB, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
-import { theme } from '../../utils';
 import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
 import { useIsMount } from '../../utils/useIsMount';
@@ -25,9 +24,6 @@ import { useDeckPusher } from './useDeckPusher';
 import { Header } from './components/Header';
 import { RefreshIcon } from './components/RefreshIcon';
 
-const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
-const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
-
 export interface Props {
   route: DeckDetailScreenRouteProp;
 }
@@ -40,7 +36,6 @@ const DeckDetail: FC<Props> = ({
   const ref = useRef<any | null | undefined>(); // TODO: fix type
   const refRBSheet = useRef<RBSheet>(null);
   const isMount = useIsMount();
-  // const { opacityVal } = useOpacity();
   const dispatch = useDispatch();
   const { sub } = useSelector((state: RootState) => state.user);
   const { navigate } = useNavigation();
@@ -157,22 +152,6 @@ const DeckDetail: FC<Props> = ({
 const styles = StyleSheet.create({
   topView: {
     borderRadius: 0,
-  },
-  sharedStyle: {
-    transform: [{ translateY: WINDOW_HEIGHT + 30 }],
-  },
-  iosList: {
-    flex: 1,
-    backgroundColor: 'white',
-    transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT_SPACING }],
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    borderColor: theme.colors.lightBorder,
-    borderWidth: 0.5,
-    paddingTop: SPACING,
-    paddingHorizontal: 5,
-    paddingBottom: SPACING + 10,
-    zIndex: 9,
   },
   list: {
     flexGrow: 1,
