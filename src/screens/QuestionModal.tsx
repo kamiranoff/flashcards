@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import 'react-native-get-random-values';
 import { customAlphabet } from 'nanoid';
 import { AddQuestionScreenNavigationProp, AddQuestionScreenRouteProp, Screens } from '../navigation/types';
-import { CloseButton, Container, Form, Title } from 'common';
 import { selectCard, selectDeckItem } from '../redux/seclectors';
 import { Card } from '../redux/decks/reducer';
 import { saveNewCard, saveQuestion } from '../redux/decks/actions';
+import { CloseButton, Container, Form, Title } from '../common';
 
 export interface Props {
   route: AddQuestionScreenRouteProp;

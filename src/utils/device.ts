@@ -26,10 +26,9 @@ export const SPACING = 16;
 
 export const HIT_SLOP = {
   top: isIOS ? 10 : 20,
-  left: 20,
+  left: 10,
   bottom: 20,
-  right: 20,
-  backgroundColor: 'red',
+  right: 10,
 };
 
 export function isIphoneWithNotch() {

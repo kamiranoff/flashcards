@@ -2,29 +2,18 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
-import { Animated, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { DeckDetailScreenRouteProp, Screens } from '../../navigation/types';
-import {
-  getPlatformDimension,
-  isIOS,
-  isLargeDevice,
-  isSmallDevice,
-  SPACING,
-  WINDOW_HEIGHT,
-} from '../../utils/device';
-import IconButton from '../../common/IconButton';
+import { isLargeDevice, SPACING } from '../../utils/device';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { CloseButton, Container, GeneralAlert, Title } from '../../common';
+import { AnimatedView, Container, GeneralAlert, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
 import { getDeckByShareId, saveDeckToDB, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
-import { theme } from '../../utils';
-import useOpacity from './useOpacity';
 import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
 import { useIsMount } from '../../utils/useIsMount';
 import { Menu } from './components/Menu';
-import Cards from './components/Cards';
 import { NoContentOrPlay } from './components/NoContent';
 import { TransitionedCards } from './components/TransitionedCards';
 import useNetInfo from '../../hooks/useNetInfo';
@@ -32,11 +21,9 @@ import { BottomSheetModal } from '../../common/BottomSheetModal';
 import { ShareContentPopup } from '../../components/Popups/ShareContentPopup';
 import { useShareDeck } from '../../hooks/useShareDeck';
 import { useDeckPusher } from './useDeckPusher';
+import { Header } from './components/Header';
+import { RefreshIcon } from './components/RefreshIcon';
 
-const TOP_HEADER_HEIGHT = WINDOW_HEIGHT * 0.3;
-const TOP_HEADER_HEIGHT_SPACING = TOP_HEADER_HEIGHT - (isSmallDevice() ? 0 : 30);
-
-// Note: why there is a IOS and Android content? SharedElement wasn't working on Android, this is why it is handled differently - FIXME: upgrade react-navigation-shared-element
 export interface Props {
   route: DeckDetailScreenRouteProp;
 }
@@ -49,10 +36,9 @@ const DeckDetail: FC<Props> = ({
   const ref = useRef<any | null | undefined>(); // TODO: fix type
   const refRBSheet = useRef<RBSheet>(null);
   const isMount = useIsMount();
-  const { opacityVal } = useOpacity();
   const dispatch = useDispatch();
   const { sub } = useSelector((state: RootState) => state.user);
-  const { navigate, goBack } = useNavigation();
+  const { navigate } = useNavigation();
   const deckDetail = useSelector(selectDeckItem(id));
   const badAnswers = useSelector(selectBadAnswers(id));
   const goodAnswers = useSelector(selectGoodAnswers(id));
@@ -60,6 +46,7 @@ const DeckDetail: FC<Props> = ({
   const [isShareOpen, setIsShareOpen] = useState(false);
   const isConnected = useNetInfo();
   const alertRef = useRef<GeneralAlertRef>(null);
+  const showRefresh = Boolean(deckDetail.cards.length && deckDetail.shareId && !isLoading);
 
   useEffect(() => {
     if (isLoading || isMount) {
@@ -84,8 +71,6 @@ const DeckDetail: FC<Props> = ({
     refRBSheet.current?.open();
     setIsShareOpen(false);
   });
-
-  const handleOnPlusPress = () => navigate(Screens.QUESTION_MODAL, { title: deckDetail.title, deckId: id });
 
   const navigateToPlayground = () =>
     navigate(Screens.PLAYGROUND, { deckId: id, cardId: deckDetail.cards[0].frontendId });
@@ -112,61 +97,36 @@ const DeckDetail: FC<Props> = ({
     }
   };
 
-  const handleCloseShare = () => {
-    refRBSheet.current?.close();
-  };
+  const handleCloseShare = () => refRBSheet.current?.close();
 
   return (
-    <Container>
+    <Container style={{ backgroundColor: color }}>
       <GeneralAlert text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE} ref={alertRef} />
-      <CloseButton onPress={goBack} />
-      <View style={styles.addIcon}>
-        <IconButton onPress={handleOnPlusPress} iconName="plusCurve" />
-      </View>
-      <SharedElement id={`item.${id}`} style={StyleSheet.absoluteFillObject}>
-        <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: color }]} />
-      </SharedElement>
-      <Title title={deckDetail.title} />
-      <TopContent
-        total={deckDetail.cards.length}
-        badAnswersTotal={badAnswers}
-        goodAnswersTotal={goodAnswers}
-      />
-      {isIOS ? (
-        <SharedElement
-          id="general.bg"
-          style={[StyleSheet.absoluteFillObject, { transform: [{ translateY: WINDOW_HEIGHT + 30 }] }]}>
-          <View style={[StyleSheet.absoluteFillObject, styles.dummy]}>
-            <Animated.View style={{ opacity: opacityVal }}>
-              <NoContentOrPlay hasCards={!!deckDetail.cards.length} onPress={navigateToPlayground} />
-              <TransitionedCards
-                ref={ref}
-                items={deckDetail.cards}
-                deckId={id}
-                isOwner={deckDetail.owner === sub || deckDetail.isOwner}
-                isLoading={isLoading}
-                handlerRefresh={handlerRefreshSharedDeck}
-              />
-            </Animated.View>
-          </View>
+      <Header title={deckDetail.title} deckId={id} />
+      <View style={[styles.topView, { backgroundColor: color }]}>
+        <SharedElement id={`item.${id}`}>
+          <Title title={deckDetail.title} />
         </SharedElement>
-      ) : (
-        <View style={styles.androidList}>
+        <TopContent
+          total={deckDetail.cards.length}
+          badAnswersTotal={badAnswers}
+          goodAnswersTotal={goodAnswers}
+        />
+      </View>
+      <AnimatedView top={500} scaleRatio={0.9} duration={500}>
+        <View style={styles.list}>
           <NoContentOrPlay hasCards={!!deckDetail.cards.length} onPress={navigateToPlayground} />
-          <Cards
-            cards={deckDetail.cards}
+          <TransitionedCards
+            ref={ref}
+            items={deckDetail.cards}
             deckId={id}
             isOwner={deckDetail.owner === sub || deckDetail.isOwner}
-            handlerRefreshSharedDeck={handlerRefreshSharedDeck}
             isLoading={isLoading}
+            handlerRefresh={handlerRefreshSharedDeck}
           />
         </View>
-      )}
-      {deckDetail.cards.length && deckDetail.shareId && !isLoading ? (
-        <View style={styles.refresh}>
-          <IconButton onPress={handlerRefreshSharedDeck} iconName="refresh" />
-        </View>
-      ) : null}
+      </AnimatedView>
+      <RefreshIcon isVisible={showRefresh} onPress={handlerRefreshSharedDeck} />
       {deckDetail.cards.length ? (
         <View style={styles.menu}>
           <Menu
@@ -190,32 +150,11 @@ const DeckDetail: FC<Props> = ({
 };
 
 const styles = StyleSheet.create({
-  addIcon: {
-    right: 10,
-    position: 'absolute',
-    top: getPlatformDimension(20, 20, 50),
-    zIndex: 9,
-  },
   topView: {
     borderRadius: 0,
-    height: TOP_HEADER_HEIGHT + 60,
   },
-  dummy: {
-    flex: 1,
-    position: 'relative',
-    backgroundColor: 'white',
-    transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT_SPACING }],
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    borderColor: theme.colors.lightBorder,
-    borderWidth: 0.5,
-    paddingTop: SPACING,
-    paddingHorizontal: 5,
-    paddingBottom: SPACING + 10,
-    zIndex: 9,
-  },
-  androidList: {
-    flex: 1,
+  list: {
+    flexGrow: 1,
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     paddingTop: SPACING,
@@ -226,11 +165,6 @@ const styles = StyleSheet.create({
     bottom: isLargeDevice() ? 40 : 20,
     right: 16,
     zIndex: 99,
-  },
-  refresh: {
-    position: 'absolute',
-    bottom: isLargeDevice() ? 40 : 20,
-    left: 16,
   },
 });
 

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { captureException } from '@sentry/react-native';
 import { Cache } from '../utils/Cache';
+import { Logger } from '../service/Logger';
 
 const useToken = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -10,7 +12,10 @@ const useToken = () => {
         return setToken(token);
       }
     }
-    getToken().catch((error) => console.log('error', error));
+    getToken().catch((error) => {
+      Logger.sendLocalError(error, 'getToken failed');
+      captureException(error);
+    });
   }, []);
   return { token };
 };

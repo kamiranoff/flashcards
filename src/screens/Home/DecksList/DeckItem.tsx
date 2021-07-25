@@ -1,13 +1,14 @@
-import React, { FC, useRef, useState } from 'react';
-import { Animated, View, StyleSheet, TextInput, GestureResponderEvent, Image } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { SPACING } from '../../../utils/device';
+import React, { FC, useEffect, useState } from 'react';
+import { Animated, View, StyleSheet, GestureResponderEvent, Image } from 'react-native';
 import { SharedElement } from 'react-navigation-shared-element';
-import IconButton from '../../../common/IconButton';
-import { saveDeck } from '../../../redux/decks/actions';
+import { isIOS, SPACING } from '../../../utils/device';
 import assets from '../../../assets';
 import { theme } from '../../../utils';
-import { Bubble, TouchableScale, AppText } from '../../../common';
+import { Bubble, TouchableScale } from '../../../common';
+import { BottomContent } from './BottomContent';
+import { TopIcons } from './TopIcons';
+import AppText from '../../../common/AppText';
+import usePrevious from '../../../hooks/usePrevious';
 
 // const colors = ['#fc9d9a', '#f9cdad', '#c8c8a9', '#83af9b', '#d6e1c7', '#94c7b6'];
 // const colors = ['#e1d1a6', '#fc9d9a', '#f9cdad', '#d6e1c7', '#94c7b6', '#c9e4d3', '#d9dbed'];
@@ -16,34 +17,37 @@ const ITEM_HEIGHT = 120;
 export const CARD_HEIGHT = ITEM_HEIGHT + SPACING;
 
 interface Props {
-  item: string;
+  id: string;
   index: number;
   scrollY: Animated.Value;
   title: string | undefined;
   totalCards: number;
   goodAnswers: number;
-  onPress: (event: GestureResponderEvent) => void;
+  onDelete: (event: GestureResponderEvent) => void;
   onNavigate: (event: GestureResponderEvent) => void;
   sharedWithYou: boolean;
+  onChangeTitle: (id: string) => void;
 }
 
 const DeckItem: FC<Props> = ({
-  item,
+  id,
   index,
   scrollY,
   title,
   totalCards,
   goodAnswers,
-  onPress,
+  onDelete,
   onNavigate,
   sharedWithYou,
+  onChangeTitle,
 }) => {
-  const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState(title);
-  const inputRef = useRef<TextInput>(null);
-  const handleSaveDeck = () => (newTitle ? dispatch(saveDeck(item, newTitle)) : null);
-  const handleEdit = () => inputRef && inputRef.current && inputRef.current.focus();
-
+  const previousTitle = usePrevious(title);
+  useEffect(() => {
+    if (title !== previousTitle) {
+      setNewTitle(title);
+    }
+  }, [title, previousTitle]);
   const scale = scrollY.interpolate({
     inputRange: [-1, 0, CARD_HEIGHT * index, CARD_HEIGHT * (index + 2)],
     outputRange: [1, 1, 1, 0.5],
@@ -56,67 +60,26 @@ const DeckItem: FC<Props> = ({
 
   return (
     <TouchableScale onPress={onNavigate}>
-      <Animated.View style={[styles.container, { opacity, transform: [{ scale }] }]}>
-        <SharedElement id={`item.${item}`} style={[StyleSheet.absoluteFillObject]}>
-          <View
-            style={[
-              StyleSheet.absoluteFillObject,
-              { backgroundColor: colors[index % colors.length], borderRadius: 4 },
-            ]}
-          />
-        </SharedElement>
-        {sharedWithYou ? (
-          <View style={styles.bubble}>
-            <Bubble />
+      <Animated.View
+        style={[
+          styles.container,
+          { backgroundColor: colors[index % colors.length] },
+          { opacity, transform: [{ scale }], borderColor: colors[index % colors.length] },
+        ]}>
+        <Bubble isShared={sharedWithYou} />
+        <TopIcons onDelete={onDelete} onEdit={() => onChangeTitle(id)} />
+        <SharedElement id={`item.${id}`}>
+          <View style={styles.titleContainer}>
+            <AppText size="header" ellipsizeMode="tail" numberOfLines={1} textStyle={styles.titleStyle}>
+              {newTitle}
+            </AppText>
           </View>
-        ) : null}
-        <View style={styles.button}>
-          <IconButton
-            onPress={onPress}
-            iconName="trash"
-            imgStyle={styles.transparentIconImg}
-            style={{ ...transparentIcon, marginRight: 10 }}
-            hasShadow={false}
-          />
-          <IconButton
-            onPress={handleEdit}
-            iconName="edit"
-            imgStyle={styles.transparentIconImg}
-            style={styles.transparentIcon}
-            hasShadow={false}
-          />
-        </View>
-        <TextInput
-          ref={inputRef}
-          onEndEditing={handleSaveDeck}
-          blurOnSubmit
-          style={styles.input}
-          value={newTitle}
-          onChangeText={setNewTitle}
-          placeholder="New Deck Name"
-          selectionColor="#222"
-        />
+        </SharedElement>
         <Image source={assets.icons.strokeBlack} resizeMode="contain" style={styles.stroke} />
-        <View style={styles.bottom}>
-          <AppText size="p">
-            {totalCards} {totalCards === 1 ? 'card' : 'cards'}
-          </AppText>
-          <AppText size="p">
-            {goodAnswers} / {totalCards}
-          </AppText>
-        </View>
+        <BottomContent totalCards={totalCards} correctAnswers={goodAnswers} />
       </Animated.View>
     </TouchableScale>
   );
-};
-
-const transparentIcon = {
-  backgroundColor: 'transparent',
-  borderWidth: 0.5,
-  borderColor: '#222',
-  width: 30,
-  height: 30,
-  shadowColor: 'transparent',
 };
 
 const styles = StyleSheet.create({
@@ -124,49 +87,20 @@ const styles = StyleSheet.create({
     height: ITEM_HEIGHT,
     padding: SPACING,
     marginBottom: SPACING,
+    borderRadius: 5,
     ...theme.iconButtonShadow,
   },
-  input: {
-    color: '#222',
-    fontWeight: 'bold',
-    marginTop: 10,
-    height: 40,
-    borderColor: 'black',
-    borderRadius: 0,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    fontSize: 18,
+  titleContainer: {
+    marginTop: isIOS ? 20 : 0,
   },
-  button: {
-    position: 'absolute',
-    flexDirection: 'row',
-    top: 5,
-    right: 10,
-    alignSelf: 'flex-end',
-  },
-  bubble: {
-    position: 'absolute',
-    top: -5,
-    left: -5,
+  titleStyle: {
+    paddingBottom: 5,
   },
   stroke: {
     width: '100%',
     height: 5,
     marginTop: -5,
     resizeMode: 'contain',
-  },
-  transparentIcon: {
-    ...transparentIcon,
-  },
-  transparentIconImg: {
-    width: 18,
-    height: 18,
-  },
-  bottom: {
-    flexDirection: 'row',
-    marginTop: 30,
-    marginLeft: 5,
-    justifyContent: 'space-between',
   },
 });
 

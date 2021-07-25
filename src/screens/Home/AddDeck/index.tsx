@@ -78,9 +78,6 @@ const styles = StyleSheet.create({
   offset: {
     marginLeft: 6,
   },
-  whiteText: {
-    color: 'white',
-  },
 });
 
 export default AddDeck;

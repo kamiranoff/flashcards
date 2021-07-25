@@ -72,12 +72,7 @@ const Cards: FC<Props> = ({ cards, deckId, handlerRefreshSharedDeck, isLoading, 
     return (
       <View
         style={[styles.item, { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon }]}>
-        <CardItem
-          onPress={handleNavigate}
-          onTrashPress={handleDeleteCard}
-          card={item}
-          isOwner={isOwner}
-        />
+        <CardItem onPress={handleNavigate} onTrashPress={handleDeleteCard} card={item} isOwner={isOwner} />
       </View>
     );
   };

@@ -46,6 +46,7 @@ export type RootStackParamList = {
 export type HomeStackParams = {
   [Screens.HOME]: undefined;
   [Screens.DECK_DETAIL]: { id: string; color: string };
+  [Screens.ADD_DECK]: undefined;
 };
 
 export type DrawerStackParamList = {
@@ -78,6 +79,7 @@ export type AuthStackParamList = {
   [Screens.LOGIN_VIA_SMS]: undefined;
 };
 
+export type HomeScreenNavigationProp = StackNavigationProp<HomeStackParams, Screens.HOME>
 export type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, Screens.DRAWER>;
 export type GetFreebieScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.UPGRADE>;
 export type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;
