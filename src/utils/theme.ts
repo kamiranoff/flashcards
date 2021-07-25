@@ -149,10 +149,6 @@ const theme = {
     ...Platform.select({
       android: {
         elevation: 2,
-        shadowColor: 'rgba(0,0,0, .4)',
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        shadowOffset: { width: 2, height: 2 },
       },
       default: {
         shadowColor: 'rgba(0,0,0, .4)',

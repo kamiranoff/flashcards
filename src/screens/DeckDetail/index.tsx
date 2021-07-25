@@ -110,7 +110,7 @@ const DeckDetail: FC<Props> = ({
       <GeneralAlert text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE} ref={alertRef} />
       <Header title={deckDetail.title} deckId={id} />
       <SharedElement id={`item.${id}`} style={StyleSheet.absoluteFillObject}>
-        <View style={[StyleSheet.absoluteFillObject, styles.topView, { backgroundColor: color }]} />
+        <View style={[styles.topView, { backgroundColor: color }]} />
       </SharedElement>
       <Title title={deckDetail.title} />
       <TopContent
@@ -119,7 +119,7 @@ const DeckDetail: FC<Props> = ({
         goodAnswersTotal={goodAnswers}
       />
       <SharedElement id="general.bg" style={[isIOS ? styles.sharedStyle : styles.androidList]}>
-        <View style={[isIOS ? styles.dummy : styles.androidList]}>
+        <View style={[isIOS ? styles.iosList : styles.androidList]}>
           <NoContentOrPlay hasCards={!!deckDetail.cards.length} onPress={navigateToPlayground} />
           <TransitionedCards
             ref={ref}
@@ -156,6 +156,7 @@ const DeckDetail: FC<Props> = ({
 
 const styles = StyleSheet.create({
   topView: {
+    ...StyleSheet.absoluteFillObject,
     borderRadius: 0,
     height: TOP_HEADER_HEIGHT + 60,
   },
@@ -163,10 +164,9 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     transform: [{ translateY: WINDOW_HEIGHT + 30 }],
   },
-  dummy: {
+  iosList: {
     ...StyleSheet.absoluteFillObject,
     flex: 1,
-    position: 'relative',
     backgroundColor: 'white',
     transform: [{ translateY: -WINDOW_HEIGHT + TOP_HEADER_HEIGHT_SPACING }],
     borderTopLeftRadius: 32,

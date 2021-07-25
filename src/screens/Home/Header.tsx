@@ -5,7 +5,7 @@ import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { DrawerStackParamList } from '../../navigation/types';
 import { IconButton, Title } from '../../common';
 import AddButton from '../../common/AddButton';
-import { getPlatformDimension, isIOS, moderateScale } from '../../utils/device';
+import { getPlatformDimension, isIOS } from '../../utils/device';
 
 type Props = {
   handleOpenBottomModal: () => void;
@@ -35,7 +35,7 @@ const Header: FC<Props> = ({ handleOpenBottomModal, handleNavigateToAddDeck }) =
 const styles = StyleSheet.create({
   leftContainer: {
     top: getPlatformDimension(20, 20, 5), // Dont like that
-    left: moderateScale(10),
+    left: 10,
     position: 'absolute',
     zIndex: 9,
   },
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     zIndex: 9,
     position: 'absolute',
     top: getPlatformDimension(20, 20, 50),
-    right: moderateScale(10),
+    right: 10,
   },
   row: {
     flexDirection: 'row',

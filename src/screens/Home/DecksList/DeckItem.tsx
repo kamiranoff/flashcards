@@ -57,7 +57,11 @@ const DeckItem: FC<Props> = ({
 
   return (
     <TouchableScale onPress={onNavigate}>
-      <Animated.View style={[styles.container, { opacity, transform: [{ scale }] }]}>
+      <Animated.View
+        style={[
+          styles.container,
+          { opacity, transform: [{ scale }], borderColor: colors[index % colors.length] },
+        ]}>
         <SharedElement id={`item.${item}`} style={[StyleSheet.absoluteFillObject]}>
           <View
             style={[
