@@ -7,7 +7,7 @@ function* clearError() {
   const { error } = yield select((state) => state.decks);
   if (error) {
     yield delay(DELAY_SECONDS);
-    yield put(clearDecksError(false));
+    yield put(clearDecksError());
   }
 }
 

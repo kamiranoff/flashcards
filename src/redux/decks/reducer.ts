@@ -53,6 +53,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
     case DecksActionTypes.saveDeckToDB:
       return {
         ...state,
+        error: null,
         isLoading: true,
       };
     case DecksActionTypes.getDeckByShareIdError:

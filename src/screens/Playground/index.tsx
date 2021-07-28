@@ -6,7 +6,7 @@ import * as R from 'ramda';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { PlaygroundScreenNavigationProp, PlaygroundScreenRouteProp, Screens } from '../../navigation/types';
 import { CloseButton, Container, GeneralAlert, Title } from '../../common';
-import { selectDeckItem } from '../../redux/seclectors';
+import { selectDeckItem, selectError, selectIsLoading } from '../../redux/seclectors';
 import CardItem from './Card';
 import { Card } from '../../redux/decks/reducer';
 import { getPlatformDimension, isIOS, isSmallDevice } from '../../utils/device';
@@ -44,6 +44,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   const [index, setIndex] = useState(0);
   const [noMoreCards, setNoMoreCards] = useState(false);
   const deckDetail = useSelector(selectDeckItem(params.deckId));
+  const error = useSelector(selectError);
   const { ratedAppAt, sub } = useSelector((state: RootState) => state.user);
   const card = R.find(R.propEq('frontendId', params.cardId), deckDetail.cards);
   const restOfCards = R.reject(R.propEq('frontendId', params.cardId), deckDetail.cards);
@@ -68,12 +69,12 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
     }
 
     refRBSheet.current?.open();
-    if (!sub) {
+    if (!sub || error) {
       setIsShareOpen(true);
       navigate(Screens.LOGIN_OR_SIGNUP);
       return;
     }
-    if (sub && deckDetail.isOwner && !deckDetail.shareId) {
+    if (sub && deckDetail.isOwner && !deckDetail.shareId && !error) {
       dispatch(saveDeckToDB(params.deckId));
     }
   };
@@ -162,6 +163,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
       </View>
       <BottomSheetModal ref={refRBSheet} height={360}>
         <ShareContentPopup
+          error={error}
           deckId={params.deckId}
           handleGoBack={handleCloseShare}
           sub={sub}

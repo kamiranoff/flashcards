@@ -49,7 +49,7 @@ export const updateDeck = (deckId: string, data: any): UpdateDeck => ({
   data,
 });
 
-export const updateCardById = (deckId: string, data: Card): UpdateCardById => ({
+export const updateCardById = (deckId: string, data: Omit<Card, 'isPublic' | 'owner'>): UpdateCardById => ({
   type: DecksActionTypes.updateCardById,
   deckId,
   data,
@@ -126,9 +126,9 @@ export const saveSharedDeckFailure = (error: string) => ({
   error,
 });
 
-export const clearDecksError = (error: boolean) => ({
+export const clearDecksError = () => ({
   type: DecksActionTypes.clearDecksError,
-  error,
+  error: null,
 });
 
 export const getDeckByShareIdError = (error: string) => ({
