@@ -1,5 +1,5 @@
 import { takeLatest, call, select, put } from 'redux-saga/effects';
-import Api from '../../../api';
+import Api, { SaveOrUpdateCardResponse } from '../../../api';
 import { DecksActionTypes, SaveNewCard } from '../interface';
 import { RootState } from '../../store';
 import { saveOrUpdateCardToDBFailure, updateCardById } from '../actions';
@@ -15,12 +15,12 @@ function* saveOrUpdateCard({ deckId, frontendId, isEdit }: SaveNewCard) {
     isEdit,
   };
   try {
-    const response = yield call(Api.saveOrUpdateCard, data);
-    if (response.data.id) {
-      yield put(updateCardById(deckId, response.data));
+    const response: SaveOrUpdateCardResponse = yield call(Api.saveOrUpdateCard, data);
+    if ('id' in response) {
+      yield put(updateCardById(deckId, response));
     }
   } catch (error) {
-    yield put(saveOrUpdateCardToDBFailure('true'));
+    yield put(saveOrUpdateCardToDBFailure('saveOrUpdateCardToDBFailure'));
   }
 }
 

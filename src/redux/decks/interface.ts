@@ -63,7 +63,7 @@ export interface UpdateDeck {
 export interface UpdateCardById {
   type: DecksActionTypes.updateCardById;
   deckId: string;
-  data: Card;
+  data: Omit<Card, 'isPublic' | 'owner'>;
 }
 
 export interface DeleteDeck {

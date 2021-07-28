@@ -8,7 +8,13 @@ import { isLargeDevice, SPACING } from '../../utils/device';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { AnimatedView, Container, GeneralAlert, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
-import { getDeckByShareId, saveDeckToDB, shuffleCards, sortByRankCards } from '../../redux/decks/actions';
+import {
+  clearDecksError,
+  getDeckByShareId,
+  saveDeckToDB,
+  shuffleCards,
+  sortByRankCards
+} from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { RootState } from '../../redux/store';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
@@ -22,7 +28,6 @@ import { ShareContentPopup } from '../../components/Popups/ShareContentPopup';
 import { useShareDeck } from '../../hooks/useShareDeck';
 import { useDeckPusher } from './useDeckPusher';
 import { Header } from './components/Header';
-import { RefreshIcon } from './components/RefreshIcon';
 
 export interface Props {
   route: DeckDetailScreenRouteProp;
@@ -46,7 +51,6 @@ const DeckDetail: FC<Props> = ({
   const [isShareOpen, setIsShareOpen] = useState(false);
   const isConnected = useNetInfo();
   const alertRef = useRef<GeneralAlertRef>(null);
-  const showRefresh = Boolean(deckDetail.cards.length && deckDetail.shareId && !isLoading);
 
   useEffect(() => {
     if (isLoading || isMount) {
@@ -58,6 +62,10 @@ const DeckDetail: FC<Props> = ({
       alertRef.current?.startAnimation(message);
     }
   }, [isLoading, error, isMount, isConnected]);
+
+  const handleGeneralAlertFinish = () => {
+    dispatch(clearDecksError());
+  };
 
   const handlerRefreshSharedDeck = () => {
     if (deckDetail.shareId) {
@@ -101,7 +109,11 @@ const DeckDetail: FC<Props> = ({
 
   return (
     <Container style={{ backgroundColor: color }}>
-      <GeneralAlert text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE} ref={alertRef} />
+      <GeneralAlert
+        text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE}
+        ref={alertRef}
+        onAnimationFinish={handleGeneralAlertFinish}
+      />
       <Header title={deckDetail.title} deckId={id} />
       <View style={[styles.topView, { backgroundColor: color }]}>
         <SharedElement id={`item.${id}`}>
@@ -126,7 +138,6 @@ const DeckDetail: FC<Props> = ({
           />
         </View>
       </AnimatedView>
-      <RefreshIcon isVisible={showRefresh} onPress={handlerRefreshSharedDeck} />
       {deckDetail.cards.length ? (
         <View style={styles.menu}>
           <Menu

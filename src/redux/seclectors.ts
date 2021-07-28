@@ -9,6 +9,7 @@ export const selectAllDecks = (state: RootState) => state.decks.decks;
 export const selectDecksState = (state: RootState) => state.decks;
 
 export const selectIsLoading = createSelector([selectDecksState], (decks) => decks.isLoading);
+export const selectError = createSelector([selectDecksState], (decks) => decks.error);
 
 export const selectMaxFreeDecks = (state: RootState) => state.decks.maxFreeDecks;
 

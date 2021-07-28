@@ -7,6 +7,8 @@ import { CreateResponse, GetDeckBySharedIdResponse } from './types';
 import { CreateDeckResponse } from '../../../flashcards-api/src/db/types';
 import { Cache } from '../utils/Cache';
 import { refreshAccessToken } from '../modules/Auth/services/Auth0';
+import { store } from '../redux/store';
+import { deleteUser } from '../redux/user/actions';
 
 interface File {
   uri: string;
@@ -45,10 +47,14 @@ axios.interceptors.response.use(
         }
         Logger.sendLocalError(error, 'interceptor error');
         captureException(error);
+        store.dispatch(deleteUser());
+        await Cache.deleteTokens();
         return Promise.reject(error);
       } catch (e) {
         Logger.sendLocalError(e, 'interceptor error');
         captureException(e);
+        store.dispatch(deleteUser());
+        await Cache.deleteTokens();
         return Promise.reject(e);
       }
     }
@@ -128,16 +134,21 @@ async function getSharedDeckBySharedId(sharedId: string): Promise<GetDeckByShare
   }
 }
 
-export interface SaveOrUpdateCardResponse {
-  data?: { fontEndId: number; cardId: number; question: string; answer: string; rank: null };
-  error?: string;
-}
+export type SaveOrUpdateCardResponse =
+  | {
+      frontendId: number;
+      id: number;
+      question: string;
+      answer: string;
+      rank: null;
+    }
+  | { error: string };
 
 async function saveOrUpdateCard(data: {
   deckId: number;
   question: string;
   answer: string;
-  fontEndId: number;
+  frontendId: number;
   id: number | null;
   isEdit: boolean;
 }): Promise<SaveOrUpdateCardResponse> {
@@ -146,11 +157,15 @@ async function saveOrUpdateCard(data: {
     let response;
     if (data.isEdit && data.id) {
       // update card
-      response = await axios.put(`${Config.API_URL}/card/${data.id}`, data, headers);
+      response = await axios.put<SaveOrUpdateCardResponse>(
+        `${Config.API_URL}/card/${data.id}`,
+        data,
+        headers,
+      );
       return response.data;
     }
     // save new card
-    response = await axios.post(`${Config.API_URL}/card`, data, headers);
+    response = await axios.post<SaveOrUpdateCardResponse>(`${Config.API_URL}/card`, data, headers);
     return response.data;
   } catch (error) {
     Logger.sendLocalError(error, 'saveOrUpdateCard');
