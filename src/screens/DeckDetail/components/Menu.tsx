@@ -1,14 +1,18 @@
 import React, { FC, useRef, useState } from 'react';
-import { StyleSheet, View, Animated } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 import useAnimatedPress from '../../../hooks/useAnimatedPress';
 import { IconButton, IconButtonWithText } from '../../../common';
 import { theme } from '../../../utils';
+import { isLargeDevice, WINDOW_WIDTH } from '../../../utils/device';
 
 interface Props {
   onShufflePress: () => void;
   onSortPress: () => void;
   onSharePress: () => void;
 }
+
+const MAX_TRANSITION = 210;
+const ICON_SIZE = 50;
 
 const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
   const animation = useRef(new Animated.Value(0)).current;
@@ -75,7 +79,7 @@ const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
 
   const shareInterpolate = animation.interpolate({
     inputRange: [0, 0.25, 0.5, 1],
-    outputRange: [0, -70, -140, -210],
+    outputRange: [0, -70, -140, -MAX_TRANSITION],
   });
 
   const labelStyle = {
@@ -136,35 +140,41 @@ const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Animated.View style={[styles.background, bgStyle]} />
-      <IconButtonWithText
-        handlePressIn={handlePressIn1}
-        handlePressOut={handlePressOut1}
-        iconName="share"
-        text="Share deck"
-        labelAnimatedStyle={labelStyle}
-        viewAnimatedStyle={shareStyle}
-        onPress={handleSharePress}
-      />
-      <IconButtonWithText
-        handlePressIn={handlePressIn2}
-        handlePressOut={handlePressOut2}
-        iconName="shuffle"
-        text="Shuffle cards"
-        labelAnimatedStyle={labelStyle}
-        viewAnimatedStyle={shuffleStyle}
-        onPress={handleShufflePress}
-      />
-      <IconButtonWithText
-        handlePressIn={handlePressIn3}
-        handlePressOut={handlePressOut3}
-        iconName="sort"
-        text="Sort cards by incorrect first"
-        labelAnimatedStyle={labelStyle}
-        viewAnimatedStyle={sortStyle}
-        onPress={handleSortPress}
-      />
+    <View>
+      <View
+        style={[
+          styles.container,
+          isOpen ? { height: MAX_TRANSITION + ICON_SIZE, width: WINDOW_WIDTH } : null,
+        ]}>
+        <Animated.View style={[styles.background, bgStyle]} />
+        <IconButtonWithText
+          handlePressIn={handlePressIn1}
+          handlePressOut={handlePressOut1}
+          iconName="share"
+          text="Share deck"
+          labelAnimatedStyle={labelStyle}
+          viewAnimatedStyle={shareStyle}
+          onPress={handleSharePress}
+        />
+        <IconButtonWithText
+          handlePressIn={handlePressIn2}
+          handlePressOut={handlePressOut2}
+          iconName="shuffle"
+          text="Shuffle cards"
+          labelAnimatedStyle={labelStyle}
+          viewAnimatedStyle={shuffleStyle}
+          onPress={handleShufflePress}
+        />
+        <IconButtonWithText
+          handlePressIn={handlePressIn3}
+          handlePressOut={handlePressOut3}
+          iconName="sort"
+          text="Sort cards by incorrect first"
+          labelAnimatedStyle={labelStyle}
+          viewAnimatedStyle={sortStyle}
+          onPress={handleSortPress}
+        />
+      </View>
       <IconButton onPress={toggleOpen} iconName={isOpen ? 'x' : 'menuCurve'} style={styles.button} />
     </View>
   );
@@ -173,26 +183,31 @@ const Menu: FC<Props> = ({ onShufflePress, onSortPress, onSharePress }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'absolute',
+    bottom: isLargeDevice() ? 40 : 20,
+    right: 16,
+    zIndex: 99,
   },
   background: {
     backgroundColor: 'rgba(0,0,0,.7)',
     position: 'absolute',
-    width: 50,
-    height: 50,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
     bottom: 0,
     right: 0,
     borderRadius: 30,
   },
   button: {
     backgroundColor: theme.colors.good,
-    width: 50,
-    height: 50,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 30,
     position: 'absolute',
-    bottom: 0,
-    right: 0,
+    zIndex: 100,
+    bottom: isLargeDevice() ? 40 : 20,
+    right: 16,
     ...theme.iconButtonShadow,
   },
 });

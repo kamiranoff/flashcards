@@ -1,19 +1,21 @@
 import React, { FC, ReactNode, useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
+import { Animated, StyleProp, ViewStyle } from 'react-native';
 
 type Props = {
   children: ReactNode | ReactNode[];
   scaleRatio?: number;
   top?: number;
   duration?: number;
+  styles?: StyleProp<ViewStyle>;
 };
 
 const AnimatedView: FC<Props> = ({
-   scaleRatio = 0.95,
-   top = 100,
-   duration = 500,
-   children,
- }) => {
+  scaleRatio = 0.95,
+  top = 100,
+  duration = 500,
+  children,
+  styles = null,
+}) => {
   const yPosition = useRef(new Animated.Value(top)).current;
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const AnimatedView: FC<Props> = ({
     };
   };
 
-  return <Animated.View style={getStyle()}>{children}</Animated.View>;
+  return <Animated.View style={[getStyle(), styles]}>{children}</Animated.View>;
 };
 
 export { AnimatedView };
