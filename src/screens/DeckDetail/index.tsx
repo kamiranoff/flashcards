@@ -108,7 +108,7 @@ const DeckDetail: FC<Props> = ({
   const handleCloseShare = () => refRBSheet.current?.close();
 
   return (
-    <Container style={{ backgroundColor: color, flex: 1 }}>
+    <Container style={[styles.container, { backgroundColor: color }]}>
       <GeneralAlert
         text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE}
         ref={alertRef}
@@ -125,7 +125,7 @@ const DeckDetail: FC<Props> = ({
           goodAnswersTotal={goodAnswers}
         />
       </View>
-      <AnimatedView top={500} scaleRatio={0.9} duration={500} styles={{ flex: 1 }}>
+      <AnimatedView top={500} scaleRatio={0.9} duration={500} styles={styles.listContainer}>
         <View style={styles.list}>
           <NoContentOrPlay hasCards={!!deckDetail.cards.length} onPress={navigateToPlayground} />
           <TransitionedCards
@@ -159,8 +159,14 @@ const DeckDetail: FC<Props> = ({
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   topView: {
     borderRadius: 0,
+  },
+  listContainer: {
+    flex: 1,
   },
   list: {
     flexGrow: 1,
