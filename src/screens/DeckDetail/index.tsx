@@ -2,11 +2,11 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { DeckDetailScreenRouteProp, Screens } from '../../navigation/types';
-import { SPACING } from '../../utils/device';
+import { getStatusBarHeight, SPACING } from '../../utils/device';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { AnimatedView, Container, GeneralAlert, Title } from '../../common';
+import { AnimatedView, GeneralAlert, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
 import {
   clearDecksError,
@@ -108,7 +108,8 @@ const DeckDetail: FC<Props> = ({
   const handleCloseShare = () => refRBSheet.current?.close();
 
   return (
-    <Container style={[styles.container, { backgroundColor: color }]}>
+    <View style={[styles.container, { backgroundColor: color }]}>
+      <StatusBar hidden />
       <GeneralAlert
         text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE}
         ref={alertRef}
@@ -154,13 +155,14 @@ const DeckDetail: FC<Props> = ({
           handleDismissBottomSheet={handleCloseShare}
         />
       </BottomSheetModal>
-    </Container>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: getStatusBarHeight(),
   },
   topView: {
     borderRadius: 0,

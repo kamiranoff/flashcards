@@ -75,7 +75,7 @@ export const largeDeviceHeight = 736;
 export const isSmallDevice = () => WINDOW_HEIGHT <= smallDeviceHeight;
 export const isLargeDevice = () => WINDOW_HEIGHT >= largeDeviceHeight;
 
-function getStatusBarHeight(safe = false, androidBarHeight: number = StatusBar.currentHeight || 0) {
+export function getStatusBarHeight(safe = false, androidBarHeight: number = StatusBar.currentHeight || 0) {
   return Platform.select({
     ios: isIphoneWithNotch() ? 44 : 20,
     android: androidBarHeight,
