@@ -1,7 +1,7 @@
 import React from 'react';
 import AppText from './AppText';
 import { StyleSheet, View } from 'react-native';
-import { getPlatformDimension } from '../utils/device';
+import { getPlatformDimension, isLargeDevice } from '../utils/device';
 
 const Title = ({ title }: { title: string }) => (
   <View style={styles.container}>

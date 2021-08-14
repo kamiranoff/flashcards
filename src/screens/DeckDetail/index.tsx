@@ -116,10 +116,10 @@ const DeckDetail: FC<Props> = ({
         onAnimationFinish={handleGeneralAlertFinish}
       />
       <Header title={deckDetail.title} deckId={id} />
+      <SharedElement id={`item.${id}`}>
+        <Title title={deckDetail.title} />
+      </SharedElement>
       <View style={[styles.topView, { backgroundColor: color }]}>
-        <SharedElement id={`item.${id}`}>
-          <Title title={deckDetail.title} />
-        </SharedElement>
         <TopContent
           total={deckDetail.cards.length}
           badAnswersTotal={badAnswers}
