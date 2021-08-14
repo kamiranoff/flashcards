@@ -50,7 +50,7 @@ const TransitionedCards = forwardRef<TransitioningView, Props>(
 
       return (
         <View
-          key={item.id}
+          key={`cardlist-${item.id || item.frontendId}`}
           style={[styles.item, { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon }]}>
           <CardItem onPress={handleNavigate} onTrashPress={handleDeleteCard} card={item} isOwner={isOwner} />
         </View>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
-    paddingBottom: 400, // TODO: dynamic padding bottom
+    paddingBottom: 100,
   },
 });
 

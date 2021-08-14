@@ -2,18 +2,18 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { DeckDetailScreenRouteProp, Screens } from '../../navigation/types';
-import { isLargeDevice, SPACING } from '../../utils/device';
+import { getStatusBarHeight, SPACING } from '../../utils/device';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { AnimatedView, Container, GeneralAlert, Title } from '../../common';
+import { AnimatedView, GeneralAlert, Title } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
 import {
   clearDecksError,
   getDeckByShareId,
   saveDeckToDB,
   shuffleCards,
-  sortByRankCards
+  sortByRankCards,
 } from '../../redux/decks/actions';
 import TopContent from './components/TopContent';
 import { RootState } from '../../redux/store';
@@ -108,7 +108,8 @@ const DeckDetail: FC<Props> = ({
   const handleCloseShare = () => refRBSheet.current?.close();
 
   return (
-    <Container style={{ backgroundColor: color }}>
+    <View style={[styles.container, { backgroundColor: color }]}>
+      <StatusBar hidden />
       <GeneralAlert
         text={error ? NotificationMessages.ERROR : NotificationMessages.UPDATE}
         ref={alertRef}
@@ -125,7 +126,7 @@ const DeckDetail: FC<Props> = ({
           goodAnswersTotal={goodAnswers}
         />
       </View>
-      <AnimatedView top={500} scaleRatio={0.9} duration={500}>
+      <AnimatedView top={500} scaleRatio={0.9} duration={500} styles={styles.listContainer}>
         <View style={styles.list}>
           <NoContentOrPlay hasCards={!!deckDetail.cards.length} onPress={navigateToPlayground} />
           <TransitionedCards
@@ -139,13 +140,11 @@ const DeckDetail: FC<Props> = ({
         </View>
       </AnimatedView>
       {deckDetail.cards.length ? (
-        <View style={styles.menu}>
-          <Menu
-            onShufflePress={handleShuffleCards}
-            onSortPress={handleSortCards}
-            onSharePress={handleShareDeck}
-          />
-        </View>
+        <Menu
+          onShufflePress={handleShuffleCards}
+          onSortPress={handleSortCards}
+          onSharePress={handleShareDeck}
+        />
       ) : null}
       <BottomSheetModal ref={refRBSheet} height={320}>
         <ShareContentPopup
@@ -156,13 +155,20 @@ const DeckDetail: FC<Props> = ({
           handleDismissBottomSheet={handleCloseShare}
         />
       </BottomSheetModal>
-    </Container>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: getStatusBarHeight(),
+  },
   topView: {
     borderRadius: 0,
+  },
+  listContainer: {
+    flex: 1,
   },
   list: {
     flexGrow: 1,
@@ -170,12 +176,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     paddingTop: SPACING,
     backgroundColor: 'white',
-  },
-  menu: {
-    position: 'absolute',
-    bottom: isLargeDevice() ? 40 : 20,
-    right: 16,
-    zIndex: 99,
   },
 });
 
