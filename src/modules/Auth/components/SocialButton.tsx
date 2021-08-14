@@ -13,8 +13,6 @@ const getLogo = (provider: LoginProvider) => {
       return require('./../assets/facebook-logo.png');
     case LoginProvider.GOOGLE:
       return require('./../assets/google-plus-logo.png');
-    case LoginProvider.APPLE:
-      return require('./../assets/apple-logo.png');
     default:
       return null;
   }
@@ -32,6 +30,7 @@ const styles = StyleSheet.create({
   container: {
     height: 50,
     width: 50,
+    marginRight: 15,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',

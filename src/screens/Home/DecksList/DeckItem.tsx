@@ -70,7 +70,7 @@ const DeckItem: FC<Props> = ({
         <TopIcons onDelete={onDelete} onEdit={() => onChangeTitle(id)} />
         <SharedElement id={`item.${id}`}>
           <View style={styles.titleContainer}>
-            <AppText size="header" ellipsizeMode="tail" numberOfLines={1} textStyle={styles.titleStyle}>
+            <AppText size="h2" ellipsizeMode="tail" numberOfLines={1} textStyle={styles.titleStyle} centered>
               {newTitle}
             </AppText>
           </View>

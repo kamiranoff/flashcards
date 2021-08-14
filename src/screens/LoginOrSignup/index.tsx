@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     alignSelf: 'center',
+    justifyContent: 'center',
     marginTop: 30,
     width: 240,
   },
