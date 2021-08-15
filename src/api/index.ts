@@ -140,7 +140,7 @@ export type SaveOrUpdateCardResponse =
       id: number;
       question: string;
       answer: string;
-      rank: null;
+      rank: number | null;
     }
   | { error: string };
 
@@ -155,6 +155,7 @@ async function saveOrUpdateCard(data: {
   try {
     const headers = await getHeaders();
     let response;
+
     if (data.isEdit && data.id) {
       // update card
       response = await axios.put<SaveOrUpdateCardResponse>(

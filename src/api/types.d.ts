@@ -31,6 +31,7 @@ export interface CreateResponse {
       answer: CardsTable['question'];
       frontendId: CardsTable['frontend_id'];
       isPublic: CardsTable['is_public'];
+      rank: CardsTable['rank'];
     }[];
     deckId: number;
     isPublic: boolean;
