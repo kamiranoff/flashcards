@@ -8,7 +8,7 @@ const useDecks = () => {
   const dispatch = useDispatch();
 
   const handleRemoveDeck = (item: string) => () => {
-    NativeAlert('Are you sure you want to delete this deck?', () => {
+    NativeAlert(`Are you sure you want to delete "${decks[item].title}" deck?`, () => {
       dispatch(deleteDeck(item));
     });
   };
