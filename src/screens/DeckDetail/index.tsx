@@ -6,7 +6,7 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 import { DeckDetailScreenRouteProp, Screens } from '../../navigation/types';
 import { getStatusBarHeight, SPACING } from '../../utils/device';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { AnimatedView, GeneralAlert, Title } from '../../common';
+import { AnimatedView, GeneralAlert } from '../../common';
 import { selectBadAnswers, selectDeckItem, selectGoodAnswers } from '../../redux/seclectors';
 import {
   clearDecksError,
@@ -28,6 +28,7 @@ import { ShareContentPopup } from '../../components/Popups/ShareContentPopup';
 import { useShareDeck } from '../../hooks/useShareDeck';
 import { useDeckPusher } from './useDeckPusher';
 import { Header } from './components/Header';
+import AppText from '../../common/AppText';
 
 export interface Props {
   route: DeckDetailScreenRouteProp;
@@ -116,8 +117,10 @@ const DeckDetail: FC<Props> = ({
         onAnimationFinish={handleGeneralAlertFinish}
       />
       <Header title={deckDetail.title} deckId={id} />
-      <SharedElement id={`item.${id}`}>
-        <Title title={deckDetail.title} />
+      <SharedElement id={`item.${id}`} style={styles.titleContainer}>
+        <AppText size="header" centered ellipsizeMode="tail" numberOfLines={1}>
+          {deckDetail.title}
+        </AppText>
       </SharedElement>
       <View style={[styles.topView, { backgroundColor: color }]}>
         <TopContent
@@ -176,6 +179,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     paddingTop: SPACING,
     backgroundColor: 'white',
+  },
+  titleContainer: {
+    paddingHorizontal: 70,
+    paddingTop: 7,
   },
 });
 
