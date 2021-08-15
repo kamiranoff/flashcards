@@ -23,11 +23,13 @@ const styles = StyleSheet.create({
     left: -5,
   },
   container: {
-    width: 60,
+    width: 65,
     paddingVertical: 5,
     paddingHorizontal: 8,
     borderRadius: 10,
-    backgroundColor: theme.colors.good,
+    backgroundColor: theme.colors.success,
+    borderColor: theme.colors.success,
+    borderWidth: 0.5,
   },
 });
 
