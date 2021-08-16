@@ -9,6 +9,7 @@ import { Cache } from '../utils/Cache';
 import { refreshAccessToken } from '../modules/Auth/services/Auth0';
 import { store } from '../redux/store';
 import { deleteUser } from '../redux/user/actions';
+import { pusher } from '../service/pusher';
 
 interface File {
   uri: string;
@@ -159,13 +160,17 @@ async function saveOrUpdateCard(data: {
       // update card
       response = await axios.put<SaveOrUpdateCardResponse>(
         `${Config.API_URL}/card/${data.id}`,
-        data,
+        { ...data, socket_id: pusher?.connection.socket_id },
         headers,
       );
       return response.data;
     }
     // save new card
-    response = await axios.post<SaveOrUpdateCardResponse>(`${Config.API_URL}/card`, data, headers);
+    response = await axios.post<SaveOrUpdateCardResponse>(
+      `${Config.API_URL}/card`,
+      { ...data, socket_id: pusher?.connection.socket_id },
+      headers,
+    );
     return response.data;
   } catch (error) {
     Logger.sendLocalError(error, 'saveOrUpdateCard');
