@@ -14,6 +14,7 @@ function* saveOrUpdateCard({ deckId, frontendId, isEdit }: SaveNewCard) {
     deckId: selectedDeck.deckId,
     isEdit,
   };
+
   try {
     const response: SaveOrUpdateCardResponse = yield call(Api.saveOrUpdateCard, data);
     if ('id' in response) {
