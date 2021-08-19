@@ -8,7 +8,7 @@ import { Card } from '../reducer';
 function* saveOrUpdateCard({ deckId, frontendId, isEdit }: SaveNewCard) {
   const { decks } = yield select((state: RootState) => state.decks);
   const selectedDeck = deckId ? decks[deckId] : null;
-  const card = selectedDeck.cards.find((c: Card) => c.frontendId === frontendId);
+  const card = selectedDeck ? selectedDeck.cards.find((c: Card) => c.frontendId === frontendId) : {};
   const data = {
     ...card,
     deckId: selectedDeck.deckId,
