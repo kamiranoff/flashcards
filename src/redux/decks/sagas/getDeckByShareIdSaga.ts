@@ -14,14 +14,13 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
     if (!response.data) {
       throw new Error(response.error || 'Unknown error');
     }
-
     const id = deckId || response.data.deckId;
     if (response.data.shareId) {
       const cards = response.data.cards.map((c) => {
-        const selectedCard = selectedDeck.cards.find((card: Card) => card.id === c.id);
+        const selectedCard = selectedDeck ? selectedDeck.cards.find((card: Card) => card.id === c.id) : {};
         return {
           ...c,
-          rank: selectedCard.rank,
+          rank: selectedCard?.rank ? selectedCard.rank : null,
         };
       });
       const deck = {

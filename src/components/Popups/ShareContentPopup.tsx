@@ -9,21 +9,21 @@ import AppText from '../../common/AppText';
 import Icon from '../../common/Icon';
 import PrimaryButton from '../../common/PrimaryButton';
 import { shareOptionsWithCode } from '../../config';
+import { RootState } from '../../redux/store';
 
 const ShareContentPopup = ({
   error,
   deckId,
   handleGoBack,
-  sub,
   handleDismissBottomSheet,
 }: {
   error: string | null;
   deckId: string;
   handleGoBack: () => void;
-  sub: string | null;
   handleDismissBottomSheet: () => void;
 }) => {
   const deckDetail = useSelector(selectDeckItem(deckId));
+  const { sub } = useSelector((state: RootState) => state.user);
   const isLoading = useSelector(selectIsLoading);
 
   const handleSharePress = () => {
@@ -40,14 +40,13 @@ const ShareContentPopup = ({
   if (isLoading) {
     return <ActivityIndicator animating={isLoading} size="large" />;
   }
-
   return (
     <View style={styles.wrapper}>
       <AppText size="h2">"Sharing is caring"</AppText>
       <View style={styles.iconContainer}>
         <Icon name="happyFace2" imgStyle={styles.icon} />
       </View>
-      {(!sub || error) && (
+      {(!sub && error) && (
         <AppText size="h2" centered textStyle={{ paddingBottom: 10 }}>
           Login to share your deck
         </AppText>

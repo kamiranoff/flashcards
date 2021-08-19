@@ -32,7 +32,7 @@ const CodeContentPopup: FC<Props> = ({ handleGoBack }) => {
   }, [decksNumber, previousDecksIds]);
 
   const handleSaveSharedDeck = async () => {
-    if (code.length === 5) {
+    if (code.length === 4) {
       if (isConnected) {
         dispatch(getDeckByShareId(code, null));
         setCode('');
@@ -56,7 +56,7 @@ const CodeContentPopup: FC<Props> = ({ handleGoBack }) => {
         placeholder="12345"
         placeholderTextColor={theme.colors.placeholder}
         selectionColor="black"
-        maxLength={5}
+        maxLength={4}
       />
       <Image source={assets.icons.strokeBlack} resizeMode="contain" style={styles.stroke} />
       <View style={styles.buttonContainer}>
@@ -64,7 +64,7 @@ const CodeContentPopup: FC<Props> = ({ handleGoBack }) => {
           buttonText="Submit"
           onPress={handleSaveSharedDeck}
           hasShadow={isIOS}
-          disabled={code.length < 5}
+          disabled={code.length < 4}
           buttonStyle={styles.buttonStyle}
           buttonTextStyle={{ color: theme.colors.border }}
         />

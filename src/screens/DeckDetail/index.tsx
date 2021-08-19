@@ -95,7 +95,9 @@ const DeckDetail: FC<Props> = ({
   };
 
   const handleShareDeck = async () => {
-    refRBSheet.current?.open();
+    if (sub && !error) {
+      refRBSheet.current?.open();
+    }
     if (!sub || error) {
       setIsShareOpen(true);
       navigate(Screens.LOGIN_OR_SIGNUP);
@@ -106,6 +108,12 @@ const DeckDetail: FC<Props> = ({
     }
   };
 
+  useEffect(() => {
+    if (isShareOpen && sub) {
+      refRBSheet.current?.open();
+      setIsShareOpen(false);
+    }
+  }, [isShareOpen, sub]);
   const handleCloseShare = () => refRBSheet.current?.close();
 
   return (
@@ -154,7 +162,6 @@ const DeckDetail: FC<Props> = ({
           error={error}
           deckId={id}
           handleGoBack={handleCloseShare}
-          sub={sub}
           handleDismissBottomSheet={handleCloseShare}
         />
       </BottomSheetModal>
