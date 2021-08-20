@@ -17,11 +17,12 @@ export interface Deck {
   owner: string;
   shareId: string;
   isOwner: boolean;
-  deckId: string | null;
+  deckId: number | null;
   sharedByYou: boolean;
   sharedWithYou: boolean;
   isPublic: boolean;
   cards: Card[];
+  rank: number | null;
 }
 
 export interface DecksState {
@@ -96,6 +97,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
             sharedWithYou: false,
             isPublic: false,
             cards: [],
+            rank: null,
           },
           ...state.decks,
         },

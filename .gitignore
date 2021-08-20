@@ -65,6 +65,7 @@ buck-out/
 /ios/Pods/
 
 .env
+.env.local
+.env.dev
 # react-native-config codegen
 ios/tmp.xcconfig
-
