@@ -150,7 +150,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
     }
 
     case DecksActionTypes.saveQuestion: {
-      const { frontendId, question, deckId, isEdit } = action;
+      const { frontendId, question, deckId, isEdit, owner } = action;
       const selectedDeckCards = state.decks[deckId].cards;
       if (isEdit) {
         const updatedCards: Card[] = R.map(updateCards({ frontendId, question }), selectedDeckCards);
@@ -168,7 +168,7 @@ export default function decks(state = initialState, action: DecksActions): Decks
         frontendId,
         question,
         answer: '',
-        owner: null,
+        owner: owner || null,
         rank: null,
         isPublic: false,
         id: null, //db id
