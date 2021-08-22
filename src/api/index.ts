@@ -142,7 +142,9 @@ export type CreateCardsResponse =
         id: number;
         question: string;
         answer: string;
-        rank: number | null;
+        rank: null;
+        isPublic: boolean;
+        owner: string | null;
       }[];
     }
   | { error: string };
@@ -150,11 +152,15 @@ export type CreateCardsResponse =
 async function createCards(
   deckId: number,
   cards: {
+    frontendId: number;
+    id: number;
     question: string;
     answer: string;
-    frontendId: number;
+    rank: null;
+    isPublic: boolean;
+    owner: string | null;
   }[],
-) {
+): Promise<CreateCardsResponse> {
   try {
     const headers = await getHeaders();
     const response = await axios.post<CreateCardsResponse>(
@@ -172,7 +178,7 @@ async function createCards(
 
     return response.data;
   } catch (error) {
-    Logger.sendLocalError(error, error.message);
+    Logger.sendLocalError(error, 'createCards');
     captureException(error);
     throw error;
   }

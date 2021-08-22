@@ -23,39 +23,39 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
   const selectedDeck = deckId ? decks.decks[deckId] : null;
   try {
     const response: GetDeckBySharedIdResponse = yield call(Api.getSharedDeckBySharedId, code);
-    if (!response.data || !selectedDeck?.deckId || !deckId) {
+    if (!response.data) {
       throw new Error(response.error || 'Unknown error');
     }
-
-    if (selectedDeck?.cards && selectedDeck?.cards.length > response.data.cards.length) {
-      const localCardsOnly = selectedDeck.cards.filter((c) => {
-        const remoteCard = response.data?.cards.find((rc) => rc.id === c.id);
-        return !remoteCard;
-      });
-
-      const createCardsResponse: CreateCardsResponse = yield call(
-        Api.createCards,
-        selectedDeck.deckId,
-        localCardsOnly,
-      );
-
-      if ('error' in createCardsResponse) {
-        throw new Error(createCardsResponse.error || 'Unknown error');
-      }
-
-      const cards = addRank(createCardsResponse.cards, selectedDeck);
-      yield put(
-        updateDeck(deckId, {
-          ...selectedDeck,
-          cards,
-        }),
-      );
-    }
-
     const id = deckId || response.data.deckId;
     if (response.data.shareId) {
+      if (selectedDeck?.cards && selectedDeck?.cards.length > response.data.cards.length) {
+        const localCardsOnly = selectedDeck.cards.filter((c) => {
+          const remoteCard = response.data?.cards.find((rc) => rc.id === c.id);
+          return !remoteCard;
+        });
+        // FIXME
+        const createCardsResponse: CreateCardsResponse = yield call(
+          // @ts-ignore
+          Api.createCards,
+          selectedDeck.deckId,
+          localCardsOnly,
+        );
+        if ('error' in createCardsResponse) {
+          throw new Error(createCardsResponse.error || 'Unknown error');
+        }
+        const mergedCards = selectedDeck.cards.map((c) => {
+          const serverCard = createCardsResponse.cards.length
+            ? createCardsResponse.cards.find((serverCard) => serverCard.frontendId === c.frontendId)
+            : null;
+          return {
+            ...c,
+            id: serverCard?.id,
+          };
+        });
+        const deck = { ...selectedDeck, cards: mergedCards };
+        return yield put(updateDeck(id.toString(), deck));
+      }
       const cards = addRank(response.data?.cards || [], selectedDeck);
-
       const deck = {
         ...response.data,
         isOwner: user.sub === response.data.owner,
@@ -64,7 +64,7 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
         cards,
       };
 
-      yield put(updateDeck(id.toString(), deck));
+      return yield put(updateDeck(id.toString(), deck));
     }
   } catch (error) {
     yield put(getDeckByShareIdError('Something went wrong'));
