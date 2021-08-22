@@ -1,28 +1,61 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import Api from '../../../api';
+import Api, { CreateCardsResponse } from '../../../api';
 import { GetDeckBySharedIdResponse } from '../../../api/types';
 import { getDeckByShareIdError, updateDeck } from '../actions';
 import { DecksActionTypes, GetDeckByShareId } from '../interface';
 import { RootState } from '../../store';
-import { Card } from '../reducer';
+import { Card, Deck } from '../reducer';
+
+const addRank = (cards: { id: number }[], selectedDeck: Deck | null) => {
+  return cards.map((c) => {
+    const selectedCard = selectedDeck ? selectedDeck.cards.find((card: Card) => card.id === c.id) : null;
+    return {
+      ...c,
+      rank: selectedCard?.rank ? selectedCard.rank : null,
+    };
+  });
+};
 
 function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
-  const { decks, user } = yield select((state: RootState) => state);
+  const { decks, user }: { decks: RootState['decks']; user: RootState['user'] } = yield select(
+    (state: RootState) => state,
+  );
   const selectedDeck = deckId ? decks.decks[deckId] : null;
   try {
     const response: GetDeckBySharedIdResponse = yield call(Api.getSharedDeckBySharedId, code);
-    if (!response.data) {
+    if (!response.data || !selectedDeck?.deckId || !deckId) {
       throw new Error(response.error || 'Unknown error');
     }
+
+    if (selectedDeck?.cards && selectedDeck?.cards.length > response.data.cards.length) {
+      const localCardsOnly = selectedDeck.cards.filter((c) => {
+        const remoteCard = response.data?.cards.find((rc) => rc.id === c.id);
+        return !remoteCard;
+      });
+
+      const createCardsResponse: CreateCardsResponse = yield call(
+        Api.createCards,
+        selectedDeck.deckId,
+        localCardsOnly,
+      );
+
+      if ('error' in createCardsResponse) {
+        throw new Error(createCardsResponse.error || 'Unknown error');
+      }
+
+      const cards = addRank(createCardsResponse.cards, selectedDeck);
+      yield put(
+        updateDeck(deckId, {
+          ...selectedDeck,
+          cards,
+        }),
+      );
+    }
+
     const id = deckId || response.data.deckId;
     if (response.data.shareId) {
-      const cards = response.data.cards.map((c) => {
-        const selectedCard = selectedDeck ? selectedDeck.cards.find((card: Card) => card.id === c.id) : {};
-        return {
-          ...c,
-          rank: selectedCard?.rank ? selectedCard.rank : null,
-        };
-      });
+      const cards = addRank(response.data?.cards || [], selectedDeck);
+
       const deck = {
         ...response.data,
         isOwner: user.sub === response.data.owner,

@@ -135,6 +135,49 @@ async function getSharedDeckBySharedId(sharedId: string): Promise<GetDeckByShare
   }
 }
 
+export type CreateCardsResponse =
+  | {
+      cards: {
+        frontendId: number;
+        id: number;
+        question: string;
+        answer: string;
+        rank: number | null;
+      }[];
+    }
+  | { error: string };
+
+async function createCards(
+  deckId: number,
+  cards: {
+    question: string;
+    answer: string;
+    frontendId: number;
+  }[],
+) {
+  try {
+    const headers = await getHeaders();
+    const response = await axios.post<CreateCardsResponse>(
+      `${Config.API_URL}/cards`,
+      { deckId, cards },
+      headers,
+    );
+    if (!response.data) {
+      throw new Error('no data found');
+    }
+
+    if ('error' in response.data) {
+      throw new Error(response.data.error);
+    }
+
+    return response.data;
+  } catch (error) {
+    Logger.sendLocalError(error, error.message);
+    captureException(error);
+    throw error;
+  }
+}
+
 export type SaveOrUpdateCardResponse =
   | {
       frontendId: number;
@@ -199,6 +242,7 @@ const Api = {
   getSharedDeckBySharedId,
   saveOrUpdateCard,
   saveUser,
+  createCards,
 };
 
 export default Api;
