@@ -16,6 +16,10 @@ const addRank = (cards: { id: number }[], selectedDeck: Deck | null) => {
   });
 };
 
+interface LocalCard extends Omit<Card, 'id'> {
+  id: null;
+}
+
 function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
   const { decks, user }: { decks: RootState['decks']; user: RootState['user'] } = yield select(
     (state: RootState) => state,
@@ -35,27 +39,33 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
       selectedDeck?.cards.length > response.data.cards.length
     ) {
       const localCardsOnly = selectedDeck.cards.filter((c) => {
+        // id in card so exist in database;
+        if (c.id) {
+          return false;
+        }
         const remoteCard = response.data?.cards.find((rc) => rc.id === c.id);
         return !remoteCard;
-      });
+      }) as LocalCard[];
 
-      const createCardsResponse: CreateCardsResponse = yield call(
-        Api.createCards,
-        selectedDeck.deckId,
-        localCardsOnly,
-      );
+      if (localCardsOnly.length) {
+        const createCardsResponse: CreateCardsResponse = yield call(
+          Api.createCards,
+          selectedDeck.deckId,
+          localCardsOnly,
+        );
 
-      if ('error' in createCardsResponse) {
-        throw new Error(createCardsResponse.error || 'Unknown error');
+        if ('error' in createCardsResponse) {
+          throw new Error(createCardsResponse.error || 'Unknown error');
+        }
+
+        const cards = addRank(createCardsResponse.cards, selectedDeck);
+        yield put(
+          updateDeck(deckId, {
+            ...selectedDeck,
+            cards,
+          }),
+        );
       }
-
-      const cards = addRank(createCardsResponse.cards, selectedDeck);
-      yield put(
-        updateDeck(deckId, {
-          ...selectedDeck,
-          cards,
-        }),
-      );
     }
 
     const id = deckId || response.data.deckId;
@@ -70,7 +80,7 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
         cards,
       };
 
-      yield put(updateDeck(id.toString(), deck));
+      return yield put(updateDeck(id.toString(), deck));
     }
   } catch (error) {
     yield put(getDeckByShareIdError('Something went wrong'));

@@ -65,12 +65,14 @@ export const saveQuestion = (
   frontendId: number,
   question: string,
   isEdit: boolean,
+  owner: string | null,
 ): SaveQuestion => ({
   type: DecksActionTypes.saveQuestion,
   deckId,
   frontendId,
   question,
   isEdit,
+  owner,
 });
 
 export const saveAnswer = (deckId: string, cardId: number, answer: string): SaveAnswer => ({

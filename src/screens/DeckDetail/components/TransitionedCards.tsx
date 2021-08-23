@@ -50,7 +50,7 @@ const TransitionedCards = forwardRef<TransitioningView, Props>(
 
       return (
         <View
-          key={`cardlist-${item.id || item.frontendId}`}
+          key={`cardlist-${item.id || item.frontendId || item.question}`}
           style={[styles.item, { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon }]}>
           <CardItem onPress={handleNavigate} onTrashPress={handleDeleteCard} card={item} isOwner={isOwner} />
         </View>

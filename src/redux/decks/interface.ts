@@ -77,6 +77,7 @@ export interface SaveQuestion {
   frontendId: number;
   question: string;
   isEdit: boolean;
+  owner: string | null;
 }
 
 export interface SaveAnswer {
