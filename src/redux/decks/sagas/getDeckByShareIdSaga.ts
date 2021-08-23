@@ -23,11 +23,17 @@ function* getDeckByShareIdSaga({ code, deckId }: GetDeckByShareId) {
   const selectedDeck = deckId ? decks.decks[deckId] : null;
   try {
     const response: GetDeckBySharedIdResponse = yield call(Api.getSharedDeckBySharedId, code);
-    if (!response.data || !selectedDeck?.deckId || !deckId) {
+    if (!response.data) {
       throw new Error(response.error || 'Unknown error');
     }
 
-    if (selectedDeck?.cards && selectedDeck?.cards.length > response.data.cards.length) {
+    if (
+      deckId &&
+      selectedDeck &&
+      selectedDeck.deckId &&
+      selectedDeck?.cards &&
+      selectedDeck?.cards.length > response.data.cards.length
+    ) {
       const localCardsOnly = selectedDeck.cards.filter((c) => {
         const remoteCard = response.data?.cards.find((rc) => rc.id === c.id);
         return !remoteCard;
