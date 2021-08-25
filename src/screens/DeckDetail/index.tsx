@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SharedElement } from 'react-navigation-shared-element';
 import { useDispatch, useSelector } from 'react-redux';
@@ -68,11 +68,11 @@ const DeckDetail: FC<Props> = ({
     dispatch(clearDecksError());
   };
 
-  const handlerRefreshSharedDeck = () => {
+  const handlerRefreshSharedDeck = useCallback(() => {
     if (deckDetail.shareId) {
       dispatch(getDeckByShareId(deckDetail.shareId, id));
     }
-  };
+  }, [deckDetail.shareId, id]);
 
   useDeckPusher(deckDetail.deckId, deckDetail.shareId, handlerRefreshSharedDeck);
 

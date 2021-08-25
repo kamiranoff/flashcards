@@ -164,8 +164,8 @@ async function createCards(
   try {
     const headers = await getHeaders();
     const response = await axios.post<CreateCardsResponse>(
-      `${Config.API_URL}/cards`,
-      { deckId, cards },
+      `${Config.API_URL}/deck/${deckId}/cards`,
+      { cards },
       headers,
     );
     if (!response.data) {

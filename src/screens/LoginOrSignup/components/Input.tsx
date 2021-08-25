@@ -57,10 +57,14 @@ const Input: FC<Props> = ({ onSuccess, onError, onSmsSuccess, success }) => {
         await sendSMS(
           number,
           () => onSmsSuccess(true),
-          () => setErrorMessage(true),
+          (e) => {
+            setErrorMessage(true);
+            throw e;
+          },
         );
       }
     } catch (e) {
+      // FIXME: Add logger
       console.warn(e);
     }
   };
@@ -165,7 +169,7 @@ const styles = StyleSheet.create({
   },
   subText: {
     marginTop: -30,
-    marginBottom: 30
+    marginBottom: 30,
   },
   buttonWrap: {
     backgroundColor: '#FFF',
@@ -207,7 +211,7 @@ const styles = StyleSheet.create({
   },
   spacer: {
     marginTop: 10,
-  }
+  },
 });
 
 export { Input };

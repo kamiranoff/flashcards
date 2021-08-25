@@ -28,7 +28,7 @@ const useDeckPusher = (deckId: number | null, shareId: string | null, callback: 
         callback();
       });
     }
-  }, [shareId, deckId, callback]);
+  }, [shareId, deckId]);
 };
 
 export { useDeckPusher };
