@@ -153,10 +153,10 @@ async function createCards(
   deckId: number,
   cards: {
     frontendId: number;
-    id: number;
+    id: null;
     question: string;
     answer: string;
-    rank: null;
+    rank: number | null;
     isPublic: boolean;
     owner: string | null;
   }[],
@@ -164,8 +164,8 @@ async function createCards(
   try {
     const headers = await getHeaders();
     const response = await axios.post<CreateCardsResponse>(
-      `${Config.API_URL}/cards`,
-      { deckId, cards },
+      `${Config.API_URL}/deck/${deckId}/cards`,
+      { cards },
       headers,
     );
     if (!response.data) {
