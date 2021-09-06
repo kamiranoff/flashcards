@@ -36,7 +36,7 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
             <HtmlParser isSliced text={`${card.question}`} />
           </View>
         </View>
-        {!card.answer.length && (
+        {!card.answer?.length && (
           <View style={styles.bottom}>
             <Icon
               name="question"
