@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { AppText, CloseButton, Container } from '../../common';
 import { Input } from './components/Input';
@@ -6,6 +6,8 @@ import { LoginOrSignupStackNavigationProp } from '../../navigation/types';
 import assets from '../../assets';
 import { Title } from './components/Title';
 import { useUserCredentials } from './hooks/useUserCredentials';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/seclectors';
 
 interface Props {
   navigation: LoginOrSignupStackNavigationProp;
@@ -14,6 +16,7 @@ interface Props {
 const LoginViaSms: FC<Props> = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [success, setSuccess] = useState(false);
+  const user = useSelector(selectUser);
   const { handleLoginSuccess } = useUserCredentials(navigation);
 
   const handleSmsError = () => {
@@ -23,6 +26,11 @@ const LoginViaSms: FC<Props> = ({ navigation }) => {
   const primaryText = success ? 'Enter code sent to your phone.' : 'Enter your phone number.';
   const secondaryText = success ? '' : 'We will send you confirmation code.';
 
+  useEffect(() => {
+    if (user.sub) {
+      return navigation.goBack();
+    }
+  }, [user.sub]);
   return (
     <Container style={styles.container}>
       <CloseButton onPress={() => navigation.goBack()} />

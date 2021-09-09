@@ -124,7 +124,7 @@ const DeckDetail: FC<Props> = ({
         ref={alertRef}
         onAnimationFinish={handleGeneralAlertFinish}
       />
-      <Header title={deckDetail.title} deckId={id} />
+      <Header title={deckDetail.title} deckId={id} isShared={!!deckDetail.shareId} />
       <SharedElement id={`item.${id}`} style={styles.titleContainer}>
         <AppText size="header" centered ellipsizeMode="tail" numberOfLines={1}>
           {deckDetail.title}

@@ -6,7 +6,7 @@ import * as R from 'ramda';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { PlaygroundScreenNavigationProp, PlaygroundScreenRouteProp, Screens } from '../../navigation/types';
 import { CloseButton, Container, GeneralAlert, Title } from '../../common';
-import { selectDeckItem, selectError, selectIsLoading } from '../../redux/seclectors';
+import { selectDeckItem, selectError } from '../../redux/seclectors';
 import CardItem from './Card';
 import { Card } from '../../redux/decks/reducer';
 import { getPlatformDimension, isIOS, isSmallDevice } from '../../utils/device';
@@ -83,7 +83,9 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
     refRBSheet.current?.close();
   };
 
-  const renderCard = (item: Card) => <CardItem card={item} title={deckDetail.title} deckId={params.deckId} />;
+  const renderCard = (item: Card) => (
+    <CardItem card={item} title={deckDetail.title} deckId={params.deckId} isShared={!!deckDetail.shareId} />
+  );
 
   const scoreGoodAnswer = (i: number) => {
     const currentCard = deckDetail.cards[i];
@@ -166,7 +168,6 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
           error={error}
           deckId={params.deckId}
           handleGoBack={handleCloseShare}
-          sub={sub}
           handleDismissBottomSheet={handleCloseShare}
         />
       </BottomSheetModal>

@@ -5,6 +5,8 @@ import { WINDOW_WIDTH } from '../../utils/device';
 import { Card } from '../../redux/decks/reducer';
 import { Screens } from '../../navigation/types';
 import { AppText, HtmlParser, IconButton } from '../../common';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const ITEM_SIZE = WINDOW_WIDTH * 0.9;
 
@@ -12,10 +14,12 @@ interface Props {
   card: Card;
   title: string;
   deckId: string;
+  isShared: boolean;
 }
 
-const CardItem: FC<Props> = ({ card, title, deckId }) => {
+const CardItem: FC<Props> = ({ card, title, deckId, isShared }) => {
   const navigation = useNavigation();
+  const { sub } = useSelector((state: RootState) => state.user);
   const animatedValue = useRef(new Animated.Value(0)).current;
   let v = 0;
   const frontInterpolate = animatedValue.interpolate({
@@ -49,10 +53,14 @@ const CardItem: FC<Props> = ({ card, title, deckId }) => {
     }
   };
 
-  const handleEdit = () =>
-    v <= 90
+  const handleEdit = () => {
+    if (isShared && !sub) {
+      return navigation.navigate(Screens.LOGIN_OR_SIGNUP);
+    }
+    return v <= 90
       ? navigation.navigate(Screens.QUESTION_MODAL, { title, deckId, cardId: card.frontendId })
       : navigation.navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: card.frontendId });
+  };
 
   return (
     <>
