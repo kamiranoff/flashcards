@@ -16,7 +16,7 @@ export enum LoginProvider {
   GOOGLE = 'google-oauth2',
 }
 
-const SCOPE = 'openid profile email';
+const SCOPE = 'openid profile email offline_access';
 
 type OnLoggedIn = (credentials: Credentials) => void;
 type OnError = (error: Error) => void;

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { AppText, CloseButton, Container, PrimaryButton } from '../../common';
@@ -21,6 +21,12 @@ const LoginOrSignup: FC<Props> = ({ navigation }) => {
   const navigateToLoginViaSms = () => {
     navigation.navigate(Screens.LOGIN_VIA_SMS);
   };
+
+  useEffect(() => {
+    if (user.sub) {
+      return navigation.goBack();
+    }
+  }, [user.sub]);
 
   return (
     <Container style={styles.container}>
