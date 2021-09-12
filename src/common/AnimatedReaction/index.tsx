@@ -9,7 +9,7 @@ type Props = {
   shapeType?: ShapeType;
   shapeNumbers?: number;
   startAnimation: boolean;
-  onAnimationFinish: () => void;
+  onAnimationFinish?: () => void;
 };
 
 const createIcon = (index: number) => {
@@ -54,7 +54,7 @@ const AnimatedReaction: FC<Props> = ({
   const handleShapeAnimationFinish = (id: number) => {
     if (id === shapes.length - 1) {
       setStart(false);
-      onAnimationFinish();
+      onAnimationFinish && onAnimationFinish();
     }
   };
 
