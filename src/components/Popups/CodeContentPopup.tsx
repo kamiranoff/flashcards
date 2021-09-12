@@ -53,7 +53,7 @@ const CodeContentPopup: FC<Props> = ({ handleGoBack }) => {
         style={styles.input}
         value={code}
         onChangeText={setCode}
-        placeholder="12345"
+        placeholder="1234"
         placeholderTextColor={theme.colors.placeholder}
         selectionColor="black"
         maxLength={4}

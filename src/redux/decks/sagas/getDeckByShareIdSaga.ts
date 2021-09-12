@@ -11,7 +11,7 @@ const addRank = (cards: { id: number }[], selectedDeck: Deck | null) => {
     const selectedCard = selectedDeck ? selectedDeck.cards.find((card: Card) => card.id === c.id) : null;
     return {
       ...c,
-      rank: selectedCard?.rank,
+      rank: selectedCard ? selectedCard.rank : null,
     };
   });
 };

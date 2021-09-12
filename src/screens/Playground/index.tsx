@@ -13,7 +13,7 @@ import { getPlatformDimension, isIOS, isSmallDevice } from '../../utils/device';
 import { saveDeckToDB, scoreCard } from '../../redux/decks/actions';
 import { SCORES } from '../../redux/decks/interface';
 import ActionButtons from './ActionButtons';
-import NoMoreCards from './NoMoreCards';
+import NoMoreCards from './NoMoreCards/NoMoreCards';
 import { theme } from '../../utils';
 import PrimaryButton from '../../common/PrimaryButton';
 import { RootState } from '../../redux/store';
