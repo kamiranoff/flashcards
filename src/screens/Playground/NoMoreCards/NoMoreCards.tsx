@@ -2,14 +2,14 @@ import React, { FC, useEffect, useState } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
-import animations from '../../assets/animations';
-import { AppText } from '../../common';
-import { selectBadAnswers, selectGoodAnswers } from '../../redux/seclectors';
-import assets from '../../assets';
-import { getPlatformDimension, WINDOW_WIDTH } from '../../utils/device';
-import { getUserScore } from '../../utils';
-import { AnimatedReaction } from '../../common/AnimatedReaction';
-import { Shapes } from '../../common/AnimatedReaction/Shape';
+import animations from '../../../assets/animations';
+import { AppText } from '../../../common';
+import { selectBadAnswers, selectGoodAnswers } from '../../../redux/seclectors';
+import assets from '../../../assets';
+import { getPlatformDimension, WINDOW_WIDTH } from '../../../utils/device';
+import { getUserScore } from '../../../utils';
+import { AnimatedReaction } from '../../../common/AnimatedReaction';
+import { Shapes } from '../../../common/AnimatedReaction/Shape';
 
 interface Props {
   deckId: string;
@@ -39,18 +39,18 @@ const NoMoreCards: FC<Props> = ({ deckId }) => {
         imageStyle={styles.bubbleImg}>
         <View style={styles.content}>
           <AppText size="h2" centered>
-            Your score today is:
+            Your score is:
           </AppText>
           <View style={styles.spacer} />
           <AppText size="header" centered textStyle={styles.scoreText}>
             {scoreInfo.score}
           </AppText>
           <View style={styles.spacer} />
-          <AppText size="h2" centered>
-            {scoreInfo.secondary}
+          <AppText size="h2" centered textStyle={styles.primary}>
+            {`"${scoreInfo.primary}"`}
           </AppText>
-          <AppText size="h2" centered>
-            {scoreInfo.primary}
+          <AppText size="h2" centered textStyle={styles.secondary}>
+            {scoreInfo.secondary}
           </AppText>
         </View>
       </ImageBackground>
@@ -91,17 +91,23 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   content: {
-    top: getPlatformDimension(WINDOW_WIDTH / 2 - 70, 20, 0, 60),
+    top: getPlatformDimension(50, 50, 100, 60),
   },
   spacer: {
-    marginTop: 10,
+    marginTop: 25,
   },
   icon: {
     width: 120,
     height: 120,
   },
   scoreText: {
-    fontSize: 30,
+    fontSize: 40,
+  },
+  primary: {
+    paddingHorizontal: 40,
+  },
+  secondary: {
+    marginTop: 8,
   },
 });
 
