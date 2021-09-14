@@ -56,7 +56,7 @@ const Img = ({ isSliced, attribs }: { isSliced?: boolean; attribs: HTMLViewNode[
     height: imgStyle.height,
   };
 
-  return <Image source={source} style={imgStyle} resizeMode="cover" />;
+  return <Image source={source} style={imgStyle} resizeMode="contain" />;
 };
 
 const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {

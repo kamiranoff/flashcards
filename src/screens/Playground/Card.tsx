@@ -1,14 +1,14 @@
 import React, { FC, useRef } from 'react';
 import { View, StyleSheet, Animated, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { WINDOW_WIDTH } from '../../utils/device';
+import { isLargeDevice, WINDOW_WIDTH } from '../../utils/device';
 import { Card } from '../../redux/decks/reducer';
 import { Screens } from '../../navigation/types';
 import { AppText, HtmlParser, IconButton } from '../../common';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-const ITEM_SIZE = WINDOW_WIDTH * 0.9;
+const ITEM_SIZE = isLargeDevice() ? WINDOW_WIDTH : WINDOW_WIDTH * 0.9;
 
 interface Props {
   card: Card;
@@ -68,7 +68,7 @@ const CardItem: FC<Props> = ({ card, title, deckId, isShared }) => {
         <IconButton onPress={handleEdit} iconName="edit" />
       </View>
       <View style={styles.innerContainer}>
-        <ScrollView nestedScrollEnabled>
+        <ScrollView nestedScrollEnabled scrollEnabled>
           <TouchableWithoutFeedback onPress={flipCard}>
             <View>
               <Animated.View style={[styles.card, { transform: [{ rotateY: frontInterpolate }] }]}>
@@ -82,7 +82,9 @@ const CardItem: FC<Props> = ({ card, title, deckId, isShared }) => {
                 <View style={styles.label}>
                   <AppText size="h1">Answer</AppText>
                 </View>
-                <HtmlParser text={card.answer} />
+                <View style={styles.answerContainer}>
+                  <HtmlParser text={card.answer} />
+                </View>
               </Animated.View>
             </View>
           </TouchableWithoutFeedback>
@@ -93,6 +95,10 @@ const CardItem: FC<Props> = ({ card, title, deckId, isShared }) => {
 };
 
 const styles = StyleSheet.create({
+  answerContainer: {
+    paddingTop: 30,
+    overflow: 'scroll',
+  },
   card: {
     width: '100%',
     minHeight: ITEM_SIZE * 1.4,
