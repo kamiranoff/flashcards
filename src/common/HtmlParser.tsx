@@ -1,7 +1,7 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 import { Image, StyleSheet, View, Text } from 'react-native';
 import HTMLView, { HTMLViewNode } from 'react-native-htmlview';
-import { isSmallDevice, SPACING, WINDOW_WIDTH } from '../utils/device';
+import { isSmallDevice, SPACING, width, WINDOW_WIDTH } from '../utils/device';
 import { theme } from '../utils';
 
 interface Props {
@@ -22,7 +22,7 @@ interface HTMLViewNodeWithMissingProps extends HTMLViewNode {
   parent?: HTMLViewNode;
 }
 
-const Li = ({ node, index, siblings, parent, defaultRenderer }: HtmlParserLiProps) => {
+const Li = ({ node, index, parent, defaultRenderer }: HtmlParserLiProps) => {
   if (!node.children) {
     return null;
   }
@@ -43,17 +43,29 @@ const Li = ({ node, index, siblings, parent, defaultRenderer }: HtmlParserLiProp
 };
 
 const Img = ({ isSliced, attribs }: { isSliced?: boolean; attribs: HTMLViewNode['attribs'] }) => {
+  const [imageHeight, setImageHeight] = useState<number | undefined>(undefined);
+  const [imageWidth, setImageWidth] = useState<number | undefined>(undefined);
+  console.log(attribs);
+  Image.getSize(attribs.src, (_width, height) => {
+    setImageWidth(_width);
+    setImageHeight(height);
+  });
+
   const photoSlicedHeight = isSmallDevice() ? 50 : 60;
-  const imgStyle = {
-    width: isSliced ? WINDOW_WIDTH / 2 - SPACING * 5 : WINDOW_WIDTH - SPACING * 5,
-    height: isSliced ? photoSlicedHeight : undefined,
-    aspectRatio: 1,
-  };
+  const imgStyle = isSliced
+    ? {
+        width: WINDOW_WIDTH / 2 - SPACING * 5,
+        height: photoSlicedHeight,
+      }
+    : {
+        width: WINDOW_WIDTH - SPACING * 5,
+        aspectRatio: imageWidth && imageHeight && imageHeight > 0 ? imageWidth / imageHeight : 1,
+      };
 
   const source = {
     uri: attribs.src,
     width: imgStyle.width,
-    height: imgStyle.height,
+    height: undefined,
   };
 
   return <Image source={source} style={imgStyle} resizeMode="contain" />;
