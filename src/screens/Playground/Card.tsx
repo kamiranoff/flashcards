@@ -1,14 +1,12 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { isLargeDevice, WINDOW_WIDTH } from '../../utils/device';
 import { Card } from '../../redux/decks/reducer';
 import { Screens } from '../../navigation/types';
-import { IconButton } from '../../common';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { Question } from './Question';
-import { Answer } from './Answer';
+import { CardContent } from './CardContent';
 
 const ITEM_SIZE = isLargeDevice() ? WINDOW_WIDTH : WINDOW_WIDTH * 0.9;
 
@@ -20,6 +18,7 @@ interface Props {
 }
 
 const CardItem: FC<Props> = ({ card, title, deckId, isShared }) => {
+  const [isQuestion, setIsQuestion] = useState(true);
   const navigation = useNavigation();
   const { sub } = useSelector((state: RootState) => state.user);
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -38,6 +37,7 @@ const CardItem: FC<Props> = ({ card, title, deckId, isShared }) => {
   });
 
   const flipCard = () => {
+    setIsQuestion((prev) => !prev);
     if (v >= 90) {
       Animated.spring(animatedValue, {
         toValue: 0,
@@ -65,15 +65,15 @@ const CardItem: FC<Props> = ({ card, title, deckId, isShared }) => {
   };
 
   return (
-    <>
-      <View style={styles.editButton}>
-        <IconButton onPress={handleEdit} iconName="edit" />
-      </View>
-      <View style={styles.innerContainer}>
-        <Question question={card.question} onPress={flipCard} interpolation={frontInterpolate} />
-        <Answer answer={card.answer} onPress={flipCard} interpolation={backInterpolate} />
-      </View>
-    </>
+    <View style={styles.innerContainer}>
+      <CardContent
+        title={isQuestion ? 'Question' : 'Answer'}
+        text={isQuestion ? card.question : card.answer}
+        onPress={flipCard}
+        interpolation={isQuestion ? frontInterpolate : backInterpolate}
+        onEdit={handleEdit}
+      />
+    </View>
   );
 };
 
@@ -81,14 +81,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     width: '100%',
     height: ITEM_SIZE * 1.4 + 5,
-    backgroundColor: 'transparent',
     margin: 0,
-  },
-  editButton: {
-    position: 'absolute',
-    top: 2,
-    right: 5,
-    zIndex: 999,
   },
 });
 
