@@ -32,7 +32,7 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
           <AppText size="p" textStyle={styles.label}>
             Question:
           </AppText>
-          <View style={{ marginVertical: 8 }}>
+          <View style={styles.htmlContainer}>
             <HtmlParser isSliced text={`${card.question}`} />
           </View>
         </View>
@@ -44,7 +44,7 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
               imgStyle={styles.iconImg}
               style={styles.icon}
             />
-            <AppText size="p" textStyle={{ color: '#646464' }}>
+            <AppText size="p" textStyle={styles.textStyle}>
               Missing answer
             </AppText>
           </View>
@@ -71,10 +71,16 @@ const styles = StyleSheet.create({
   innerContent: {
     flex: 1,
   },
+  textStyle: {
+    color: '#646464',
+  },
   bottom: {
     marginTop: 5,
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  htmlContainer: {
+    marginVertical: 8,
   },
   icon: {
     width: 20,

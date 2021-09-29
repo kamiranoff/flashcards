@@ -2,14 +2,13 @@ import React, { FC } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
-import animations from '../../../assets/animations';
 import { AppText } from '../../../common';
 import { selectBadAnswers, selectGoodAnswers } from '../../../redux/seclectors';
 import assets from '../../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../../utils/device';
-import { getUserScore } from '../../../utils';
 import { AnimatedReaction } from '../../../common/AnimatedReaction';
 import { Shapes } from '../../../common/AnimatedReaction/Shape';
+import { getLadyScoreInfo } from './utils';
 
 interface Props {
   deckId: string;
@@ -18,9 +17,8 @@ interface Props {
 const NoMoreCards: FC<Props> = ({ deckId }) => {
   const badAnswers = useSelector(selectBadAnswers(deckId));
   const goodAnswers = useSelector(selectGoodAnswers(deckId));
-  const scoreInfo = getUserScore(goodAnswers, badAnswers);
-  // @ts-ignore
-  const icon = animations[`${scoreInfo.icon}Lady`];
+  const scoreInfo = getLadyScoreInfo(goodAnswers, badAnswers);
+  const icon = scoreInfo.icon;
   const is100 = scoreInfo.score === '100%';
 
   return (

@@ -1,75 +1,19 @@
-import React, { FC, ReactNode, useState } from 'react';
-import { Image, StyleSheet, View, Text } from 'react-native';
+import React, { FC, ReactNode } from 'react';
+import { StyleSheet, View } from 'react-native';
 import HTMLView, { HTMLViewNode } from 'react-native-htmlview';
-import { isSmallDevice, SPACING, width, WINDOW_WIDTH } from '../utils/device';
-import { theme } from '../utils';
+import { theme } from '../../utils';
+import { Li } from './Li';
+import { Img } from './Img';
 
 interface Props {
   text: string | undefined;
   isSliced?: boolean;
 }
 
-interface HtmlParserLiProps {
-  node: HTMLViewNodeWithMissingProps;
-  index: number;
-  siblings: HTMLViewNode;
-  parent: HTMLViewNode;
-  defaultRenderer: (node: HTMLViewNode, parent: HTMLViewNode) => ReactNode;
-}
-
 interface HTMLViewNodeWithMissingProps extends HTMLViewNode {
   children?: HTMLViewNode;
   parent?: HTMLViewNode;
 }
-
-const Li = ({ node, index, parent, defaultRenderer }: HtmlParserLiProps) => {
-  if (!node.children) {
-    return null;
-  }
-
-  const bullet = node.parent?.name === 'ol' ? `${index + 1}.` : '\u2022';
-  return (
-    <View key={index} style={{ paddingTop: index === 0 ? 10 : 0 }}>
-      <View style={{ flexDirection: 'row' }}>
-        <View style={{ flexDirection: 'column', marginLeft: 20, width: 20 }}>
-          <Text>{bullet}</Text>
-        </View>
-        <View style={{ flexDirection: 'column', width: '90%' }}>
-          <Text>{defaultRenderer(node.children, parent)}</Text>
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const Img = ({ isSliced, attribs }: { isSliced?: boolean; attribs: HTMLViewNode['attribs'] }) => {
-  const [imageHeight, setImageHeight] = useState<number | undefined>(undefined);
-  const [imageWidth, setImageWidth] = useState<number | undefined>(undefined);
-  console.log(attribs);
-  Image.getSize(attribs.src, (_width, height) => {
-    setImageWidth(_width);
-    setImageHeight(height);
-  });
-
-  const photoSlicedHeight = isSmallDevice() ? 50 : 60;
-  const imgStyle = isSliced
-    ? {
-        width: WINDOW_WIDTH / 2 - SPACING * 5,
-        height: photoSlicedHeight,
-      }
-    : {
-        width: WINDOW_WIDTH - SPACING * 5,
-        aspectRatio: imageWidth && imageHeight && imageHeight > 0 ? imageWidth / imageHeight : 1,
-      };
-
-  const source = {
-    uri: attribs.src,
-    width: imgStyle.width,
-    height: undefined,
-  };
-
-  return <Image source={source} style={imgStyle} resizeMode="contain" />;
-};
 
 const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
   const slicedText = text ? `${text.slice(0, 150)}` : '';
@@ -83,7 +27,7 @@ const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
   ) => {
     switch (node.name) {
       case 'img': {
-        return <Img key={index} attribs={node.attribs} isSliced={isSliced} />;
+        return <Img key={index} attribs={node.attribs} />;
       }
       case 'ul': {
         if (!node.children) {

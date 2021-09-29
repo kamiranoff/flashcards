@@ -149,6 +149,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
       />
     );
   };
+
   return (
     <Container style={styles.container}>
       <GeneralAlert ref={alertRef} />

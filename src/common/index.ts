@@ -3,7 +3,7 @@ import Form from './Form';
 import IconButton from './IconButton';
 import Container from './Container';
 import NativeAlert from './Alert';
-import HtmlParser from './HtmlParser';
+import HtmlParser from './HtmlParser/HtmlParser';
 import CloseButton from './CloseButton';
 import PrimaryButton from './PrimaryButton';
 import Title from './Title';
