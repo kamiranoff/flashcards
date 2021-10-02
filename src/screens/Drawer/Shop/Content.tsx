@@ -35,7 +35,7 @@ const Content: FC<Props> = ({ onNavigateToUpgrade, onNavigateToFreebie }) => {
       <View style={styles.content}>
         <View style={styles.header}>
           <Image source={assets.icons.happyFace} style={styles.image} />
-          <View style={{ marginTop: 0, marginLeft: 10 }}>
+          <View style={styles.titleContainer}>
             <AppText size="h1">WELCOME</AppText>
             <AppText size="h1">TO OUR SHOP</AppText>
           </View>
@@ -104,6 +104,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',
+  },
+  titleContainer: {
+    marginTop: 0,
+    marginLeft: 10,
   },
   image: {
     aspectRatio: 0.8,

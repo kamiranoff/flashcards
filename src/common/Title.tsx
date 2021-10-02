@@ -1,19 +1,19 @@
 import React from 'react';
 import AppText from './AppText';
-import { StyleSheet, View } from 'react-native';
-import { getPlatformDimension } from '../utils/device';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { getPlatformDimension, getStatusBarHeight } from '../utils/device';
 
-const Title = ({ title }: { title: string }) => (
-  <View style={styles.container}>
+const Title = ({ title, style }: { title: string; style?: StyleProp<ViewStyle> }) => (
+  <View style={[styles.container, style]}>
     <AppText size="header" centered ellipsizeMode="tail" numberOfLines={1}>
       {title}
     </AppText>
   </View>
 );
-
+console.log('getStatusBarHeight()', getStatusBarHeight());
 const styles = StyleSheet.create({
   container: {
-    paddingTop: getPlatformDimension(25, 10, 15),
+    paddingTop: getPlatformDimension(25, 10, getStatusBarHeight() + 20),
     paddingHorizontal: 70,
   },
 });
