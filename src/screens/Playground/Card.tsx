@@ -1,5 +1,5 @@
-import React, { FC, useRef, useState } from 'react';
-import { View, StyleSheet, Animated } from 'react-native';
+import React, { FC } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { isLargeDevice, WINDOW_WIDTH } from '../../utils/device';
 import { Card } from '../../redux/decks/reducer';
@@ -7,6 +7,7 @@ import { Screens } from '../../navigation/types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { CardContent } from './CardContent';
+import { ReanimatedFlip } from '../../common';
 
 const ITEM_SIZE = isLargeDevice() ? WINDOW_WIDTH : WINDOW_WIDTH * 0.9;
 
@@ -18,60 +19,35 @@ interface Props {
 }
 
 const CardItem: FC<Props> = ({ card, title, deckId, isShared }) => {
-  const [isQuestion, setIsQuestion] = useState(true);
+  const [side, setSide] = React.useState<0 | 1>(0);
   const navigation = useNavigation();
   const { sub } = useSelector((state: RootState) => state.user);
-  const animatedValue = useRef(new Animated.Value(0)).current;
-  let v = 0;
-  const frontInterpolate = animatedValue.interpolate({
-    inputRange: [0, 180],
-    outputRange: ['0deg', '180deg'],
-  });
-  const backInterpolate = animatedValue.interpolate({
-    inputRange: [0, 180],
-    outputRange: ['180deg', '360deg'],
-  });
-
-  animatedValue.addListener(({ value }) => {
-    v = value;
-  });
 
   const flipCard = () => {
-    setIsQuestion((prev) => !prev);
-    if (v >= 90) {
-      Animated.spring(animatedValue, {
-        toValue: 0,
-        friction: 8,
-        tension: 10,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.spring(animatedValue, {
-        toValue: 180,
-        friction: 8,
-        tension: 10,
-        useNativeDriver: true,
-      }).start();
-    }
+    setSide((side) => (side === 0 ? 1 : 0));
   };
 
   const handleEdit = () => {
     if (isShared && !sub) {
       return navigation.navigate(Screens.LOGIN_OR_SIGNUP);
     }
-    return v <= 90
-      ? navigation.navigate(Screens.QUESTION_MODAL, { title, deckId, cardId: card.frontendId })
-      : navigation.navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: card.frontendId });
+    const params = {
+      title,
+      deckId,
+      cardId: card.frontendId,
+      fromPlayground: true,
+    };
+    return side === 0
+      ? navigation.navigate(Screens.QUESTION_MODAL, params)
+      : navigation.navigate(Screens.ANSWER_MODAL, params);
   };
 
   return (
     <View style={styles.innerContainer}>
-      <CardContent
-        title={isQuestion ? 'Question' : 'Answer'}
-        text={isQuestion ? card.question : card.answer}
-        onPress={flipCard}
-        interpolation={isQuestion ? frontInterpolate : backInterpolate}
-        onEdit={handleEdit}
+      <ReanimatedFlip
+        side={side}
+        front={<CardContent title={'Question'} text={card.question} onPress={flipCard} onEdit={handleEdit} />}
+        back={<CardContent title={'Answer'} text={card.answer} onPress={flipCard} onEdit={handleEdit} />}
       />
     </View>
   );

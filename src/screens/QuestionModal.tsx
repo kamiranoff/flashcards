@@ -16,7 +16,7 @@ export interface Props {
 }
 
 const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, goBack } }) => {
-  const { title, deckId, cardId } = params;
+  const { title, deckId, cardId, fromPlayground } = params;
   const card = useSelector(selectCard(deckId, cardId));
   const user = useSelector(selectUser);
   const deckDetail = useSelector(selectDeckItem(deckId));
@@ -36,6 +36,9 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
       dispatch(saveNewCard(deckId, frontendId, isEdit));
     }
 
+    if (fromPlayground) {
+      return handleCloseModal();
+    }
     return navigate(Screens.ANSWER_MODAL, { title, deckId, cardId: frontendId });
   };
 

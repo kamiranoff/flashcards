@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
-import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 import * as Analytics from 'appcenter-analytics';
 import {
@@ -157,6 +157,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
         <PrimaryButton buttonText="Save" onPress={handleSubmit} />
       </View>
       <ScrollView
+        showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="none"
         style={styles.scrollView}
@@ -185,6 +186,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           getEditor={() => richText.current!}
           iconTint="#282828"
           onPressAddImage={handlePressAddImage}
+          /* @ts-ignore FIXME at some point */
           onPressAddImageFromCamera={handleInsertImageFromCamera}
           selectedIconTint={theme.colors.success}
           actions={handleRenderActions()}

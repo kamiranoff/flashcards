@@ -22,6 +22,7 @@ import ProgressLoader from './ProgressLoader';
 import BackButton from './BackButton';
 import IconButtonWithText from './IconButtonWithText';
 import { AnimatedView } from './AnimatedView';
+import { ReanimatedFlip } from './ReanimatedFlip';
 
 export {
   AnimatedView,
@@ -48,4 +49,5 @@ export {
   ProgressLoader,
   BackButton,
   IconButtonWithText,
+  ReanimatedFlip,
 };
