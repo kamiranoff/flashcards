@@ -13,7 +13,7 @@ import { getPlatformDimension } from '../../../utils/device';
 import { AnimatedReaction } from '../../../common/AnimatedReaction';
 
 interface Props {
-  onNavigateToShop: () => void;
+  onNavigateToShop?: () => void;
 }
 
 const Content: FC<Props> = ({ onNavigateToShop }) => {
@@ -61,12 +61,14 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
               <AppText size="h3">50% off</AppText>
             </View>
           </View>
-          <PriceButton
-            isSecondaryText={false}
-            primaryText="More"
-            onPress={onNavigateToShop}
-            style={styles.shopButton}
-          />
+          {onNavigateToShop ? (
+            <PriceButton
+              isSecondaryText={false}
+              primaryText="More"
+              onPress={onNavigateToShop}
+              style={styles.shopButton}
+            />
+          ) : null}
         </View>
         <View style={styles.info}>
           <AppText size="p">{TERMS}</AppText>

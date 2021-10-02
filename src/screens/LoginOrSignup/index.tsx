@@ -16,7 +16,7 @@ interface Props {
 
 const LoginOrSignup: FC<Props> = ({ navigation }) => {
   const user = useSelector(selectUser);
-  const { handleLoginSuccess, handleError } = useUserCredentials(navigation);
+  const { handleLoginSuccess, handleError } = useUserCredentials();
 
   const navigateToLoginViaSms = () => {
     navigation.navigate(Screens.LOGIN_VIA_SMS);
@@ -26,12 +26,12 @@ const LoginOrSignup: FC<Props> = ({ navigation }) => {
     if (user.sub) {
       return navigation.goBack();
     }
-  }, [user.sub]);
+  }, [user.sub, navigation]);
 
   return (
     <Container style={styles.container}>
       <CloseButton onPress={() => navigation.goBack()} />
-      <Title primaryText="Let's sign you in." secondaryText="Save your flashcards. Share freely." />
+      <Title primaryText="Let's sign you in." secondaryText="Save your flashcards to share with others." />
       <View style={styles.animationContainer}>
         <LottieView autoPlay loop speed={1.5} source={animations.security} />
       </View>

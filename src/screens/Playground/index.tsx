@@ -154,7 +154,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
     <Container style={styles.container}>
       <GeneralAlert ref={alertRef} />
       <CloseButton onPress={handleGoBack} />
-      <Title title={deckDetail.title} />
+      <Title title={deckDetail.title} style={styles.title} />
       <View style={styles.shareButtonContainer}>
         <PrimaryButton buttonText="Share" onPress={handleShareDeck} />
       </View>
@@ -179,6 +179,9 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.background2,
+  },
+  title: {
+    paddingTop: getPlatformDimension(25, 10, 15),
   },
   swiperContainer: {
     flex: 1,

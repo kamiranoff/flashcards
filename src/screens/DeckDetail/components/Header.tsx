@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CloseButton } from '../../../common';
 import IconButton from '../../../common/IconButton';
 import { Screens } from '../../../navigation/types';
-import { getPlatformDimension } from '../../../utils/device';
+import { getStatusBarHeight } from '../../../utils/device';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   addIcon: {
     right: 10,
     position: 'absolute',
-    top: getPlatformDimension(20, 20, 50),
+    top: getStatusBarHeight(),
     zIndex: 9,
   },
 });

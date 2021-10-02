@@ -28,7 +28,7 @@ const setOptions = (navigation: DrawerScreenNavigationProp) => ({
   headerTitle: '',
   gestureEnabled: false, // prevent dismiss the screen by swiping
   headerLeft: () => (
-    <IconButton iconName="menuCurve" onPress={navigation.openDrawer} style={styles.menuIcon} />
+    <IconButton iconName="goBack" onPress={navigation.openDrawer} style={styles.menuIcon} />
   ),
 });
 
@@ -42,20 +42,17 @@ export interface Props {
   navigation: DrawerScreenNavigationProp;
 }
 
-const shopFlowOptions = {
-  headerTransparent: true,
-  headerTitle: '',
-  gestureEnabled: false,
-  headerBackTitle: '',
-  headerLeft: () => null,
-};
-
 const ShopDrawerStackFlow = ({ navigation }: { navigation: DrawerScreenNavigationProp }) => (
-  <ShopDrawerStack.Navigator screenOptions={setOptions(navigation)}>
+  <ShopDrawerStack.Navigator>
     <ShopDrawerStack.Screen name={Screens.SHOP} component={Shop} options={setOptions(navigation)} />
     <ShopDrawerStack.Screen
       name={Screens.GET_FREEBIE_MODAL}
       component={GetFreebieModal}
+      options={{ headerShown: false, gestureEnabled: false, headerLeft: () => null }}
+    />
+    <ShopDrawerStack.Screen
+      name={Screens.UPGRADE}
+      component={UpgradeToPro}
       options={{ headerShown: false, gestureEnabled: false, headerLeft: () => null }}
     />
   </ShopDrawerStack.Navigator>
@@ -77,7 +74,7 @@ const DrawerScreensStack: FC<Props> = ({ navigation, style }) => {
           options={setOptions(navigation)}
         />
         <Stack.Screen name={Screens.CONTACT} component={Contact} options={setOptions(navigation)} />
-        <Stack.Screen name={Screens.SHOP} component={ShopDrawerStackFlow} options={shopFlowOptions} />
+        <Stack.Screen name={Screens.SHOP} component={ShopDrawerStackFlow} options={{ headerShown: false }} />
       </Stack.Navigator>
     </Animated.View>
   );

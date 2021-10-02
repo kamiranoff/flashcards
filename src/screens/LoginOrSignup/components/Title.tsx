@@ -22,7 +22,7 @@ const Title: FC<Props> = ({ primaryText, secondaryText }) => (
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 10,
   },
   color: {
     color: '#000',

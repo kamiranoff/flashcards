@@ -9,7 +9,7 @@ interface Props {
 }
 
 const Shop: FC<Props> = ({ navigation }) => {
-  const handleGoToUpgrade = () => navigation.navigate(Screens.UPGRADE);
+  const handleGoToUpgrade = () => navigation.navigate(Screens.UPGRADE, { fromShop: true});
   const handleGoToFreebie = () => navigation.navigate(Screens.GET_FREEBIE_MODAL);
   return (
     <Container style={styles.container}>

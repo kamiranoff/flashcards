@@ -55,7 +55,7 @@ export type DrawerStackParamList = {
   [Screens.GET_FREEBIE]: undefined;
   [Screens.RATE_APP]: undefined;
   [Screens.SHARE_APP]: undefined;
-  [Screens.UPGRADE]: undefined;
+  [Screens.UPGRADE]: { fromShop: boolean } | undefined;
   [Screens.REQUEST_FEATURE]: undefined;
   [Screens.CONTACT]: undefined;
   [Screens.IMPROVE_APP]: undefined;
@@ -72,6 +72,7 @@ export type ShopStackParamList = {
 export type ShopDrawerStackParamList = {
   [Screens.SHOP]: undefined;
   [Screens.GET_FREEBIE_MODAL]: undefined;
+  [Screens.UPGRADE]: { fromShop: boolean } | undefined;
 };
 
 export type AuthStackParamList = {

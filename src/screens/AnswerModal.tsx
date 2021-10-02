@@ -4,7 +4,9 @@ import { AddAnswerScreenNavigationProp, AddAnswerScreenRouteProp } from '../navi
 import { selectCard, selectDeckItem } from '../redux/seclectors';
 import { Card } from '../redux/decks/reducer';
 import { saveAnswer, saveNewCard } from '../redux/decks/actions';
-import { CloseButton, Container, Form, Title } from '../common';
+import { CloseButton, Form, Title } from '../common';
+import { StyleSheet, View } from 'react-native';
+import { theme } from '../utils';
 
 export interface Props {
   route: AddAnswerScreenRouteProp;
@@ -28,7 +30,7 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
   const handleCloseModal = () => navigation.popToTop();
 
   return (
-    <Container>
+    <View style={styles.container}>
       <Title title={title} />
       <CloseButton onPress={handleCloseModal} />
       <Form
@@ -36,8 +38,14 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
         initialValue={card?.answer || ''}
         onSubmit={(answer) => handleSave(answer)}
       />
-    </Container>
+    </View>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+});
 export default AnswerModal;

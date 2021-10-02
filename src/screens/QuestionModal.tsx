@@ -6,7 +6,9 @@ import { AddQuestionScreenNavigationProp, AddQuestionScreenRouteProp, Screens } 
 import { selectCard, selectDeckItem, selectUser } from '../redux/seclectors';
 import { Card } from '../redux/decks/reducer';
 import { saveNewCard, saveQuestion } from '../redux/decks/actions';
-import { CloseButton, Container, Form, Title } from '../common';
+import { CloseButton, Form, Title } from '../common';
+import { StyleSheet, View } from 'react-native';
+import { theme } from '../utils';
 
 export interface Props {
   route: AddQuestionScreenRouteProp;
@@ -38,7 +40,7 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
   };
 
   return (
-    <Container>
+    <View style={styles.container}>
       <Title title={title} />
       <CloseButton onPress={handleCloseModal} />
       <Form
@@ -46,8 +48,15 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
         initialValue={card?.question || ''}
         onSubmit={(question) => handleSave(question)}
       />
-    </Container>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+});
 
 export default QuestionModal;

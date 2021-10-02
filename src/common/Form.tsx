@@ -9,7 +9,7 @@ import {
   launchImageLibrary,
 } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
-import { getPlatformDimension, isIOS, WINDOW_HEIGHT } from '../utils/device';
+import { getBottomSpace, getPlatformDimension, isIOS, isLargeDevice, WINDOW_HEIGHT } from '../utils/device';
 import assets from '../assets';
 import PrimaryButton from './PrimaryButton';
 import { analytics, theme } from '../utils';
@@ -28,7 +28,7 @@ interface Props {
 }
 
 const contentStyle = {
-  backgroundColor: '#FFFFFF',
+  backgroundColor: '#f5f4ee',
   color: '#000',
   placeholderColor: theme.colors.p,
   contentCSSText: `font-size: 20px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`, // initial valid
@@ -166,6 +166,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           {!isPro && <IconButton onPress={handleGoToShop} iconName="basket" style={styles.basketIcon} />}
         </View>
         <RichToolbar
+          style={styles.richToolBar}
           getEditor={() => richText.current!}
           iconTint="#282828"
           onPressAddImage={handlePressAddImage}
@@ -198,21 +199,27 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    marginTop: 30,
+    marginTop: 40,
     marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   richEditorContainer: {
-    marginHorizontal: 10,
-    borderWidth: 0.5,
-    borderColor: theme.colors.border,
+    marginHorizontal: 16,
     borderRadius: theme.borderRadius.m,
-    marginVertical: 30,
+    marginBottom: isLargeDevice() ? 80 : 10,
   },
   saveButton: {
     width: 60,
     right: 10,
     position: 'absolute',
-    top: getPlatformDimension(20, 15, 40, 20),
+    top: getPlatformDimension(20, 15, 50, 20),
     zIndex: 999,
   },
   keyboard: {
@@ -235,6 +242,10 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.success,
     marginRight: 10,
     marginBottom: 10,
+  },
+  richToolBar: {
+    backgroundColor: '#f5f4ee',
+    height: getPlatformDimension(60, 60, getBottomSpace() + 60),
   },
 });
 

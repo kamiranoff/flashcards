@@ -17,7 +17,7 @@ const LoginViaSms: FC<Props> = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [success, setSuccess] = useState(false);
   const user = useSelector(selectUser);
-  const { handleLoginSuccess } = useUserCredentials(navigation);
+  const { handleLoginSuccess } = useUserCredentials();
 
   const handleSmsError = () => {
     setErrorMessage('Please try again');
@@ -30,7 +30,7 @@ const LoginViaSms: FC<Props> = ({ navigation }) => {
     if (user.sub) {
       return navigation.goBack();
     }
-  }, [user.sub]);
+  }, [user.sub, navigation]);
   return (
     <Container style={styles.container}>
       <CloseButton onPress={() => navigation.goBack()} />

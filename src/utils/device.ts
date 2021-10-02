@@ -82,7 +82,7 @@ export function getStatusBarHeight(safe = false, androidBarHeight: number = Stat
   });
 }
 
-function getBottomSpace(): number {
+export function getBottomSpace(): number {
   return isIphoneWithNotch() ? 34 : 0;
 }
 

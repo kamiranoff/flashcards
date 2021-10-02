@@ -20,7 +20,7 @@ const Header: FC<Props> = ({ handleOpenBottomModal, handleNavigateToAddDeck }) =
         <View style={styles.leftContainer}>
           <IconButton onPress={() => navigation.openDrawer()} iconName="menuCurve" />
         </View>
-        <Title title="Decks" />
+        <Title title="Decks" style={styles.title} />
       </View>
       <View style={styles.rightContainer}>
         <View style={styles.row}>
@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
     left: 10,
     position: 'absolute',
     zIndex: 9,
+  },
+  title: {
+    paddingTop: getPlatformDimension(25, 10, 15),
   },
   container: {
     zIndex: 9,
