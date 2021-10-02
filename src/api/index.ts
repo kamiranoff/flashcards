@@ -12,9 +12,9 @@ import { deleteUser } from '../redux/user/actions';
 import { pusher } from '../service/pusher';
 
 interface File {
-  uri: string;
+  uri: string | undefined;
   name: string;
-  type: string;
+  type: string | undefined;
 }
 
 export interface ResponseDeck {
@@ -80,7 +80,10 @@ const getHeaders = async () => {
 async function savePhoto(
   file: File,
   onUploadProgress: (progressEvent: ProgressEvent) => void,
-): Promise<string[]> {
+): Promise<string[] | null> {
+  if (!file || !file.uri) {
+    return null;
+  }
   const formData = new FormData();
   formData.append('photo', file as any);
   const response = await axios.post(`${Config.API_URL}/image`, formData, {
@@ -90,6 +93,7 @@ async function savePhoto(
       'Content-Type': 'multipart/form-data',
     },
   });
+
   return response.data.photo;
 }
 

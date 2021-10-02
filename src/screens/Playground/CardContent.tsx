@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { View, StyleSheet, ScrollView, TouchableWithoutFeedback, Animated } from 'react-native';
 import { AppText, HtmlParser, IconButton } from '../../common';
 import { isLargeDevice, WINDOW_WIDTH } from '../../utils/device';
+import { theme } from '../../utils';
 
 type Props = {
   title: string;
@@ -41,12 +42,10 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     minHeight: ITEM_SIZE * 1.4,
-    backgroundColor: '#f5f4ee',
+    backgroundColor: theme.colors.card,
     backfaceVisibility: 'visible',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#222',
-    // borderWidth: 0.5,
     paddingVertical: 10,
     borderRadius: 8,
     position: 'absolute',
@@ -59,27 +58,26 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.29,
     shadowRadius: 1.65,
-
     elevation: 3,
   },
   scrollView: {
     flex: 1,
-    backgroundColor: '#f5f4ee',
+    backgroundColor: theme.colors.card,
     paddingHorizontal: 16,
   },
   scrollViewContent: {
     flexGrow: 1,
-    backgroundColor: '#f5f4ee',
+    backgroundColor: theme.colors.card,
   },
   innerContainer: {
     flex: 1,
-    backgroundColor: '#f5f4ee',
+    backgroundColor: theme.colors.card,
   },
   content: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // width: ITEM_SIZE - 20 * 2,
+    width: isLargeDevice() ? ITEM_SIZE - 35 * 2 : ITEM_SIZE - 20 * 2,
   },
   editButton: {
     position: 'absolute',

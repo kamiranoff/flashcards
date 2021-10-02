@@ -7,7 +7,7 @@ import { Img } from './Img';
 
 interface Props {
   text: string | undefined;
-  isSliced?: boolean;
+  withImgContainer?: boolean;
 }
 
 interface HTMLViewNodeWithMissingProps extends HTMLViewNode {
@@ -15,9 +15,7 @@ interface HTMLViewNodeWithMissingProps extends HTMLViewNode {
   parent?: HTMLViewNode;
 }
 
-const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
-  const slicedText = text ? `${text.slice(0, 150)}` : '';
-
+const HtmlParser: FC<Props> = ({ text, withImgContainer }) => {
   const renderNode = (
     node: HTMLViewNodeWithMissingProps,
     index: number,
@@ -27,13 +25,13 @@ const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
   ) => {
     switch (node.name) {
       case 'img': {
-        return <Img key={index} attribs={node.attribs} />;
+        return <Img key={index} attribs={node.attribs} withImgContainer={withImgContainer} />;
       }
       case 'ul': {
         if (!node.children) {
           return undefined;
         }
-        return <View>{defaultRenderer(node.children, parent)}</View>;
+        return <View key={`${index}-ul`}>{defaultRenderer(node.children, parent)}</View>;
       }
       case 'li': {
         if (!node.children) {
@@ -42,6 +40,7 @@ const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
 
         return (
           <Li
+            key={index}
             node={node}
             index={index}
             siblings={siblings}
@@ -64,7 +63,7 @@ const HtmlParser: FC<Props> = ({ text, isSliced = false }) => {
   return text ? (
     <HTMLView
       renderNode={renderNode}
-      value={isSliced ? slicedText : text}
+      value={text}
       stylesheet={htmlStyles}
       addLineBreaks={false}
       textComponentProps={{ style: defaultStyle.text }}
