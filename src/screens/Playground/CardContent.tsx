@@ -9,16 +9,16 @@ type Props = {
   text: string;
   onPress: () => void;
   onEdit: () => void;
-  interpolation: Animated.AnimatedInterpolation;
 };
 const ITEM_SIZE = isLargeDevice() ? WINDOW_WIDTH : WINDOW_WIDTH * 0.9;
 
-const CardContent: FC<Props> = ({ text, onPress, interpolation, title, onEdit }) => (
-  <Animated.View style={[styles.container, { transform: [{ rotateY: interpolation }] }]}>
+const CardContent: FC<Props> = ({ text, onPress, title, onEdit }) => (
+  <Animated.View style={styles.container}>
     <View style={styles.editButton}>
       <IconButton onPress={onEdit} iconName="edit" />
     </View>
     <ScrollView
+      showsVerticalScrollIndicator={false}
       style={styles.scrollView}
       nestedScrollEnabled
       scrollEnabled

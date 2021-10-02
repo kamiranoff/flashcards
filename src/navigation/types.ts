@@ -31,8 +31,18 @@ export type ModalTemplate = 'shareModal' | 'alertModal' | 'codeModal';
 
 export type RootStackParamList = {
   [Screens.HOME]: undefined;
-  [Screens.QUESTION_MODAL]: { title: Deck['title']; deckId: string; cardId?: Card['frontendId'] };
-  [Screens.ANSWER_MODAL]: { title: Deck['title']; deckId: string; cardId: Card['frontendId'] };
+  [Screens.QUESTION_MODAL]: {
+    title: Deck['title'];
+    deckId: string;
+    cardId?: Card['frontendId'];
+    fromPlayground?: boolean;
+  };
+  [Screens.ANSWER_MODAL]: {
+    title: Deck['title'];
+    deckId: string;
+    cardId: Card['frontendId'];
+    fromPlayground?: boolean;
+  };
   [Screens.DECK_DETAIL]: { id: string; color: string };
   [Screens.PLAYGROUND]: { deckId: string; cardId: Card['frontendId'] };
   [Screens.ALERT]: { modalTemplate: ModalTemplate; deckId: string };
@@ -80,7 +90,7 @@ export type AuthStackParamList = {
   [Screens.LOGIN_VIA_SMS]: undefined;
 };
 
-export type HomeScreenNavigationProp = StackNavigationProp<HomeStackParams, Screens.HOME>
+export type HomeScreenNavigationProp = StackNavigationProp<HomeStackParams, Screens.HOME>;
 export type DrawerScreenNavigationProp = DrawerNavigationProp<DrawerStackParamList, Screens.DRAWER>;
 export type GetFreebieScreenNavigationProp = StackNavigationProp<DrawerStackParamList, Screens.UPGRADE>;
 export type AddAnswerScreenRouteProp = RouteProp<RootStackParamList, Screens.ANSWER_MODAL>;

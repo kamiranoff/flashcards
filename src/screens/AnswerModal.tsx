@@ -14,7 +14,7 @@ export interface Props {
 }
 
 const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
-  const { title, deckId, cardId } = params;
+  const { title, deckId, cardId, fromPlayground } = params;
   const card = useSelector(selectCard(deckId, cardId));
   const deckDetail = useSelector(selectDeckItem(deckId));
   const dispatch = useDispatch();
@@ -24,7 +24,10 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
     if (deckDetail.shareId) {
       dispatch(saveNewCard(deckId, cardId, true));
     }
-    navigation.popToTop();
+    if (fromPlayground) {
+      return navigation.goBack();
+    }
+    return navigation.popToTop();
   };
 
   const handleCloseModal = () => navigation.popToTop();
