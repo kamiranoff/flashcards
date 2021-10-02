@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     position: 'absolute',
-    bottom: isSmallDevice() ? 0 : getPlatformDimension(10, 20, 40),
+    bottom: getPlatformDimension(10, 20, 30),
     right: 0,
     left: 0,
   },

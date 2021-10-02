@@ -23,9 +23,9 @@ import { useInterstitialAd } from '../../service/useInterstitialAd';
 import { AdUnitIds } from '../../service/config';
 import { ShareContentPopup } from '../../components/Popups/ShareContentPopup';
 import { BottomSheetModal } from '../../common/BottomSheetModal';
-import { useShareDeck } from '../../hooks/useShareDeck';
 import useNetInfo from '../../hooks/useNetInfo';
 import { GeneralAlertRef, NotificationMessages } from '../../common/GeneralAlert';
+import { useShareDeck } from '../../hooks/useShareDeck';
 
 export interface Props {
   route: PlaygroundScreenRouteProp;
@@ -68,12 +68,12 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
       return alertRef.current?.startAnimation(NotificationMessages.NETWORK_ERROR);
     }
 
-    refRBSheet.current?.open();
     if (!sub || error) {
       setIsShareOpen(true);
       navigate(Screens.LOGIN_OR_SIGNUP);
       return;
     }
+    refRBSheet.current?.open();
     if (sub && deckDetail.isOwner && !deckDetail.shareId && !error) {
       dispatch(saveDeckToDB(params.deckId));
     }
@@ -164,7 +164,7 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
           <ActionButtons onPressLeft={handlePressLeft} onPressRight={handlePressRight} />
         ) : null}
       </View>
-      <BottomSheetModal ref={refRBSheet} height={360}>
+      <BottomSheetModal ref={refRBSheet} height={310}>
         <ShareContentPopup
           error={error}
           deckId={params.deckId}

@@ -22,13 +22,17 @@ const Li = ({ node, index, parent, defaultRenderer }: HtmlParserLiProps) => {
 
   const bullet = node.parent?.name === 'ol' ? `${index + 1}.` : '\u2022';
   return (
-    <View key={index} style={index === 0 ? liStyles.containerFirst : liStyles.container}>
+    <View key={`${index}-li`} style={index === 0 ? liStyles.containerFirst : liStyles.container}>
       <View style={liStyles.row}>
         <View style={liStyles.content}>
-          <Text>{bullet}</Text>
+          <Text ellipsizeMode="tail" numberOfLines={1} style={liStyles.bullet}>
+            {bullet}
+          </Text>
         </View>
         <View style={liStyles.textContainer}>
-          <Text>{defaultRenderer(node.children, parent)}</Text>
+          <Text ellipsizeMode="tail" numberOfLines={2}>
+            {defaultRenderer(node.children, parent)}
+          </Text>
         </View>
       </View>
     </View>
@@ -40,15 +44,19 @@ const liStyles = StyleSheet.create({
     paddingTop: 0,
   },
   containerFirst: {
-    paddingTop: 10,
+    paddingTop: 0,
   },
   row: {
     flexDirection: 'row',
   },
   content: {
     flexDirection: 'column',
-    marginLeft: 20,
+    marginLeft: 5,
     width: 20,
+  },
+  bullet: {
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   textContainer: {
     flexDirection: 'column',

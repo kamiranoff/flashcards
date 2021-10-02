@@ -157,7 +157,7 @@ const DeckDetail: FC<Props> = ({
           onSharePress={handleShareDeck}
         />
       ) : null}
-      <BottomSheetModal ref={refRBSheet} height={320}>
+      <BottomSheetModal ref={refRBSheet} height={310}>
         <ShareContentPopup
           error={error}
           deckId={id}

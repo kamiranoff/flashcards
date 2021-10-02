@@ -10,7 +10,7 @@ const Title = ({ title, style }: { title: string; style?: StyleProp<ViewStyle> }
     </AppText>
   </View>
 );
-console.log('getStatusBarHeight()', getStatusBarHeight());
+
 const styles = StyleSheet.create({
   container: {
     paddingTop: getPlatformDimension(25, 10, getStatusBarHeight() + 20),

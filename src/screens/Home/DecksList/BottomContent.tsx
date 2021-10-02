@@ -14,7 +14,7 @@ const BottomContent: FC<Props> = ({ totalCards, correctAnswers }) => {
         {totalCards} {`card${totalCards === 1 ? '' : 's'}`}
       </AppText>
       <AppText size="p">
-        {correctAnswers} / {totalCards}
+        correct {correctAnswers} / {totalCards}
       </AppText>
     </View>
   );

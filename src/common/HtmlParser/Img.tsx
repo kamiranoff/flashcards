@@ -1,9 +1,16 @@
 import { HTMLViewNode } from 'react-native-htmlview';
 import { useIsMounted } from '../../hooks/useIsMounted';
 import React, { useState } from 'react';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
+import { theme } from '../../utils';
 
-const Img = ({ attribs }: { attribs: HTMLViewNode['attribs'] }) => {
+const Img = ({
+  attribs,
+  withImgContainer,
+}: {
+  attribs: HTMLViewNode['attribs'];
+  withImgContainer?: boolean;
+}) => {
   const isMounted = useIsMounted();
   const [imageHeight, setImageHeight] = useState<number | undefined>(undefined);
   const [imageWidth, setImageWidth] = useState<number | undefined>(undefined);
@@ -17,6 +24,8 @@ const Img = ({ attribs }: { attribs: HTMLViewNode['attribs'] }) => {
 
   const imgStyle = {
     width: '100%',
+    backgroundColor: theme.colors.card,
+    marginBottom: 10,
     aspectRatio: imageWidth && imageHeight && imageHeight > 0 ? imageWidth / imageHeight : 1,
   };
 
@@ -24,6 +33,13 @@ const Img = ({ attribs }: { attribs: HTMLViewNode['attribs'] }) => {
     uri: attribs.src,
   };
 
+  if (withImgContainer) {
+    return (
+      <View>
+        <Image source={source} style={imgStyle} resizeMode="contain" />
+      </View>
+    );
+  }
   return <Image source={source} style={imgStyle} resizeMode="contain" />;
 };
 

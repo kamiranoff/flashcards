@@ -46,11 +46,11 @@ const ShareContentPopup = ({
       <View style={styles.iconContainer}>
         <Icon name="happyFace2" imgStyle={styles.icon} />
       </View>
-      {(!sub && error) && (
+      {!sub && error ? (
         <AppText size="h2" centered textStyle={{ paddingBottom: 10 }}>
           Login to share your deck
         </AppText>
-      )}
+      ) : null}
       <View style={styles.shareButtonContainer}>
         <PrimaryButton buttonText={sub && !error ? 'Share your deck' : 'Login'} onPress={handleSharePress} />
       </View>

@@ -2,7 +2,6 @@ import { GestureResponderEvent, StyleSheet, TouchableOpacity, View } from 'react
 import { HtmlParser, Icon, AppText } from '../../../common';
 import React, { FC } from 'react';
 import { Card } from '../../../redux/decks/reducer';
-import { getPlatformDimension, isSmallDevice } from '../../../utils/device';
 import { theme } from '../../../utils';
 import IconButton from '../../../common/IconButton';
 
@@ -33,7 +32,7 @@ const CardItem: FC<Props> = ({ onPress, onTrashPress, card, isOwner }) => (
             Question:
           </AppText>
           <View style={styles.htmlContainer}>
-            <HtmlParser isSliced text={`${card.question}`} />
+            <HtmlParser withImgContainer text={`${card.question}`} />
           </View>
         </View>
         {!card.answer?.length && (
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 5,
     paddingVertical: 10,
-    height: isSmallDevice() ? 150 : getPlatformDimension(155, 170, 190),
+    height: 150,
     flex: 1,
   },
   top: {

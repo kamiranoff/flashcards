@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react';
-import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 import * as Analytics from 'appcenter-analytics';
 import {
@@ -20,6 +20,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import IconButton from './IconButton';
 import { Screens } from '../navigation/types';
+import { PermissionStatus, usePhotoPermissions } from '../utils/usePhotoPermissions';
+import { useCameraPermissions } from '../utils/useCameraPermissions';
 
 interface Props {
   initialValue: string;
@@ -28,7 +30,7 @@ interface Props {
 }
 
 const contentStyle = {
-  backgroundColor: '#f5f4ee',
+  backgroundColor: theme.colors.card,
   color: '#000',
   placeholderColor: theme.colors.p,
   contentCSSText: `font-size: 20px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`, // initial valid
@@ -42,6 +44,8 @@ const imageOptions: ImageLibraryOptions = {
 };
 
 const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
+  const { permissionPhotoStatus, handleTriggerPhotoPermission } = usePhotoPermissions();
+  const { permissionCameraStatus, handleTriggerCameraPermission } = useCameraPermissions();
   const navigation = useNavigation();
   const { shop } = useSelector((state: RootState) => state);
   const [value, setValue] = useState(initialValue);
@@ -72,9 +76,9 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   };
 
   const saveAndInsertPhoto = async (res: ImagePickerResponse) => {
-    if (res.uri) {
+    const uri = res.assets && res.assets.length && res.assets[0].uri;
+    if (uri) {
       setIsLoading(true);
-      const uri = res.uri;
       const fileType = uri.substr(uri.lastIndexOf('.') + 1);
       const file = {
         uri,
@@ -97,12 +101,20 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   };
   const handlePressAddImage = () => {
     Analytics.trackEvent(analytics.addImageToCard).catch(null);
+
+    if (permissionPhotoStatus !== PermissionStatus.GRANTED) {
+      return handleTriggerPhotoPermission();
+    }
+
     launchImageLibrary(imageOptions, async (res) => {
       await saveAndInsertPhoto(res);
     });
   };
 
   const handleInsertImageFromCamera = () => {
+    if (permissionCameraStatus !== PermissionStatus.GRANTED) {
+      return handleTriggerCameraPermission();
+    }
     launchCamera(imageOptions, async (res) => {
       await saveAndInsertPhoto(res);
     });
@@ -125,9 +137,12 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
       actions.heading1,
       actions.heading4,
       actions.code,
+      actions.alignLeft,
+      actions.alignCenter,
+      actions.alignRight,
     ];
     if (isPro) {
-      return [...defaultActions, 'insertImageFromCamera', ...proActions];
+      return [...defaultActions, 'onPressAddImageFromCamera', ...proActions];
     }
     return defaultActions;
   };
@@ -170,9 +185,8 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           getEditor={() => richText.current!}
           iconTint="#282828"
           onPressAddImage={handlePressAddImage}
-          /* @ts-ignore FIXME at some point */
-          insertImageFromCamera={handleInsertImageFromCamera}
-          selectedIconTint="#2095F2"
+          onPressAddImageFromCamera={handleInsertImageFromCamera}
+          selectedIconTint={theme.colors.success}
           actions={handleRenderActions()}
           iconMap={{
             [actions.setStrikethrough]: () => (
@@ -187,7 +201,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
             [actions.heading4]: () => (
               <Image source={assets.icons.h2} resizeMode="contain" style={styles.toolbarIcon} />
             ),
-            insertImageFromCamera: () => (
+            onPressAddImageFromCamera: () => (
               <Image source={assets.icons.camera} resizeMode="contain" style={styles.toolbarIcon} />
             ),
           }}
@@ -244,7 +258,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   richToolBar: {
-    backgroundColor: '#f5f4ee',
+    backgroundColor: theme.colors.card,
     height: getPlatformDimension(60, 60, getBottomSpace() + 60),
   },
 });

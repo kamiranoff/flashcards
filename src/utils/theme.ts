@@ -1,9 +1,8 @@
-import { Dimensions, Platform } from 'react-native';
-const { width } = Dimensions.get('window');
-const aspectRatio = width / 375;
+import { Platform } from 'react-native';
 
 const palette = {
   softWhite: '#f5f4ee',
+  cream: '#f0eee5',
   dirtyWhite: '#f9f9f9',
   lightOrange: '#e4d6cc',
   orange: '#f3d4c1',
@@ -30,6 +29,7 @@ const palette = {
   red: 'red',
   warning: '#ff6666',
   linkColor: '#FF3366',
+  transparent: 'transparent',
 };
 
 const PLAYGROUND_OVERLAY_BUTTONS = {
@@ -87,6 +87,7 @@ const theme = {
     warning: palette.orange,
     offline: palette.lightGray,
     icon: palette.softWhite,
+    card: palette.cream,
     p: palette.midGray,
     placeholder: palette.lightMidGray,
     green: palette.green,
@@ -119,6 +120,7 @@ const theme = {
     },
     linkColor: palette.linkColor,
     quoteBorder: palette.lightGray,
+    trans: palette.transparent,
   },
   spacing: {
     s: 8,
