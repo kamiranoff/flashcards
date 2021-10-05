@@ -24,7 +24,7 @@ const CardItem: FC<Props> = ({ card, title, deckId, isShared }) => {
   const { sub } = useSelector((state: RootState) => state.user);
 
   const flipCard = () => {
-    setSide((side) => (side === 0 ? 1 : 0));
+    setSide((_side) => (_side === 0 ? 1 : 0));
   };
 
   const handleEdit = () => {

@@ -89,7 +89,9 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
         const photo = await Api.savePhoto(file, handleSetProgress);
         if (photo) {
           setIsLoading(false);
+          richText.current?.insertHTML('<br />');
           richText.current?.insertImage(photo);
+          richText.current?.insertHTML('<br />');
         }
       } catch (e) {
         alertRef?.current?.startAnimation();

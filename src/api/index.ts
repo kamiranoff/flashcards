@@ -80,7 +80,7 @@ const getHeaders = async () => {
 async function savePhoto(
   file: File,
   onUploadProgress: (progressEvent: ProgressEvent) => void,
-): Promise<string[] | null> {
+): Promise<string | null> {
   if (!file || !file.uri) {
     return null;
   }
@@ -116,7 +116,7 @@ async function contact(data: {}): Promise<ContactResponse> {
 async function saveDeck(data: {}): Promise<CreateResponse> {
   try {
     const headers = await getHeaders();
-    const response: CreateDeckResponse = await axios.post(`${Config.API_URL}/deck`, data, headers);
+    const response: CreateResponse = await axios.post(`${Config.API_URL}/deck`, data, headers);
     if (!response.data) {
       throw new Error('no data found');
     }
