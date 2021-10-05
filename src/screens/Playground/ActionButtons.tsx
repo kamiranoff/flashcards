@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { StyleSheet, View, GestureResponderEvent, Platform } from 'react-native';
 import { IconButton } from '../../common';
-import { getPlatformDimension, isSmallDevice } from '../../utils/device';
+import { getPlatformDimension } from '../../utils/device';
 
 interface Props {
   onPressLeft: (event: GestureResponderEvent) => void;
