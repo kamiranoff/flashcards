@@ -8,6 +8,9 @@ enum analytics {
   contactUs = 'contactUs',
   screenVisibility = 'screenVisibility',
   getFreebie = 'getFreebie',
+  createQuestion = 'createQuestion',
+  createAnswer = 'createAnswer',
+  createNewDeck = 'createNewDeck',
 }
 
 export default analytics;
