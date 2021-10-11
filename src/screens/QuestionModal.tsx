@@ -1,14 +1,15 @@
 import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import 'react-native-get-random-values';
+import * as Analytics from 'appcenter-analytics';
+import { StyleSheet, View } from 'react-native';
 import { customAlphabet } from 'nanoid';
 import { AddQuestionScreenNavigationProp, AddQuestionScreenRouteProp, Screens } from '../navigation/types';
 import { selectCard, selectDeckItem, selectUser } from '../redux/seclectors';
 import { Card } from '../redux/decks/reducer';
 import { saveNewCard, saveQuestion } from '../redux/decks/actions';
 import { CloseButton, Form, Title } from '../common';
-import { StyleSheet, View } from 'react-native';
-import { theme } from '../utils';
+import { analytics, theme } from '../utils';
 
 export interface Props {
   route: AddQuestionScreenRouteProp;
@@ -25,6 +26,7 @@ const QuestionModal: FC<Props> = ({ route: { params }, navigation: { navigate, g
   const handleCloseModal = () => goBack();
 
   const handleSave = async (question: Card['question']) => {
+    Analytics.trackEvent(analytics.createQuestion);
     const generateId = customAlphabet('1234567890', 5);
     const frontendId = cardId || parseInt(generateId());
     const isEdit = !!cardId;

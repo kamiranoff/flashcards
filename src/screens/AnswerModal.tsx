@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
+import * as Analytics from 'appcenter-analytics';
+import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddAnswerScreenNavigationProp, AddAnswerScreenRouteProp } from '../navigation/types';
 import { selectCard, selectDeckItem } from '../redux/seclectors';
 import { Card } from '../redux/decks/reducer';
 import { saveAnswer, saveNewCard } from '../redux/decks/actions';
 import { CloseButton, Form, Title } from '../common';
-import { StyleSheet, View } from 'react-native';
-import { theme } from '../utils';
+import { analytics, theme } from '../utils';
 
 export interface Props {
   route: AddAnswerScreenRouteProp;
@@ -21,6 +22,7 @@ const AnswerModal: FC<Props> = ({ route: { params }, navigation }) => {
 
   const handleSave = async (answer: Card['answer']) => {
     dispatch(saveAnswer(deckId, cardId, answer));
+    Analytics.trackEvent(analytics.createAnswer);
     if (deckDetail.shareId) {
       dispatch(saveNewCard(deckId, cardId, true));
     }

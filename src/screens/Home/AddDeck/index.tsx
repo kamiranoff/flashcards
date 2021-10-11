@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Animated, StyleSheet } from 'react-native';
+import * as Analytics from 'appcenter-analytics';
 import { CloseButton } from '../../../common';
 import { saveDeck } from '../../../redux/decks/actions';
 import { getPlatformDimension, isIOS } from '../../../utils/device';
@@ -8,6 +9,7 @@ import { selectAllDecks, selectMaxFreeDecks } from '../../../redux/seclectors';
 import { AddDeckContent } from './AddDeckContent';
 import { NoMoreFreeDecksContent } from './NoMoreFreeDecksContent';
 import { AddDeckScreenNavigationProp, Screens } from '../../../navigation/types';
+import { analytics } from '../../../utils';
 
 export interface Props {
   navigation: AddDeckScreenNavigationProp;
@@ -35,6 +37,7 @@ const AddDeck: FC<Props> = ({ navigation }) => {
     }).start();
   }, [opacityVal]);
   const handleSaveDeck = () => {
+    Analytics.trackEvent(analytics.createNewDeck);
     const newId = String(Date.now());
     if (newTitle) {
       dispatch(saveDeck(newId, newTitle));
