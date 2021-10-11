@@ -18,7 +18,7 @@ export const data: IData[] = [
   {
     icon: 'toolbar',
     label: 'Unlock all rich toolbar features',
-    text: 'Italic, bold, images and many more...',
+    text: 'Italic, bold, camera and many more...',
   },
   {
     icon: 'noAds',

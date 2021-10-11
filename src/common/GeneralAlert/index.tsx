@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: theme.colors.success,
-    height: isIphoneWithNotch() ? 114 : 80,
+    height: isIphoneWithNotch() ? 115 : 90,
   },
   lottie: {
     flex: 1,
