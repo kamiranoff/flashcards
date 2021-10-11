@@ -9,9 +9,7 @@ type Props = {
 
 const LoginButtons: FC<Props> = ({ onSuccess, onError }) => {
   const getLoginButtons = () =>
-    [LoginProvider.GOOGLE, LoginProvider.FACEBOOK].map((p) => (
-      <Login provider={p} onSuccess={onSuccess} onError={onError} key={p} />
-    ));
+    [LoginProvider.GOOGLE].map((p) => <Login provider={p} onSuccess={onSuccess} onError={onError} key={p} />);
 
   return (
     <>

@@ -5,8 +5,8 @@ import { analytics } from '../utils';
 import { isIOS } from '../utils/device';
 import { Logger } from '../service/Logger';
 
-const IOS_STORE_URL = 'itms-apps://itunes.apple.com/app/id1496618544?action=write-review';
-const ANDROID_STORE_URL = 'market://details?id=com.brainsandbrawns.forkflick';
+const IOS_STORE_URL = 'itms-apps://itunes.apple.com/app/id1554596811?action=write-review';
+const ANDROID_STORE_URL = 'market://details?id=com.brainsandbrawns.forkflick'; // TODO when submit to Android
 
 const { FlashCardsRateApp } = NativeModules;
 

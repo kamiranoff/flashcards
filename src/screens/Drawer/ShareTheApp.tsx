@@ -42,7 +42,7 @@ const ShareTheApp: FC = () => {
         </AppText>
         {!user.hasSentInvite && (
           <AppText centered size="h2">
-            & get extra free deck!
+            & get an extra free deck!
           </AppText>
         )}
         <PrimaryButton buttonText="Share" onPress={handlePressInvite} buttonStyle={styles.buttonContainer} />
