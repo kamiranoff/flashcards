@@ -6770,6 +6770,11 @@ react-native-iap@5.2.13:
   dependencies:
     dooboolab-welcome "^1.2.0"
 
+react-native-image-crop-picker@^0.37.2:
+  version "0.37.2"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.37.2.tgz#3aadc4ae4812c9975c49a294d9a17ffae057dbb4"
+  integrity sha512-YwZXW21Km8+3tSt0smTaLVgY4398c0/OJcpcH6EP0JDOt1BNNxl/R8m6qdvnwdXdIoa0CCnMVW6TL9IN5ia9OA==
+
 react-native-image-picker@4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-4.1.1.tgz#f5b20c77b060e4a8cad4e76ae042e1e45b4743da"
@@ -6785,10 +6790,10 @@ react-native-pell-rich-editor@1.8.6:
   resolved "https://registry.yarnpkg.com/react-native-pell-rich-editor/-/react-native-pell-rich-editor-1.8.6.tgz#fdd8e0430dfea015198ff8aa1e08769fd0efb375"
   integrity sha512-FCoLnBlsu/CfgDMUfAb+rb0QSZOB/X0S2Ph98PHWuDoS4FKzGozzyXLVeeLMROrzD5V7q18EIs19LQhZLxOqnw==
 
-react-native-permissions@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.0.5.tgz#94542a343abdac801fa0a4593ea2c751cb45c41f"
-  integrity sha512-hcvLtHhTyOTXC+CCv79d4Qtdnj6PGuY5Ms0fhW8V6Et1T/mPvzO6++Du4jwEv/oHZ62qMWKUDq0/Tsh63QHuyQ==
+react-native-permissions@3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.0.6.tgz#0cb146cecb8b883c3770f8072196ad1a081b20b8"
+  integrity sha512-vnR13M7uqr1ZDsK3Edloo1+m6PdIRQPOontGFIjUqUOSFzF8LIm7pkF9fv+dY1hsCtTGGG6GnyOS8KDJ/uLyjg==
 
 react-native-raw-bottom-sheet@2.2.0:
   version "2.2.0"
