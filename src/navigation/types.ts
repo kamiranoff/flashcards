@@ -25,6 +25,7 @@ export enum Screens {
   GET_FREEBIE_MODAL = 'GetFreebieModal',
   LOGIN_OR_SIGNUP = 'LoginOrSignup',
   LOGIN_VIA_SMS = 'LoginViaSms',
+  PERMISSIONS = 'Permissions'
 }
 
 export type ModalTemplate = 'shareModal' | 'alertModal' | 'codeModal';
@@ -51,6 +52,7 @@ export type RootStackParamList = {
   [Screens.LOGIN_OR_SIGNUP]: undefined;
   [Screens.LOGIN_VIA_SMS]: undefined;
   [Screens.SHOP]: undefined;
+  [Screens.PERMISSIONS]: undefined;
 };
 
 export type HomeStackParams = {

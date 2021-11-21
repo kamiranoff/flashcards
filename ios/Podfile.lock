@@ -154,9 +154,11 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - OpenSSL-Universal (1.1.180)
-  - Permission-Camera (3.0.5):
+  - Permission-Camera (3.0.6):
     - RNPermissions
-  - Permission-PhotoLibrary (3.0.5):
+  - Permission-PhotoLibrary (3.0.6):
+    - RNPermissions
+  - Permission-PhotoLibraryAddOnly (3.0.6):
     - RNPermissions
   - PersonalizedAdConsent (1.0.5)
   - PromisesObjC (1.2.12)
@@ -420,7 +422,16 @@ PODS:
     - React-Core
   - RNIap (5.2.13):
     - React-Core
-  - RNPermissions (3.0.5):
+  - RNImageCropPicker (0.37.2):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.37.2)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.37.2):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
+  - RNPermissions (3.0.6):
     - React-Core
   - RNReanimated (1.13.2):
     - React-Core
@@ -436,6 +447,7 @@ PODS:
   - Sentry (7.1.4):
     - Sentry/Core (= 7.1.4)
   - Sentry/Core (7.1.4)
+  - TOCropViewController (2.6.0)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -472,6 +484,7 @@ DEPENDENCIES:
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary`)
+  - Permission-PhotoLibraryAddOnly (from `../node_modules/react-native-permissions/ios/PhotoLibraryAddOnly`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -508,6 +521,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNIap (from `../node_modules/react-native-iap`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -543,6 +557,7 @@ SPEC REPOS:
     - PersonalizedAdConsent
     - PromisesObjC
     - Sentry
+    - TOCropViewController
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -570,6 +585,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/Camera"
   Permission-PhotoLibrary:
     :path: "../node_modules/react-native-permissions/ios/PhotoLibrary"
+  Permission-PhotoLibraryAddOnly:
+    :path: "../node_modules/react-native-permissions/ios/PhotoLibraryAddOnly"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -638,6 +655,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNIap:
     :path: "../node_modules/react-native-iap"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNReanimated:
@@ -686,8 +705,9 @@ SPEC CHECKSUMS:
   lottie-react-native: 4dff8fe8d10ddef9e7880e770080f4a56121397e
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
-  Permission-Camera: ac603073e4128e51e6ca3c39129778f05b4082fa
-  Permission-PhotoLibrary: 0748c1a490fad126dfe36dbea8234dedfe59cc27
+  Permission-Camera: b9e622ea4c6d8e88d19e0906a615ee033e897fc5
+  Permission-PhotoLibrary: 03dbdd8d9b7e6d63374ecf36fc4029b8005fd7e2
+  Permission-PhotoLibraryAddOnly: e03cb183425b6edf280e97d70905afde840f8a26
   PersonalizedAdConsent: dbecabb3467df967c16d9cebc2ef4a8890e4bbd8
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   RCTRequired: 48884c74035a0b5b76dbb7a998bd93bcfc5f2047
@@ -724,16 +744,18 @@ SPEC CHECKSUMS:
   RNFBApp: 27bb6551d41886fb7352c66174defc26d2c298b4
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNIap: 339516d965769d84f43522bbca25bc8ecfea8d1d
-  RNPermissions: 7043bacbf928eae25808275cfe73799b8f618911
+  RNImageCropPicker: 448d3c6e923fde3466b49caf3c2457c2a0ba02dd
+  RNPermissions: dc2ebf51182fe158eb7f5a69b0147569e12f6a1e
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: bd1523c3bde7069b8e958e5a16e1fc7722ad0bdd
   RNSentry: 68644ef607b780551cc555f084869764f2566652
   RNShare: 6779fdd48e6246a8c79276a5b5e74a0f0d61a1ec
   RNSharedElement: 00b1a1420d213a34459bb9a5aacabb38107d7948
   Sentry: 1d3eb1a25f8c5333c88dd5603904a6d461cd9fcf
+  TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 82002145672dd74000e23b20a3d2d0a813f7433e
+PODFILE CHECKSUM: 18cd5cd980658c1dfc4aea14a2481e25fcb1ea63
 
 COCOAPODS: 1.10.1

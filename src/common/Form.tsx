@@ -1,15 +1,17 @@
 import React, { FC, useRef, useState } from 'react';
 import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
+import ImagePicker from 'react-native-image-crop-picker';
 import * as Analytics from 'appcenter-analytics';
-import {
-  ImageLibraryOptions,
-  ImagePickerResponse,
-  launchCamera,
-  launchImageLibrary,
-} from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
-import { getBottomSpace, getPlatformDimension, isIOS, isLargeDevice, WINDOW_HEIGHT } from '../utils/device';
+import {
+  getBottomSpace,
+  getPlatformDimension,
+  isIOS,
+  isLargeDevice,
+  WINDOW_HEIGHT,
+  WINDOW_PIXEL_WIDTH,
+} from '../utils/device';
 import assets from '../assets';
 import PrimaryButton from './PrimaryButton';
 import { analytics, theme } from '../utils';
@@ -20,8 +22,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import IconButton from './IconButton';
 import { Screens } from '../navigation/types';
-import { PermissionStatus, usePhotoPermissions } from '../utils/usePhotoPermissions';
-import { useCameraPermissions } from '../utils/useCameraPermissions';
+import { usePermissionsContext } from '../context/PermissionsProvider';
+import { PhotoPicker, PickerError } from '../modules/PhotoPicker';
+import { Logger } from '../service/Logger';
 
 interface Props {
   initialValue: string;
@@ -36,16 +39,22 @@ const contentStyle = {
   contentCSSText: `font-size: 20px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`, // initial valid
 };
 
-const imageOptions: ImageLibraryOptions = {
-  mediaType: 'photo',
-  includeBase64: false,
-  maxHeight: 621,
-  maxWidth: 1366,
+const imageOptions = {
+  cropping: true,
+  compressImageQuality: 0.6,
+  freeStyleCropEnabled: true,
+  width: 300,
+  height: 400,
+  compressImageMaxWidth: WINDOW_PIXEL_WIDTH,
+  compressImageMaxHeight: (WINDOW_PIXEL_WIDTH * 4) / 3,
+  // mediaType: 'photo',
 };
 
 const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
-  const { permissionPhotoStatus, handleTriggerPhotoPermission } = usePhotoPermissions();
-  const { permissionCameraStatus, handleTriggerCameraPermission } = useCameraPermissions();
+  const {
+    isPhotoLibraryGranted,
+    handleCheckPhotoLibraryPermissions,
+  } = usePermissionsContext();
   const navigation = useNavigation();
   const { shop } = useSelector((state: RootState) => state);
   const [value, setValue] = useState(initialValue);
@@ -75,8 +84,8 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
     setProgress(val);
   };
 
-  const saveAndInsertPhoto = async (res: ImagePickerResponse) => {
-    const uri = res.assets && res.assets.length && res.assets[0].uri;
+  const saveAndInsertPhoto = async (res: { uri: string }) => {
+    const uri = res.uri;
     if (uri) {
       setIsLoading(true);
       const fileType = uri.substr(uri.lastIndexOf('.') + 1);
@@ -101,26 +110,34 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
       }
     }
   };
-  const handlePressAddImage = () => {
+  const handlePressAddImage = async () => {
+    handleCheckPhotoLibraryPermissions();
+    if (!isPhotoLibraryGranted) {
+      return navigation.navigate(Screens.PERMISSIONS);
+    }
     Analytics.trackEvent(analytics.addImageToCard).catch(null);
-
-    if (permissionPhotoStatus !== PermissionStatus.GRANTED) {
-      return handleTriggerPhotoPermission();
-    }
-
-    launchImageLibrary(imageOptions, async (res) => {
-      await saveAndInsertPhoto(res);
-    });
+    try {
+      const res = await ImagePicker.openPicker(imageOptions);
+      const file = PhotoPicker.getFile(res);
+      if ('uri' in file) {
+        return saveAndInsertPhoto(file);
+      }
+    } catch (e) {
+      if (e.message === 'User cancelled image selection') {
+        return Logger.sendMessage(PickerError.USER_CANCELLED);
+      }
+      return Logger.sendMessage(PickerError.FAIL_TO_CROP_IMAGE);
+    };
   };
 
-  const handleInsertImageFromCamera = () => {
-    if (permissionCameraStatus !== PermissionStatus.GRANTED) {
-      return handleTriggerCameraPermission();
-    }
-    launchCamera(imageOptions, async (res) => {
-      await saveAndInsertPhoto(res);
-    });
-  };
+  // const handleInsertImageFromCamera = () => {
+  //   if (!isCameraGranted) {
+  //     return handleRequestCameraPermission();
+  //   }
+  //   launchCamera(imageOptions, async (res) => {
+  //     await saveAndInsertPhoto(res);
+  //   });
+  // };
 
   const handleRenderActions = () => {
     const defaultActions = [
@@ -189,7 +206,7 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           iconTint="#282828"
           onPressAddImage={handlePressAddImage}
           /* @ts-ignore FIXME at some point */
-          onPressAddImageFromCamera={handleInsertImageFromCamera}
+          // onPressAddImageFromCamera={handleInsertImageFromCamera}
           selectedIconTint={theme.colors.success}
           actions={handleRenderActions()}
           iconMap={{
@@ -205,9 +222,9 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
             [actions.heading4]: () => (
               <Image source={assets.icons.h2} resizeMode="contain" style={styles.toolbarIcon} />
             ),
-            onPressAddImageFromCamera: () => (
-              <Image source={assets.icons.camera} resizeMode="contain" style={styles.toolbarIcon} />
-            ),
+            // onPressAddImageFromCamera: () => (
+            //   <Image source={assets.icons.camera} resizeMode="contain" style={styles.toolbarIcon} />
+            // ),
           }}
         />
       </KeyboardAvoidingView>

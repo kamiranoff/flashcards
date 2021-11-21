@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { request, PERMISSIONS, openSettings, check } from 'react-native-permissions';
+import { request, PERMISSIONS, openSettings, check, checkMultiple } from 'react-native-permissions';
 import { isAndroid, isIOS } from './device';
-import { openLink } from './openLink';
 
 export enum PermissionStatus {
   GRANTED = 'granted',
@@ -15,7 +14,7 @@ export const checkPhotoPermissions = async () => {
   try {
     let result = {};
     if (isIOS) {
-      result = await check(PERMISSIONS.IOS.PHOTO_LIBRARY);
+      result = await checkMultiple([PERMISSIONS.IOS.PHOTO_LIBRARY, PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY]);
     } else {
       result = await check(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
     }
@@ -45,14 +44,14 @@ const usePhotoPermissions = () => {
     });
   };
 
-  const requestPhotoPermission = () => {
+  const requestPhotoPermission = useCallback(() => {
     if (isIOS) {
       requestIOSPhotoPermission();
     }
     if (isAndroid) {
       requestAndroidPhotoPermission();
     }
-  };
+  }, []);
 
   const setPermissions = () => {
     if (!isMounted.current) {
@@ -71,16 +70,10 @@ const usePhotoPermissions = () => {
 
   const handleTriggerPhotoPermission = useCallback(() => {
     if (permissionPhotoStatus === PermissionStatus.BLOCKED) {
-      if (isIOS) {
-        openLink('app-settings:');
-      }
-      if (isAndroid) {
-        openSettings().then(() => null);
-      }
-      return;
+      return openSettings();
     }
     requestPhotoPermission();
-  }, [permissionPhotoStatus]);
+  }, [permissionPhotoStatus, requestPhotoPermission]);
 
   return {
     permissionPhotoStatus,
