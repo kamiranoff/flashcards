@@ -47,13 +47,13 @@ const imageOptions = {
   height: 400,
   compressImageMaxWidth: WINDOW_PIXEL_WIDTH,
   compressImageMaxHeight: (WINDOW_PIXEL_WIDTH * 4) / 3,
-  // mediaType: 'photo',
 };
 
 const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
   const {
     isPhotoLibraryGranted,
-    handleCheckPhotoLibraryPermissions,
+    isPhotoLibraryLimited,
+    checkIsPhotoLibraryBlocked,
   } = usePermissionsContext();
   const navigation = useNavigation();
   const { shop } = useSelector((state: RootState) => state);
@@ -111,10 +111,13 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
     }
   };
   const handlePressAddImage = async () => {
-    handleCheckPhotoLibraryPermissions();
-    if (!isPhotoLibraryGranted) {
-      return navigation.navigate(Screens.PERMISSIONS);
+    if (!isPhotoLibraryGranted && !isPhotoLibraryLimited) {
+      const isBlocked = await checkIsPhotoLibraryBlocked();
+      if (isBlocked) {
+        return navigation.navigate(Screens.PERMISSIONS);
+      }
     }
+
     Analytics.trackEvent(analytics.addImageToCard).catch(null);
     try {
       const res = await ImagePicker.openPicker(imageOptions);
@@ -127,17 +130,8 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
         return Logger.sendMessage(PickerError.USER_CANCELLED);
       }
       return Logger.sendMessage(PickerError.FAIL_TO_CROP_IMAGE);
-    };
+    }
   };
-
-  // const handleInsertImageFromCamera = () => {
-  //   if (!isCameraGranted) {
-  //     return handleRequestCameraPermission();
-  //   }
-  //   launchCamera(imageOptions, async (res) => {
-  //     await saveAndInsertPhoto(res);
-  //   });
-  // };
 
   const handleRenderActions = () => {
     const defaultActions = [
@@ -205,8 +199,6 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
           getEditor={() => richText.current!}
           iconTint="#282828"
           onPressAddImage={handlePressAddImage}
-          /* @ts-ignore FIXME at some point */
-          // onPressAddImageFromCamera={handleInsertImageFromCamera}
           selectedIconTint={theme.colors.success}
           actions={handleRenderActions()}
           iconMap={{
@@ -222,9 +214,6 @@ const Form: FC<Props> = ({ initialValue, onSubmit, placeholder }) => {
             [actions.heading4]: () => (
               <Image source={assets.icons.h2} resizeMode="contain" style={styles.toolbarIcon} />
             ),
-            // onPressAddImageFromCamera: () => (
-            //   <Image source={assets.icons.camera} resizeMode="contain" style={styles.toolbarIcon} />
-            // ),
           }}
         />
       </KeyboardAvoidingView>
