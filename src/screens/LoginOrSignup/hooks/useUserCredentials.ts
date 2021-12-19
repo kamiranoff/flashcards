@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { Auth0Credentials, Auth0UserInfo, getUserInfo } from '../../../modules/Auth';
 import { Cache } from '../../../utils/Cache';
 import { saveUser, saveUserAuth0Error, saveUserToDB } from '../../../redux/user/actions';
+import { Logger } from '../../../service/Logger';
 
 const useUserCredentials = () => {
   const dispatch = useDispatch();
@@ -15,11 +16,18 @@ const useUserCredentials = () => {
     if (credentials) {
       await Cache.setAccessToken(credentials.accessToken);
       await Cache.setRefreshToken(credentials.refreshToken);
-      await getUserInfo(credentials.accessToken, handleUserInfoSuccess, handleError);
+      try {
+        return await getUserInfo(credentials.accessToken, handleUserInfoSuccess, handleError);
+      } catch (e) {
+        Logger.sendMessage('handleLoginSuccess');
+        handleError();
+      }
     }
   };
 
-  const handleError = () => dispatch(saveUserAuth0Error);
+  const handleError = () => {
+    dispatch(saveUserAuth0Error());
+  };
 
   return {
     handleError,

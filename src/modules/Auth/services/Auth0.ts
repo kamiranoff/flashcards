@@ -12,6 +12,7 @@ export const initAuth0 = (domain: string, clientId: string, auth0Audience: strin
 };
 
 export enum LoginProvider {
+  APPLE = 'apple',
   FACEBOOK = 'facebook',
   GOOGLE = 'google-oauth2',
 }

@@ -31,7 +31,7 @@ const LoginOrSignup: FC<Props> = ({ navigation }) => {
   return (
     <Container style={styles.container}>
       <CloseButton onPress={() => navigation.goBack()} />
-      <Title primaryText="Let's sign you in." secondaryText="Save your flashcards to share with others." />
+      <Title primaryText="Let's sign you in." secondaryText="Save your deck to share with others." />
       <View style={styles.animationContainer}>
         <LottieView autoPlay loop speed={1.5} source={animations.security} />
       </View>
