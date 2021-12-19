@@ -69,3 +69,6 @@ buck-out/
 .env.dev
 # react-native-config codegen
 ios/tmp.xcconfig
+
+
+secret_gen.rb

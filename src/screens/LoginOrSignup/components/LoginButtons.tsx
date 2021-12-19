@@ -9,7 +9,9 @@ type Props = {
 
 const LoginButtons: FC<Props> = ({ onSuccess, onError }) => {
   const getLoginButtons = () =>
-    [LoginProvider.GOOGLE].map((p) => <Login provider={p} onSuccess={onSuccess} onError={onError} key={p} />);
+    [LoginProvider.APPLE, LoginProvider.GOOGLE].map((p) => (
+      <Login provider={p} onSuccess={onSuccess} onError={onError} key={p} />
+    ));
 
   return (
     <>
@@ -21,7 +23,7 @@ const LoginButtons: FC<Props> = ({ onSuccess, onError }) => {
 const styles = StyleSheet.create({
   socialContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     padding: 20,
   },
 });
