@@ -46,14 +46,14 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
           </View>
           <View style={styles.buttonContainer}>
             <PriceButton
-              primaryText={monthlySubsText}
+              primaryText={`Then ${monthlySubsText}`}
               onPress={() => isProductObj && onBuyPack(productsObject.monthly_subscription)}
               style={{ backgroundColor: theme.colors.icon }}
             />
           </View>
           <View style={styles.buttonContainer}>
             <PriceButton
-              primaryText={yearlySubsText}
+              primaryText={`Then ${yearlySubsText}`}
               onPress={() => isProductObj && onBuyPack(productsObject.yearly_subscription)}
             />
             <View style={styles.arrowContainer}>
