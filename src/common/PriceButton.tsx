@@ -18,14 +18,14 @@ const PriceButton = ({ onPress, style, primaryText, disabled = false, isSecondar
     style={[styles.button, { ...style }]}
     onPress={onPress}>
     <>
-      <AppText centered size="body">
-        {primaryText}
-      </AppText>
       {isSecondaryText && (
         <AppText centered size="p">
           Try free for 3 days
         </AppText>
       )}
+      <AppText centered size="body">
+        {primaryText}
+      </AppText>
     </>
   </TouchableOpacity>
 );
