@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useSelector } from 'react-redux';
@@ -8,19 +8,60 @@ import assets from '../../../assets';
 import { getPlatformDimension, WINDOW_WIDTH } from '../../../utils/device';
 import { AnimatedReaction } from '../../../common/AnimatedReaction';
 import { Shapes } from '../../../common/AnimatedReaction/Shape';
-import { getLadyScoreInfo } from './utils';
+import animations from '../../../assets/animations';
+import { quotes } from './quotes';
 
 interface Props {
   deckId: string;
 }
 
+type Info = {
+  primary: string;
+  secondary: string;
+  icon: keyof typeof animations;
+  score: string;
+};
+
+const getRandom = (items: { quote: string; author: string }[]) =>
+  items[Math.floor(Math.random() * items.length)];
+
 const NoMoreCards: FC<Props> = ({ deckId }) => {
   const badAnswers = useSelector(selectBadAnswers(deckId));
   const goodAnswers = useSelector(selectGoodAnswers(deckId));
+
+  const getLadyScoreInfo = useCallback((correct: number, incorrect: number): Info => {
+    const total = correct + incorrect;
+    const score = Math.round(total ? (correct / total) * 100 : 0);
+    const info = {
+      primary: '',
+      secondary: '',
+      icon: animations.mehLady,
+      score: `${score}%`,
+    };
+    const quote = getRandom(quotes);
+    if (score < 50) {
+      info.secondary = quote.author;
+      info.primary = quote.quote;
+      info.icon = animations.sadLady;
+    } else if (score < 69) {
+      info.secondary = quote.author;
+      info.primary = quote.quote;
+      info.icon = animations.mehLady;
+    } else if (score <= 85) {
+      info.secondary = quote.author;
+      info.primary = quote.quote;
+      info.icon = animations.mehLady;
+    } else if (score > 85) {
+      info.secondary = quote.author;
+      info.primary = quote.quote;
+      info.icon = animations.happyLady;
+    }
+    return info;
+  }, []);
+
   const scoreInfo = getLadyScoreInfo(goodAnswers, badAnswers);
   const icon = scoreInfo.icon;
   const is100 = scoreInfo.score === '100%';
-
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -99,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NoMoreCards;
+export default React.memo(NoMoreCards);

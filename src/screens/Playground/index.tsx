@@ -41,14 +41,13 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   const refRBSheet = useRef<RBSheet>(null);
   const alertRef = useRef<GeneralAlertRef>(null);
   const dispatch = useDispatch();
-  const [index, setIndex] = useState(0);
   const [noMoreCards, setNoMoreCards] = useState(false);
   const deckDetail = useSelector(selectDeckItem(params.deckId));
   const error = useSelector(selectError);
   const { ratedAppAt, sub } = useSelector((state: RootState) => state.user);
-  const card = R.find(R.propEq('frontendId', params.cardId), deckDetail.cards);
+  const cardPressed = R.find(R.propEq('frontendId', params.cardId), deckDetail.cards);
   const restOfCards = R.reject(R.propEq('frontendId', params.cardId), deckDetail.cards);
-  const reOrderedCards = card ? [card, ...restOfCards] : deckDetail.cards; // First card is the one which has been clicked from deck detail
+  const reOrderedCards = cardPressed ? [cardPressed, ...restOfCards] : deckDetail.cards; // First card is the one which has been clicked from deck detail
   const [isShareOpen, setIsShareOpen] = useState(false);
   const isConnected = useNetInfo();
 
@@ -58,10 +57,6 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
     refRBSheet.current?.open();
     setIsShareOpen(false);
   });
-
-  const onSwiped = () => {
-    setIndex((index + 1) % deckDetail.cards.length);
-  };
 
   const handleShareDeck = async () => {
     if (!isConnected) {
@@ -88,29 +83,32 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
   );
 
   const scoreGoodAnswer = (i: number) => {
-    const currentCard = deckDetail.cards[i];
-    dispatch(scoreCard(params.deckId, currentCard.frontendId, SCORES.GOOD));
+    const cId = reOrderedCards[i].frontendId;
+    if (cId) {
+      dispatch(scoreCard(params.deckId, cId, SCORES.GOOD));
+    }
   };
 
   const scoreBadAnswer = (i: number) => {
-    const currentCard = deckDetail.cards[i];
-    dispatch(scoreCard(params.deckId, currentCard.frontendId, SCORES.BAD));
+    const cId = reOrderedCards[i].frontendId;
+    if (cId) {
+      dispatch(scoreCard(params.deckId, cId, SCORES.BAD));
+    }
   };
 
   const handlePressRight = () => {
     if (swiperRef) {
       swiperRef.current.swipeRight();
-      scoreGoodAnswer(index);
     }
   };
 
   const handlePressLeft = () => {
     swiperRef.current.swipeLeft();
-    scoreBadAnswer(index);
   };
 
   const handleSwipeRight = (currentIndex: number) => scoreGoodAnswer(currentIndex);
   const handleSwipeLeft = (currentIndex: number) => scoreBadAnswer(currentIndex);
+
   const handleGoBack = () => {
     if (deckDetail.cards.length && !ratedAppAt) {
       dispatch(triggerRateApp());
@@ -128,10 +126,8 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
       <Swiper
         ref={swiperRef}
         cards={reOrderedCards}
-        cardIndex={index}
         renderCard={renderCard}
         backgroundColor={'transparent'}
-        onSwiped={onSwiped}
         onTapCard={() => null}
         cardVerticalMargin={10}
         stackSize={STACK_SIZE}
