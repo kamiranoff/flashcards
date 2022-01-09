@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { Transition, Transitioning, TransitioningView } from 'react-native-reanimated';
 import { useDispatch } from 'react-redux';
@@ -40,8 +40,14 @@ const TransitionedCards = forwardRef<TransitioningView, Props>(
         />
       );
     };
+    const handleNavigate = useCallback(
+      (item) => {
+        navigate(Screens.PLAYGROUND, { deckId, cardId: item.frontendId });
+      },
+      [deckId, navigate],
+    );
+
     const children = items.map((item) => {
-      const handleNavigate = () => navigate(Screens.PLAYGROUND, { deckId, cardId: item.frontendId });
       const handleDeleteCard = () => {
         NativeAlert('Are you sure you want to delete this card?', () =>
           dispatch(deleteCard(deckId, item.frontendId)),
@@ -52,7 +58,12 @@ const TransitionedCards = forwardRef<TransitioningView, Props>(
         <View
           key={`cardlist-${item.id || item.frontendId || item.question}`}
           style={[styles.item, { backgroundColor: item.rank === 0 ? theme.colors.bad : theme.colors.icon }]}>
-          <CardItem onPress={handleNavigate} onTrashPress={handleDeleteCard} card={item} isOwner={isOwner} />
+          <CardItem
+            onPress={() => handleNavigate(item)}
+            onTrashPress={handleDeleteCard}
+            card={item}
+            isOwner={isOwner}
+          />
         </View>
       );
     });
