@@ -1,8 +1,17 @@
 Flashcard App
 
+https://build.appcenter.ms/v0.1/apps/b1cf8008-029b-4af3-80b7-ae5e764eda94/branches/master/badge
+
 #### IOS:
 master (dev): [![Build status](https://build.appcenter.ms/v0.1/apps/e9a179b2-6d20-4972-baa5-88555b777e12/branches/master/badge)](https://appcenter.ms)
+  
 release (prod): [![Build status](https://build.appcenter.ms/v0.1/apps/e9a179b2-6d20-4972-baa5-88555b777e12/branches/release/badge)](https://appcenter.ms)
+
+#### ANDROID:
+master (dev): [![Build status](https://build.appcenter.ms/v0.1/apps/b1cf8008-029b-4af3-80b7-ae5e764eda94/branches/master/badge)](https://appcenter.ms)
+  
+release (prod): Not yet available
+
 
 ### ENV VAR
 
