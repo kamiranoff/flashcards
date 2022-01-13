@@ -61,7 +61,7 @@ const Content: FC<Props> = ({ handleGoToShop }) => {
               />
             </>
           ) : (
-            <View style={{ marginHorizontal: 40 }}>
+            <View style={styles.btnContainer}>
               <AppText size="h2" centered>
                 Looks like you've already invited your friends :) We are super grateful for that. Get more
                 decks in our shop!
@@ -115,6 +115,9 @@ const styles = StyleSheet.create({
     top: getPlatformDimension(halfWindow - 70, halfWindow - 70, halfWindow - 70, 60),
     height: '65%',
     resizeMode: 'contain',
+  },
+  btnContainer: {
+    marginHorizontal: 40,
   },
 });
 
