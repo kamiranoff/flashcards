@@ -46,8 +46,8 @@ const CardItem: FC<Props> = ({ card, title, deckId, isShared }) => {
     <View style={styles.innerContainer}>
       <ReanimatedFlip
         side={side}
-        front={<CardContent title={'Question'} text={card.question} onPress={flipCard} onEdit={handleEdit} />}
-        back={<CardContent title={'Answer'} text={card.answer} onPress={flipCard} onEdit={handleEdit} />}
+        front={<CardContent title="Question" text={card.question} onPress={flipCard} onEdit={handleEdit} />}
+        back={<CardContent title="Answer" text={card.answer} onPress={flipCard} onEdit={handleEdit} />}
       />
     </View>
   );

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet, Animated, FlatList } from 'react-native';
 import { isIOS, WINDOW_WIDTH } from '../../utils/device';
-import CardItem from './Card';
+import CardItem from './CardItem';
 import { Card, Deck } from '../../redux/decks/reducer';
 import { useEffect, useRef } from 'react';
 
@@ -59,7 +59,12 @@ const Carousel = ({ deckDetail, deckId, cardId }: { deckDetail: Deck; deckId: st
           return (
             <View style={{ width: ITEM_SIZE }}>
               <Animated.View style={[styles.cardContainer, { transform: [{ translateY }] }]}>
-                <CardItem card={item} title={deckDetail.title} deckId={deckId} />
+                <CardItem
+                  card={item}
+                  title={deckDetail.title}
+                  deckId={deckId}
+                  isShared={!!deckDetail.shareId}
+                />
               </Animated.View>
             </View>
           );

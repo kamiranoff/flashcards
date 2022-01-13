@@ -4,6 +4,7 @@ import HTMLView, { HTMLViewNode } from 'react-native-htmlview';
 import { theme } from '../../utils';
 import { Li } from './Li';
 import { Img } from './Img';
+import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 
 interface Props {
   text: string | undefined;

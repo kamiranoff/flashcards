@@ -36,7 +36,7 @@ const contentStyle = {
   backgroundColor: theme.colors.card,
   color: '#000',
   placeholderColor: theme.colors.p,
-  contentCSSText: `font-size: 20px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`, // initial valid
+  contentCSSText: `font-size: 20px; min-height: ${WINDOW_HEIGHT - 220}px; height: 100%;`,
 };
 
 const imageOptions = {

@@ -11,12 +11,16 @@ import { TERMS } from '../../../config';
 import { data } from './data';
 import { getPlatformDimension } from '../../../utils/device';
 import { AnimatedReaction } from '../../../common/AnimatedReaction';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
+import { Emoji } from '../../../common/AnimatedReaction/Emoji';
 
 interface Props {
   onNavigateToShop?: () => void;
 }
 
 const Content: FC<Props> = ({ onNavigateToShop }) => {
+  const shop = useSelector((state: RootState) => state.shop);
   const [startSuccessAnimation, setStartSuccessAnimation] = useState(false);
 
   const onSuccess = () => setStartSuccessAnimation(true);
@@ -34,7 +38,7 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
         <View style={styles.content}>
           <View style={styles.header}>
             <Image source={assets.icons.flashMaster} style={styles.image} />
-            <View style={{ marginTop: 30 }}>
+            <View style={styles.inner}>
               <AppText size="h1">BECOME A</AppText>
               <AppText size="h1">FLASHMASTER</AppText>
             </View>
@@ -61,6 +65,14 @@ const Content: FC<Props> = ({ onNavigateToShop }) => {
               <AppText size="h3">50% off</AppText>
             </View>
           </View>
+          {shop.yearlySubscription ? (
+            <View style={styles.subscriberContainer}>
+              <AppText size="h3" centered>
+                You are our subscriber
+              </AppText>
+              <Emoji name="heart" style={styles.emoji} />
+            </View>
+          ) : null}
           {onNavigateToShop ? (
             <PriceButton
               isSecondaryText={false}
@@ -98,6 +110,9 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: '#fff',
     marginTop: getPlatformDimension(-39, -60),
+  },
+  inner: {
+    marginTop: 30,
   },
   image: {
     aspectRatio: 0.8,
@@ -143,6 +158,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 15,
     paddingVertical: 15,
+  },
+  subscriberContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  emoji: {
+    fontSize: 24,
   },
 });
 

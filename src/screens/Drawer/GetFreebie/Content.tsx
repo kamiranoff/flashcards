@@ -61,9 +61,9 @@ const Content: FC<Props> = ({ handleGoToShop }) => {
               />
             </>
           ) : (
-            <View style={{ margin: 40 }}>
+            <View style={{ marginHorizontal: 40 }}>
               <AppText size="h2" centered>
-                Looks like you've already invited your friends :) We are super grateful for that! Get more
+                Looks like you've already invited your friends :) We are super grateful for that. Get more
                 decks in our shop!
               </AppText>
               <PrimaryButton
