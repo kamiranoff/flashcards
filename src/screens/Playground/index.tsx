@@ -7,7 +7,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import { PlaygroundScreenNavigationProp, PlaygroundScreenRouteProp, Screens } from '../../navigation/types';
 import { CloseButton, Container, GeneralAlert, Title } from '../../common';
 import { selectDeckItem, selectError } from '../../redux/seclectors';
-import CardItem from './Card';
+import CardItem from './CardItem';
 import { Card } from '../../redux/decks/reducer';
 import { getPlatformDimension, isIOS, isSmallDevice } from '../../utils/device';
 import { saveDeckToDB, scoreCard } from '../../redux/decks/actions';
@@ -37,7 +37,7 @@ const STACK_SIZE = 3;
 const AD_ID = isIOS ? AdUnitIds.IOS_PRE_PLAYGROUND_PROMO : AdUnitIds.ANDROID_PRE_PLAYGROUND_PROMO;
 
 const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, navigate } }) => {
-  const swiperRef = useRef<any>(null); // FIXME
+  const swiperRef = useRef<Swiper<Card>>(null);
   const refRBSheet = useRef<RBSheet>(null);
   const alertRef = useRef<GeneralAlertRef>(null);
   const dispatch = useDispatch();
@@ -98,12 +98,12 @@ const Playground: FC<Props> = ({ route: { params }, navigation: { goBack, naviga
 
   const handlePressRight = () => {
     if (swiperRef) {
-      swiperRef.current.swipeRight();
+      swiperRef.current?.swipeRight();
     }
   };
 
   const handlePressLeft = () => {
-    swiperRef.current.swipeLeft();
+    swiperRef.current?.swipeLeft();
   };
 
   const handleSwipeRight = (currentIndex: number) => scoreGoodAnswer(currentIndex);
