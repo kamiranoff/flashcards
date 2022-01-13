@@ -2063,32 +2063,32 @@ anymatch@^3.0.3:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-appcenter-analytics@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/appcenter-analytics/-/appcenter-analytics-4.0.2.tgz#85cffb9c4242c3e365be4897e40b5925ffd2b2e9"
-  integrity sha512-g3CutRq67t8Xisdw5f2SHB/IDcYpRMIqbxGHCJWkI+iOhnIjZzDMsFWy3owX34k3ENj0LkhiXVuVv06nJSfsBg==
+appcenter-analytics@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-4.3.0.tgz#1463a7a489e2e54fceabe8e784c4ea39e8dcfd40"
+  integrity sha512-8UUkP0DWuL3SHSgVs3Vf08AW2Go02rLmJ9DDXzL+yLqTVp2CY+OBhePEXmeLdGkdAxc1Tz08juF4uvP1j7gtRw==
   dependencies:
-    appcenter "4.0.2"
+    appcenter "4.3.0"
 
-appcenter-link-scripts@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/appcenter-link-scripts/-/appcenter-link-scripts-4.0.2.tgz#5e917b11cf225ac949d472c5ed26659403cee5c0"
-  integrity sha512-YOM73E+4SFth1Gda5GWglx0TlC0XyRRhSlEgrpBB8pO0VvHZ/CEVYpVhCAAaAgpqgyC5vM3MvyseKK3Ov2fglQ==
+appcenter-link-scripts@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/appcenter-link-scripts/-/appcenter-link-scripts-4.3.0.tgz#633e53434346ad6f309ac69f15ffd098daebc077"
+  integrity sha512-jKyIc+dKve9XY8TTQldC6Drp+MHvUMFbERaQO6rN3JHFJ0jGtQ0rM2s9fB6xfkNFYv7MX6EyNBcljAvbIdMUjw==
   dependencies:
     debug "4.1.1"
     glob "5.0.15"
     minimist "1.2.5"
     mkdirp "0.5.3"
-    plist "3.0.1"
+    plist "^3.0.2"
     which "1.2.11"
     xcode "2.0.0"
 
-appcenter@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/appcenter/-/appcenter-4.0.2.tgz#ffb5af4eae1c4806e5d485f23a881cc21959278e"
-  integrity sha512-Drd9gkpG/rtB/053SDhW9FrNIHgtJdzmlQ6uHMTx/3TsiLHIpZXXEi5WFNSO3UrYpf9gham4IMqUgpl49nsoOA==
+appcenter@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-4.3.0.tgz#b490844642c3845cea4a4b569659beeee1baebaa"
+  integrity sha512-g0L/fT0zjGxHvHYyvyaBdwMrDleR0Q/F+EUbpESZ0jYQeG5xg965bzjASq+CSs3dN0shWxRkvrx5DTIc73GtGg==
   dependencies:
-    appcenter-link-scripts "4.0.2"
+    appcenter-link-scripts "4.3.0"
 
 aproba@^1.0.3:
   version "1.2.0"
@@ -2377,7 +2377,7 @@ base-64@^0.1.0:
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
   integrity sha1-eAqZyE59YAJgNhURxId2E78k9rs=
 
-base64-js@^1.1.2, base64-js@^1.2.3:
+base64-js@^1.1.2, base64-js@^1.2.3, base64-js@^1.5.1:
   version "1.5.1"
   resolved "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
@@ -6502,7 +6502,7 @@ pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-plist@3.0.1, plist@^3.0.1:
+plist@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/plist/-/plist-3.0.1.tgz#a9b931d17c304e8912ef0ba3bdd6182baf2e1f8c"
   integrity sha512-GpgvHHocGRyQm74b6FWEZZVRroHKE1I0/BTjAmySaohK+cUn+hZpbqXkc3KWgW3gQYkqcQej35FohcT0FRlkRQ==
@@ -6510,6 +6510,14 @@ plist@3.0.1, plist@^3.0.1:
     base64-js "^1.2.3"
     xmlbuilder "^9.0.7"
     xmldom "0.1.x"
+
+plist@^3.0.2:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.4.tgz#a62df837e3aed2bb3b735899d510c4f186019cbe"
+  integrity sha512-ksrr8y9+nXOxQB2osVNqrgvX/XQPOXaU4BQMKjYq8PvaY1U18mo+fKgBSwzK+luSyinOuPae956lSVcBwxlAMg==
+  dependencies:
+    base64-js "^1.5.1"
+    xmlbuilder "^9.0.7"
 
 plugin-error@^0.1.2:
   version "0.1.2"
@@ -6770,7 +6778,7 @@ react-native-iap@5.2.13:
   dependencies:
     dooboolab-welcome "^1.2.0"
 
-react-native-image-crop-picker@^0.37.2:
+react-native-image-crop-picker@0.37.2:
   version "0.37.2"
   resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.37.2.tgz#3aadc4ae4812c9975c49a294d9a17ffae057dbb4"
   integrity sha512-YwZXW21Km8+3tSt0smTaLVgY4398c0/OJcpcH6EP0JDOt1BNNxl/R8m6qdvnwdXdIoa0CCnMVW6TL9IN5ia9OA==
