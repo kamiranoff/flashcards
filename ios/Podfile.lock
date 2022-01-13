@@ -1,11 +1,11 @@
 PODS:
   - A0Auth0 (2.8.3):
     - React
-  - appcenter-analytics (4.0.2):
+  - appcenter-analytics (4.3.0):
     - AppCenter/Analytics (~> 4.0)
     - AppCenterReactNativeShared (~> 4.0)
     - React-Core
-  - appcenter-core (4.0.2):
+  - appcenter-core (4.3.0):
     - AppCenterReactNativeShared (~> 4.0)
     - React-Core
   - AppCenter/Analytics (4.1.1):
@@ -675,8 +675,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   A0Auth0: 72124e18b03e4a8292b190f7b157aa16a3010988
   AppCenter: cd53e3ed3563cc720bcb806c9731a12389b40d44
-  appcenter-analytics: f1bcf80219acb97acdabeda751a1591869f83dfd
-  appcenter-core: 92618da8986eef80bae39d1bb2b4c9fa0fc873bd
+  appcenter-analytics: 2a8a55d2feba193c3c8a51b9902ef4757386414e
+  appcenter-core: 0293b8aeee457a25b44323a311de49c29d9defa7
   AppCenterReactNativeShared: 2d5a53b6cbd2fe7f63f0033e9f0a40757a4eacf5
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
@@ -758,4 +758,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 18cd5cd980658c1dfc4aea14a2481e25fcb1ea63
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
