@@ -24,6 +24,7 @@
 		44D82DA6630F437D31E8E10A /* libPods-FlashCards.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26781000F84436C9F8286345 /* libPods-FlashCards.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A7E9AFEB5AB206D065E28A23 /* libPods-FlashCards-FlashCardsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B152AFC04AC5A81F39D74E8 /* libPods-FlashCards-FlashCardsTests.a */; };
+		B901B0052793326E00F42DC4 /* libswiftWebKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B901B0042793326E00F42DC4 /* libswiftWebKit.tbd */; };
 		BE4F1287757C61458D59D734 /* libPods-FlashCards-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6727D37F5D705AD1C166299C /* libPods-FlashCards-tvOSTests.a */; };
 		E332B8268544E6015648982E /* libPods-FlashCards-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CFC16B772B1D5F0E028E60A /* libPods-FlashCards-tvOS.a */; };
 /* End PBXBuildFile section */
@@ -80,6 +81,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = FlashCards/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B152AFC04AC5A81F39D74E8 /* libPods-FlashCards-FlashCardsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlashCards-FlashCardsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		923B5EE736D488370A35D865 /* Pods-FlashCards-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlashCards-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-FlashCards-tvOSTests/Pods-FlashCards-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B901B0042793326E00F42DC4 /* libswiftWebKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftWebKit.tbd; path = usr/lib/swift/libswiftWebKit.tbd; sourceTree = SDKROOT; };
 		BE1F3C174535AEFD4F108F43 /* Pods-FlashCards.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlashCards.debug.xcconfig"; path = "Target Support Files/Pods-FlashCards/Pods-FlashCards.debug.xcconfig"; sourceTree = "<group>"; };
 		DFE3A6B4F64EDB5470501454 /* Pods-FlashCards-FlashCardsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlashCards-FlashCardsTests.release.xcconfig"; path = "Target Support Files/Pods-FlashCards-FlashCardsTests/Pods-FlashCards-FlashCardsTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -99,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B901B0052793326E00F42DC4 /* libswiftWebKit.tbd in Frameworks */,
 				44D82DA6630F437D31E8E10A /* libPods-FlashCards.a in Frameworks */,
 				085FD6AF25E45EE8002E4A37 /* StoreKit.framework in Frameworks */,
 			);
@@ -194,6 +197,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B901B0042793326E00F42DC4 /* libswiftWebKit.tbd */,
 				085FD6AE25E45EE8002E4A37 /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
@@ -485,7 +489,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FlashCards/Pods-FlashCards-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -535,7 +539,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FlashCards-FlashCardsTests/Pods-FlashCards-FlashCardsTests-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -790,6 +794,10 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = FlashCards/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -820,6 +828,10 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = FlashCards/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
